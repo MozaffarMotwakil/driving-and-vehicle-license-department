@@ -6,6 +6,8 @@ namespace DVLD.WinForms.MainForms
 {
     public partial class frmMainForm : Form
     {
+        frmManagePeople managePeopleForm;
+
         public frmMainForm()
         {
             InitializeComponent();
@@ -13,8 +15,21 @@ namespace DVLD.WinForms.MainForms
 
         private void peopleToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            frmManagePeople managePeopleForm = new frmManagePeople();
-            managePeopleForm.ShowDialog();
+            if (managePeopleForm == null || managePeopleForm.IsDisposed)
+            {
+                managePeopleForm = new frmManagePeople();
+                managePeopleForm.MdiParent = this;
+                managePeopleForm.Show();
+            }
+            else
+            {
+                if (managePeopleForm.WindowState == FormWindowState.Minimized)
+                {
+                    managePeopleForm.WindowState = FormWindowState.Normal;
+                }
+
+                managePeopleForm.Activate();
+            }
         }
 
     }

@@ -56,6 +56,7 @@
             this.dgvPeopleList.AllowUserToAddRows = false;
             this.dgvPeopleList.AllowUserToDeleteRows = false;
             this.dgvPeopleList.AllowUserToOrderColumns = true;
+            this.dgvPeopleList.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.dgvPeopleList.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgvPeopleList.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvPeopleList.ContextMenuStrip = this.contextMenuStrip;
@@ -134,6 +135,8 @@
             // 
             // label1
             // 
+            this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.Location = new System.Drawing.Point(8, 523);
@@ -144,6 +147,7 @@
             // 
             // label2
             // 
+            this.label2.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Tahoma", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label2.ForeColor = System.Drawing.Color.Red;
@@ -155,6 +159,8 @@
             // 
             // lblTotalRecordsCount
             // 
+            this.lblTotalRecordsCount.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.lblTotalRecordsCount.AutoSize = true;
             this.lblTotalRecordsCount.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblTotalRecordsCount.Location = new System.Drawing.Point(92, 523);
@@ -165,6 +171,8 @@
             // 
             // cbFiltteringColumn
             // 
+            this.cbFiltteringColumn.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
             this.cbFiltteringColumn.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cbFiltteringColumn.FormattingEnabled = true;
             this.cbFiltteringColumn.Items.AddRange(new object[] {
@@ -187,6 +195,8 @@
             // 
             // label3
             // 
+            this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label3.Location = new System.Drawing.Point(12, 186);
@@ -197,6 +207,8 @@
             // 
             // txtTextForFilttering
             // 
+            this.txtTextForFilttering.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
             this.txtTextForFilttering.Location = new System.Drawing.Point(231, 189);
             this.txtTextForFilttering.Name = "txtTextForFilttering";
             this.txtTextForFilttering.Size = new System.Drawing.Size(175, 20);
@@ -206,6 +218,7 @@
             // 
             // btnAddNewPerson
             // 
+            this.btnAddNewPerson.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnAddNewPerson.BackgroundImage = global::DVLD.WinForms.Properties.Resources.Add_Person_40;
             this.btnAddNewPerson.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
             this.btnAddNewPerson.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
@@ -218,20 +231,24 @@
             // 
             // btnCloseScreen
             // 
+            this.btnCloseScreen.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnCloseScreen.BackgroundImage = global::DVLD.WinForms.Properties.Resources.Close_32;
             this.btnCloseScreen.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.btnCloseScreen.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.btnCloseScreen.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnCloseScreen.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnCloseScreen.Location = new System.Drawing.Point(1070, 523);
             this.btnCloseScreen.Name = "btnCloseScreen";
             this.btnCloseScreen.Size = new System.Drawing.Size(102, 34);
-            this.btnCloseScreen.TabIndex = 3;
+            this.btnCloseScreen.TabIndex = 4;
             this.btnCloseScreen.Text = "     Close";
             this.btnCloseScreen.UseVisualStyleBackColor = true;
             this.btnCloseScreen.Click += new System.EventHandler(this.btnCloseScreen_Click);
             // 
             // pictureBox1
             // 
+            this.pictureBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.pictureBox1.Image = global::DVLD.WinForms.Properties.Resources.People_400;
             this.pictureBox1.Location = new System.Drawing.Point(465, 12);
             this.pictureBox1.Name = "pictureBox1";
@@ -242,8 +259,10 @@
             // 
             // frmManagePeople
             // 
+            this.AcceptButton = this.btnAddNewPerson;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.CancelButton = this.btnCloseScreen;
             this.ClientSize = new System.Drawing.Size(1184, 561);
             this.Controls.Add(this.txtTextForFilttering);
             this.Controls.Add(this.label3);
@@ -255,7 +274,9 @@
             this.Controls.Add(this.lblTotalRecordsCount);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.dgvPeopleList);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Name = "frmManagePeople";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Manage People";
             this.Load += new System.EventHandler(this.frmManagePeople_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dgvPeopleList)).EndInit();

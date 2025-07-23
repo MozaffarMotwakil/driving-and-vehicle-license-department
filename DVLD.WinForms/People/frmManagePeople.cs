@@ -2,6 +2,7 @@
 using System.Data;
 using System.Windows.Forms;
 using DVLD.BusinessLogic;
+using DVLD.WinForms.Utils;
 
 namespace DVLD.WinForms.People
 {
@@ -15,20 +16,21 @@ namespace DVLD.WinForms.People
         private void frmManagePeople_Load(object sender, EventArgs e)
         {
             cbFiltteringColumn.SelectedItem = "None";
-            _RefreshPeopleList(clsPerson.GetAllPeople().DefaultView);
+            _RefreshPeopleList();
         }
 
-        private void _RefreshPeopleList(object DataSource)
+        private void _RefreshPeopleList()
         {
-            dgvPeopleList.DataSource = DataSource;
+            dgvPeopleList.DataSource = clsPerson.GetAllPeople().DefaultView;
             lblTotalRecordsCount.Text = dgvPeopleList.RowCount.ToString();
         }
 
         private void btnAddNewPerson_Click(object sender, EventArgs e)
         {
-            frmAddEditPerson addEditPersonForm = new frmAddEditPerson(-1);
+            frmAddUpdatePerson addEditPersonForm = new frmAddUpdatePerson();
+            addEditPersonForm.MaximizeBox = false;
             addEditPersonForm.ShowDialog();
-            _RefreshPeopleList(clsPerson.GetAllPeople().DefaultView);
+            _RefreshPeopleList();
         }
 
         private void btnCloseScreen_Click(object sender, EventArgs e)
@@ -54,12 +56,12 @@ namespace DVLD.WinForms.People
                 }
                 else
                 {
-                    _RefreshPeopleList(clsPerson.GetAllPeople().DefaultView);
+                    _RefreshPeopleList();
                     return;
                 }
             }
 
-            _RefreshPeopleList(peopleList);
+            dgvPeopleList.DataSource = peopleList;
         }
 
         private void txtTextForFilttering_KeyPress(object sender, KeyPressEventArgs e)
@@ -78,51 +80,34 @@ namespace DVLD.WinForms.People
 
             if (clsPerson.IsPersonExist(PersonID))
             {
-                if (MessageBox.Show(
-                    $"Are you sure do you want delete the person with ID = {PersonID} ?",
-                    "Confirm Deletion",
-                    MessageBoxButtons.YesNo,
-                    MessageBoxIcon.Information,
-                    MessageBoxDefaultButton.Button2) == DialogResult.Yes)
+                if (clsMessages.Confirm($"Are you sure do you want delete the person with ID = {PersonID}?", "Confirm Deletion",
+                    MessageBoxIcon.Warning, MessageBoxDefaultButton.Button2))
                 {
                     try
                     {
                         if (clsPerson.Delete(PersonID))
                         {
-                            MessageBox.Show(
-                                $"The person with ID = {PersonID} has been deleted successfully.", 
-                                "Successfully Deleted",
-                                MessageBoxButtons.OK,
-                                MessageBoxIcon.Information);
-
-                            _RefreshPeopleList(clsPerson.GetAllPeople().DefaultView);
+                             clsMessages.ShowSuccess($"The person with ID = {PersonID} has been deleted successfully.", "Successfully Deleted");
+                            _RefreshPeopleList();
                         }
                         else
                         {
-                            MessageBox.Show(
-                                $"Delete person with ID = {PersonID} failed.", 
-                                "Failed Deleted", 
-                                MessageBoxButtons.OK,
-                                MessageBoxIcon.Warning);
+                             clsMessages.ShowError($"Delete person with ID = {PersonID} failed.", "Failed Deleted");
                         }
                     } 
                     catch
                     {
-                        MessageBox.Show(
-                            "Person was not deleted because it has data linked to it.", 
-                            "Failed Deleted",
-                            MessageBoxButtons.OK, 
-                            MessageBoxIcon.Error);
+                         clsMessages.ShowError("Person was not deleted because it has data linked to it.", "Failed Deleted");
                     }
                 }
             }
         }
 
-        // Select the entire row where the right mouse button was pressed,
+        // Select the entire row where the right mouse button was pressed, and check the selected is not column.
         // rather than selecting a single cell because the context menu is on the person, not the cell.
         private void dgvPeopleList_CellMouseDown(object sender, DataGridViewCellMouseEventArgs e)
         {
-            if (e.Button == MouseButtons.Right)
+            if (e.Button == MouseButtons.Right && e.RowIndex >= 0)
             {
                 dgvPeopleList.ClearSelection();
                 dgvPeopleList.Rows[e.RowIndex].Selected = true;
@@ -137,18 +122,14 @@ namespace DVLD.WinForms.People
 
         private void editToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            frmAddEditPerson addEditPersonForm = new frmAddEditPerson(Convert.ToInt32(dgvPeopleList.CurrentCell.Value));
+            frmAddUpdatePerson addEditPersonForm = new frmAddUpdatePerson(Convert.ToInt32(dgvPeopleList.CurrentCell.Value));
             addEditPersonForm.ShowDialog();
-            _RefreshPeopleList(clsPerson.GetAllPeople().DefaultView);
+            _RefreshPeopleList();
         }
 
         private void _NotImplementedFeatureMessage()
         {
-            MessageBox.Show(
-                "This feature is not implemented yet.",
-                "Not Implemented Feature", 
-                MessageBoxButtons.OK,
-                MessageBoxIcon.Warning);
+             clsMessages.ShowWarning("This feature is not implemented yet.", "Not Implemented Feature");
         }
 
         private void sendEmailToolStripMenuItem_Click(object sender, EventArgs e)
@@ -175,9 +156,9 @@ namespace DVLD.WinForms.People
 
         private void showDetailsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            frmPersonDetails personDetailsForm = new frmPersonDetails(Convert.ToInt32(dgvPeopleList.CurrentCell.Value));
+            frmShowPersonInfo personDetailsForm = new frmShowPersonInfo(Convert.ToInt32(dgvPeopleList.CurrentCell.Value));
             personDetailsForm.ShowDialog();
-            _RefreshPeopleList(clsPerson.GetAllPeople().DefaultView);
+            _RefreshPeopleList();
         }
     }
 }

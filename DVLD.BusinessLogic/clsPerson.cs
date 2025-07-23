@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Data;
-using System.Net.NetworkInformation;
+using DVLD.DataAccess;
 using DVLD.Entities;
 
 namespace DVLD.BusinessLogic
@@ -10,7 +10,7 @@ namespace DVLD.BusinessLogic
         public enum enGender { Male, Female };
         public enum enMode { AddNew, Update };
 
-        public int PersonID { get; }
+        public int PersonID { get; private set; }
         public string NationalNo { get; set; }
         public string FirstName { get; set; }
         public string SecondName { get; set; }
@@ -21,18 +21,22 @@ namespace DVLD.BusinessLogic
         public string Address { get; set; }
         public string Phone { get; set; }
         public string Email { get; set; }
-        public int NationalityCountryID { get; set; }
+        public clsCountry CountryInfo { get; set; }
         public string ImagePath { get; set; }
         public enMode Mode { get; set; }
 
         public clsPerson()
         {
             PersonID = -1;
-            NationalNo = FirstName = SecondName = ThirdName = LastName = "";
-            DateOfBirth = DateTime.Now;
+            NationalNo = FirstName = SecondName = ThirdName = LastName = string.Empty;
+
+            // Because the system does not allow anyone under 18 years old.
+            DateOfBirth = DateTime.Now.AddYears(-18).Date;
             Gender = enGender.Male;
-            Address = Phone = Email = ImagePath = "";
-            NationalityCountryID = -1;
+            Address = Phone = Email = ImagePath = string.Empty;
+
+            // ID of Sudan country
+            CountryInfo = clsCountry.Find(165); 
             Mode = enMode.AddNew;
         }
 
@@ -49,7 +53,7 @@ namespace DVLD.BusinessLogic
             Address = personEntity.Address;
             Phone = personEntity.Phone;
             Email = personEntity.Email;
-            NationalityCountryID = personEntity.NationalityCountryID;
+            CountryInfo = new clsCountry(personEntity.CountryInfo);
             ImagePath = personEntity.ImagePath;
             Mode = enMode.Update;
         }
@@ -68,36 +72,36 @@ namespace DVLD.BusinessLogic
 
         public static bool IsPersonExist(int PersonID)
         {
-            return DataAccess.PersonData.IsPersonExist(PersonID);
+            return DataAccess.clsPersonData.IsPersonExist(PersonID);
         }
 
         public static bool IsPersonExist(string NationalNo)
         {
-            return DataAccess.PersonData.IsPersonExist(NationalNo);
+            return DataAccess.clsPersonData.IsPersonExist(NationalNo);
         }
 
         public static clsPerson Find(int PersonID)
         {
-            PersonEntity personEntity = DataAccess.PersonData.FindPersonByID(PersonID);
+            PersonEntity personEntity = DataAccess.clsPersonData.FindPersonByID(PersonID);
             return personEntity != null ? new clsPerson(personEntity) : null;
         }
         
         public static clsPerson Find(string NationalNo)
         {
-            PersonEntity personEntity = DataAccess.PersonData.FindPersonByNationalNo(NationalNo);
+            PersonEntity personEntity = DataAccess.clsPersonData.FindPersonByNationalNo(NationalNo);
             return personEntity != null ? new clsPerson(personEntity) : null;
         }
 
         public static DataTable GetAllPeople()
         {
-            return DataAccess.PersonData.GetAllPeople();
+            return DataAccess.clsPersonData.GetAllPeople();
         }
 
         public static bool Delete(int PersonID)
         {
-            if (DataAccess.PersonData.IsPersonExist(PersonID))
+            if (DataAccess.clsPersonData.IsPersonExist(PersonID))
             {
-                return DataAccess.PersonData.DeletePerson(PersonID);
+                return DataAccess.clsPersonData.DeletePerson(PersonID);
             }
             else
             {
@@ -107,17 +111,27 @@ namespace DVLD.BusinessLogic
 
         public bool Save()
         {
-            if (this.Mode == enMode.AddNew)
+            PersonEntity personEntity = _MapPersonObjectToPersonEntity(this); 
+
+            switch (Mode)
             {
-                return DataAccess.PersonData.AddNewPerson(_ConvertPersonToEntity(this)) != -1;
-            }
-            else
-            {
-                return DataAccess.PersonData.UpdatePerson(_ConvertPersonToEntity(this));
+                case enMode.AddNew:
+                    if (clsPersonData.AddNewPerson(personEntity)) 
+                    {
+                        this.PersonID = personEntity.PersonID; 
+                        this.Mode = enMode.Update;
+                        return true;
+                    }
+
+                    return false;
+                case enMode.Update:
+                    return clsPersonData.UpdatePerson(personEntity);
+                default:
+                    return false;
             }
         }
 
-        private static PersonEntity _ConvertPersonToEntity(clsPerson Person)
+        private static PersonEntity _MapPersonObjectToPersonEntity(clsPerson Person)
         {
             PersonEntity entity = new PersonEntity();
 
@@ -132,7 +146,11 @@ namespace DVLD.BusinessLogic
             entity.Address = Person.Address;
             entity.Phone = Person.Phone;
             entity.Email = Person.Email;
-            entity.NationalityCountryID = Person.NationalityCountryID;
+            entity.CountryInfo = new CountryEntity
+            {
+                CountryID = Person.CountryInfo.CountryID,
+                CountryName = Person.CountryInfo.CountryName
+            };
             entity.ImagePath = Person.ImagePath;
 
             return entity;

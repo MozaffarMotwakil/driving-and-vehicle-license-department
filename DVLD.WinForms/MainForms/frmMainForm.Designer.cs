@@ -99,7 +99,9 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1370, 749);
             this.Controls.Add(this.msMainScreen);
+            this.IsMdiContainer = true;
             this.MainMenuStrip = this.msMainScreen;
+            this.MaximizeBox = false;
             this.Name = "frmMainForm";
             this.Text = "Main";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
