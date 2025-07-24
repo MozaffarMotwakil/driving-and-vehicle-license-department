@@ -76,12 +76,13 @@ namespace DVLD.WinForms.People
                     {
                         clsMessages.ShowSuccess("The person has been added successfully.", "Add Successful");
                         _UpdateFormStateAfterSave();
-                        PersonBack?.Invoke(_Person);
                     }
                     else
                     {
                         clsMessages.ShowSuccess("The person has been updated successfully.", "Update Successful");
                     }
+
+                    PersonBack?.Invoke(_Person);
 
                     // Reset the OldImagePath property to ensure correct behavior
                     // in ctrAddEditPerson.SetOldImagePath. (See method for details)
@@ -137,8 +138,21 @@ namespace DVLD.WinForms.People
                     // If there is a selected image, copy it to the new location
                     if (!string.IsNullOrEmpty(selectedImagePath))
                     {
-                        _Person.ImagePath = newImagePath;
                         File.Copy(selectedImagePath, newImagePath);
+                        _Person.ImagePath = newImagePath;
+
+                        /*
+                         * Switch the selected image to the new path so that operations are performed
+                         * on it (operations of selecting the old path for deletion) to avoid the problem
+                         * of not deleting the image stored in the local folder and deleting the image in the
+                         * original path from which it was selected.
+                         */
+                        ctrAddEditPerson.LoadImage(newImagePath);
+                    }
+                    else
+                    {
+                        // If the image is deleted.
+                        _Person.ImagePath = string.Empty;
                     }
 
                     if (ctrAddEditPerson.IsImageChanged())
@@ -146,7 +160,6 @@ namespace DVLD.WinForms.People
                         try
                         {
                             File.Delete(oldImagePath);
-                            _Person.ImagePath = string.Empty;
                         }
                         catch (Exception ex)
                         {
