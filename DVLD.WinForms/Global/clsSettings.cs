@@ -22,5 +22,34 @@ namespace DVLD.WinForms.Global
             }
         }
 
+        public static void DeletePersonImageFromLocalFolder(string IamgePath)
+        {
+            try
+            {
+                File.Delete(IamgePath);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        public static void SavePersonImageToLocalFolder(string SourceIamgePath, string DestImagePath)
+        {
+            try
+            {
+                File.Copy(SourceIamgePath, DestImagePath);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        public static string GetNewImagePathWithGUID()
+        {
+            return Path.Combine(Global.clsSettings.PeopleImagesFolderPath, $"{Guid.NewGuid()}.JPG");
+        }
+
     }
 }

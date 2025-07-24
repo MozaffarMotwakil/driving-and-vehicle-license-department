@@ -6,22 +6,22 @@ namespace DVLD.WinForms.Utils
     {
         public static void ShowImageNotFoundWarning()
         {
-            MessageBox.Show(
-                "The selected image file no longer exists. Please select a new image.",
-                "Image Not Found",
-                MessageBoxButtons.OK,
-                MessageBoxIcon.Warning
-            );
+            ShowWarning("The selected image file no longer exists. Please select a new image.", "Image Not Found");
         }
 
         public static void ShowPersonNotFoundError()
         {
-            clsMessages.ShowError("Invalid ID, person not found.");
+            ShowError("Invalid ID, person not found.");
         }
 
         public static void ShowNotImplementedFeatureWarning()
         {
-            clsMessages.ShowWarning("This feature is not implemented yet.", "Not Implemented Feature");
+            ShowWarning("This feature is not implemented yet.", "Not Implemented Feature");
+        }
+
+        public static void ShowFailedDeleteOldPersonImage(System.Exception ex) 
+        {
+            ShowError($"Failed to delete the old person's image file.\n{ex.Message}");
         }
 
         public static void ShowSuccess(string message, string title = "Success")

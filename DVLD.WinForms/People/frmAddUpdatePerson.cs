@@ -1,7 +1,7 @@
 ﻿using System;
-using System.IO;
 using System.Windows.Forms;
 using DVLD.BusinessLogic;
+using DVLD.WinForms.Global;
 using DVLD.WinForms.Utils;
 
 namespace DVLD.WinForms.People
@@ -38,7 +38,7 @@ namespace DVLD.WinForms.People
 
         private void CtrAddEditPerson_OnImageLoadFailed()
         {
-            Utils.clsMessages.ShowImageNotFoundWarning();
+            clsMessages.ShowImageNotFoundWarning();
         }
 
         private void frmAddEditPerson_Load(object sender, EventArgs e)
@@ -95,11 +95,6 @@ namespace DVLD.WinForms.People
             }
         }
 
-        private string _GetNewImagePathWithGUID()
-        {
-            return Path.Combine(Global.clsSettings.PeopleImagesFolderPath, $"{Guid.NewGuid()}.JPG");
-        }
-
         private void _ReloadTheOldImage(string OldImagePath)
         {
             ctrAddEditPerson.LoadImage(OldImagePath);
@@ -131,14 +126,14 @@ namespace DVLD.WinForms.People
                 string selectedImagePath = ctrAddEditPerson.ImagePath;
 
                 // Set the new image path in the DVLD-People-Images folder (local storage)
-                string newImagePath = _GetNewImagePathWithGUID();
+                string newImagePath = clsSettings.GetNewImagePathWithGUID();
 
                 try
                 {
                     // If there is a selected image, copy it to the new location
                     if (!string.IsNullOrEmpty(selectedImagePath))
                     {
-                        File.Copy(selectedImagePath, newImagePath);
+                        clsSettings.SavePersonImageToLocalFolder(selectedImagePath, newImagePath);
                         _Person.ImagePath = newImagePath;
 
                         /*
@@ -159,11 +154,11 @@ namespace DVLD.WinForms.People
                     {
                         try
                         {
-                            File.Delete(oldImagePath);
+                            clsSettings.DeletePersonImageFromLocalFolder(oldImagePath);
                         }
                         catch (Exception ex)
                         {
-                            clsMessages.ShowError($"Failed to delete the old person's image file.\n{ex.Message}");
+                            clsMessages.ShowFailedDeleteOldPersonImage(ex);
                             _ReloadTheOldImage(oldImagePath);
                             return false;
                         }
