@@ -174,6 +174,7 @@
             // 
             this.cbFiltteringColumn.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
+            this.cbFiltteringColumn.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbFiltteringColumn.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cbFiltteringColumn.FormattingEnabled = true;
             this.cbFiltteringColumn.Items.AddRange(new object[] {
