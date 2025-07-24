@@ -6,9 +6,9 @@ using DVLD.WinForms.Properties;
 
 namespace DVLD.WinForms.People
 {
-    public partial class ctrShowPersonInfo : UserControl
+    public partial class ctrPersonCardInfo : UserControl
     {
-        public ctrShowPersonInfo()
+        public ctrPersonCardInfo()
         {
             InitializeComponent();
         }

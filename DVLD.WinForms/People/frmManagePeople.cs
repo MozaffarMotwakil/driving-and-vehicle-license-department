@@ -8,6 +8,8 @@ namespace DVLD.WinForms.People
 {
     public partial class frmManagePeople : Form
     {
+        private string _FilterColumn;
+
         public frmManagePeople()
         {
             InitializeComponent();
@@ -16,6 +18,7 @@ namespace DVLD.WinForms.People
         private void frmManagePeople_Load(object sender, EventArgs e)
         {
             cbFiltteringColumn.SelectedItem = "None";
+            _FilterColumn = "None";
             _RefreshPeopleList();
         }
 
@@ -25,52 +28,72 @@ namespace DVLD.WinForms.People
             lblTotalRecordsCount.Text = dgvPeopleList.RowCount.ToString();
         }
 
-        private void btnAddNewPerson_Click(object sender, EventArgs e)
-        {
-            frmAddUpdatePerson addEditPersonForm = new frmAddUpdatePerson();
-            addEditPersonForm.MaximizeBox = false;
-            addEditPersonForm.ShowDialog();
-            _RefreshPeopleList();
-        }
-
-        private void btnCloseScreen_Click(object sender, EventArgs e)
-        {
-            this.Close();
-        }
-
         private void txtTextForFilttering_TextChanged(object sender, EventArgs e)
         {
             DataView peopleList = (DataView)dgvPeopleList.DataSource;
-            string columnName = cbFiltteringColumn.Text.Replace(" ", "");
             string text = txtTextForFilttering.Text;
 
-            if (cbFiltteringColumn.SelectedItem != "Person ID")
+            // Apply different filter logic based on the selected column.
+            // 'LIKE' is used for text columns, '=' for exact ID match.
+            if (_FilterColumn != "PersonID")
             {
-                peopleList.RowFilter = $"{columnName} LIKE '{text}%'";
+                peopleList.RowFilter = $"{_FilterColumn} LIKE '{text}%'";
             }
             else
             {
                 if (!string.IsNullOrWhiteSpace(text))
                 {
-                    peopleList.RowFilter = $"{columnName} = {text}";
+                    peopleList.RowFilter = $"{_FilterColumn} = {text}";
                 }
                 else
                 {
+                    // If ID filter is empty, show all people again.
+                    // Why: To avoid an empty list when the ID filter is cleared.
                     _RefreshPeopleList();
                     return;
                 }
             }
 
+            // The DataSource is updated with the filtered DataView.
+            // Why: Filtering on the DataView directly is efficient as it works on the
+            // already loaded data, avoiding re-querying the database just for filtering.
             dgvPeopleList.DataSource = peopleList;
+        }
+
+        private void cbFiltteringColumn_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            txtTextForFilttering.Text = string.Empty;
+            _FilterColumn = cbFiltteringColumn.Text.Replace(" ", "");
+
+            if (_FilterColumn == "None")
+            {
+                txtTextForFilttering.Enabled = false;
+            }
+            else
+            {
+                txtTextForFilttering.Enabled = true;
+            }
         }
 
         private void txtTextForFilttering_KeyPress(object sender, KeyPressEventArgs e)
         {
-            if (cbFiltteringColumn.SelectedItem == "Person ID" && !char.IsDigit(e.KeyChar) && !char.IsControl(e.KeyChar))
+            if (_FilterColumn == "PersonID" && !char.IsDigit(e.KeyChar) && !char.IsControl(e.KeyChar))
             {
                 // Unaccept the input and turn on the warning bell
                 e.Handled = true;
                 System.Media.SystemSounds.Asterisk.Play();
+            }
+        }
+
+        // Select the entire row where the right mouse button was pressed, and check the selected is not column.
+        // rather than selecting a single cell because the context menu is on the person, not the cell.
+        private void dgvPeopleList_CellMouseDown(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Right && e.RowIndex >= 0)
+            {
+                dgvPeopleList.ClearSelection();
+                dgvPeopleList.Rows[e.RowIndex].Selected = true;
+                dgvPeopleList.CurrentCell = dgvPeopleList.SelectedRows[0].Cells[0];
             }
         }
 
@@ -103,16 +126,12 @@ namespace DVLD.WinForms.People
             }
         }
 
-        // Select the entire row where the right mouse button was pressed, and check the selected is not column.
-        // rather than selecting a single cell because the context menu is on the person, not the cell.
-        private void dgvPeopleList_CellMouseDown(object sender, DataGridViewCellMouseEventArgs e)
+        private void btnAddNewPerson_Click(object sender, EventArgs e)
         {
-            if (e.Button == MouseButtons.Right && e.RowIndex >= 0)
-            {
-                dgvPeopleList.ClearSelection();
-                dgvPeopleList.Rows[e.RowIndex].Selected = true;
-                dgvPeopleList.CurrentCell = dgvPeopleList.SelectedRows[0].Cells[0];
-            }
+            frmAddUpdatePerson addEditPersonForm = new frmAddUpdatePerson();
+            addEditPersonForm.MaximizeBox = false;
+            addEditPersonForm.ShowDialog();
+            _RefreshPeopleList();
         }
 
         private void addNewPersonToolStripMenuItem_Click(object sender, EventArgs e)
@@ -127,38 +146,26 @@ namespace DVLD.WinForms.People
             _RefreshPeopleList();
         }
 
-        private void _NotImplementedFeatureMessage()
-        {
-             clsMessages.ShowWarning("This feature is not implemented yet.", "Not Implemented Feature");
-        }
-
-        private void sendEmailToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            _NotImplementedFeatureMessage();
-        }
-
-        private void sToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            _NotImplementedFeatureMessage();
-        }
-
-        private void cbFiltteringColumn_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            if (cbFiltteringColumn.SelectedItem == "None")
-            {
-                txtTextForFilttering.Enabled = false;
-            }
-            else
-            {
-                txtTextForFilttering.Enabled = true;
-            }
-        }
-
         private void showDetailsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             frmShowPersonInfo personDetailsForm = new frmShowPersonInfo(Convert.ToInt32(dgvPeopleList.CurrentCell.Value));
             personDetailsForm.ShowDialog();
             _RefreshPeopleList();
         }
+        private void sendEmailToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            clsMessages.ShowNotImplementedFeatureWarning();
+        }
+
+        private void sToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            clsMessages.ShowNotImplementedFeatureWarning();
+        }
+
+        private void btnCloseScreen_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
     }
 }

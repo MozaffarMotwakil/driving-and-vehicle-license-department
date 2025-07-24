@@ -77,11 +77,11 @@
     <Compile Include="People\ctrAddUpdatePerson.Designer.cs">
       <DependentUpon>ctrAddUpdatePerson.cs</DependentUpon>
     </Compile>
-    <Compile Include="People\ctrShowPersonInfo.cs">
+    <Compile Include="People\ctrPersonCardInfo.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="People\ctrShowPersonInfo.Designer.cs">
-      <DependentUpon>ctrShowPersonInfo.cs</DependentUpon>
+    <Compile Include="People\ctrPersonCardInfo.Designer.cs">
+      <DependentUpon>ctrPersonCardInfo.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -92,8 +92,8 @@
     <EmbeddedResource Include="People\ctrAddUpdatePerson.resx">
       <DependentUpon>ctrAddUpdatePerson.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="People\ctrShowPersonInfo.resx">
-      <DependentUpon>ctrShowPersonInfo.cs</DependentUpon>
+    <EmbeddedResource Include="People\ctrPersonCardInfo.resx">
+      <DependentUpon>ctrPersonCardInfo.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="People\frmAddUpdatePerson.resx">
       <DependentUpon>frmAddUpdatePerson.cs</DependentUpon>

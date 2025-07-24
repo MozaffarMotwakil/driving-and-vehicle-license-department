@@ -7,12 +7,12 @@ namespace DVLD.WinForms.People
 {
     public partial class frmShowPersonInfo : Form
     {
-        clsPerson Person;
+        private clsPerson _Person;
 
         public frmShowPersonInfo(int PersonID)
         {
             InitializeComponent();
-            Person = clsPerson.Find(PersonID);
+            _Person = clsPerson.Find(PersonID);
 
             ctrPersonInformation.OnImageLoadFailed += CtrPersonInformation_OnImageLoadFailed;
         }
@@ -29,7 +29,13 @@ namespace DVLD.WinForms.People
 
         private void frmPersonDetails_Load(object sender, EventArgs e)
         {
-            ctrPersonInformation.LoadPersonDataForDesplay(Person);
+            if (_Person == null)
+            {
+                clsMessages.ShowPersonNotFoundError();
+                this.Close();
+            }
+
+            ctrPersonInformation.LoadPersonDataForDesplay(_Person);
 
             // Stop showing the warning again while this form is still open.
             // This avoids showing it twice when coming back from frmAddEditPerson.

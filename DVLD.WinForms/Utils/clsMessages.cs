@@ -14,6 +14,16 @@ namespace DVLD.WinForms.Utils
             );
         }
 
+        public static void ShowPersonNotFoundError()
+        {
+            clsMessages.ShowError("Invalid ID, person not found.");
+        }
+
+        public static void ShowNotImplementedFeatureWarning()
+        {
+            clsMessages.ShowWarning("This feature is not implemented yet.", "Not Implemented Feature");
+        }
+
         public static void ShowSuccess(string message, string title = "Success")
         {
             MessageBox.Show(message, title, MessageBoxButtons.OK, MessageBoxIcon.Information);
