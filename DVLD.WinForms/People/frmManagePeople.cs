@@ -111,22 +111,23 @@ namespace DVLD.WinForms.People
                     {
                         clsPerson person = clsPerson.Find(PersonID);
 
-                        if (!string.IsNullOrEmpty(person.ImagePath))
-                        {
-                            try
-                            {
-                                clsSettings.DeletePersonImageFromLocalFolder(person.ImagePath);
-                            }
-                            catch (Exception ex)
-                            {
-                                clsMessages.ShowFailedDeleteOldPersonImage(ex);
-                                return;
-                            }
-                        }
 
                         if (clsPerson.Delete(PersonID))
                         {
                              clsMessages.ShowSuccess($"The person with ID = {PersonID} has been deleted successfully.", "Successfully Deleted");
+
+                            if (!string.IsNullOrEmpty(person.ImagePath))
+                            {
+                                try
+                                {
+                                    clsSettings.DeletePersonImageFromLocalFolder(person.ImagePath);
+                                }
+                                catch (Exception ex)
+                                {
+                                    clsMessages.ShowFailedDeleteOldPersonImage(ex);
+                                }
+                            }
+
                             _RefreshPeopleList();
                         }
                         else
