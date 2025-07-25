@@ -133,7 +133,7 @@ namespace DVLD.WinForms.People
                     // If there is a selected image, copy it to the new location
                     if (!string.IsNullOrEmpty(selectedImagePath))
                     {
-                        clsSettings.SavePersonImageToLocalFolder(selectedImagePath, newImagePath);
+                        clsFileManager.SavePersonImageToLocalFolder(selectedImagePath, newImagePath);
                         _Person.ImagePath = newImagePath;
 
                         /*
@@ -154,11 +154,11 @@ namespace DVLD.WinForms.People
                     {
                         try
                         {
-                            clsSettings.DeletePersonImageFromLocalFolder(oldImagePath);
+                            clsFileManager.DeletePersonImageFromLocalFolder(oldImagePath);
                         }
                         catch (Exception ex)
                         {
-                            clsMessages.ShowFailedDeleteOldPersonImage(ex);
+                            clsMessages.ShowFailedDeleteThePersonImage(ex);
                             _ReloadTheOldImage(oldImagePath);
                             return false;
                         }

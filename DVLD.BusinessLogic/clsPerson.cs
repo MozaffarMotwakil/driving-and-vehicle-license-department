@@ -40,7 +40,7 @@ namespace DVLD.BusinessLogic
             Mode = enMode.AddNew;
         }
 
-        private clsPerson(PersonEntity personEntity)
+        private clsPerson(clsPersonEntity personEntity)
         {
             PersonID = personEntity.PersonID;
             NationalNo = personEntity.NationalNo;
@@ -82,13 +82,13 @@ namespace DVLD.BusinessLogic
 
         public static clsPerson Find(int PersonID)
         {
-            PersonEntity personEntity = DataAccess.clsPersonData.FindPersonByID(PersonID);
+            clsPersonEntity personEntity = DataAccess.clsPersonData.FindPersonByID(PersonID);
             return personEntity != null ? new clsPerson(personEntity) : null;
         }
         
         public static clsPerson Find(string NationalNo)
         {
-            PersonEntity personEntity = DataAccess.clsPersonData.FindPersonByNationalNo(NationalNo);
+            clsPersonEntity personEntity = DataAccess.clsPersonData.FindPersonByNationalNo(NationalNo);
             return personEntity != null ? new clsPerson(personEntity) : null;
         }
 
@@ -111,7 +111,7 @@ namespace DVLD.BusinessLogic
 
         public bool Save()
         {
-            PersonEntity personEntity = _MapPersonObjectToPersonEntity(this); 
+            clsPersonEntity personEntity = _MapPersonObjectToPersonEntity(this); 
 
             switch (Mode)
             {
@@ -131,9 +131,9 @@ namespace DVLD.BusinessLogic
             }
         }
 
-        private static PersonEntity _MapPersonObjectToPersonEntity(clsPerson Person)
+        private static clsPersonEntity _MapPersonObjectToPersonEntity(clsPerson Person)
         {
-            PersonEntity entity = new PersonEntity();
+            clsPersonEntity entity = new clsPersonEntity();
 
             entity.PersonID = Person.PersonID;
             entity.NationalNo = Person.NationalNo;
@@ -142,11 +142,11 @@ namespace DVLD.BusinessLogic
             entity.ThirdName = Person.ThirdName;
             entity.LastName = Person.LastName;
             entity.DateOfBirth = Person.DateOfBirth;
-            entity.Gender = (PersonEntity.enGender)Person.Gender;
+            entity.Gender = (clsPersonEntity.enGender)Person.Gender;
             entity.Address = Person.Address;
             entity.Phone = Person.Phone;
             entity.Email = Person.Email;
-            entity.CountryInfo = new CountryEntity
+            entity.CountryInfo = new clsCountryEntity
             {
                 CountryID = Person.CountryInfo.CountryID,
                 CountryName = Person.CountryInfo.CountryName

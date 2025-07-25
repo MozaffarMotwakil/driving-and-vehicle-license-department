@@ -1,9 +1,10 @@
 ﻿using System;
-using System.Data;
 using System.IO;
 using System.Windows.Forms;
 using DVLD.BusinessLogic;
+using DVLD.WinForms.Global;
 using DVLD.WinForms.Properties;
+using DVLD.WinForms.Utils;
 
 namespace DVLD.WinForms.People
 {
@@ -112,7 +113,7 @@ namespace DVLD.WinForms.People
         public ctrAddUpdatePerson()
         {
             InitializeComponent();
-            _FillCountriesComboBox();
+            cbCountry.Items.AddRange(clsSettings.GetCountries());
             OldImagePath = string.Empty;
             _CurrentNationalNo = string.Empty;
             _IsImageChanged = false;
@@ -226,7 +227,7 @@ namespace DVLD.WinForms.People
             OpenFileDialog openSetNewImage = new OpenFileDialog();
             openSetNewImage.Title = "Set Image";
             openSetNewImage.InitialDirectory = @"C:\";
-            openSetNewImage.Filter = "JPG files (*.JPG)|*JPG|png files (*.png)|*.png|All files (*.*)|*.*";
+            openSetNewImage.Filter = "Image Files|*.jpg;*.jpeg;*.png;*.gif;*.bmp|.jpg|*.jpg|.png|*.png";
             openSetNewImage.DefaultExt = "JPG";
             openSetNewImage.FilterIndex = 1;
 
@@ -245,16 +246,6 @@ namespace DVLD.WinForms.People
 
             pbPersonImage.Image = IsMale ? Resources.Male_512 : Resources.Female_512;
             llRemoveImage.Visible = false;
-        }
-
-        private void _FillCountriesComboBox()
-        {
-            DataTable countries = clsCountry.GetAllCountries();
-
-            foreach (DataRow country in countries.Rows)
-            {
-                cbCountry.Items.Add(country["CountryName"].ToString());
-            }
         }
 
         private void _SetGenderImage(object sender, EventArgs e)
@@ -298,7 +289,7 @@ namespace DVLD.WinForms.People
             
             if (!string.IsNullOrEmpty(NationalNo))
             {
-                if (!string.IsNullOrEmpty(_CurrentNationalNo) && _CurrentNationalNo == NationalNo)
+                if (!string.IsNullOrEmpty(_CurrentNationalNo) && _CurrentNationalNo.ToUpper() == NationalNo.ToUpper())
                 {
                     return;
                 }
@@ -314,26 +305,13 @@ namespace DVLD.WinForms.People
             }
         }
 
-        private bool _CheckIsPhoneValid(string PhoneNumber)
-        {
-            for (int i = 0; i < PhoneNumber.Length; i++)
-            {
-                if (!char.IsDigit(PhoneNumber[i]))
-                {
-                    return false;
-                }
-            }
-
-            return true;
-        }
-
         private void txtPhone_Validating(object sender, System.ComponentModel.CancelEventArgs e)
         {
             _ValidatingRequiredField(sender as Control, "Phone number is required field.");
 
             if (!string.IsNullOrEmpty(Phone))
             {
-                if (!_CheckIsPhoneValid(Phone) || Phone.Length != 10)
+                if (!clsValidation.IsValidPhone(Phone) || Phone.Length != 10)
                 {
                     errorProvider.SetError(txtPhone, "Phone number must consist of 10 numbers only.");
                 }
@@ -344,9 +322,14 @@ namespace DVLD.WinForms.People
             }
         }
 
+        private void txtPhone_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            clsValidation.HandleNumericKeyPress(e, txtPhone, errorProvider);
+        }
+
         private void txtEmail_Validating(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            if (!string.IsNullOrEmpty(Email) && !Email.Contains("@gmail.com"))
+            if (!string.IsNullOrEmpty(Email) && !clsValidation.IsValidEmail(Email))
             {
                 errorProvider.SetError(txtEmail, "Email must end with @gmail.com");
             }

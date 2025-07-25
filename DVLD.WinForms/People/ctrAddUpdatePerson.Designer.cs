@@ -269,6 +269,7 @@
             this.txtPhone.Name = "txtPhone";
             this.txtPhone.Size = new System.Drawing.Size(145, 23);
             this.txtPhone.TabIndex = 8;
+            this.txtPhone.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtPhone_KeyPress);
             this.txtPhone.Validating += new System.ComponentModel.CancelEventHandler(this.txtPhone_Validating);
             // 
             // txtThirdName
@@ -443,7 +444,7 @@
             // 
             this.errorProvider.ContainerControl = this;
             // 
-            // ctrAddEditPerson
+            // ctrAddUpdatePerson
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -483,7 +484,7 @@
             this.Controls.Add(this.txtFirstName);
             this.Controls.Add(this.txtThirdName);
             this.Controls.Add(this.txtPhone);
-            this.Name = "ctrAddEditPerson";
+            this.Name = "ctrAddUpdatePerson";
             this.Size = new System.Drawing.Size(810, 274);
             this.Load += new System.EventHandler(this.ctrAddEditPerson_Load);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).EndInit();

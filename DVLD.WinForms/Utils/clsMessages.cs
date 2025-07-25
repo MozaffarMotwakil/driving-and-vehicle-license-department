@@ -19,9 +19,9 @@ namespace DVLD.WinForms.Utils
             ShowWarning("This feature is not implemented yet.", "Not Implemented Feature");
         }
 
-        public static void ShowFailedDeleteOldPersonImage(System.Exception ex) 
+        public static void ShowFailedDeleteThePersonImage(System.Exception ex) 
         {
-            ShowError($"Failed to delete the old person's image file.\n{ex.Message}");
+            ShowError($"Failed to delete the person's image file.\n{ex.Message}");
         }
 
         public static void ShowSuccess(string message, string title = "Success")

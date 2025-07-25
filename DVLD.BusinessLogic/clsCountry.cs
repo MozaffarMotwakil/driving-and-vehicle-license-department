@@ -9,7 +9,7 @@ namespace DVLD.BusinessLogic
         public int CountryID { get; set; }
         public string CountryName { get; set; }
 
-        public clsCountry(CountryEntity countryEntity)
+        public clsCountry(clsCountryEntity countryEntity)
         {
             this.CountryID = countryEntity.CountryID;
             this.CountryName = countryEntity.CountryName;

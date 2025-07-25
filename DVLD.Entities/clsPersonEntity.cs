@@ -19,7 +19,7 @@
 namespace DVLD.Entities
 {
     /// <summary>
-    /// The PersonEntity class represents a data transfer object (DTO) 
+    /// The clsPersonEntity class represents a data transfer object (DTO) 
     /// that holds all person-related information as a single unit.
     /// 
     /// This class is used to:
@@ -35,7 +35,7 @@ namespace DVLD.Entities
     /// Using PersonEntity improves code readability, reduces duplication, 
     /// and aligns with clean architecture principles.
     /// </summary>
-    public class PersonEntity
+    public class clsPersonEntity
     {
         public enum enGender { Male, Female};
 
@@ -50,7 +50,7 @@ namespace DVLD.Entities
         public string Address { get; set; }
         public string Phone { get; set; }
         public string Email { get; set; }
-        public CountryEntity CountryInfo { get; set; }
+        public clsCountryEntity CountryInfo { get; set; }
         public string ImagePath { get; set; }
     }
 }

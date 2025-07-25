@@ -96,9 +96,9 @@ namespace DVLD.DataAccess
             return people;
         }
 
-        public static PersonEntity FindPersonByID(int PersonID)
+        public static clsPersonEntity FindPersonByID(int PersonID)
         {
-            PersonEntity person = null;
+            clsPersonEntity person = null;
 
             using (SqlConnection connection = new SqlConnection(clsDataSettings.ConnectionString))
             {
@@ -117,7 +117,7 @@ namespace DVLD.DataAccess
                     {
                         if (reader.Read())
                         {
-                            person = new PersonEntity();
+                            person = new clsPersonEntity();
 
                             person.PersonID = PersonID;
                             person.NationalNo = reader["NationalNo"].ToString();
@@ -126,7 +126,7 @@ namespace DVLD.DataAccess
                             person.ThirdName = (reader["ThirdName"] != DBNull.Value) ? reader["ThirdName"].ToString() : String.Empty;
                             person.LastName = reader["LastName"].ToString();
                             person.DateOfBirth = Convert.ToDateTime(reader["DateOfBirth"]);
-                            person.Gender = (PersonEntity.enGender)Convert.ToByte((reader["Gender"]));
+                            person.Gender = (clsPersonEntity.enGender)Convert.ToByte((reader["Gender"]));
                             person.Address = reader["Address"].ToString();
                             person.Phone = reader["Phone"].ToString();
                             person.Email = (reader["Email"] != DBNull.Value) ? reader["Email"].ToString() : String.Empty;
@@ -144,9 +144,9 @@ namespace DVLD.DataAccess
             return person;
         }
 
-        public static PersonEntity FindPersonByNationalNo(string NationalNo)
+        public static clsPersonEntity FindPersonByNationalNo(string NationalNo)
         {
-            PersonEntity person = null;
+            clsPersonEntity person = null;
 
             using (SqlConnection connection = new SqlConnection(clsDataSettings.ConnectionString))
             {
@@ -165,7 +165,7 @@ namespace DVLD.DataAccess
                     {
                         if (reader.Read())
                         {
-                            person = new PersonEntity();
+                            person = new clsPersonEntity();
 
                             person.PersonID = Convert.ToInt32(reader["PersonID"]);
                             person.NationalNo = NationalNo;
@@ -174,7 +174,7 @@ namespace DVLD.DataAccess
                             person.ThirdName = (reader["ThirdName"] != DBNull.Value) ? reader["ThirdName"].ToString() : String.Empty;
                             person.LastName = reader["LastName"].ToString();
                             person.DateOfBirth = Convert.ToDateTime(reader["DateOfBirth"]);
-                            person.Gender = (PersonEntity.enGender)Convert.ToByte((reader["Gender"]));
+                            person.Gender = (clsPersonEntity.enGender)Convert.ToByte((reader["Gender"]));
                             person.Address = reader["Address"].ToString();
                             person.Phone = reader["Phone"].ToString();
                             person.Email = (reader["Email"] != DBNull.Value) ? reader["Email"].ToString() : String.Empty;
@@ -192,7 +192,7 @@ namespace DVLD.DataAccess
             return person;
         }
 
-        public static bool AddNewPerson(PersonEntity person)
+        public static bool AddNewPerson(clsPersonEntity person)
         {
             using (SqlConnection connection = new SqlConnection(clsDataSettings.ConnectionString))
             {
@@ -276,7 +276,7 @@ namespace DVLD.DataAccess
             }
         }
 
-        public static bool UpdatePerson(PersonEntity person) 
+        public static bool UpdatePerson(clsPersonEntity person) 
         {
             using (SqlConnection connection = new SqlConnection(clsDataSettings.ConnectionString))
             {

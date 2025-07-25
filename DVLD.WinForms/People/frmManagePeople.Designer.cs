@@ -39,16 +39,27 @@
             this.sToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
-            this.lblTotalRecordsCount = new System.Windows.Forms.Label();
-            this.cbFiltteringColumn = new System.Windows.Forms.ComboBox();
+            this.lblRecordsCount = new System.Windows.Forms.Label();
+            this.cbFiltterColumn = new System.Windows.Forms.ComboBox();
             this.label3 = new System.Windows.Forms.Label();
             this.txtTextForFilttering = new System.Windows.Forms.TextBox();
             this.btnAddNewPerson = new System.Windows.Forms.Button();
             this.btnCloseScreen = new System.Windows.Forms.Button();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.errorProvider = new System.Windows.Forms.ErrorProvider(this.components);
+            this.rbFemale = new System.Windows.Forms.RadioButton();
+            this.rbMale = new System.Windows.Forms.RadioButton();
+            this.pictureBox3 = new System.Windows.Forms.PictureBox();
+            this.pictureBox5 = new System.Windows.Forms.PictureBox();
+            this.panelGender = new System.Windows.Forms.Panel();
+            this.cbCountry = new System.Windows.Forms.ComboBox();
             ((System.ComponentModel.ISupportInitialize)(this.dgvPeopleList)).BeginInit();
             this.contextMenuStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.errorProvider)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).BeginInit();
+            this.panelGender.SuspendLayout();
             this.SuspendLayout();
             // 
             // dgvPeopleList
@@ -158,26 +169,26 @@
             this.label2.TabIndex = 1;
             this.label2.Text = "Manage People";
             // 
-            // lblTotalRecordsCount
+            // lblRecordsCount
             // 
-            this.lblTotalRecordsCount.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.lblRecordsCount.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.lblTotalRecordsCount.AutoSize = true;
-            this.lblTotalRecordsCount.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblTotalRecordsCount.Location = new System.Drawing.Point(92, 523);
-            this.lblTotalRecordsCount.Name = "lblTotalRecordsCount";
-            this.lblTotalRecordsCount.Size = new System.Drawing.Size(33, 19);
-            this.lblTotalRecordsCount.TabIndex = 1;
-            this.lblTotalRecordsCount.Text = "???";
+            this.lblRecordsCount.AutoSize = true;
+            this.lblRecordsCount.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblRecordsCount.Location = new System.Drawing.Point(92, 523);
+            this.lblRecordsCount.Name = "lblRecordsCount";
+            this.lblRecordsCount.Size = new System.Drawing.Size(33, 19);
+            this.lblRecordsCount.TabIndex = 1;
+            this.lblRecordsCount.Text = "???";
             // 
-            // cbFiltteringColumn
+            // cbFiltterColumn
             // 
-            this.cbFiltteringColumn.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.cbFiltterColumn.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
-            this.cbFiltteringColumn.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbFiltteringColumn.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.cbFiltteringColumn.FormattingEnabled = true;
-            this.cbFiltteringColumn.Items.AddRange(new object[] {
+            this.cbFiltterColumn.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbFiltterColumn.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cbFiltterColumn.FormattingEnabled = true;
+            this.cbFiltterColumn.Items.AddRange(new object[] {
             "None",
             "Person ID",
             "National No",
@@ -189,11 +200,11 @@
             "Phone",
             "Email",
             "Nationality"});
-            this.cbFiltteringColumn.Location = new System.Drawing.Point(96, 185);
-            this.cbFiltteringColumn.Name = "cbFiltteringColumn";
-            this.cbFiltteringColumn.Size = new System.Drawing.Size(129, 24);
-            this.cbFiltteringColumn.TabIndex = 4;
-            this.cbFiltteringColumn.SelectedIndexChanged += new System.EventHandler(this.cbFiltteringColumn_SelectedIndexChanged);
+            this.cbFiltterColumn.Location = new System.Drawing.Point(96, 185);
+            this.cbFiltterColumn.Name = "cbFiltterColumn";
+            this.cbFiltterColumn.Size = new System.Drawing.Size(129, 24);
+            this.cbFiltterColumn.TabIndex = 4;
+            this.cbFiltterColumn.SelectedIndexChanged += new System.EventHandler(this.cbFiltterColumn_SelectedIndexChanged);
             // 
             // label3
             // 
@@ -213,7 +224,7 @@
             | System.Windows.Forms.AnchorStyles.Left)));
             this.txtTextForFilttering.Location = new System.Drawing.Point(231, 189);
             this.txtTextForFilttering.Name = "txtTextForFilttering";
-            this.txtTextForFilttering.Size = new System.Drawing.Size(175, 20);
+            this.txtTextForFilttering.Size = new System.Drawing.Size(200, 20);
             this.txtTextForFilttering.TabIndex = 8;
             this.txtTextForFilttering.TextChanged += new System.EventHandler(this.txtTextForFilttering_TextChanged);
             this.txtTextForFilttering.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtTextForFilttering_KeyPress);
@@ -259,6 +270,81 @@
             this.pictureBox1.TabIndex = 2;
             this.pictureBox1.TabStop = false;
             // 
+            // errorProvider
+            // 
+            this.errorProvider.ContainerControl = this;
+            // 
+            // rbFemale
+            // 
+            this.rbFemale.AutoSize = true;
+            this.rbFemale.Location = new System.Drawing.Point(131, 10);
+            this.rbFemale.Name = "rbFemale";
+            this.rbFemale.Size = new System.Drawing.Size(59, 17);
+            this.rbFemale.TabIndex = 10;
+            this.rbFemale.TabStop = true;
+            this.rbFemale.Text = "Female";
+            this.rbFemale.UseVisualStyleBackColor = true;
+            this.rbFemale.CheckedChanged += new System.EventHandler(this.rbFemale_CheckedChanged);
+            // 
+            // rbMale
+            // 
+            this.rbMale.AutoSize = true;
+            this.rbMale.Location = new System.Drawing.Point(37, 10);
+            this.rbMale.Name = "rbMale";
+            this.rbMale.Size = new System.Drawing.Size(47, 17);
+            this.rbMale.TabIndex = 9;
+            this.rbMale.TabStop = true;
+            this.rbMale.Text = "Male";
+            this.rbMale.UseVisualStyleBackColor = true;
+            this.rbMale.CheckedChanged += new System.EventHandler(this.rbMale_CheckedChanged);
+            // 
+            // pictureBox3
+            // 
+            this.pictureBox3.Image = global::DVLD.WinForms.Properties.Resources.Woman_32;
+            this.pictureBox3.Location = new System.Drawing.Point(96, 1);
+            this.pictureBox3.Name = "pictureBox3";
+            this.pictureBox3.Size = new System.Drawing.Size(32, 32);
+            this.pictureBox3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
+            this.pictureBox3.TabIndex = 11;
+            this.pictureBox3.TabStop = false;
+            // 
+            // pictureBox5
+            // 
+            this.pictureBox5.Image = global::DVLD.WinForms.Properties.Resources.Man_32;
+            this.pictureBox5.Location = new System.Drawing.Point(3, 1);
+            this.pictureBox5.Name = "pictureBox5";
+            this.pictureBox5.Size = new System.Drawing.Size(32, 32);
+            this.pictureBox5.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
+            this.pictureBox5.TabIndex = 12;
+            this.pictureBox5.TabStop = false;
+            // 
+            // panelGender
+            // 
+            this.panelGender.Controls.Add(this.pictureBox5);
+            this.panelGender.Controls.Add(this.rbFemale);
+            this.panelGender.Controls.Add(this.pictureBox3);
+            this.panelGender.Controls.Add(this.rbMale);
+            this.panelGender.Location = new System.Drawing.Point(231, 150);
+            this.panelGender.Name = "panelGender";
+            this.panelGender.Size = new System.Drawing.Size(200, 33);
+            this.panelGender.TabIndex = 13;
+            this.panelGender.Visible = false;
+            // 
+            // cbCountry
+            // 
+            this.cbCountry.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
+            this.cbCountry.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbCountry.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cbCountry.FormattingEnabled = true;
+            this.cbCountry.Items.AddRange(new object[] {
+            "None"});
+            this.cbCountry.Location = new System.Drawing.Point(231, 120);
+            this.cbCountry.Name = "cbCountry";
+            this.cbCountry.Size = new System.Drawing.Size(200, 24);
+            this.cbCountry.TabIndex = 4;
+            this.cbCountry.SelectedIndexChanged += new System.EventHandler(this.cbCountry_SelectedIndexChanged);
+            // 
             // frmManagePeople
             // 
             this.AcceptButton = this.btnAddNewPerson;
@@ -266,14 +352,16 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.btnCloseScreen;
             this.ClientSize = new System.Drawing.Size(1184, 561);
+            this.Controls.Add(this.panelGender);
             this.Controls.Add(this.txtTextForFilttering);
             this.Controls.Add(this.label3);
-            this.Controls.Add(this.cbFiltteringColumn);
+            this.Controls.Add(this.cbCountry);
+            this.Controls.Add(this.cbFiltterColumn);
             this.Controls.Add(this.btnAddNewPerson);
             this.Controls.Add(this.btnCloseScreen);
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.label2);
-            this.Controls.Add(this.lblTotalRecordsCount);
+            this.Controls.Add(this.lblRecordsCount);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.dgvPeopleList);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
@@ -284,6 +372,11 @@
             ((System.ComponentModel.ISupportInitialize)(this.dgvPeopleList)).EndInit();
             this.contextMenuStrip.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.errorProvider)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).EndInit();
+            this.panelGender.ResumeLayout(false);
+            this.panelGender.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -297,8 +390,8 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Button btnCloseScreen;
         private System.Windows.Forms.Button btnAddNewPerson;
-        private System.Windows.Forms.Label lblTotalRecordsCount;
-        private System.Windows.Forms.ComboBox cbFiltteringColumn;
+        private System.Windows.Forms.Label lblRecordsCount;
+        private System.Windows.Forms.ComboBox cbFiltterColumn;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.TextBox txtTextForFilttering;
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip;
@@ -308,5 +401,12 @@
         private System.Windows.Forms.ToolStripMenuItem deleteToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem sendEmailToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem sToolStripMenuItem;
+        private System.Windows.Forms.ErrorProvider errorProvider;
+        private System.Windows.Forms.RadioButton rbFemale;
+        private System.Windows.Forms.RadioButton rbMale;
+        private System.Windows.Forms.PictureBox pictureBox3;
+        private System.Windows.Forms.PictureBox pictureBox5;
+        private System.Windows.Forms.Panel panelGender;
+        private System.Windows.Forms.ComboBox cbCountry;
     }
 }

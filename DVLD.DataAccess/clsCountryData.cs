@@ -38,9 +38,9 @@ namespace DVLD.DataAccess
             return countries;
         }
 
-        public static CountryEntity FindCountryByID(int CountryID)
+        public static clsCountryEntity FindCountryByID(int CountryID)
         {
-            CountryEntity countryEntity = null;
+            clsCountryEntity countryEntity = null;
 
             using (SqlConnection connection = new SqlConnection(clsDataSettings.ConnectionString))
             {
@@ -58,7 +58,7 @@ namespace DVLD.DataAccess
                     {
                         if (reader.Read())
                         {
-                            countryEntity = new CountryEntity();
+                            countryEntity = new clsCountryEntity();
 
                             countryEntity.CountryID = CountryID;
                             countryEntity.CountryName = reader["CountryName"].ToString();
@@ -74,9 +74,9 @@ namespace DVLD.DataAccess
             return countryEntity;
         }
 
-        public static CountryEntity FindCountryByName(string CountryName)
+        public static clsCountryEntity FindCountryByName(string CountryName)
         {
-            CountryEntity countryEntity = null;
+            clsCountryEntity countryEntity = null;
 
             using (SqlConnection connection = new SqlConnection(clsDataSettings.ConnectionString))
             {
@@ -94,7 +94,7 @@ namespace DVLD.DataAccess
                     {
                         if (reader.Read())
                         {
-                            countryEntity = new CountryEntity();
+                            countryEntity = new clsCountryEntity();
 
                             countryEntity.CountryID = Convert.ToInt32(reader["CountryID"]);
                             countryEntity.CountryName = CountryName;

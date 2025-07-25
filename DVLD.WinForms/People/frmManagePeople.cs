@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Data;
+using System.Drawing;
 using System.Windows.Forms;
 using DVLD.BusinessLogic;
 using DVLD.WinForms.Global;
@@ -16,17 +17,67 @@ namespace DVLD.WinForms.People
             InitializeComponent();
         }
         
-        private void frmManagePeople_Load(object sender, EventArgs e)
+        private void _ResetPeopleListColumnWidthAndName()
         {
-            cbFiltteringColumn.SelectedItem = "None";
-            _FilterColumn = "None";
-            _RefreshPeopleList();
+            if (dgvPeopleList.Rows.Count > 0)
+            {
+
+                dgvPeopleList.Columns[0].HeaderText = "Person ID";
+                dgvPeopleList.Columns[0].Width = 80;
+
+                dgvPeopleList.Columns[1].HeaderText = "National No.";
+                dgvPeopleList.Columns[1].Width = 100;
+
+                dgvPeopleList.Columns[2].HeaderText = "First Name";
+                dgvPeopleList.Columns[2].Width = 110;
+
+                dgvPeopleList.Columns[3].HeaderText = "Second Name";
+                dgvPeopleList.Columns[3].Width = 110;
+
+
+                dgvPeopleList.Columns[4].HeaderText = "Third Name";
+                dgvPeopleList.Columns[4].Width = 110;
+
+                dgvPeopleList.Columns[5].HeaderText = "Last Name";
+                dgvPeopleList.Columns[5].Width = 110;
+
+                dgvPeopleList.Columns[6].HeaderText = "Gender";
+                dgvPeopleList.Columns[6].Width = 60;
+
+                dgvPeopleList.Columns[7].HeaderText = "Date Of Birth";
+                dgvPeopleList.Columns[7].Width = 100;
+
+                dgvPeopleList.Columns[8].HeaderText = "Nationality";
+                dgvPeopleList.Columns[8].Width = 90;
+
+
+                dgvPeopleList.Columns[9].HeaderText = "Phone";
+                dgvPeopleList.Columns[9].Width = 80;
+
+
+                dgvPeopleList.Columns[10].HeaderText = "Email";
+            }
+
         }
 
-        private void _RefreshPeopleList()
+        private void frmManagePeople_Load(object sender, EventArgs e)
         {
-            dgvPeopleList.DataSource = clsPerson.GetAllPeople().DefaultView;
-            lblTotalRecordsCount.Text = dgvPeopleList.RowCount.ToString();
+            cbFiltterColumn.SelectedItem = "None";
+            _FilterColumn = "None";
+            _RefreshPeopleList();
+            _ResetPeopleListColumnWidthAndName();
+            cbCountry.Items.AddRange(clsSettings.GetCountries());
+        }
+
+        private void _RefreshPeopleList(object DataSource = null)
+        {
+            if (DataSource == null)
+            {
+                DataSource = clsPerson.GetAllPeople().DefaultView;
+            }
+            
+            dgvPeopleList.DataSource = DataSource;
+            lblRecordsCount.Text = dgvPeopleList.RowCount.ToString();
         }
 
         private void txtTextForFilttering_TextChanged(object sender, EventArgs e)
@@ -58,13 +109,42 @@ namespace DVLD.WinForms.People
             // The DataSource is updated with the filtered DataView.
             // Why: Filtering on the DataView directly is efficient as it works on the
             // already loaded data, avoiding re-querying the database just for filtering.
-            dgvPeopleList.DataSource = peopleList;
+            _RefreshPeopleList(peopleList);
         }
 
-        private void cbFiltteringColumn_SelectedIndexChanged(object sender, EventArgs e)
+        private void cbFiltterColumn_SelectedIndexChanged(object sender, EventArgs e)
         {
+            errorProvider.SetError(txtTextForFilttering, "");
             txtTextForFilttering.Text = string.Empty;
-            _FilterColumn = cbFiltteringColumn.Text.Replace(" ", "");
+            _FilterColumn = cbFiltterColumn.Text.Replace(" ", "");
+
+            if (_FilterColumn == "Gender")
+            {
+                txtTextForFilttering.Visible = false;
+                panelGender.Location = new Point(panelGender.Location.X, 180);
+                panelGender.Visible = true;
+                rbMale.Checked = true;
+                return;
+            }
+            else 
+            {
+                panelGender.Visible = false;
+                txtTextForFilttering.Visible = true;
+            }
+
+            if (_FilterColumn == "Nationality")
+            {
+                txtTextForFilttering.Visible = false;
+                cbCountry.Location = new Point(cbCountry.Location.X, 185);
+                cbCountry.Visible = true;
+                cbCountry.SelectedItem = "None";
+                return;
+            }
+            else
+            {
+                cbCountry.Visible = false;
+                txtTextForFilttering.Visible = true;
+            }
 
             if (_FilterColumn == "None")
             {
@@ -78,11 +158,13 @@ namespace DVLD.WinForms.People
 
         private void txtTextForFilttering_KeyPress(object sender, KeyPressEventArgs e)
         {
-            if (_FilterColumn == "PersonID" && !char.IsDigit(e.KeyChar) && !char.IsControl(e.KeyChar))
+            if (_FilterColumn == "PersonID")
             {
-                // Unaccept the input and turn on the warning bell
-                e.Handled = true;
-                System.Media.SystemSounds.Asterisk.Play();
+                clsValidation.HandleNumericKeyPress(e, txtTextForFilttering, errorProvider);
+            }
+            else
+            {
+                errorProvider.SetError(txtTextForFilttering, "");
             }
         }
 
@@ -109,25 +191,12 @@ namespace DVLD.WinForms.People
                 {
                     try
                     {
-                        clsPerson person = clsPerson.Find(PersonID);
-
+                        string ImagePath = clsPerson.Find(PersonID).ImagePath;
 
                         if (clsPerson.Delete(PersonID))
                         {
-                             clsMessages.ShowSuccess($"The person with ID = {PersonID} has been deleted successfully.", "Successfully Deleted");
-
-                            if (!string.IsNullOrEmpty(person.ImagePath))
-                            {
-                                try
-                                {
-                                    clsSettings.DeletePersonImageFromLocalFolder(person.ImagePath);
-                                }
-                                catch (Exception ex)
-                                {
-                                    clsMessages.ShowFailedDeleteOldPersonImage(ex);
-                                }
-                            }
-
+                            clsMessages.ShowSuccess($"The person with ID = {PersonID} has been deleted successfully.", "Successfully Deleted");
+                            _DeletePersonImage(ImagePath);
                             _RefreshPeopleList();
                         }
                         else
@@ -140,6 +209,10 @@ namespace DVLD.WinForms.People
                          clsMessages.ShowError("Person was not deleted because it has data linked to it.", "Failed Deleted");
                     }
                 }
+            }
+            else
+            {
+                clsMessages.ShowPersonNotFoundError();
             }
         }
 
@@ -182,6 +255,43 @@ namespace DVLD.WinForms.People
         private void btnCloseScreen_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        private void rbMale_CheckedChanged(object sender, EventArgs e)
+        {
+            txtTextForFilttering.Text = "Male";
+        }
+
+        private void rbFemale_CheckedChanged(object sender, EventArgs e)
+        {
+            txtTextForFilttering.Text = "Female";
+        }
+
+        private void cbCountry_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (cbCountry.SelectedItem.ToString() == "None")
+            {
+                _RefreshPeopleList();
+            }
+            else
+            {
+                txtTextForFilttering.Text = cbCountry.SelectedItem.ToString();
+            }
+        }
+
+        private void _DeletePersonImage(string ImagePath)
+        {
+            if (!string.IsNullOrEmpty(ImagePath))
+            {
+                try
+                {
+                    clsFileManager.DeletePersonImageFromLocalFolder(ImagePath);
+                }
+                catch (Exception ex)
+                {
+                    clsMessages.ShowFailedDeleteThePersonImage(ex);
+                }
+            }
         }
 
     }
