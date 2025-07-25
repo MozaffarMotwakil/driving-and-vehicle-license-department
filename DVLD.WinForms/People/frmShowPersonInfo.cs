@@ -7,6 +7,12 @@ namespace DVLD.WinForms.People
 {
     public partial class frmShowPersonInfo : Form
     {
+        public bool IsInfoModified 
+        {
+            get { return ctrPersonInformation.IsInfoModified; }
+
+        }
+
         private clsPerson _Person;
 
         public frmShowPersonInfo(int PersonID)

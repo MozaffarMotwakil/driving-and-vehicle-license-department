@@ -8,9 +8,12 @@ namespace DVLD.WinForms.People
 {
     public partial class ctrPersonCardInfo : UserControl
     {
+        public bool IsInfoModified { get; private set; }
+
         public ctrPersonCardInfo()
         {
             InitializeComponent();
+            IsInfoModified = false;
         }
 
         public event Action OnImageLoadFailed;
@@ -34,6 +37,7 @@ namespace DVLD.WinForms.People
             // since it was already shown when opening the Person Details form.
             addEditPersonForm.SuppressImageLoadWarning = true;
             addEditPersonForm.ShowDialog();
+            IsInfoModified = addEditPersonForm.IsSaveSuccess;
         }
 
         public void LoadPersonDataForDesplay(clsPerson Person)
@@ -65,5 +69,9 @@ namespace DVLD.WinForms.People
             }
         }
 
+        private void groupBox1_Enter(object sender, EventArgs e)
+        {
+
+        }
     }
 }

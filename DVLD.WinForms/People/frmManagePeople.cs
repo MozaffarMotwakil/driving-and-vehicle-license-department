@@ -154,6 +154,9 @@ namespace DVLD.WinForms.People
             {
                 txtTextForFilttering.Enabled = true;
             }
+
+            // We place the cursor on the textbox to enable the user to type directly without having to use the mouse.
+            txtTextForFilttering.Focus();
         }
 
         private void txtTextForFilttering_KeyPress(object sender, KeyPressEventArgs e)
@@ -221,7 +224,11 @@ namespace DVLD.WinForms.People
             frmAddUpdatePerson addEditPersonForm = new frmAddUpdatePerson();
             addEditPersonForm.MaximizeBox = false;
             addEditPersonForm.ShowDialog();
-            _RefreshPeopleList();
+            
+            if (addEditPersonForm.IsSaveSuccess)
+            {
+                _RefreshPeopleList();
+            }
         }
 
         private void addNewPersonToolStripMenuItem_Click(object sender, EventArgs e)
@@ -233,15 +240,16 @@ namespace DVLD.WinForms.People
         {
             frmAddUpdatePerson addEditPersonForm = new frmAddUpdatePerson(Convert.ToInt32(dgvPeopleList.CurrentCell.Value));
             addEditPersonForm.ShowDialog();
-            _RefreshPeopleList();
+            _RefreshPeopleListIfPersonModified(addEditPersonForm.IsSaveSuccess);
         }
 
         private void showDetailsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             frmShowPersonInfo personDetailsForm = new frmShowPersonInfo(Convert.ToInt32(dgvPeopleList.CurrentCell.Value));
             personDetailsForm.ShowDialog();
-            _RefreshPeopleList();
+            _RefreshPeopleListIfPersonModified(personDetailsForm.IsInfoModified);
         }
+
         private void sendEmailToolStripMenuItem_Click(object sender, EventArgs e)
         {
             clsMessages.ShowNotImplementedFeatureWarning();
@@ -290,6 +298,45 @@ namespace DVLD.WinForms.People
                 catch (Exception ex)
                 {
                     clsMessages.ShowFailedDeleteThePersonImage(ex);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Updates the people list only if the person's data has been modified (e.g., after editing or viewing details).
+        /// This ensures the UI stays in sync with the database.
+        /// Also, if a filter text is applied, the list is refreshed based on the same filter to maintain the user experience.
+        /// </summary>
+        /// <param name="isPersonModified">
+        /// A flag indicating whether the person data has been modified.
+        /// If true, the list will be refreshed accordingly.
+        /// </param>
+        private void _RefreshPeopleListIfPersonModified(bool isPersonModified)
+        {
+            if (isPersonModified)
+            {
+                // If the data has been successfully saved, then the database has been updated,
+                // so we need to refresh the people list to reflect the latest changes.
+                _RefreshPeopleList();
+
+                // If there's a filter text entered, it means the list is currently filtered
+                // (e.g., by gender, country, ID, etc.), so we reapply the filter after reloading the data.
+                if (!string.IsNullOrEmpty(txtTextForFilttering.Text))
+                {
+                    // To reapply the filter, we clear the textbox then reassign the original text.
+                    // This will trigger txtTextForFilttering_TextChanged event.
+                    // Don't worry — this method is optimized not to fetch data from the database again
+                    // when assigning an empty string. It simply re-filters the existing list in memory.
+                    string temp = txtTextForFilttering.Text;
+                    txtTextForFilttering.Text = string.Empty;
+                    txtTextForFilttering.Text = temp;
+
+                    //The purpose of highlighting text is to provide a seamless user experience
+                    //so that when someone has finished querying, we highlight the text
+                    //so that they can delete it by simply typing over it, such as deleting,
+                    //or if they want to press the arrows to move and edit it.
+                    txtTextForFilttering.SelectionStart = 0;
+                    txtTextForFilttering.SelectionLength = txtTextForFilttering.TextLength;
                 }
             }
         }

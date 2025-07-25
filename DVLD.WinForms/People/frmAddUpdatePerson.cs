@@ -8,6 +8,9 @@ namespace DVLD.WinForms.People
 {
     public partial class frmAddUpdatePerson : Form
     {
+        // تسخدم للتحقق هل يتم تحديث قائمة الأشخاص أم لا
+        public bool IsSaveSuccess { get; private set; }
+
         private clsPerson _Person;
         private clsPerson.enMode _FormMode;
 
@@ -23,6 +26,7 @@ namespace DVLD.WinForms.People
         public frmAddUpdatePerson()
         {
             InitializeComponent();
+            IsSaveSuccess = false;
             _FormMode = clsPerson.enMode.AddNew;
             _Person = new clsPerson();
             ctrAddEditPerson.OnImageLoadFailed += CtrAddEditPerson_OnImageLoadFailed;
@@ -31,6 +35,7 @@ namespace DVLD.WinForms.People
         public frmAddUpdatePerson(int PersonID)
         {
             InitializeComponent();
+            IsSaveSuccess = false;
             _FormMode = clsPerson.enMode.Update;
             _Person = clsPerson.Find(PersonID);
             ctrAddEditPerson.OnImageLoadFailed += CtrAddEditPerson_OnImageLoadFailed;
@@ -43,7 +48,6 @@ namespace DVLD.WinForms.People
 
         private void frmAddEditPerson_Load(object sender, EventArgs e)
         {
-
             lblHeader.Text = (_FormMode == clsPerson.enMode.AddNew ? "Add New Person" : "Update Person");
             lblPersonID.Text = (_Person.PersonID != -1 ? _Person.PersonID.ToString() : "N/A");
             ctrAddEditPerson.LoadPersonDataForEdit(_Person);
@@ -82,6 +86,7 @@ namespace DVLD.WinForms.People
                         clsMessages.ShowSuccess("The person has been updated successfully.", "Update Successful");
                     }
 
+                    IsSaveSuccess = true;
                     PersonBack?.Invoke(_Person);
 
                     // Reset the OldImagePath property to ensure correct behavior
