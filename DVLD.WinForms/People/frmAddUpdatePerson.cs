@@ -8,7 +8,6 @@ namespace DVLD.WinForms.People
 {
     public partial class frmAddUpdatePerson : Form
     {
-        // تسخدم للتحقق هل يتم تحديث قائمة الأشخاص أم لا
         public bool IsSaveSuccess { get; private set; }
 
         private clsPerson _Person;
@@ -27,6 +26,7 @@ namespace DVLD.WinForms.People
         {
             InitializeComponent();
             IsSaveSuccess = false;
+            this.Text = "Add New Person";
             _FormMode = clsPerson.enMode.AddNew;
             _Person = new clsPerson();
             ctrAddEditPerson.OnImageLoadFailed += CtrAddEditPerson_OnImageLoadFailed;
@@ -36,6 +36,7 @@ namespace DVLD.WinForms.People
         {
             InitializeComponent();
             IsSaveSuccess = false;
+            this.Text = "Update Person";
             _FormMode = clsPerson.enMode.Update;
             _Person = clsPerson.Find(PersonID);
             ctrAddEditPerson.OnImageLoadFailed += CtrAddEditPerson_OnImageLoadFailed;

@@ -38,7 +38,7 @@
             this.label7 = new System.Windows.Forms.Label();
             this.lblFullName = new System.Windows.Forms.Label();
             this.lblPersonID = new System.Windows.Forms.Label();
-            this.pictureBox5 = new System.Windows.Forms.PictureBox();
+            this.pbGender = new System.Windows.Forms.PictureBox();
             this.pictureBox7 = new System.Windows.Forms.PictureBox();
             this.pictureBox6 = new System.Windows.Forms.PictureBox();
             this.pictureBox10 = new System.Windows.Forms.PictureBox();
@@ -59,7 +59,7 @@
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbGender)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox7)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox6)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox10)).BeginInit();
@@ -173,15 +173,15 @@
             this.lblPersonID.TabIndex = 9;
             this.lblPersonID.Text = "???";
             // 
-            // pictureBox5
+            // pbGender
             // 
-            this.pictureBox5.Image = global::DVLD.WinForms.Properties.Resources.Man_32;
-            this.pictureBox5.Location = new System.Drawing.Point(101, 152);
-            this.pictureBox5.Name = "pictureBox5";
-            this.pictureBox5.Size = new System.Drawing.Size(32, 32);
-            this.pictureBox5.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
-            this.pictureBox5.TabIndex = 8;
-            this.pictureBox5.TabStop = false;
+            this.pbGender.Image = global::DVLD.WinForms.Properties.Resources.Man_32;
+            this.pbGender.Location = new System.Drawing.Point(101, 152);
+            this.pbGender.Name = "pbGender";
+            this.pbGender.Size = new System.Drawing.Size(32, 32);
+            this.pbGender.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
+            this.pbGender.TabIndex = 8;
+            this.pbGender.TabStop = false;
             // 
             // pictureBox7
             // 
@@ -397,7 +397,7 @@
             this.groupBox1.Controls.Add(this.label3);
             this.groupBox1.Controls.Add(this.label10);
             this.groupBox1.Controls.Add(this.lblGender);
-            this.groupBox1.Controls.Add(this.pictureBox5);
+            this.groupBox1.Controls.Add(this.pbGender);
             this.groupBox1.Controls.Add(this.label11);
             this.groupBox1.Controls.Add(this.label5);
             this.groupBox1.Controls.Add(this.lblNationalNumber);
@@ -423,7 +423,7 @@
             this.Controls.Add(this.groupBox1);
             this.Name = "ctrPersonCardInfo";
             this.Size = new System.Drawing.Size(780, 277);
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbGender)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox7)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox6)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox10)).EndInit();
@@ -440,7 +440,7 @@
         }
 
         #endregion
-        private System.Windows.Forms.PictureBox pictureBox5;
+        private System.Windows.Forms.PictureBox pbGender;
         private System.Windows.Forms.PictureBox pictureBox7;
         private System.Windows.Forms.PictureBox pictureBox6;
         private System.Windows.Forms.PictureBox pictureBox10;

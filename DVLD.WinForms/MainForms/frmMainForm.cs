@@ -12,7 +12,7 @@ namespace DVLD.WinForms.MainForms
         {
             InitializeComponent();
         }
-
+        
         private void peopleToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (managePeopleForm == null || managePeopleForm.IsDisposed)

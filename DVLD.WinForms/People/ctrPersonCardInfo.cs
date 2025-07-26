@@ -45,7 +45,18 @@ namespace DVLD.WinForms.People
             lblPersonID.Text = Person.PersonID.ToString();
             lblNationalNumber.Text = Person.NationalNo.ToString();
             lblFullName.Text = Person.GetFullName();
-            lblGender.Text = (Person.Gender == clsPerson.enGender.Male ? "Male" : "Female");
+
+            if (Person.Gender == clsPerson.enGender.Male)
+            {
+                lblGender.Text = "Male";
+                pbGender.Image = Resources.Man_32;
+            }
+            else
+            {
+                lblGender.Text = "Female";
+                pbGender.Image = Resources.Woman_32;
+            }
+
             lblEmail.Text = Person.Email.ToString();
             lblAddress.Text = Person.Address.ToString();
             lblDateOfBirth.Text = Person.DateOfBirth.Date.ToShortDateString();
