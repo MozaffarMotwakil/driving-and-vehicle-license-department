@@ -5,10 +5,11 @@ using DVLD.Entities;
 
 namespace DVLD.BusinessLogic
 {
+    public enum enMode { AddNew, Update };
+
     public class clsPerson
     {
         public enum enGender { Male, Female };
-        public enum enMode { AddNew, Update };
 
         public int PersonID { get; private set; }
         public string NationalNo { get; set; }
@@ -53,7 +54,7 @@ namespace DVLD.BusinessLogic
             Address = personEntity.Address;
             Phone = personEntity.Phone;
             Email = personEntity.Email;
-            CountryInfo = new clsCountry(personEntity.CountryInfo);
+            CountryInfo = clsCountry.Find(personEntity.CountryID);
             ImagePath = personEntity.ImagePath;
             Mode = enMode.Update;
         }
@@ -99,14 +100,7 @@ namespace DVLD.BusinessLogic
 
         public static bool Delete(int PersonID)
         {
-            if (DataAccess.clsPersonData.IsPersonExist(PersonID))
-            {
-                return DataAccess.clsPersonData.DeletePerson(PersonID);
-            }
-            else
-            {
-                return false;
-            }
+            return DataAccess.clsPersonData.DeletePerson(PersonID);
         }
 
         public bool Save()
@@ -133,27 +127,23 @@ namespace DVLD.BusinessLogic
 
         private static clsPersonEntity _MapPersonObjectToPersonEntity(clsPerson Person)
         {
-            clsPersonEntity entity = new clsPersonEntity();
+            clsPersonEntity personEntity = new clsPersonEntity();
 
-            entity.PersonID = Person.PersonID;
-            entity.NationalNo = Person.NationalNo;
-            entity.FirstName = Person.FirstName;
-            entity.SecondName = Person.SecondName;
-            entity.ThirdName = Person.ThirdName;
-            entity.LastName = Person.LastName;
-            entity.DateOfBirth = Person.DateOfBirth;
-            entity.Gender = (clsPersonEntity.enGender)Person.Gender;
-            entity.Address = Person.Address;
-            entity.Phone = Person.Phone;
-            entity.Email = Person.Email;
-            entity.CountryInfo = new clsCountryEntity
-            {
-                CountryID = Person.CountryInfo.CountryID,
-                CountryName = Person.CountryInfo.CountryName
-            };
-            entity.ImagePath = Person.ImagePath;
+            personEntity.PersonID = Person.PersonID;
+            personEntity.NationalNo = Person.NationalNo;
+            personEntity.FirstName = Person.FirstName;
+            personEntity.SecondName = Person.SecondName;
+            personEntity.ThirdName = Person.ThirdName;
+            personEntity.LastName = Person.LastName;
+            personEntity.DateOfBirth = Person.DateOfBirth;
+            personEntity.Gender = (clsPersonEntity.enGender)Person.Gender;
+            personEntity.Address = Person.Address;
+            personEntity.Phone = Person.Phone;
+            personEntity.Email = Person.Email;
+            personEntity.CountryID = Person.CountryInfo.CountryID;
+            personEntity.ImagePath = Person.ImagePath;
 
-            return entity;
+            return personEntity;
         }
 
     }

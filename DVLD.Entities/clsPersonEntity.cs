@@ -50,7 +50,7 @@ namespace DVLD.Entities
         public string Address { get; set; }
         public string Phone { get; set; }
         public string Email { get; set; }
-        public clsCountryEntity CountryInfo { get; set; }
+        public int CountryID { get; set; }
         public string ImagePath { get; set; }
     }
 }

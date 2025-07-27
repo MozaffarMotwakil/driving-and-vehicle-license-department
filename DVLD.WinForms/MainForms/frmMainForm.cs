@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Drawing;
+using System.Reflection;
 using System.Windows.Forms;
 using DVLD.WinForms.People;
 
@@ -11,6 +13,14 @@ namespace DVLD.WinForms.MainForms
         public frmMainForm()
         {
             InitializeComponent();
+
+            foreach (Control control in this.Controls)
+            {
+                if (control is MdiClient)
+                {
+                    control.BackColor = Color.White;
+                }
+            }
         }
         
         private void peopleToolStripMenuItem_Click(object sender, EventArgs e)
@@ -20,6 +30,8 @@ namespace DVLD.WinForms.MainForms
                 managePeopleForm = new frmManagePeople();
                 managePeopleForm.MdiParent = this;
                 managePeopleForm.Show();
+                managePeopleForm.BringToFront();
+                
             }
             else
             {

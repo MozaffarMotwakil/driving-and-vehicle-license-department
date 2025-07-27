@@ -98,7 +98,7 @@ namespace DVLD.DataAccess
 
         public static clsPersonEntity FindPersonByID(int PersonID)
         {
-            clsPersonEntity person = null;
+            clsPersonEntity personEntity = null;
 
             using (SqlConnection connection = new SqlConnection(clsDataSettings.ConnectionString))
             {
@@ -117,21 +117,21 @@ namespace DVLD.DataAccess
                     {
                         if (reader.Read())
                         {
-                            person = new clsPersonEntity();
+                            personEntity = new clsPersonEntity();
 
-                            person.PersonID = PersonID;
-                            person.NationalNo = reader["NationalNo"].ToString();
-                            person.FirstName = reader["FirstName"].ToString();
-                            person.SecondName = reader["SecondName"].ToString();
-                            person.ThirdName = (reader["ThirdName"] != DBNull.Value) ? reader["ThirdName"].ToString() : String.Empty;
-                            person.LastName = reader["LastName"].ToString();
-                            person.DateOfBirth = Convert.ToDateTime(reader["DateOfBirth"]);
-                            person.Gender = (clsPersonEntity.enGender)Convert.ToByte((reader["Gender"]));
-                            person.Address = reader["Address"].ToString();
-                            person.Phone = reader["Phone"].ToString();
-                            person.Email = (reader["Email"] != DBNull.Value) ? reader["Email"].ToString() : String.Empty;
-                            person.CountryInfo = clsCountryData.FindCountryByID(Convert.ToInt32(reader["NationalityCountryID"]));
-                            person.ImagePath = (reader["ImagePath"] != DBNull.Value) ? reader["ImagePath"].ToString() : String.Empty;
+                            personEntity.PersonID = PersonID;
+                            personEntity.NationalNo = reader["NationalNo"].ToString();
+                            personEntity.FirstName = reader["FirstName"].ToString();
+                            personEntity.SecondName = reader["SecondName"].ToString();
+                            personEntity.ThirdName = (reader["ThirdName"] != DBNull.Value) ? reader["ThirdName"].ToString() : String.Empty;
+                            personEntity.LastName = reader["LastName"].ToString();
+                            personEntity.DateOfBirth = Convert.ToDateTime(reader["DateOfBirth"]);
+                            personEntity.Gender = (clsPersonEntity.enGender)Convert.ToByte((reader["Gender"]));
+                            personEntity.Address = reader["Address"].ToString();
+                            personEntity.Phone = reader["Phone"].ToString();
+                            personEntity.Email = (reader["Email"] != DBNull.Value) ? reader["Email"].ToString() : String.Empty;
+                            personEntity.CountryID = Convert.ToInt32(reader["NationalityCountryID"]);
+                            personEntity.ImagePath = (reader["ImagePath"] != DBNull.Value) ? reader["ImagePath"].ToString() : String.Empty;
                         }
                     }
                 }
@@ -141,7 +141,7 @@ namespace DVLD.DataAccess
                 }
             }
 
-            return person;
+            return personEntity;
         }
 
         public static clsPersonEntity FindPersonByNationalNo(string NationalNo)
@@ -178,7 +178,7 @@ namespace DVLD.DataAccess
                             person.Address = reader["Address"].ToString();
                             person.Phone = reader["Phone"].ToString();
                             person.Email = (reader["Email"] != DBNull.Value) ? reader["Email"].ToString() : String.Empty;
-                            person.CountryInfo = clsCountryData.FindCountryByID(Convert.ToInt32(reader["NationalityCountryID"]));
+                            person.CountryID = Convert.ToInt32(reader["NationalityCountryID"]);
                             person.ImagePath = (reader["ImagePath"] != DBNull.Value) ? reader["ImagePath"].ToString() : String.Empty;
                         }
                     }
@@ -192,7 +192,7 @@ namespace DVLD.DataAccess
             return person;
         }
 
-        public static bool AddNewPerson(clsPersonEntity person)
+        public static bool AddNewPerson(clsPersonEntity personEntity)
         {
             using (SqlConnection connection = new SqlConnection(clsDataSettings.ConnectionString))
             {
@@ -206,32 +206,32 @@ namespace DVLD.DataAccess
                                 SELECT SCOPE_IDENTITY()"; ;
 
                 SqlCommand command = new SqlCommand(query, connection);
-                command.Parameters.AddWithValue("@NationalNo", person.NationalNo);
-                command.Parameters.AddWithValue("@FirstName", person.FirstName);
-                command.Parameters.AddWithValue("@SecondName", person.SecondName);
+                command.Parameters.AddWithValue("@NationalNo", personEntity.NationalNo);
+                command.Parameters.AddWithValue("@FirstName", personEntity.FirstName);
+                command.Parameters.AddWithValue("@SecondName", personEntity.SecondName);
 
-                if (string.IsNullOrWhiteSpace(person.ThirdName))
+                if (string.IsNullOrWhiteSpace(personEntity.ThirdName))
                     command.Parameters.AddWithValue("@ThirdName", DBNull.Value);
                 else
-                    command.Parameters.AddWithValue("@ThirdName", person.ThirdName);
+                    command.Parameters.AddWithValue("@ThirdName", personEntity.ThirdName);
 
-                command.Parameters.AddWithValue("@LastName", person.LastName);
-                command.Parameters.AddWithValue("@DateOfBirth", person.DateOfBirth);
-                command.Parameters.AddWithValue("@Gender", person.Gender);
-                command.Parameters.AddWithValue("@Address", person.Address);
-                command.Parameters.AddWithValue("@Phone", person.Phone);
+                command.Parameters.AddWithValue("@LastName", personEntity.LastName);
+                command.Parameters.AddWithValue("@DateOfBirth", personEntity.DateOfBirth);
+                command.Parameters.AddWithValue("@Gender", personEntity.Gender);
+                command.Parameters.AddWithValue("@Address", personEntity.Address);
+                command.Parameters.AddWithValue("@Phone", personEntity.Phone);
 
-                if (string.IsNullOrWhiteSpace(person.Email))
+                if (string.IsNullOrWhiteSpace(personEntity.Email))
                     command.Parameters.AddWithValue("@Email", DBNull.Value);
                 else
-                    command.Parameters.AddWithValue("@Email", person.Email);
+                    command.Parameters.AddWithValue("@Email", personEntity.Email);
 
-                command.Parameters.AddWithValue("@NationalityCountryID", person.CountryInfo.CountryID);
+                command.Parameters.AddWithValue("@NationalityCountryID", personEntity.CountryID);
 
-                if (string.IsNullOrWhiteSpace(person.ImagePath))
+                if (string.IsNullOrWhiteSpace(personEntity.ImagePath))
                     command.Parameters.AddWithValue("@ImagePath", DBNull.Value);
                 else
-                    command.Parameters.AddWithValue("@ImagePath", person.ImagePath);
+                    command.Parameters.AddWithValue("@ImagePath", personEntity.ImagePath);
 
                 try
                 {
@@ -240,7 +240,7 @@ namespace DVLD.DataAccess
 
                     if (result != null)
                     {
-                        person.PersonID = Convert.ToInt32(result);
+                        personEntity.PersonID = Convert.ToInt32(result);
                         return true;
                     }
 
@@ -276,7 +276,7 @@ namespace DVLD.DataAccess
             }
         }
 
-        public static bool UpdatePerson(clsPersonEntity person) 
+        public static bool UpdatePerson(clsPersonEntity personEntity) 
         {
             using (SqlConnection connection = new SqlConnection(clsDataSettings.ConnectionString))
             {
@@ -288,33 +288,33 @@ namespace DVLD.DataAccess
                                 WHERE PersonID = @PersonID";
 
                 SqlCommand command = new SqlCommand(query, connection);
-                command.Parameters.AddWithValue("@PersonID", person.PersonID);
-                command.Parameters.AddWithValue("@NationalNo", person.NationalNo);
-                command.Parameters.AddWithValue("@FirstName", person.FirstName);
-                command.Parameters.AddWithValue("@SecondName", person.SecondName);
+                command.Parameters.AddWithValue("@PersonID", personEntity.PersonID);
+                command.Parameters.AddWithValue("@NationalNo", personEntity.NationalNo);
+                command.Parameters.AddWithValue("@FirstName", personEntity.FirstName);
+                command.Parameters.AddWithValue("@SecondName", personEntity.SecondName);
 
-                if (string.IsNullOrWhiteSpace(person.ThirdName))
+                if (string.IsNullOrWhiteSpace(personEntity.ThirdName))
                     command.Parameters.AddWithValue("@ThirdName", DBNull.Value);
                 else
-                    command.Parameters.AddWithValue("@ThirdName", person.ThirdName);
+                    command.Parameters.AddWithValue("@ThirdName", personEntity.ThirdName);
 
-                command.Parameters.AddWithValue("@LastName", person.LastName);
-                command.Parameters.AddWithValue("@DateOfBirth", person.DateOfBirth);
-                command.Parameters.AddWithValue("@Gender", person.Gender);
-                command.Parameters.AddWithValue("@Address", person.Address);
-                command.Parameters.AddWithValue("@Phone", person.Phone);
+                command.Parameters.AddWithValue("@LastName", personEntity.LastName);
+                command.Parameters.AddWithValue("@DateOfBirth", personEntity.DateOfBirth);
+                command.Parameters.AddWithValue("@Gender", personEntity.Gender);
+                command.Parameters.AddWithValue("@Address", personEntity.Address);
+                command.Parameters.AddWithValue("@Phone", personEntity.Phone);
 
-                if (string.IsNullOrWhiteSpace(person.Email))
+                if (string.IsNullOrWhiteSpace(personEntity.Email))
                     command.Parameters.AddWithValue("@Email", DBNull.Value);
                 else
-                    command.Parameters.AddWithValue("@Email", person.Email);
+                    command.Parameters.AddWithValue("@Email", personEntity.Email);
 
-                command.Parameters.AddWithValue("@NationalityCountryID", person.CountryInfo.CountryID);
+                command.Parameters.AddWithValue("@NationalityCountryID", personEntity.CountryID);
 
-                if (string.IsNullOrWhiteSpace(person.ImagePath))
+                if (string.IsNullOrWhiteSpace(personEntity.ImagePath))
                     command.Parameters.AddWithValue("@ImagePath", DBNull.Value);
                 else
-                    command.Parameters.AddWithValue("@ImagePath", person.ImagePath);
+                    command.Parameters.AddWithValue("@ImagePath", personEntity.ImagePath);
 
                 try
                 {

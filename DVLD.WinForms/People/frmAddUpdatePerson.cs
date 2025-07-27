@@ -11,7 +11,7 @@ namespace DVLD.WinForms.People
         public bool IsSaveSuccess { get; private set; }
 
         private clsPerson _Person;
-        private clsPerson.enMode _FormMode;
+        private enMode _FormMode;
 
         public delegate void PersonBackEventHandler(clsPerson Person);
         public event PersonBackEventHandler PersonBack;
@@ -27,7 +27,7 @@ namespace DVLD.WinForms.People
             InitializeComponent();
             IsSaveSuccess = false;
             this.Text = "Add New Person";
-            _FormMode = clsPerson.enMode.AddNew;
+            _FormMode = enMode.AddNew;
             _Person = new clsPerson();
             ctrAddEditPerson.OnImageLoadFailed += CtrAddEditPerson_OnImageLoadFailed;
         }
@@ -37,7 +37,7 @@ namespace DVLD.WinForms.People
             InitializeComponent();
             IsSaveSuccess = false;
             this.Text = "Update Person";
-            _FormMode = clsPerson.enMode.Update;
+            _FormMode = enMode.Update;
             _Person = clsPerson.Find(PersonID);
             ctrAddEditPerson.OnImageLoadFailed += CtrAddEditPerson_OnImageLoadFailed;
         }
@@ -49,7 +49,7 @@ namespace DVLD.WinForms.People
 
         private void frmAddEditPerson_Load(object sender, EventArgs e)
         {
-            lblHeader.Text = (_FormMode == clsPerson.enMode.AddNew ? "Add New Person" : "Update Person");
+            lblHeader.Text = (_FormMode == enMode.AddNew ? "Add New Person" : "Update Person");
             lblPersonID.Text = (_Person.PersonID != -1 ? _Person.PersonID.ToString() : "N/A");
             ctrAddEditPerson.LoadPersonDataForEdit(_Person);
 
@@ -77,7 +77,7 @@ namespace DVLD.WinForms.People
 
                 if (_Person.Save())
                 {
-                    if (_FormMode == clsPerson.enMode.AddNew)
+                    if (_FormMode == enMode.AddNew)
                     {
                         clsMessages.ShowSuccess("The person has been added successfully.", "Add Successful");
                         _UpdateFormStateAfterSave();
@@ -183,7 +183,7 @@ namespace DVLD.WinForms.People
 
         private void _UpdateFormStateAfterSave()
         {
-            _FormMode = clsPerson.enMode.Update;
+            _FormMode = enMode.Update;
             lblHeader.Text = "Update Person";
             lblPersonID.Text = _Person.PersonID.ToString();
             ctrAddEditPerson.SetCurrentNationalNoToIgnore(_Person.NationalNo);
