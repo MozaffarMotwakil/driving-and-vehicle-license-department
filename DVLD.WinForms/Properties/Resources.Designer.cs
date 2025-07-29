@@ -83,6 +83,16 @@ namespace DVLD.WinForms.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap Add_New_User_321 {
+            get {
+                object obj = ResourceManager.GetObject("Add New User 321", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap Add_New_User_72 {
             get {
                 object obj = ResourceManager.GetObject("Add New User 72", resourceCulture);
@@ -346,6 +356,16 @@ namespace DVLD.WinForms.Properties {
         internal static System.Drawing.Bitmap Phone_321 {
             get {
                 object obj = ResourceManager.GetObject("Phone 321", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Prev_32 {
+            get {
+                object obj = ResourceManager.GetObject("Prev 32", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

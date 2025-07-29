@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
 using DVLD.WinForms.MainForms;
+using DVLD.WinForms.Users;
 
 namespace DVLD.WinForms
 {
@@ -15,6 +16,7 @@ namespace DVLD.WinForms
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new frmMainForm());
+            //Application.Run(new frmAddUpdateUser());
         }
     }
 }

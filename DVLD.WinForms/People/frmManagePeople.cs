@@ -11,6 +11,13 @@ namespace DVLD.WinForms.People
     public partial class frmManagePeople : Form
     {
         private string _FilterColumn;
+        private DataView _DataSource;
+
+        private int _RecordsCount
+        {
+            get { return int.Parse(lblRecordsCount.Text); }
+            set { lblRecordsCount.Text = value.ToString(); }
+        }
 
         public frmManagePeople()
         {
@@ -64,98 +71,44 @@ namespace DVLD.WinForms.People
         {
             cbFiltterColumn.SelectedItem = "None";
             _FilterColumn = "None";
-            _RefreshPeopleList();
+            _DataSource = clsPerson.GetAllPeople().DefaultView;
+            _RecordsCount = clsSettings.RefreshDataGridView(dgvPeopleList, _DataSource);
             _ResetPeopleListColumnWidthAndName();
             cbCountry.Items.AddRange(clsSettings.GetCountries());
         }
 
-        private void _RefreshPeopleList(object DataSource = null)
-        {
-            if (DataSource == null)
-            {
-                DataSource = clsPerson.GetAllPeople().DefaultView;
-            }
-            
-            dgvPeopleList.DataSource = DataSource;
-            lblRecordsCount.Text = dgvPeopleList.RowCount.ToString();
-        }
-
         private void txtTextForFilttering_TextChanged(object sender, EventArgs e)
         {
-            DataView peopleList = (DataView)dgvPeopleList.DataSource;
-            string text = txtTextForFilttering.Text;
-
-            // Apply different filter logic based on the selected column.
-            // 'LIKE' is used for text columns, '=' for exact ID match.
-            if (_FilterColumn != "PersonID")
-            {
-                peopleList.RowFilter = $"{_FilterColumn} LIKE '{text}%'";
-            }
-            else
-            {
-                if (!string.IsNullOrWhiteSpace(text))
-                {
-                    peopleList.RowFilter = $"{_FilterColumn} = {text}";
-                }
-                else
-                {
-                    // If ID filter is empty, show all people again.
-                    // Why: To avoid an empty list when the ID filter is cleared.
-                    _RefreshPeopleList();
-                    return;
-                }
-            }
-
-            // The DataSource is updated with the filtered DataView.
-            // Why: Filtering on the DataView directly is efficient as it works on the
-            // already loaded data, avoiding re-querying the database just for filtering.
-            _RefreshPeopleList(peopleList);
+            _RecordsCount = clsSettings.RefreshDataGridViewWithFiltter(dgvPeopleList, _DataSource, _FilterColumn, txtTextForFilttering.Text);
         }
 
         private void cbFiltterColumn_SelectedIndexChanged(object sender, EventArgs e)
         {
-            errorProvider.SetError(txtTextForFilttering, "");
             txtTextForFilttering.Text = string.Empty;
             _FilterColumn = cbFiltterColumn.Text.Replace(" ", "");
 
+            txtTextForFilttering.Visible = false;
+            cbCountry.Visible = false;
+            panelGender.Visible = false;
+
             if (_FilterColumn == "Gender")
             {
-                txtTextForFilttering.Visible = false;
                 panelGender.Location = new Point(panelGender.Location.X, 180);
                 panelGender.Visible = true;
                 rbMale.Checked = true;
                 return;
             }
-            else 
-            {
-                panelGender.Visible = false;
-                txtTextForFilttering.Visible = true;
-            }
 
             if (_FilterColumn == "Nationality")
             {
-                txtTextForFilttering.Visible = false;
                 cbCountry.Location = new Point(cbCountry.Location.X, 185);
                 cbCountry.Visible = true;
                 cbCountry.SelectedItem = "None";
                 return;
             }
-            else
-            {
-                cbCountry.Visible = false;
-                txtTextForFilttering.Visible = true;
-            }
 
-            if (_FilterColumn == "None")
-            {
-                txtTextForFilttering.Enabled = false;
-            }
-            else
-            {
-                txtTextForFilttering.Enabled = true;
-            }
-
-            // We place the cursor on the textbox to enable the user to type directly without having to use the mouse.
+            txtTextForFilttering.Visible = true;
+            txtTextForFilttering.Enabled = !(_FilterColumn == "None");
             txtTextForFilttering.Focus();
         }
 
@@ -200,7 +153,7 @@ namespace DVLD.WinForms.People
                         {
                             clsMessages.ShowSuccess($"The person with ID = {PersonID} has been deleted successfully.", "Successfully Deleted");
                             _DeletePersonImage(ImagePath);
-                            _RefreshPeopleList();
+                            _RecordsCount = clsSettings.RefreshDataGridView(dgvPeopleList, clsPerson.GetAllPeople().DefaultView);
                         }
                         else
                         {
@@ -222,12 +175,12 @@ namespace DVLD.WinForms.People
         private void btnAddNewPerson_Click(object sender, EventArgs e)
         {
             frmAddUpdatePerson addEditPersonForm = new frmAddUpdatePerson();
-            addEditPersonForm.MaximizeBox = false;
             addEditPersonForm.ShowDialog();
             
             if (addEditPersonForm.IsSaveSuccess)
             {
-                _RefreshPeopleList();
+                _DataSource = clsPerson.GetAllPeople().DefaultView;
+                _RecordsCount = clsSettings.RefreshDataGridView(dgvPeopleList, _DataSource);
             }
         }
 
@@ -267,19 +220,19 @@ namespace DVLD.WinForms.People
 
         private void rbMale_CheckedChanged(object sender, EventArgs e)
         {
-            txtTextForFilttering.Text = "Male";
+            txtTextForFilttering.Text = "M";
         }
 
         private void rbFemale_CheckedChanged(object sender, EventArgs e)
         {
-            txtTextForFilttering.Text = "Female";
+            txtTextForFilttering.Text = "F";
         }
 
         private void cbCountry_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (cbCountry.SelectedItem.ToString() == "None")
             {
-                _RefreshPeopleList();
+                _RecordsCount = clsSettings.RefreshDataGridView(dgvPeopleList, _DataSource);
             }
             else
             {
@@ -317,7 +270,8 @@ namespace DVLD.WinForms.People
             {
                 // If the data has been successfully saved, then the database has been updated,
                 // so we need to refresh the people list to reflect the latest changes.
-                _RefreshPeopleList();
+                _DataSource = clsPerson.GetAllPeople().DefaultView;
+                _RecordsCount = clsSettings.RefreshDataGridView(dgvPeopleList, _DataSource);
 
                 // If there's a filter text entered, it means the list is currently filtered
                 // (e.g., by gender, country, ID, etc.), so we reapply the filter after reloading the data.

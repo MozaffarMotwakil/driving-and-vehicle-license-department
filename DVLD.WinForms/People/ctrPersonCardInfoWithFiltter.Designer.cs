@@ -28,52 +28,55 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.pictureBox5 = new System.Windows.Forms.PictureBox();
+            this.btnFindPerson = new System.Windows.Forms.Button();
+            this.btnAddNewPerson = new System.Windows.Forms.Button();
             this.txtTextForFilttering = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.cbFiltterColumn = new System.Windows.Forms.ComboBox();
-            this.ctrPersonCardInfo1 = new DVLD.WinForms.People.ctrPersonCardInfo();
+            this.errorProvider = new System.Windows.Forms.ErrorProvider(this.components);
+            this.ctrPersonCardInfo = new DVLD.WinForms.People.ctrPersonCardInfo();
             this.groupBox1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.errorProvider)).BeginInit();
             this.SuspendLayout();
             // 
             // groupBox1
             // 
-            this.groupBox1.Controls.Add(this.pictureBox1);
-            this.groupBox1.Controls.Add(this.pictureBox5);
+            this.groupBox1.Controls.Add(this.btnFindPerson);
+            this.groupBox1.Controls.Add(this.btnAddNewPerson);
             this.groupBox1.Controls.Add(this.txtTextForFilttering);
             this.groupBox1.Controls.Add(this.label3);
             this.groupBox1.Controls.Add(this.cbFiltterColumn);
             this.groupBox1.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBox1.Location = new System.Drawing.Point(3, -1);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(778, 60);
+            this.groupBox1.Size = new System.Drawing.Size(772, 60);
             this.groupBox1.TabIndex = 1;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Filtter";
             // 
-            // pictureBox1
+            // btnFindPerson
             // 
-            this.pictureBox1.Image = global::DVLD.WinForms.Properties.Resources.AddPerson_321;
-            this.pictureBox1.Location = new System.Drawing.Point(479, 22);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(32, 32);
-            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
-            this.pictureBox1.TabIndex = 13;
-            this.pictureBox1.TabStop = false;
+            this.btnFindPerson.BackgroundImage = global::DVLD.WinForms.Properties.Resources.SearchPerson;
+            this.btnFindPerson.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
+            this.btnFindPerson.Location = new System.Drawing.Point(457, 16);
+            this.btnFindPerson.Name = "btnFindPerson";
+            this.btnFindPerson.Size = new System.Drawing.Size(42, 38);
+            this.btnFindPerson.TabIndex = 28;
+            this.btnFindPerson.UseVisualStyleBackColor = true;
+            this.btnFindPerson.Click += new System.EventHandler(this.btnFindPerson_Click);
             // 
-            // pictureBox5
+            // btnAddNewPerson
             // 
-            this.pictureBox5.Image = global::DVLD.WinForms.Properties.Resources.SearchPerson;
-            this.pictureBox5.Location = new System.Drawing.Point(443, 23);
-            this.pictureBox5.Name = "pictureBox5";
-            this.pictureBox5.Size = new System.Drawing.Size(30, 30);
-            this.pictureBox5.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
-            this.pictureBox5.TabIndex = 13;
-            this.pictureBox5.TabStop = false;
+            this.btnAddNewPerson.BackgroundImage = global::DVLD.WinForms.Properties.Resources.AddPerson_32;
+            this.btnAddNewPerson.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
+            this.btnAddNewPerson.Location = new System.Drawing.Point(504, 16);
+            this.btnAddNewPerson.Name = "btnAddNewPerson";
+            this.btnAddNewPerson.Size = new System.Drawing.Size(42, 38);
+            this.btnAddNewPerson.TabIndex = 28;
+            this.btnAddNewPerson.UseVisualStyleBackColor = true;
+            this.btnAddNewPerson.Click += new System.EventHandler(this.btnAddNewPerson_Click);
             // 
             // txtTextForFilttering
             // 
@@ -82,7 +85,8 @@
             this.txtTextForFilttering.Location = new System.Drawing.Point(225, 29);
             this.txtTextForFilttering.Name = "txtTextForFilttering";
             this.txtTextForFilttering.Size = new System.Drawing.Size(200, 23);
-            this.txtTextForFilttering.TabIndex = 27;
+            this.txtTextForFilttering.TabIndex = 0;
+            this.txtTextForFilttering.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtTextForFilttering_KeyPress);
             // 
             // label3
             // 
@@ -110,39 +114,45 @@
             this.cbFiltterColumn.Name = "cbFiltterColumn";
             this.cbFiltterColumn.Size = new System.Drawing.Size(129, 24);
             this.cbFiltterColumn.TabIndex = 25;
+            this.cbFiltterColumn.SelectedIndexChanged += new System.EventHandler(this.cbFiltterColumn_SelectedIndexChanged);
             // 
-            // ctrPersonCardInfo1
+            // errorProvider
             // 
-            this.ctrPersonCardInfo1.Location = new System.Drawing.Point(3, 57);
-            this.ctrPersonCardInfo1.Name = "ctrPersonCardInfo1";
-            this.ctrPersonCardInfo1.Size = new System.Drawing.Size(780, 277);
-            this.ctrPersonCardInfo1.SuppressImageLoadWarning = false;
-            this.ctrPersonCardInfo1.TabIndex = 0;
+            this.errorProvider.ContainerControl = this;
+            // 
+            // ctrPersonCardInfo
+            // 
+            this.ctrPersonCardInfo.Location = new System.Drawing.Point(0, 57);
+            this.ctrPersonCardInfo.Name = "ctrPersonCardInfo";
+            this.ctrPersonCardInfo.Size = new System.Drawing.Size(780, 277);
+            this.ctrPersonCardInfo.SuppressImageLoadWarning = false;
+            this.ctrPersonCardInfo.TabIndex = 0;
             // 
             // ctrPersonCardInfoWithFiltter
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.groupBox1);
-            this.Controls.Add(this.ctrPersonCardInfo1);
+            this.Controls.Add(this.ctrPersonCardInfo);
             this.Name = "ctrPersonCardInfoWithFiltter";
-            this.Size = new System.Drawing.Size(784, 342);
+            this.Size = new System.Drawing.Size(779, 342);
+            this.Load += new System.EventHandler(this.ctrPersonCardInfoWithFiltter_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.errorProvider)).EndInit();
             this.ResumeLayout(false);
 
         }
 
         #endregion
 
-        private ctrPersonCardInfo ctrPersonCardInfo1;
+        private ctrPersonCardInfo ctrPersonCardInfo;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.TextBox txtTextForFilttering;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.ComboBox cbFiltterColumn;
-        private System.Windows.Forms.PictureBox pictureBox5;
-        private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.Button btnAddNewPerson;
+        private System.Windows.Forms.Button btnFindPerson;
+        private System.Windows.Forms.ErrorProvider errorProvider;
     }
 }

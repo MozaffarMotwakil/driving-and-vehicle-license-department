@@ -1,18 +1,23 @@
 ﻿using System;
 using System.Drawing;
-using System.Reflection;
 using System.Windows.Forms;
 using DVLD.WinForms.People;
+using DVLD.WinForms.Properties;
 
 namespace DVLD.WinForms.MainForms
 {
     public partial class frmMainForm : Form
     {
-        frmManagePeople managePeopleForm;
+        enum enFormTypes { ManagePeople , ManageUsers}
+
+        private Form _ManagePeopleForm;
+        private Form _ManageUsersForm;
 
         public frmMainForm()
         {
             InitializeComponent();
+            _ManagePeopleForm = null;
+            _ManageUsersForm = null;
 
             foreach (Control control in this.Controls)
             {
@@ -22,25 +27,46 @@ namespace DVLD.WinForms.MainForms
                 }
             }
         }
-        
+
         private void peopleToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (managePeopleForm == null || managePeopleForm.IsDisposed)
+            _OpenForm(ref _ManagePeopleForm, enFormTypes.ManagePeople);
+        }
+
+        private void userToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            _OpenForm(ref _ManageUsersForm, enFormTypes.ManageUsers);
+        }
+
+        private void _OpenForm(ref Form form, enFormTypes FormType)
+        {
+            if (form == null || form.IsDisposed)
             {
-                managePeopleForm = new frmManagePeople();
-                managePeopleForm.MdiParent = this;
-                managePeopleForm.Show();
-                managePeopleForm.BringToFront();
-                
+                form = _GetFormObject(FormType);
+                form.MdiParent = this;
+                form.Show();
             }
             else
             {
-                if (managePeopleForm.WindowState == FormWindowState.Minimized)
+                if (form.WindowState == FormWindowState.Minimized)
                 {
-                    managePeopleForm.WindowState = FormWindowState.Normal;
+                    form.WindowState = FormWindowState.Normal;
                 }
 
-                managePeopleForm.Activate();
+                form.Activate();
+            }
+        }
+
+        private Form _GetFormObject(enFormTypes FormType)
+        {
+            switch (FormType)
+            {
+                case enFormTypes.ManagePeople:
+                    return new frmManagePeople();
+                case enFormTypes.ManageUsers:
+                    return new frmManageUsers();
+                default:
+                    return new Form();
             }
         }
 

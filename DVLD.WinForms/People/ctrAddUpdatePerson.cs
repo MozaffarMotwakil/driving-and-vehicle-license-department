@@ -130,40 +130,9 @@ namespace DVLD.WinForms.People
             return _IsImageChanged;
         }
 
-        /// <summary>
-        /// Validates all input fields within this UserControl.
-        /// </summary>
-        /// <remarks>
-        /// This method runs validation for all child controls using <c>ValidateChildren</c>,
-        /// then manually checks for any validation errors using a <c>foreach</c> loop.
-        ///
-        /// Unlike the standard validation flow that relies on <c>e.Cancel</c> to stop focus change
-        /// when a control is invalid, this method intentionally avoids that behavior.
-        ///
-        /// The goal behind using a <c>foreach</c> loop is to allow users to freely navigate
-        /// between fields even if some contain invalid data. Error messages will still appear
-        /// via the <c>ErrorProvider</c>, but users won't be blocked from moving around.
-        ///
-        /// This design provides a smoother user experience by postponing strict validation enforcement
-        /// until the point of saving, rather than interrupting the user's input flow.
-        ///
-        /// </remarks>
-        /// <returns>
-        /// <c>true</c> if all fields are valid (no validation errors); otherwise, <c>false</c>.
-        /// </returns>
         public bool IsDataValid()
         {
-            this.ValidateChildren();
-
-            foreach (Control control in this.Controls)
-            {
-                if (errorProvider.GetError(control) != "")
-                {
-                    return false;
-                }
-            }
-
-            return true;
+            return clsValidation.IsDataValid(this, errorProvider);
         }
 
         public void LoadPersonDataForEdit(clsPerson Person)
@@ -252,40 +221,28 @@ namespace DVLD.WinForms.People
         {
             if (string.IsNullOrEmpty(pbPersonImage.ImageLocation))
             {
-                pbPersonImage.Image = IsMale ? Resources.Male_512 : Resources.Female_512;
-            }
-        }
-
-        private void _ValidatingRequiredField(Control control, string ErrorMessage)
-        {
-            if (string.IsNullOrWhiteSpace(control.Text))
-            {
-                errorProvider.SetError(control, ErrorMessage);
-            }
-            else
-            {
-                errorProvider.SetError(control, "");
+                pbPersonImage.Image = clsSettings.GetDefaultPersonImage(IsMale);
             }
         }
 
         private void txtFirstName_Validating(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            _ValidatingRequiredField(sender as Control, "First name is required field.");
+            clsValidation.ValidatingRequiredField(sender as Control, "First name is required field.", errorProvider);
         }
 
         private void txtSecondName_Validating(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            _ValidatingRequiredField(sender as Control, "Second name is required field.");
+            clsValidation.ValidatingRequiredField(sender as Control, "Second name is required field.", errorProvider);
         }
 
         private void txtLastName_Validating(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            _ValidatingRequiredField(sender as Control, "Last name is required field.");
+            clsValidation.ValidatingRequiredField(sender as Control, "Last name is required field.", errorProvider);
         }
 
         private void txtNationalNo_Validating(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            _ValidatingRequiredField(sender as Control, "National number is required field.");
+            clsValidation.ValidatingRequiredField(sender as Control, "National number is required field.", errorProvider);
             
             if (!string.IsNullOrEmpty(NationalNo))
             {
@@ -307,7 +264,7 @@ namespace DVLD.WinForms.People
 
         private void txtPhone_Validating(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            _ValidatingRequiredField(sender as Control, "Phone number is required field.");
+            clsValidation.ValidatingRequiredField(sender as Control, "Phone number is required field.", errorProvider);
 
             if (!string.IsNullOrEmpty(Phone))
             {
@@ -341,7 +298,7 @@ namespace DVLD.WinForms.People
 
         private void txtAddress_Validating(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            _ValidatingRequiredField(sender as Control, "Address is required field.");
+            clsValidation.ValidatingRequiredField(sender as Control, "Address is required field.", errorProvider);
         }
 
     }

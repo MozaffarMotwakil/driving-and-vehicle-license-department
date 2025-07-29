@@ -8,10 +8,10 @@ namespace DVLD.WinForms.People
 {
     public partial class frmAddUpdatePerson : Form
     {
-        public bool IsSaveSuccess { get; private set; }
-
         private clsPerson _Person;
         private enMode _FormMode;
+
+        public bool IsSaveSuccess { get; private set; }
 
         public delegate void PersonBackEventHandler(clsPerson Person);
         public event PersonBackEventHandler PersonBack;
@@ -26,20 +26,20 @@ namespace DVLD.WinForms.People
         {
             InitializeComponent();
             IsSaveSuccess = false;
-            this.Text = "Add New Person";
+            this.Text = lblHeader.Text = "Add New Person";
             _FormMode = enMode.AddNew;
             _Person = new clsPerson();
-            ctrAddEditPerson.OnImageLoadFailed += CtrAddEditPerson_OnImageLoadFailed;
+            lblPersonID.Text = "N/A";
         }
        
         public frmAddUpdatePerson(int PersonID)
         {
             InitializeComponent();
             IsSaveSuccess = false;
-            this.Text = "Update Person";
+            this.Text = lblHeader.Text = "Update Person";
             _FormMode = enMode.Update;
             _Person = clsPerson.Find(PersonID);
-            ctrAddEditPerson.OnImageLoadFailed += CtrAddEditPerson_OnImageLoadFailed;
+            lblPersonID.Text = _Person.PersonID.ToString();
         }
 
         private void CtrAddEditPerson_OnImageLoadFailed()
@@ -49,8 +49,7 @@ namespace DVLD.WinForms.People
 
         private void frmAddEditPerson_Load(object sender, EventArgs e)
         {
-            lblHeader.Text = (_FormMode == enMode.AddNew ? "Add New Person" : "Update Person");
-            lblPersonID.Text = (_Person.PersonID != -1 ? _Person.PersonID.ToString() : "N/A");
+            ctrAddEditPerson.OnImageLoadFailed += CtrAddEditPerson_OnImageLoadFailed;
             ctrAddEditPerson.LoadPersonDataForEdit(_Person);
 
             // Set the national number to ignore in validation when editing an existing person
@@ -62,11 +61,11 @@ namespace DVLD.WinForms.People
         {
             if (!ctrAddEditPerson.IsDataValid())
             {
-                Utils.clsMessages.ShowError("Cannot save because not all data is valid. Please enter correct data.", "Save Failed");
+                clsMessages.ShowInvalidDataError();
                 return;
             }
 
-            if (Utils.clsMessages.Confirm("Are you sure you want save?"))
+            if (clsMessages.ConfirmSava())
             {
                 _FillPersonObjectFromUI();
 
@@ -77,26 +76,22 @@ namespace DVLD.WinForms.People
 
                 if (_Person.Save())
                 {
+                    clsMessages.ShowSuccess("Saved successfully.");
+
                     if (_FormMode == enMode.AddNew)
                     {
-                        clsMessages.ShowSuccess("The person has been added successfully.", "Add Successful");
                         _UpdateFormStateAfterSave();
                     }
-                    else
-                    {
-                        clsMessages.ShowSuccess("The person has been updated successfully.", "Update Successful");
-                    }
-
-                    IsSaveSuccess = true;
-                    PersonBack?.Invoke(_Person);
 
                     // Reset the OldImagePath property to ensure correct behavior
                     // in ctrAddEditPerson.SetOldImagePath. (See method for details)
                     ctrAddEditPerson.OldImagePath = string.Empty;
+                    IsSaveSuccess = true;
+                    PersonBack?.Invoke(_Person);
                 }
                 else
                 {
-                    clsMessages.ShowError("Failed to save the person.", "Save Failed");
+                    clsMessages.ShowError("Failed Save.");
                 }
             }
         }

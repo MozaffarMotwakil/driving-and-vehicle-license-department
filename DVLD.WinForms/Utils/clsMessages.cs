@@ -1,17 +1,29 @@
 ﻿using System.Windows.Forms;
+using DVLD.BusinessLogic;
 
 namespace DVLD.WinForms.Utils
 {
     public static class clsMessages
     {
+        public static bool ConfirmSava()
+        {
+            return Confirm("Are you sure you want save?");
+        }
+
+        public static void ShowInvalidDataError()
+        {
+            ShowError("Cannot save because not all data is valid. Please enter correct data.", "Save Failed");
+        }
+
+
         public static void ShowImageNotFoundWarning()
         {
             ShowWarning("The selected image file no longer exists. Please select a new image.", "Image Not Found");
         }
 
-        public static void ShowPersonNotFoundError()
+        public static void ShowPersonNotFoundError(bool FindByID = true)
         {
-            ShowError("Invalid ID, person not found.");
+            ShowError($"Invalid {(FindByID ? "ID" : "National Number")}, person not found.");
         }
 
         public static void ShowNotImplementedFeatureWarning()
