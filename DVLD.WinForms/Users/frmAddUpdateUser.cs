@@ -27,6 +27,24 @@ namespace DVLD.WinForms.Users
             ctrPersonCardInfoWithFiltter.PersonNotFound += CtrPersonCardInfoWithFiltter_PersonNotFound;
         }
 
+        public frmAddUpdateUser(int PersonID)
+        {
+            InitializeComponent();
+            _User = clsUser.Find(PersonID);
+            this.Text = lblHeader.Text = "Update User";
+            _FormMode = enMode.Update;
+            txtPassword.PasswordChar = txtConfirmPassword.PasswordChar = '*';
+            ctrPersonCardInfoWithFiltter.LoadPersonDataForDesplay(_User.PersonInfo);
+        }
+
+        private void frmAddUpdateUser_Load(object sender, EventArgs e)
+        {
+            if (_FormMode == enMode.Update)
+            {
+                _FillUserInfoToUI();
+            }
+        }
+
         private void CtrPersonCardInfoWithFiltter_PersonFound()
         {
             btnNext.Enabled = true;
@@ -51,21 +69,13 @@ namespace DVLD.WinForms.Users
             }
         }
 
-        public frmAddUpdateUser(int PersonID)
-        {
-            InitializeComponent();
-            _User = clsUser.Find(PersonID);
-            this.Text = lblHeader.Text = "Update User";
-            _FormMode = enMode.Update;
-        }
-
         private void txtUsername_Validating(object sender, CancelEventArgs e)
         {
             clsValidation.ValidatingRequiredField(sender as Control, "Username is required field.", errorProvider);
 
             if (!string.IsNullOrEmpty(txtUsername.Text))
             {
-                if (clsUser.IsUserExist(txtUsername.Text))
+                if (txtUsername.Text != _User.Username && clsUser.IsUserExist(txtUsername.Text))
                 {
                     errorProvider.SetError(txtUsername, "Username is already used by another one.");
                 }
@@ -78,45 +88,17 @@ namespace DVLD.WinForms.Users
 
         private void txtPassword_Validating(object sender, CancelEventArgs e)
         {
-            clsValidation.ValidatingRequiredField(sender as Control, "Password is required field.", errorProvider);
-
-            if (!string.IsNullOrEmpty(txtPassword.Text))
-            {
-                if (string.IsNullOrEmpty(txtPassword.Text) || !clsValidation.IsValidPassword(txtPassword.Text))
-                {
-                    errorProvider.SetError(txtPassword, "Password must be at least 8 characters long, contain at least 4 numbers, one uppercase letter, and one lowercase letter.");
-                }
-                else
-                {
-                    errorProvider.SetError(txtPassword, "");
-                }
-            }
+            clsValidation.ValidatingPassword(txtPassword, errorProvider);
         }
 
         private void txtConfirmPassword_Validating(object sender, CancelEventArgs e)
         {
-            clsValidation.ValidatingRequiredField(sender as Control, "Confirm password is required field.", errorProvider);
-            _CheckIsPasswordsMatch();
+            clsValidation.ValidatingConfirmPassword(txtPassword, txtConfirmPassword, errorProvider);
         }
 
         private void txtConfirmPassword_TextChanged(object sender, EventArgs e)
         {
-            _CheckIsPasswordsMatch();
-        }
-
-        private void _CheckIsPasswordsMatch()
-        {
-            if (!string.IsNullOrEmpty(txtConfirmPassword.Text))
-            {
-                if (txtConfirmPassword.Text != txtPassword.Text)
-                {
-                    errorProvider.SetError(txtConfirmPassword, "Passwords do not match.");
-                }
-                else
-                {
-                    errorProvider.SetError(txtConfirmPassword, "");
-                }
-            }
+            clsValidation.ValidatingConfirmPassword(txtPassword, txtConfirmPassword, errorProvider);
         }
 
         private void btnSave_Click(object sender, EventArgs e)
@@ -188,6 +170,15 @@ namespace DVLD.WinForms.Users
             _User.Username = txtUsername.Text;
             _User.Password = txtPassword.Text;
             _User.IsActive = cbIsActive.Checked;
+        }
+
+        private void _FillUserInfoToUI()
+        {
+            lblUserID.Text = _User.UserID.ToString();
+            txtUsername.Text = _User.Username;
+            txtPassword.Text = _User.Password;
+            txtConfirmPassword.Text = _User.Password;
+            cbIsActive.Checked = _User.IsActive;
         }
 
     }

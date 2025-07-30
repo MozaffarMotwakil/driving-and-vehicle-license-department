@@ -172,9 +172,10 @@ namespace DVLD.WinForms.People
             clsSettings.SelecteEntireRow(dgvUsersList, e);
         }
 
-        private void addNewUserToolStripMenuItem_Click(object sender, EventArgs e)
+        private void dgvUsersList_CellMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)
         {
-            btnAddNewUser.PerformClick();
+            clsSettings.SelecteEntireRow(dgvUsersList, e);
+            showDetailsToolStripMenuItem.PerformClick();
         }
 
         private void dgvUsersList_MouseDown(object sender, MouseEventArgs e)
@@ -210,5 +211,91 @@ namespace DVLD.WinForms.People
                 }
             }
         }
+
+        private void showDetailsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            frmShowUserInfo userInfo = new frmShowUserInfo(clsSettings.GetSelectedRowID(dgvUsersList));
+            userInfo.ShowDialog();
+
+            if (userInfo.IsInfoModified)
+            {
+                _DataSource = clsUser.GetAllUsers().DefaultView;
+                clsSettings.RefreshDataGridView(dgvUsersList, _DataSource);
+            }
+        }
+
+        private void addNewUserToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            btnAddNewUser.PerformClick();
+        }
+
+        private void editToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            frmAddUpdateUser updateUser = new frmAddUpdateUser(clsSettings.GetSelectedRowID(dgvUsersList));
+            updateUser.ShowDialog();
+
+            if (updateUser.IsSaveSuccess)
+            {
+                _DataSource = clsUser.GetAllUsers().DefaultView;
+                clsSettings.RefreshDataGridView(dgvUsersList, _DataSource);
+            }
+        }
+
+        private void deleteToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            int UserID = clsSettings.GetSelectedRowID(dgvUsersList);
+
+            if (clsUser.IsUserExist(UserID))
+            {
+                if (clsMessages.Confirm($"Are you sure do you want delete the user with ID = {UserID}?",
+                    "Confirm Deletion", MessageBoxIcon.Warning, MessageBoxDefaultButton.Button2))
+                {
+                    try
+                    {
+                        if (clsUser.Delete(UserID))
+                        {
+                            clsMessages.ShowSuccess("Deleted successfully.");
+                            _DataSource = clsUser.GetAllUsers().DefaultView;
+                            _RecordsCount = clsSettings.RefreshDataGridView(dgvUsersList, _DataSource);
+                        }
+                        else
+                        {
+                            clsMessages.ShowError("Failed Deleted.");
+                        }
+                    }
+                    catch (Exception)
+                    {
+                        clsMessages.ShowError("User was not deleted because it has data linked to it.", "Failed Deleted");
+                    }
+                }
+            }
+            else
+            {
+                clsMessages.ShowPersonNotFoundError();
+            }
+        }
+
+        private void ChangePasswordtoolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            frmChangePassword changePassword = new frmChangePassword(clsSettings.GetSelectedRowID(dgvUsersList));
+            changePassword.ShowDialog();
+
+            if (changePassword.IsSaveSuccess)
+            {
+                _DataSource = clsUser.GetAllUsers().DefaultView;
+                clsSettings.RefreshDataGridView(dgvUsersList, _DataSource);
+            }
+        }
+
+        private void sendEmailToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            clsMessages.ShowNotImplementedFeatureWarning();
+        }
+
+        private void sToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            clsMessages.ShowNotImplementedFeatureWarning();
+        }
+
     }
 }

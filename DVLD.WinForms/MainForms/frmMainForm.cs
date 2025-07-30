@@ -70,5 +70,9 @@ namespace DVLD.WinForms.MainForms
             }
         }
 
+        private void sginOutToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

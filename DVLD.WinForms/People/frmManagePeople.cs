@@ -129,6 +129,12 @@ namespace DVLD.WinForms.People
             clsSettings.SelecteEntireRow(dgvPeopleList, e);
         }
 
+        private void dgvPeopleList_CellMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            clsSettings.SelecteEntireRow(dgvPeopleList, e);
+            showDetailsToolStripMenuItem.PerformClick();
+        }
+
         private void dgvPeopleList_MouseDown(object sender, MouseEventArgs e)
         {
             clsSettings.DeselectCellsAndRows(dgvPeopleList, e);
@@ -161,12 +167,12 @@ namespace DVLD.WinForms.People
 
         private void deleteToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            int PersonID = Convert.ToInt32(dgvPeopleList.CurrentCell.Value);
+            int PersonID = clsSettings.GetSelectedRowID(dgvPeopleList);
 
             if (clsPerson.IsPersonExist(PersonID))
             {
-                if (clsMessages.Confirm($"Are you sure do you want delete the person with ID = {PersonID}?", "Confirm Deletion",
-                    MessageBoxIcon.Warning, MessageBoxDefaultButton.Button2))
+                if (clsMessages.Confirm($"Are you sure do you want delete the person with ID = {PersonID}?", 
+                    "Confirm Deletion", MessageBoxIcon.Warning, MessageBoxDefaultButton.Button2))
                 {
                     try
                     {
@@ -174,13 +180,14 @@ namespace DVLD.WinForms.People
 
                         if (clsPerson.Delete(PersonID))
                         {
-                            clsMessages.ShowSuccess($"The person with ID = {PersonID} has been deleted successfully.", "Successfully Deleted");
+                            clsMessages.ShowSuccess("Deleted successfully.");
                             _DeletePersonImage(ImagePath);
-                            _RecordsCount = clsSettings.RefreshDataGridView(dgvPeopleList, clsPerson.GetAllPeople().DefaultView);
+                            _DataSource = clsPerson.GetAllPeople().DefaultView;
+                            _RecordsCount = clsSettings.RefreshDataGridView(dgvPeopleList, _DataSource);
                         }
                         else
                         {
-                             clsMessages.ShowError($"Delete person with ID = {PersonID} failed.", "Failed Deleted");
+                            clsMessages.ShowError("Failed Deleted.");
                         }
                     } 
                     catch
@@ -214,14 +221,14 @@ namespace DVLD.WinForms.People
 
         private void editToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            frmAddUpdatePerson addEditPersonForm = new frmAddUpdatePerson(Convert.ToInt32(dgvPeopleList.CurrentCell.Value));
+            frmAddUpdatePerson addEditPersonForm = new frmAddUpdatePerson(clsSettings.GetSelectedRowID(dgvPeopleList));
             addEditPersonForm.ShowDialog();
             _RefreshPeopleListIfPersonModified(addEditPersonForm.IsSaveSuccess);
         }
 
         private void showDetailsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            frmShowPersonInfo personDetailsForm = new frmShowPersonInfo(Convert.ToInt32(dgvPeopleList.CurrentCell.Value));
+            frmShowPersonInfo personDetailsForm = new frmShowPersonInfo(clsSettings.GetSelectedRowID(dgvPeopleList));
             personDetailsForm.ShowDialog();
             _RefreshPeopleListIfPersonModified(personDetailsForm.IsInfoModified);
         }

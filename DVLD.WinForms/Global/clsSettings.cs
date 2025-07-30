@@ -98,7 +98,7 @@ namespace DVLD.WinForms.Global
         /// </summary>
         public static void SelecteEntireRow(DataGridView dataGridView, DataGridViewCellMouseEventArgs e)
         {
-            if (e.Button == MouseButtons.Right && e.RowIndex >= 0)
+            if ((e.Clicks == 2 || e.Button == MouseButtons.Right) && e.RowIndex >= 0)
             {
                 dataGridView.ClearSelection();
                 dataGridView.Rows[e.RowIndex].Selected = true;
@@ -122,6 +122,11 @@ namespace DVLD.WinForms.Global
                     row.Selected = false;
                 }
             }
+        }
+
+        public static int GetSelectedRowID(DataGridView dataGridView)
+        {
+            return Convert.ToInt32(dataGridView.SelectedRows[0].Cells[0].Value);
         }
 
     }

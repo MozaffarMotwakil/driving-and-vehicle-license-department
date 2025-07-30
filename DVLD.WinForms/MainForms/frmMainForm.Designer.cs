@@ -34,6 +34,10 @@
             this.driversToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.userToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.accoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.currentUserInfoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.changePasswordToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.sginOutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.msMainScreen.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -88,11 +92,49 @@
             // 
             // accoToolStripMenuItem
             // 
+            this.accoToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.currentUserInfoToolStripMenuItem,
+            this.changePasswordToolStripMenuItem,
+            this.toolStripSeparator1,
+            this.sginOutToolStripMenuItem});
             this.accoToolStripMenuItem.Image = global::DVLD.WinForms.Properties.Resources.account_settings_64;
             this.accoToolStripMenuItem.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.accoToolStripMenuItem.Name = "accoToolStripMenuItem";
             this.accoToolStripMenuItem.Size = new System.Drawing.Size(229, 68);
             this.accoToolStripMenuItem.Text = "Account Settings";
+            // 
+            // currentUserInfoToolStripMenuItem
+            // 
+            this.currentUserInfoToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.currentUserInfoToolStripMenuItem.Image = global::DVLD.WinForms.Properties.Resources.PersonDetails_321;
+            this.currentUserInfoToolStripMenuItem.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.currentUserInfoToolStripMenuItem.Name = "currentUserInfoToolStripMenuItem";
+            this.currentUserInfoToolStripMenuItem.Size = new System.Drawing.Size(221, 38);
+            this.currentUserInfoToolStripMenuItem.Text = "Current User Info";
+            // 
+            // changePasswordToolStripMenuItem
+            // 
+            this.changePasswordToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.changePasswordToolStripMenuItem.Image = global::DVLD.WinForms.Properties.Resources.Password_32;
+            this.changePasswordToolStripMenuItem.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.changePasswordToolStripMenuItem.Name = "changePasswordToolStripMenuItem";
+            this.changePasswordToolStripMenuItem.Size = new System.Drawing.Size(221, 38);
+            this.changePasswordToolStripMenuItem.Text = "Change Password";
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(218, 6);
+            // 
+            // sginOutToolStripMenuItem
+            // 
+            this.sginOutToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.sginOutToolStripMenuItem.Image = global::DVLD.WinForms.Properties.Resources.sign_out_32__2;
+            this.sginOutToolStripMenuItem.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.sginOutToolStripMenuItem.Name = "sginOutToolStripMenuItem";
+            this.sginOutToolStripMenuItem.Size = new System.Drawing.Size(221, 38);
+            this.sginOutToolStripMenuItem.Text = "Sign Out";
+            this.sginOutToolStripMenuItem.Click += new System.EventHandler(this.sginOutToolStripMenuItem_Click);
             // 
             // frmMainForm
             // 
@@ -127,6 +169,10 @@
         private System.Windows.Forms.ToolStripMenuItem driversToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem userToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem accoToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem currentUserInfoToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem changePasswordToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+        private System.Windows.Forms.ToolStripMenuItem sginOutToolStripMenuItem;
     }
 }
 

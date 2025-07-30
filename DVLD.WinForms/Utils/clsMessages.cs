@@ -23,7 +23,7 @@ namespace DVLD.WinForms.Utils
 
         public static void ShowPersonNotFoundError()
         {
-            ShowError($"Person not found, please select another person.");
+            ShowError($"Person not found.");
         }
 
         public static void ShowNotImplementedFeatureWarning()

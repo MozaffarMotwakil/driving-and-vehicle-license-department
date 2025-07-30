@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics.Eventing.Reader;
 using System.Windows.Forms;
 using DVLD.BusinessLogic;
 using DVLD.WinForms.Utils;
@@ -32,7 +31,6 @@ namespace DVLD.WinForms.People
                 PersonNotFound();
             }
         }
-
 
         public ctrPersonCardInfoWithFiltter()
         {
@@ -105,6 +103,15 @@ namespace DVLD.WinForms.People
             ctrPersonCardInfo.LoadPersonDataForDesplay(Person);
             cbFiltterColumn.SelectedIndex = 0;
             txtTextForFilttering.Text = Person.PersonID.ToString();
+        }
+
+        public void LoadPersonDataForDesplay(clsPerson Person)
+        {
+            this.Person = Person;
+            cbFiltterColumn.SelectedIndex = 0;
+            txtTextForFilttering.Text = Person.PersonID.ToString();
+            gbFiltter.Enabled = false;
+            ctrPersonCardInfo.LoadPersonDataForDesplay(Person);
         }
 
         public void ClearPersonInfo()

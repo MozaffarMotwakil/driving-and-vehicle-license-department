@@ -124,7 +124,7 @@ namespace DVLD.DataAccess
                             userEntity = new clsUserEntity();
 
                             userEntity.UserID = UserID;
-                            userEntity.PersonID = Convert.ToInt32(reader["UserID"]);
+                            userEntity.PersonID = Convert.ToInt32(reader["PersonID"]);
                             userEntity.Username = reader["Username"].ToString();
                             userEntity.Password = reader["Password"].ToString();
                             userEntity.IsActive = Convert.ToBoolean(reader["IsActive"]);
@@ -248,7 +248,7 @@ namespace DVLD.DataAccess
                 string query = @"UPDATE Users
                                 SET
 	                                PersonID = @PersonID, Username = @Username,
-                                    Password = @Password, IsAcitve = @IsAcitve,
+                                    Password = @Password, IsActive = @IsActive
                                 WHERE UserID = @UserID";
 
                 SqlCommand command = new SqlCommand(query, connection);

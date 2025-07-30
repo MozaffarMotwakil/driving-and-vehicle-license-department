@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.gbFiltter = new System.Windows.Forms.GroupBox();
             this.btnFindPerson = new System.Windows.Forms.Button();
             this.btnAddNewPerson = new System.Windows.Forms.Button();
             this.txtTextForFilttering = new System.Windows.Forms.TextBox();
@@ -37,24 +37,24 @@
             this.cbFiltterColumn = new System.Windows.Forms.ComboBox();
             this.errorProvider = new System.Windows.Forms.ErrorProvider(this.components);
             this.ctrPersonCardInfo = new DVLD.WinForms.People.ctrPersonCardInfo();
-            this.groupBox1.SuspendLayout();
+            this.gbFiltter.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider)).BeginInit();
             this.SuspendLayout();
             // 
-            // groupBox1
+            // gbFiltter
             // 
-            this.groupBox1.Controls.Add(this.btnFindPerson);
-            this.groupBox1.Controls.Add(this.btnAddNewPerson);
-            this.groupBox1.Controls.Add(this.txtTextForFilttering);
-            this.groupBox1.Controls.Add(this.label3);
-            this.groupBox1.Controls.Add(this.cbFiltterColumn);
-            this.groupBox1.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.groupBox1.Location = new System.Drawing.Point(3, -1);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(772, 60);
-            this.groupBox1.TabIndex = 1;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Filtter";
+            this.gbFiltter.Controls.Add(this.btnFindPerson);
+            this.gbFiltter.Controls.Add(this.btnAddNewPerson);
+            this.gbFiltter.Controls.Add(this.txtTextForFilttering);
+            this.gbFiltter.Controls.Add(this.label3);
+            this.gbFiltter.Controls.Add(this.cbFiltterColumn);
+            this.gbFiltter.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.gbFiltter.Location = new System.Drawing.Point(3, -1);
+            this.gbFiltter.Name = "gbFiltter";
+            this.gbFiltter.Size = new System.Drawing.Size(772, 60);
+            this.gbFiltter.TabIndex = 1;
+            this.gbFiltter.TabStop = false;
+            this.gbFiltter.Text = "Filtter";
             // 
             // btnFindPerson
             // 
@@ -132,13 +132,13 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.groupBox1);
+            this.Controls.Add(this.gbFiltter);
             this.Controls.Add(this.ctrPersonCardInfo);
             this.Name = "ctrPersonCardInfoWithFiltter";
             this.Size = new System.Drawing.Size(779, 342);
             this.Load += new System.EventHandler(this.ctrPersonCardInfoWithFiltter_Load);
-            this.groupBox1.ResumeLayout(false);
-            this.groupBox1.PerformLayout();
+            this.gbFiltter.ResumeLayout(false);
+            this.gbFiltter.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider)).EndInit();
             this.ResumeLayout(false);
 
@@ -147,7 +147,7 @@
         #endregion
 
         private ctrPersonCardInfo ctrPersonCardInfo;
-        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.GroupBox gbFiltter;
         private System.Windows.Forms.TextBox txtTextForFilttering;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.ComboBox cbFiltterColumn;

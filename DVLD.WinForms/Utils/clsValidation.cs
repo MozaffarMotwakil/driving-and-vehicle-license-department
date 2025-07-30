@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Media;
-using System.Threading;
 using System.Windows.Forms;
 
 namespace DVLD.WinForms.Utils
@@ -93,18 +92,6 @@ namespace DVLD.WinForms.Utils
                 IsTextHasUpperCaseLetter(Password) && IsTextHasNumber(Password, 4);
         }
 
-        public static void ValidatingRequiredField(Control control, string ErrorMessage, ErrorProvider errorProvider)
-        {
-            if (string.IsNullOrWhiteSpace(control.Text))
-            {
-                errorProvider.SetError(control, ErrorMessage);
-            }
-            else
-            {
-                errorProvider.SetError(control, "");
-            }
-        }
-
         /// <summary>
         /// Validates all input fields within UserControl or Form's controls.
         /// </summary>
@@ -154,6 +141,52 @@ namespace DVLD.WinForms.Utils
             }
 
             return true;
+        }
+
+        public static void ValidatingRequiredField(Control control, string ErrorMessage, ErrorProvider errorProvider)
+        {
+            if (string.IsNullOrWhiteSpace(control.Text))
+            {
+                errorProvider.SetError(control, ErrorMessage);
+            }
+            else
+            {
+                errorProvider.SetError(control, "");
+            }
+        }
+
+        public static void ValidatingPassword(Control PasswordTextBox, ErrorProvider errorProvider)
+        {
+            clsValidation.ValidatingRequiredField(PasswordTextBox, "Password is required field.", errorProvider);
+
+            if (!string.IsNullOrEmpty(PasswordTextBox.Text))
+            {
+                if (string.IsNullOrEmpty(PasswordTextBox.Text) || !clsValidation.IsValidPassword(PasswordTextBox.Text))
+                {
+                    errorProvider.SetError(PasswordTextBox, "Password must be at least 8 characters long, contain at least 4 numbers, one uppercase letter, and one lowercase letter.");
+                }
+                else
+                {
+                    errorProvider.SetError(PasswordTextBox, "");
+                }
+            }
+        }
+
+        public static void ValidatingConfirmPassword(Control PasswordTextBox, Control ConfirmPasswordTextBox, ErrorProvider errorProvider)
+        {
+            ValidatingRequiredField(ConfirmPasswordTextBox, "Confirm password is required field.", errorProvider);
+
+            if (!string.IsNullOrEmpty(ConfirmPasswordTextBox.Text))
+            {
+                if (ConfirmPasswordTextBox.Text != PasswordTextBox.Text)
+                {
+                    errorProvider.SetError(ConfirmPasswordTextBox, "Passwords do not match.");
+                }
+                else
+                {
+                    errorProvider.SetError(ConfirmPasswordTextBox, "");
+                }
+            }
         }
 
     }

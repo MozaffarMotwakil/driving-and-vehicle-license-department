@@ -352,6 +352,7 @@
             this.Name = "frmAddUpdateUser";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Add/Update User";
+            this.Load += new System.EventHandler(this.frmAddUpdateUser_Load);
             this.tabControl.ResumeLayout(false);
             this.tpPersonalInfo.ResumeLayout(false);
             this.tpLoginInfo.ResumeLayout(false);
