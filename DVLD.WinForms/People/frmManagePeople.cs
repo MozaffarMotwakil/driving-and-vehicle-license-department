@@ -124,15 +124,38 @@ namespace DVLD.WinForms.People
             }
         }
 
-        // Select the entire row where the right mouse button was pressed, and check the selected is not column.
-        // rather than selecting a single cell because the context menu is on the person, not the cell.
         private void dgvPeopleList_CellMouseDown(object sender, DataGridViewCellMouseEventArgs e)
         {
-            if (e.Button == MouseButtons.Right && e.RowIndex >= 0)
+            clsSettings.SelecteEntireRow(dgvPeopleList, e);
+        }
+
+        private void dgvPeopleList_MouseDown(object sender, MouseEventArgs e)
+        {
+            clsSettings.DeselectCellsAndRows(dgvPeopleList, e);
+            _AdjustPersonListContextMenuVisibility(e);
+        }
+
+        private void _AdjustPersonListContextMenuVisibility(MouseEventArgs e)
+        {
+            DataGridView.HitTestInfo hit = dgvPeopleList.HitTest(e.X, e.Y);
+
+            if (e.Button == MouseButtons.Right && hit.Type == DataGridViewHitTestType.None ||
+                hit.Type == DataGridViewHitTestType.ColumnHeader)
             {
-                dgvPeopleList.ClearSelection();
-                dgvPeopleList.Rows[e.RowIndex].Selected = true;
-                dgvPeopleList.CurrentCell = dgvPeopleList.SelectedRows[0].Cells[0];
+                foreach (ToolStripItem item in contextMenuStrip.Items)
+                {
+                    if (item.Text != "Add New Person")
+                    {
+                        item.Visible = false;
+                    }
+                }
+            }
+            else
+            {
+                foreach (ToolStripItem item in contextMenuStrip.Items)
+                {
+                    item.Visible = true;
+                }
             }
         }
 

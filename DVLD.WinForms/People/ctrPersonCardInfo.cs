@@ -46,26 +46,22 @@ namespace DVLD.WinForms.People
         {
             get { return lblGender.Text; }
         }
-        public bool DisableEditPersonLink 
-        {
-            set { llEditPersonInformation.Visible = !value; }
-        }
         public bool IsInfoModified { get; private set; }
 
         public ctrPersonCardInfo()
         {
             InitializeComponent();
             IsInfoModified = false;
-            DisableEditPersonLink = false;
+            llEditPersonInformation.Visible = false;
         }
 
-        public event Action OnImageLoadFailed;
+        public event Action ImageLoadFailed;
 
-        protected virtual void ImageLoadFailed()
+        protected virtual void OnImageLoadFailed()
         {
-            if (OnImageLoadFailed != null)
+            if (ImageLoadFailed != null)
             {
-                OnImageLoadFailed();
+                ImageLoadFailed();
             }
         }
 
@@ -73,12 +69,6 @@ namespace DVLD.WinForms.People
 
         private void llEditPersonInformation_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            if (lblPersonID.Text == "???")
-            {
-                clsMessages.ShowPersonNotFoundError();
-                return;
-            }
-
             frmAddUpdatePerson addEditPersonForm = new frmAddUpdatePerson(int.Parse(lblPersonID.Text));
             addEditPersonForm.PersonBack += LoadPersonDataForDesplay;
 
@@ -121,17 +111,19 @@ namespace DVLD.WinForms.People
                 }
                 else
                 {
-                    if (OnImageLoadFailed != null && !SuppressImageLoadWarning)
+                    if (ImageLoadFailed != null && !SuppressImageLoadWarning)
                     {
-                        OnImageLoadFailed();
+                        ImageLoadFailed();
                     }
                 }
             }
+
+            llEditPersonInformation.Visible = true;
         }
 
         /// <summary>
         /// Clears all displayed person data, replacing it with default placeholder values (question marks).
-        /// Resets the person image to the default male person image.
+        /// Resets the person image to the default male person image, and disable edit person link.
         /// </summary>
         public void Clear()
         {
@@ -139,6 +131,7 @@ namespace DVLD.WinForms.People
                 lblEmail.Text = lblAddress.Text = lblPhone.Text = lblCountry.Text = "???";
 
             pbPersonImage.Image = clsSettings.GetDefaultPersonImage(clsPerson.enGender.Male);
+            llEditPersonInformation.Visible = false;
         }
 
     }

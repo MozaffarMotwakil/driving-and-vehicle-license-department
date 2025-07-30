@@ -82,6 +82,7 @@
             this.dgvPeopleList.Size = new System.Drawing.Size(1160, 305);
             this.dgvPeopleList.TabIndex = 0;
             this.dgvPeopleList.CellMouseDown += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgvPeopleList_CellMouseDown);
+            this.dgvPeopleList.MouseDown += new System.Windows.Forms.MouseEventHandler(this.dgvPeopleList_MouseDown);
             // 
             // contextMenuStrip
             // 

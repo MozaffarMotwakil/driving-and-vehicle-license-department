@@ -92,5 +92,37 @@ namespace DVLD.WinForms.Global
             return dataGridView.RowCount;
         }
 
+        /// <summary>
+        /// Select the entire row where the right mouse button was pressed, and check the selected is not column.
+        /// rather than selecting a single cell because the context menu is on the person, not the cell.
+        /// </summary>
+        public static void SelecteEntireRow(DataGridView dataGridView, DataGridViewCellMouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Right && e.RowIndex >= 0)
+            {
+                dataGridView.ClearSelection();
+                dataGridView.Rows[e.RowIndex].Selected = true;
+                dataGridView.CurrentCell = dataGridView.SelectedRows[0].Cells[0];
+            }
+        }
+
+        public static void DeselectCellsAndRows(DataGridView dataGridView, MouseEventArgs e)
+        {
+            DataGridView.HitTestInfo hit = dataGridView.HitTest(e.X, e.Y);
+
+            if (e.Button == MouseButtons.Right || e.Button == MouseButtons.Left && hit.Type == DataGridViewHitTestType.None)
+            {
+                foreach (DataGridViewCell cell in dataGridView.SelectedCells)
+                {
+                    cell.Selected = false;
+                }
+
+                foreach (DataGridViewRow row in dataGridView.SelectedRows)
+                {
+                    row.Selected = false;
+                }
+            }
+        }
+
     }
 }

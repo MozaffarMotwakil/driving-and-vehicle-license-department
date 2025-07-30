@@ -13,11 +13,31 @@ namespace DVLD.WinForms.People
         /// </summary>
         public clsPerson Person { get; private set; }
 
+        public event Action PersonFound;
+
+        protected virtual void OnPersonFound()
+        {
+            if (PersonFound != null)
+            {
+                PersonFound();
+            }
+        }
+
+        public event Action PersonNotFound;
+
+        protected virtual void OnPersonNotFound()
+        {
+            if (PersonNotFound != null)
+            {
+                PersonNotFound();
+            }
+        }
+
+
         public ctrPersonCardInfoWithFiltter()
         {
             InitializeComponent();
             Person = null;
-            ctrPersonCardInfo.DisableEditPersonLink = true;
         }
 
         private void ctrPersonCardInfoWithFiltter_Load(object sender, EventArgs e)
@@ -55,13 +75,13 @@ namespace DVLD.WinForms.People
             
             if (Person != null)
             {
-                ctrPersonCardInfo.DisableEditPersonLink = false;
+                OnPersonFound();
                 ctrPersonCardInfo.LoadPersonDataForDesplay(Person);
             }
             else
             {
+                OnPersonNotFound();
                 ctrPersonCardInfo.Clear();
-                ctrPersonCardInfo.DisableEditPersonLink = true;
                 clsMessages.ShowPersonNotFoundError();
             }
 
@@ -78,11 +98,6 @@ namespace DVLD.WinForms.People
             frmAddUpdatePerson AddNewPersonForm = new frmAddUpdatePerson();
             AddNewPersonForm.PersonBack += _DisplayPersonInfo;
             AddNewPersonForm.ShowDialog();
-
-            if (AddNewPersonForm.IsSaveSuccess)
-            {
-                ctrPersonCardInfo.DisableEditPersonLink = false;
-            }
         }
 
         private void _DisplayPersonInfo(clsPerson Person)
@@ -90,6 +105,11 @@ namespace DVLD.WinForms.People
             ctrPersonCardInfo.LoadPersonDataForDesplay(Person);
             cbFiltterColumn.SelectedIndex = 0;
             txtTextForFilttering.Text = Person.PersonID.ToString();
+        }
+
+        public void ClearPersonInfo()
+        {
+            ctrPersonCardInfo.Clear();
         }
 
     }

@@ -22,8 +22,35 @@ namespace DVLD.WinForms.Users
             _User = new clsUser();
             this.Text = lblHeader.Text = "Add New User";
             _FormMode = enMode.AddNew;
+            btnNext.Enabled = btnSave.Enabled =false;
+            ctrPersonCardInfoWithFiltter.PersonFound += CtrPersonCardInfoWithFiltter_PersonFound;
+            ctrPersonCardInfoWithFiltter.PersonNotFound += CtrPersonCardInfoWithFiltter_PersonNotFound;
         }
-        
+
+        private void CtrPersonCardInfoWithFiltter_PersonFound()
+        {
+            btnNext.Enabled = true;
+        }
+
+        private void CtrPersonCardInfoWithFiltter_PersonNotFound()
+        {
+            btnNext.Enabled = btnSave.Enabled = false;
+        }
+
+        private void tabControl_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            btnSave.Enabled = (tabControl.SelectedTab == tpLoginInfo);
+        }
+
+        private void tabControl_Selecting(object sender, TabControlCancelEventArgs e)
+        {
+            if (ctrPersonCardInfoWithFiltter.Person == null && tabControl.SelectedIndex == 0)
+            {
+                e.Cancel = true;
+                clsMessages.ShowError("You must first select a person before moving on to the next step.");
+            }
+        }
+
         public frmAddUpdateUser(int PersonID)
         {
             InitializeComponent();
@@ -69,9 +96,15 @@ namespace DVLD.WinForms.Users
         private void txtConfirmPassword_Validating(object sender, CancelEventArgs e)
         {
             clsValidation.ValidatingRequiredField(sender as Control, "Confirm password is required field.", errorProvider);
+            _CheckIsPasswordsMatch();
         }
 
         private void txtConfirmPassword_TextChanged(object sender, EventArgs e)
+        {
+            _CheckIsPasswordsMatch();
+        }
+
+        private void _CheckIsPasswordsMatch()
         {
             if (!string.IsNullOrEmpty(txtConfirmPassword.Text))
             {
@@ -94,7 +127,16 @@ namespace DVLD.WinForms.Users
                 return;
             }
 
-            _FillUserObjectFromUI();
+            if (ctrPersonCardInfoWithFiltter.Person != null)
+            {
+                _FillUserObjectFromUI();
+            }
+            else
+            {
+                clsMessages.ShowPersonNotFoundError();
+                ctrPersonCardInfoWithFiltter.ClearPersonInfo();
+                return;
+            }
 
             if (clsMessages.ConfirmSava())
             {

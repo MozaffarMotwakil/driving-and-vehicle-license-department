@@ -21,9 +21,9 @@ namespace DVLD.WinForms.Utils
             ShowWarning("The selected image file no longer exists. Please select a new image.", "Image Not Found");
         }
 
-        public static void ShowPersonNotFoundError(bool FindByID = true)
+        public static void ShowPersonNotFoundError()
         {
-            ShowError($"Invalid {(FindByID ? "ID" : "National Number")}, person not found.");
+            ShowError($"Person not found, please select another person.");
         }
 
         public static void ShowNotImplementedFeatureWarning()

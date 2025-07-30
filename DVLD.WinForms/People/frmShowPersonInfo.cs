@@ -7,20 +7,18 @@ namespace DVLD.WinForms.People
 {
     public partial class frmShowPersonInfo : Form
     {
+        private clsPerson _Person;
         public bool IsInfoModified 
         {
             get { return ctrPersonInformation.IsInfoModified; }
 
         }
 
-        private clsPerson _Person;
-
         public frmShowPersonInfo(int PersonID)
         {
             InitializeComponent();
             _Person = clsPerson.Find(PersonID);
-
-            ctrPersonInformation.OnImageLoadFailed += CtrPersonInformation_OnImageLoadFailed;
+            ctrPersonInformation.ImageLoadFailed += CtrPersonInformation_OnImageLoadFailed;
         }
 
         private void CtrPersonInformation_OnImageLoadFailed()
@@ -41,11 +39,10 @@ namespace DVLD.WinForms.People
                 this.Close();
             }
 
-            ctrPersonInformation.LoadPersonDataForDesplay(_Person);
-
             // Stop showing the warning again while this form is still open.
             // This avoids showing it twice when coming back from frmAddEditPerson.
             ctrPersonInformation.SuppressImageLoadWarning = true;
+            ctrPersonInformation.LoadPersonDataForDesplay(_Person);
         }
 
     }

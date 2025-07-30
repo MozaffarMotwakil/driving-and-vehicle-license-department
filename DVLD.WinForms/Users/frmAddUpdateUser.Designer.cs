@@ -31,7 +31,6 @@
             this.components = new System.ComponentModel.Container();
             this.tabControl = new System.Windows.Forms.TabControl();
             this.tpPersonalInfo = new System.Windows.Forms.TabPage();
-            this.ctrPersonCardInfoWithFiltter = new DVLD.WinForms.People.ctrPersonCardInfoWithFiltter();
             this.btnNext = new System.Windows.Forms.Button();
             this.tpLoginInfo = new System.Windows.Forms.TabPage();
             this.btnBack = new System.Windows.Forms.Button();
@@ -53,6 +52,7 @@
             this.errorProvider = new System.Windows.Forms.ErrorProvider(this.components);
             this.btnSave = new System.Windows.Forms.Button();
             this.btnCloseScreen = new System.Windows.Forms.Button();
+            this.ctrPersonCardInfoWithFiltter = new DVLD.WinForms.People.ctrPersonCardInfoWithFiltter();
             this.tabControl.SuspendLayout();
             this.tpPersonalInfo.SuspendLayout();
             this.tpLoginInfo.SuspendLayout();
@@ -73,6 +73,8 @@
             this.tabControl.SelectedIndex = 0;
             this.tabControl.Size = new System.Drawing.Size(829, 430);
             this.tabControl.TabIndex = 0;
+            this.tabControl.SelectedIndexChanged += new System.EventHandler(this.tabControl_SelectedIndexChanged);
+            this.tabControl.Selecting += new System.Windows.Forms.TabControlCancelEventHandler(this.tabControl_Selecting);
             // 
             // tpPersonalInfo
             // 
@@ -86,13 +88,6 @@
             this.tpPersonalInfo.TabIndex = 0;
             this.tpPersonalInfo.Text = "Personal Info";
             this.tpPersonalInfo.UseVisualStyleBackColor = true;
-            // 
-            // ctrPersonCardInfoWithFiltter
-            // 
-            this.ctrPersonCardInfoWithFiltter.Location = new System.Drawing.Point(15, 15);
-            this.ctrPersonCardInfoWithFiltter.Name = "ctrPersonCardInfoWithFiltter";
-            this.ctrPersonCardInfoWithFiltter.Size = new System.Drawing.Size(788, 342);
-            this.ctrPersonCardInfoWithFiltter.TabIndex = 0;
             // 
             // btnNext
             // 
@@ -335,6 +330,13 @@
             this.btnCloseScreen.UseVisualStyleBackColor = true;
             this.btnCloseScreen.Click += new System.EventHandler(this.btnCloseScreen_Click);
             // 
+            // ctrPersonCardInfoWithFiltter
+            // 
+            this.ctrPersonCardInfoWithFiltter.Location = new System.Drawing.Point(15, 15);
+            this.ctrPersonCardInfoWithFiltter.Name = "ctrPersonCardInfoWithFiltter";
+            this.ctrPersonCardInfoWithFiltter.Size = new System.Drawing.Size(788, 342);
+            this.ctrPersonCardInfoWithFiltter.TabIndex = 0;
+            // 
             // frmAddUpdateUser
             // 
             this.AcceptButton = this.btnSave;
@@ -346,7 +348,9 @@
             this.Controls.Add(this.btnSave);
             this.Controls.Add(this.lblHeader);
             this.Controls.Add(this.tabControl);
+            this.MaximizeBox = false;
             this.Name = "frmAddUpdateUser";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Add/Update User";
             this.tabControl.ResumeLayout(false);
             this.tpPersonalInfo.ResumeLayout(false);

@@ -162,9 +162,53 @@ namespace DVLD.WinForms.People
 
             if (addUserForm.IsSaveSuccess)
             {
+                _DataSource = clsUser.GetAllUsers().DefaultView;
                 clsSettings.RefreshDataGridView(dgvUsersList, _DataSource);
             }
         }
 
+        private void dgvUsersList_CellMouseDown(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            clsSettings.SelecteEntireRow(dgvUsersList, e);
+        }
+
+        private void addNewUserToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            btnAddNewUser.PerformClick();
+        }
+
+        private void dgvUsersList_MouseDown(object sender, MouseEventArgs e)
+        {
+            clsSettings.DeselectCellsAndRows(dgvUsersList, e);
+            _AdjustUserListContextMenuVisibility(e);
+        }
+
+        // This function's logic is kept separate from the 'Persons' context menu logic
+        // (_AdjustPersonListContextMenuVisibility in frmManagePeople) to accommodate
+        // anticipated future divergence in display rules and permission-based requirements
+        // specific to users, ensuring better maintainability and extensibility.
+        private void _AdjustUserListContextMenuVisibility(MouseEventArgs e)
+        {
+            DataGridView.HitTestInfo hit = dgvUsersList.HitTest(e.X, e.Y);
+
+            if (e.Button == MouseButtons.Right && hit.Type == DataGridViewHitTestType.None ||
+                hit.Type == DataGridViewHitTestType.ColumnHeader)
+            {
+                foreach (ToolStripItem item in contextMenuStrip.Items)
+                {
+                    if (item.Text != "Add New User")
+                    {
+                        item.Visible = false;
+                    }
+                }
+            }
+            else
+            {
+                foreach (ToolStripItem item in contextMenuStrip.Items)
+                {
+                    item.Visible = true;
+                }
+            }
+        }
     }
 }
