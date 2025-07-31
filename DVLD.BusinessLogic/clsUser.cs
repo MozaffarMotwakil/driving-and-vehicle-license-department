@@ -33,6 +33,11 @@ namespace DVLD.BusinessLogic
             Mode = enMode.Update;
         }
 
+        public static bool IsPersonHasUser(int PersonID)
+        {
+            return clsUserData.IsPersonHasUser(PersonID);
+        }
+
         public static bool IsUserExist(int UserID)
         {
             return DataAccess.clsUserData.IsUserExist(UserID);

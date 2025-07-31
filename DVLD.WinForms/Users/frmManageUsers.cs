@@ -30,9 +30,9 @@ namespace DVLD.WinForms.People
             cbFiltterColumn.SelectedItem = "None";
             _FilterColumn = "None";
             _DataSource = clsUser.GetAllUsers().DefaultView;
-            _RecordsCount = clsSettings.RefreshDataGridView(dgvUsersList, _DataSource);
+            _RecordsCount = clsAppSettings.RefreshDataGridView(dgvUsersList, _DataSource);
             _ResetUsersListColumnsWidth();
-            cbCountry.Items.AddRange(clsSettings.GetCountries());
+            cbCountry.Items.AddRange(clsAppSettings.GetCountries());
         }
 
         private void _ResetUsersListColumnsWidth()
@@ -97,7 +97,7 @@ namespace DVLD.WinForms.People
 
         private void txtTextForFilttering_TextChanged(object sender, EventArgs e)
         {
-            _RecordsCount = clsSettings.RefreshDataGridViewWithFiltter(dgvUsersList, _DataSource, _FilterColumn, txtTextForFilttering.Text);
+            _RecordsCount = clsAppSettings.RefreshDataGridViewWithFilter(dgvUsersList, _DataSource, _FilterColumn, txtTextForFilttering.Text);
         }
 
         private void rbMale_CheckedChanged(object sender, EventArgs e)
@@ -163,24 +163,24 @@ namespace DVLD.WinForms.People
             if (addUserForm.IsSaveSuccess)
             {
                 _DataSource = clsUser.GetAllUsers().DefaultView;
-                clsSettings.RefreshDataGridView(dgvUsersList, _DataSource);
+                clsAppSettings.RefreshDataGridView(dgvUsersList, _DataSource);
             }
         }
 
         private void dgvUsersList_CellMouseDown(object sender, DataGridViewCellMouseEventArgs e)
         {
-            clsSettings.SelecteEntireRow(dgvUsersList, e);
+            clsAppSettings.SelectEntireRow(dgvUsersList, e);
         }
 
         private void dgvUsersList_CellMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)
         {
-            clsSettings.SelecteEntireRow(dgvUsersList, e);
+            clsAppSettings.SelectEntireRow(dgvUsersList, e);
             showDetailsToolStripMenuItem.PerformClick();
         }
 
         private void dgvUsersList_MouseDown(object sender, MouseEventArgs e)
         {
-            clsSettings.DeselectCellsAndRows(dgvUsersList, e);
+            clsAppSettings.DeselectCellsAndRows(dgvUsersList, e);
             _AdjustUserListContextMenuVisibility(e);
         }
 
@@ -214,13 +214,13 @@ namespace DVLD.WinForms.People
 
         private void showDetailsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            frmShowUserInfo userInfo = new frmShowUserInfo(clsSettings.GetSelectedRowID(dgvUsersList));
+            frmShowUserInfo userInfo = new frmShowUserInfo(clsAppSettings.GetSelectedRowID(dgvUsersList));
             userInfo.ShowDialog();
 
             if (userInfo.IsInfoModified)
             {
                 _DataSource = clsUser.GetAllUsers().DefaultView;
-                clsSettings.RefreshDataGridView(dgvUsersList, _DataSource);
+                clsAppSettings.RefreshDataGridView(dgvUsersList, _DataSource);
             }
         }
 
@@ -231,19 +231,19 @@ namespace DVLD.WinForms.People
 
         private void editToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            frmAddUpdateUser updateUser = new frmAddUpdateUser(clsSettings.GetSelectedRowID(dgvUsersList));
+            frmAddUpdateUser updateUser = new frmAddUpdateUser(clsAppSettings.GetSelectedRowID(dgvUsersList));
             updateUser.ShowDialog();
 
             if (updateUser.IsSaveSuccess)
             {
                 _DataSource = clsUser.GetAllUsers().DefaultView;
-                clsSettings.RefreshDataGridView(dgvUsersList, _DataSource);
+                clsAppSettings.RefreshDataGridView(dgvUsersList, _DataSource);
             }
         }
 
         private void deleteToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            int UserID = clsSettings.GetSelectedRowID(dgvUsersList);
+            int UserID = clsAppSettings.GetSelectedRowID(dgvUsersList);
 
             if (clsUser.IsUserExist(UserID))
             {
@@ -256,7 +256,7 @@ namespace DVLD.WinForms.People
                         {
                             clsMessages.ShowSuccess("Deleted successfully.");
                             _DataSource = clsUser.GetAllUsers().DefaultView;
-                            _RecordsCount = clsSettings.RefreshDataGridView(dgvUsersList, _DataSource);
+                            _RecordsCount = clsAppSettings.RefreshDataGridView(dgvUsersList, _DataSource);
                         }
                         else
                         {
@@ -277,13 +277,13 @@ namespace DVLD.WinForms.People
 
         private void ChangePasswordtoolStripMenuItem_Click(object sender, EventArgs e)
         {
-            frmChangePassword changePassword = new frmChangePassword(clsSettings.GetSelectedRowID(dgvUsersList));
+            frmChangePassword changePassword = new frmChangePassword(clsAppSettings.GetSelectedRowID(dgvUsersList));
             changePassword.ShowDialog();
 
             if (changePassword.IsSaveSuccess)
             {
                 _DataSource = clsUser.GetAllUsers().DefaultView;
-                clsSettings.RefreshDataGridView(dgvUsersList, _DataSource);
+                clsAppSettings.RefreshDataGridView(dgvUsersList, _DataSource);
             }
         }
 

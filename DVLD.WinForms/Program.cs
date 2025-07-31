@@ -15,8 +15,7 @@ namespace DVLD.WinForms
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new frmMainForm());
-            //Application.Run(new frmAddUpdateUser());
+            Application.Run(new frmLogin());
         }
     }
 }

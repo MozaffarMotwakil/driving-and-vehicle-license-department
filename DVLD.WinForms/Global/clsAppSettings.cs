@@ -8,9 +8,12 @@ using DVLD.WinForms.Properties;
 
 namespace DVLD.WinForms.Global
 {
-    public static class clsSettings
+    public static class clsAppSettings
     {
+        public static clsUser CurrentUser { get; set; }
+
         private static string _AppDataFolder = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
+        private static string _LoginInfoFile = Path.Combine(_AppDataFolder, "Login-Information");
 
         public static string PeopleImagesFolderPath
         {
@@ -49,13 +52,8 @@ namespace DVLD.WinForms.Global
         {
             return Gender == clsPerson.enGender.Male ? Resources.Male_512 : Resources.Female_512;
         }
-        
-        public static Image GetDefaultPersonImage(bool IsMale)
-        {
-            return IsMale ? Resources.Male_512 : Resources.Female_512;
-        }
 
-        public static int RefreshDataGridViewWithFiltter(DataGridView dataGridView, DataView DataSource, string FilterColumn, string Text)
+        public static int RefreshDataGridViewWithFilter(DataGridView dataGridView, DataView DataSource, string FilterColumn, string Text)
         {
             DataView list = (DataView)dataGridView.DataSource;
 
@@ -96,7 +94,7 @@ namespace DVLD.WinForms.Global
         /// Select the entire row where the right mouse button was pressed, and check the selected is not column.
         /// rather than selecting a single cell because the context menu is on the person, not the cell.
         /// </summary>
-        public static void SelecteEntireRow(DataGridView dataGridView, DataGridViewCellMouseEventArgs e)
+        public static void SelectEntireRow(DataGridView dataGridView, DataGridViewCellMouseEventArgs e)
         {
             if ((e.Clicks == 2 || e.Button == MouseButtons.Right) && e.RowIndex >= 0)
             {
@@ -126,7 +124,51 @@ namespace DVLD.WinForms.Global
 
         public static int GetSelectedRowID(DataGridView dataGridView)
         {
-            return Convert.ToInt32(dataGridView.SelectedRows[0].Cells[0].Value);
+            if (dataGridView.SelectedRows.Count > 0)
+            {
+                return Convert.ToInt32(dataGridView.SelectedRows[0].Cells[0].Value);
+            }
+
+            return -1;
+        }
+
+        public static void SaveLoginInformation(string Username, string Password)
+        {
+            if (!File.Exists(_LoginInfoFile))
+            {
+                File.WriteAllText(_LoginInfoFile, $"{Username}\n{Password}");
+            }
+        }
+
+        public static void DeleteLoginInformation()
+        {
+            if (File.Exists(_LoginInfoFile))
+            {
+                File.Delete(_LoginInfoFile);
+            }
+        }
+
+        public static bool IsLoginInformationExist()
+        {
+            return File.Exists(_LoginInfoFile);
+        }
+
+        public static string GetSavedUsername()
+        {
+            return File.ReadAllLines(_LoginInfoFile)[0];
+        }
+
+        public static string GetSavedPassword()
+        {
+            return File.ReadAllLines(_LoginInfoFile)[1];
+        }
+
+        public static void UpdatedLoginInformation(string Username, string Password)
+        {
+            if (File.Exists(_LoginInfoFile))
+            {
+                File.WriteAllText(_LoginInfoFile, $"{Username}\n{Password}");
+            }
         }
 
     }

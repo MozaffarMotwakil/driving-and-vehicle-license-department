@@ -101,7 +101,7 @@ namespace DVLD.WinForms.People
             lblDateOfBirth.Text = Person.DateOfBirth.Date.ToShortDateString();
             lblPhone.Text = Person.Phone.ToString();
             lblCountry.Text = Person.CountryInfo.CountryName;
-            pbPersonImage.Image = clsSettings.GetDefaultPersonImage(Person.Gender);
+            pbPersonImage.Image = clsAppSettings.GetDefaultPersonImage(Person.Gender);
 
             if (!string.IsNullOrEmpty(Person.ImagePath))
             {
@@ -130,7 +130,7 @@ namespace DVLD.WinForms.People
             lblPersonID.Text = lblNationalNumber.Text = lblGender.Text = lblDateOfBirth.Text = lblFullName.Text =
                 lblEmail.Text = lblAddress.Text = lblPhone.Text = lblCountry.Text = "???";
 
-            pbPersonImage.Image = clsSettings.GetDefaultPersonImage(clsPerson.enGender.Male);
+            pbPersonImage.Image = clsAppSettings.GetDefaultPersonImage(clsPerson.enGender.Male);
             llEditPersonInformation.Visible = false;
         }
 

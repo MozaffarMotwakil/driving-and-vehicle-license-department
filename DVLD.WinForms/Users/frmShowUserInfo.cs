@@ -16,6 +16,12 @@ namespace DVLD.WinForms.Users
             _User = clsUser.Find(UserID);
         }
 
+        public frmShowUserInfo(clsUser User)
+        {
+            InitializeComponent();
+            _User = User;
+        }
+
         private void frmShowUserInfo_Load(object sender, EventArgs e)
         {
             ctrUserCardInfo.LoadUserDataForDesplay(_User);

@@ -113,7 +113,7 @@ namespace DVLD.WinForms.People
         public ctrAddUpdatePerson()
         {
             InitializeComponent();
-            cbCountry.Items.AddRange(clsSettings.GetCountries());
+            cbCountry.Items.AddRange(clsAppSettings.GetCountries());
             OldImagePath = string.Empty;
             _CurrentNationalNo = string.Empty;
             _IsImageChanged = false;
@@ -221,7 +221,7 @@ namespace DVLD.WinForms.People
         {
             if (string.IsNullOrEmpty(pbPersonImage.ImageLocation))
             {
-                pbPersonImage.Image = clsSettings.GetDefaultPersonImage(IsMale);
+                pbPersonImage.Image = clsAppSettings.GetDefaultPersonImage((IsMale ? clsPerson.enGender.Male : clsPerson.enGender.Female));
             }
         }
 

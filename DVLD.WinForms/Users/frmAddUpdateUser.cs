@@ -62,10 +62,17 @@ namespace DVLD.WinForms.Users
 
         private void tabControl_Selecting(object sender, TabControlCancelEventArgs e)
         {
-            if (ctrPersonCardInfoWithFiltter.Person == null && tabControl.SelectedIndex == 0)
+            if (ctrPersonCardInfoWithFiltter.Person == null && tabControl.SelectedIndex != 0)
             {
                 e.Cancel = true;
                 clsMessages.ShowError("You must first select a person before moving on to the next step.");
+                return;
+            }
+
+            if (ctrPersonCardInfoWithFiltter.Person != null && clsUser.IsPersonHasUser(ctrPersonCardInfoWithFiltter.Person.PersonID))
+            {
+                e.Cancel = true;
+                clsMessages.ShowError("Selected person already has a user, choose another one.");
             }
         }
 
@@ -149,6 +156,12 @@ namespace DVLD.WinForms.Users
 
         private void btnNext_Click(object sender, EventArgs e)
         {
+            if (clsUser.IsPersonHasUser(ctrPersonCardInfoWithFiltter.Person.PersonID))
+            {
+                clsMessages.ShowError("Selected person already has a user, choose another one.");
+                return;
+            }
+
             tabControl.SelectedTab = tpLoginInfo;
         }
 

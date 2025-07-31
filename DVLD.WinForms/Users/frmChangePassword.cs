@@ -2,6 +2,7 @@
 using System.ComponentModel;
 using System.Windows.Forms;
 using DVLD.BusinessLogic;
+using DVLD.WinForms.Global;
 using DVLD.WinForms.Utils;
 
 namespace DVLD.WinForms.Users
@@ -85,6 +86,12 @@ namespace DVLD.WinForms.Users
                     clsMessages.ShowError("Failed Save.");
                 }
             }
+
+            if (clsAppSettings.IsLoginInformationExist())
+            {
+                clsAppSettings.UpdatedLoginInformation(_User.Username, _User.Password);
+            }
+
         }
 
         private void btnCloseScreen_Click(object sender, EventArgs e)

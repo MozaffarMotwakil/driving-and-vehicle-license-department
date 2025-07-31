@@ -7,6 +7,30 @@ namespace DVLD.DataAccess
 {
     public class clsUserData
     {
+        public static bool IsPersonHasUser(int PersonID)
+        {
+            using (SqlConnection connection = new SqlConnection(clsDataSettings.ConnectionString))
+            {
+                string query = 
+                    @"SELECT 1 
+                    FROM Users
+                    WHERE PersonID = @PersonID";
+
+                SqlCommand command = new SqlCommand(query, connection);
+                command.Parameters.AddWithValue("@PersonID", PersonID);
+
+                try
+                {
+                    connection.Open();
+                    return command.ExecuteScalar() != null;
+                }
+                catch (Exception ex)
+                {
+                    throw new ApplicationException($"Error: check is person has user.\n{ex.Message}", ex);
+                }
+            }
+        }
+
         public static bool IsUserExist(int UserID)
         {
             using (SqlConnection connection = new SqlConnection(clsDataSettings.ConnectionString))
@@ -164,7 +188,7 @@ namespace DVLD.DataAccess
                             userEntity = new clsUserEntity();
 
                             userEntity.UserID = Convert.ToInt32(reader["UserID"]);
-                            userEntity.PersonID = Convert.ToInt32(reader["UserID"]);
+                            userEntity.PersonID = Convert.ToInt32(reader["PersonID"]);
                             userEntity.Username = Username;
                             userEntity.Password = reader["Password"].ToString();
                             userEntity.IsActive = Convert.ToBoolean(reader["IsActive"]);

@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Drawing;
 using System.Windows.Forms;
+using DVLD.WinForms.Global;
 using DVLD.WinForms.People;
-using DVLD.WinForms.Properties;
+using DVLD.WinForms.Users;
 
 namespace DVLD.WinForms.MainForms
 {
@@ -70,9 +71,31 @@ namespace DVLD.WinForms.MainForms
             }
         }
 
+        private void currentUserInfoToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            frmShowUserInfo userInfo = new frmShowUserInfo(clsAppSettings.CurrentUser);
+            userInfo.ShowDialog();
+        }
+
+        private void changePasswordToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            frmChangePassword changePassword = new frmChangePassword(clsAppSettings.CurrentUser);
+            changePassword.ShowDialog();
+        }
+
         private void sginOutToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
+            this.Hide();
+            Application.OpenForms["frmLogin"].Show();
         }
+
+        private void frmMainForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            // Because we used frmLogin.Hide(), the login form is still running but hidden.
+            // If we don’t close it manually, it will keep running in the background even after the main form is closed.
+            // This might cause problems, like not being able to open the app again because part of it is still running.
+            Application.OpenForms["frmLogin"].Close();
+        }
+
     }
 }

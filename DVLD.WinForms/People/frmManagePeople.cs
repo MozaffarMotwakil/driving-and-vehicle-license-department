@@ -72,14 +72,14 @@ namespace DVLD.WinForms.People
             cbFiltterColumn.SelectedItem = "None";
             _FilterColumn = "None";
             _DataSource = clsPerson.GetAllPeople().DefaultView;
-            _RecordsCount = clsSettings.RefreshDataGridView(dgvPeopleList, _DataSource);
+            _RecordsCount = clsAppSettings.RefreshDataGridView(dgvPeopleList, _DataSource);
             _ResetPeopleListColumnWidthAndName();
-            cbCountry.Items.AddRange(clsSettings.GetCountries());
+            cbCountry.Items.AddRange(clsAppSettings.GetCountries());
         }
 
         private void txtTextForFilttering_TextChanged(object sender, EventArgs e)
         {
-            _RecordsCount = clsSettings.RefreshDataGridViewWithFiltter(dgvPeopleList, _DataSource, _FilterColumn, txtTextForFilttering.Text);
+            _RecordsCount = clsAppSettings.RefreshDataGridViewWithFilter(dgvPeopleList, _DataSource, _FilterColumn, txtTextForFilttering.Text);
         }
 
         private void cbFiltterColumn_SelectedIndexChanged(object sender, EventArgs e)
@@ -126,18 +126,18 @@ namespace DVLD.WinForms.People
 
         private void dgvPeopleList_CellMouseDown(object sender, DataGridViewCellMouseEventArgs e)
         {
-            clsSettings.SelecteEntireRow(dgvPeopleList, e);
+            clsAppSettings.SelectEntireRow(dgvPeopleList, e);
         }
 
         private void dgvPeopleList_CellMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)
         {
-            clsSettings.SelecteEntireRow(dgvPeopleList, e);
+            clsAppSettings.SelectEntireRow(dgvPeopleList, e);
             showDetailsToolStripMenuItem.PerformClick();
         }
 
         private void dgvPeopleList_MouseDown(object sender, MouseEventArgs e)
         {
-            clsSettings.DeselectCellsAndRows(dgvPeopleList, e);
+            clsAppSettings.DeselectCellsAndRows(dgvPeopleList, e);
             _AdjustPersonListContextMenuVisibility(e);
         }
 
@@ -167,7 +167,7 @@ namespace DVLD.WinForms.People
 
         private void deleteToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            int PersonID = clsSettings.GetSelectedRowID(dgvPeopleList);
+            int PersonID = clsAppSettings.GetSelectedRowID(dgvPeopleList);
 
             if (clsPerson.IsPersonExist(PersonID))
             {
@@ -183,7 +183,7 @@ namespace DVLD.WinForms.People
                             clsMessages.ShowSuccess("Deleted successfully.");
                             _DeletePersonImage(ImagePath);
                             _DataSource = clsPerson.GetAllPeople().DefaultView;
-                            _RecordsCount = clsSettings.RefreshDataGridView(dgvPeopleList, _DataSource);
+                            _RecordsCount = clsAppSettings.RefreshDataGridView(dgvPeopleList, _DataSource);
                         }
                         else
                         {
@@ -210,7 +210,7 @@ namespace DVLD.WinForms.People
             if (addEditPersonForm.IsSaveSuccess)
             {
                 _DataSource = clsPerson.GetAllPeople().DefaultView;
-                _RecordsCount = clsSettings.RefreshDataGridView(dgvPeopleList, _DataSource);
+                _RecordsCount = clsAppSettings.RefreshDataGridView(dgvPeopleList, _DataSource);
             }
         }
 
@@ -221,14 +221,14 @@ namespace DVLD.WinForms.People
 
         private void editToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            frmAddUpdatePerson addEditPersonForm = new frmAddUpdatePerson(clsSettings.GetSelectedRowID(dgvPeopleList));
+            frmAddUpdatePerson addEditPersonForm = new frmAddUpdatePerson(clsAppSettings.GetSelectedRowID(dgvPeopleList));
             addEditPersonForm.ShowDialog();
             _RefreshPeopleListIfPersonModified(addEditPersonForm.IsSaveSuccess);
         }
 
         private void showDetailsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            frmShowPersonInfo personDetailsForm = new frmShowPersonInfo(clsSettings.GetSelectedRowID(dgvPeopleList));
+            frmShowPersonInfo personDetailsForm = new frmShowPersonInfo(clsAppSettings.GetSelectedRowID(dgvPeopleList));
             personDetailsForm.ShowDialog();
             _RefreshPeopleListIfPersonModified(personDetailsForm.IsInfoModified);
         }
@@ -262,7 +262,7 @@ namespace DVLD.WinForms.People
         {
             if (cbCountry.SelectedItem.ToString() == "None")
             {
-                _RecordsCount = clsSettings.RefreshDataGridView(dgvPeopleList, _DataSource);
+                _RecordsCount = clsAppSettings.RefreshDataGridView(dgvPeopleList, _DataSource);
             }
             else
             {
@@ -301,7 +301,7 @@ namespace DVLD.WinForms.People
                 // If the data has been successfully saved, then the database has been updated,
                 // so we need to refresh the people list to reflect the latest changes.
                 _DataSource = clsPerson.GetAllPeople().DefaultView;
-                _RecordsCount = clsSettings.RefreshDataGridView(dgvPeopleList, _DataSource);
+                _RecordsCount = clsAppSettings.RefreshDataGridView(dgvPeopleList, _DataSource);
 
                 // If there's a filter text entered, it means the list is currently filtered
                 // (e.g., by gender, country, ID, etc.), so we reapply the filter after reloading the data.

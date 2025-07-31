@@ -127,7 +127,7 @@ namespace DVLD.WinForms.People
                 string selectedImagePath = ctrAddEditPerson.ImagePath;
 
                 // Set the new image path in the DVLD-People-Images folder (local storage)
-                string newImagePath = clsSettings.GetNewImagePathWithGUID();
+                string newImagePath = clsAppSettings.GetNewImagePathWithGUID();
 
                 try
                 {
