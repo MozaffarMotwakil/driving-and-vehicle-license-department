@@ -10,7 +10,7 @@ namespace DVLD.BusinessLogic
         public int UserID { get; set; }
         public clsPerson PersonInfo { get; set; }
         public string Username { get; set; }
-        public string Password { get; set; }
+        public string HashedPassword { get; private set; }
         public bool IsActive { get; set; }
         public enMode Mode { get; set; }
 
@@ -18,7 +18,7 @@ namespace DVLD.BusinessLogic
         {
             UserID = -1;
             PersonInfo = null;
-            Username = Password = string.Empty;
+            Username = HashedPassword = string.Empty;
             IsActive = false;
             Mode = enMode.AddNew;
         }
@@ -28,7 +28,7 @@ namespace DVLD.BusinessLogic
             UserID = UserEntity.UserID;
             PersonInfo = clsPerson.Find(UserEntity.PersonID);
             Username = UserEntity.Username;
-            Password = UserEntity.Password;
+            HashedPassword = UserEntity.HashedPassword;
             IsActive = UserEntity.IsActive;
             Mode = enMode.Update;
         }
@@ -99,10 +99,27 @@ namespace DVLD.BusinessLogic
             userEntity.UserID = User.UserID;
             userEntity.PersonID = User.PersonInfo.PersonID;
             userEntity.Username = User.Username;
-            userEntity.Password = User.Password;
+            userEntity.HashedPassword = User.HashedPassword;
             userEntity.IsActive = User.IsActive;
 
             return userEntity;
         }
+
+        public void SetPassword(string password)
+        {
+            this.HashedPassword = clsPasswordHelper.CreateHashPasswordWithSalt(password);
+        }
+
+        public bool ChangePassword(string newPassword)
+        {
+            this.HashedPassword = clsPasswordHelper.CreateHashPasswordWithSalt(newPassword);
+            return this.Save();
+        }
+
+        public bool VerifyPassword(string enteredPassword)
+        {
+            return clsPasswordHelper.VerifyPassword(enteredPassword, this.HashedPassword);
+        }
+
     }
 }
