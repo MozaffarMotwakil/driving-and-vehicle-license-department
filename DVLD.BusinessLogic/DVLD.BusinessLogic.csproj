@@ -41,6 +41,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="clsAppSettings.cs" />
+    <Compile Include="clsValidationHelper.cs" />
+    <Compile Include="clsPasswordHelper.cs" />
     <Compile Include="clsUser.cs" />
     <Compile Include="clsCountry.cs" />
     <Compile Include="clsPerson.cs" />

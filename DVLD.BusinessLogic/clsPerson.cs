@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Data;
+using System.IO;
 using DVLD.DataAccess;
 using DVLD.Entities;
+using DVLD.WinForms.Global;
 
 namespace DVLD.BusinessLogic
 {
@@ -100,7 +102,31 @@ namespace DVLD.BusinessLogic
 
         public static bool Delete(int PersonID)
         {
+            clsPerson person = Find(PersonID);
+
+            if (person != null)
+            {
+                person.DeleteImage();
+            }
+
             return DataAccess.clsPersonData.DeletePerson(PersonID);
+        }
+
+        public void DeleteImage()
+        {
+            if (File.Exists(this.ImagePath))
+            {
+                File.Delete(this.ImagePath);
+            }
+
+            this.ImagePath = string.Empty;
+        }
+
+        public void SaveImage(string SourceIamgePath)
+        {
+            this.DeleteImage();
+            this.ImagePath = clsAppSettings.GetNewImagePathWithGUID();
+            File.Copy(SourceIamgePath, this.ImagePath);
         }
 
         public bool Save()

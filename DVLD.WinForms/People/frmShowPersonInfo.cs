@@ -8,6 +8,7 @@ namespace DVLD.WinForms.People
     public partial class frmShowPersonInfo : Form
     {
         private clsPerson _Person;
+
         public bool IsInfoModified 
         {
             get { return ctrPersonInformation.IsInfoModified; }
@@ -23,26 +24,27 @@ namespace DVLD.WinForms.People
 
         private void CtrPersonInformation_OnImageLoadFailed()
         {
-             clsMessages.ShowImageNotFoundWarning();
-        }
-
-        private void btnCloseScreen_Click(object sender, EventArgs e)
-        {
-            this.Close();
+             clsFormMessages.ShowImageNotFoundWarning();
         }
 
         private void frmPersonDetails_Load(object sender, EventArgs e)
         {
             if (_Person == null)
             {
-                clsMessages.ShowPersonNotFoundError();
+                clsFormMessages.ShowPersonNotFoundError();
                 this.Close();
+                return;
             }
 
             // Stop showing the warning again while this form is still open.
             // This avoids showing it twice when coming back from frmAddEditPerson.
             ctrPersonInformation.SuppressImageLoadWarning = true;
             ctrPersonInformation.LoadPersonDataForDesplay(_Person);
+        }
+
+        private void btnCloseScreen_Click(object sender, EventArgs e)
+        {
+            this.Close();
         }
 
     }

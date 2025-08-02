@@ -1,10 +1,10 @@
-﻿using System;
-using System.Media;
+﻿using System.Media;
 using System.Windows.Forms;
+using DVLD.BusinessLogic;
 
 namespace DVLD.WinForms.Utils
 {
-    public static class clsValidation
+    public static class clsFormValidation
     {
         public static void HandleNumericKeyPress(KeyPressEventArgs e, Control targetControl, ErrorProvider errorProvider,
             string errorMessage = "Cannot enter letters or special symbols, only numbers.")
@@ -19,77 +19,6 @@ namespace DVLD.WinForms.Utils
             {
                 errorProvider.SetError(targetControl, "");
             }
-        }
-
-        public static bool IsValidPhone(string PhoneNumber)
-        {
-            for (int i = 0; i < PhoneNumber.Length; i++)
-            {
-                if (!char.IsDigit(PhoneNumber[i]))
-                {
-                    return false;
-                }
-            }
-
-            return true;
-        }
-
-        public static bool IsValidEmail(string Email)
-        {
-            return Email.EndsWith("@gmail.com");
-        }
-
-        private static bool IsTextHasLowerCaseLetter(string Text)
-        {
-            for (int i = 0; i < Text.Length; i++)
-            {
-                if (char.IsLower(Text[i]))
-                {
-                    return true;
-                }
-            }
-
-            return false;
-        }
-
-        private static bool IsTextHasUpperCaseLetter(string Text)
-        {
-            for (int i = 0; i < Text.Length; i++)
-            {
-                if (char.IsUpper(Text[i]))
-                {
-                    return true;
-                }
-            }
-
-            return false;
-        }
-
-        private static bool IsTextHasNumber(string Text, int DigitsCount = 1)
-        {
-            if (DigitsCount < 1)
-            {
-                DigitsCount = 1;
-            }
-            
-            for (int i = 0; i < Text.Length; i++)
-            {
-                if (char.IsDigit(Text[i]))
-                {
-                    if (--DigitsCount == 0)
-                    {
-                        return true;
-                    }
-                }
-            }
-
-            return false;
-        }
-
-        public static bool IsValidPassword(string Password)
-        {
-            return Password.Length >= 8 && IsTextHasLowerCaseLetter(Password) &&
-                IsTextHasUpperCaseLetter(Password) && IsTextHasNumber(Password, 4);
         }
 
         /// <summary>
@@ -157,11 +86,9 @@ namespace DVLD.WinForms.Utils
 
         public static void ValidatingPassword(Control PasswordTextBox, ErrorProvider errorProvider)
         {
-            clsValidation.ValidatingRequiredField(PasswordTextBox, "Password is required field.", errorProvider);
-
             if (!string.IsNullOrEmpty(PasswordTextBox.Text))
             {
-                if (string.IsNullOrEmpty(PasswordTextBox.Text) || !clsValidation.IsValidPassword(PasswordTextBox.Text))
+                if (string.IsNullOrEmpty(PasswordTextBox.Text) || !clsValidationHelper.IsValidPassword(PasswordTextBox.Text))
                 {
                     errorProvider.SetError(PasswordTextBox, "Password must be at least 8 characters long, contain at least 4 numbers, one uppercase letter, and one lowercase letter.");
                 }
@@ -174,18 +101,13 @@ namespace DVLD.WinForms.Utils
 
         public static void ValidatingConfirmPassword(Control PasswordTextBox, Control ConfirmPasswordTextBox, ErrorProvider errorProvider)
         {
-            ValidatingRequiredField(ConfirmPasswordTextBox, "Confirm password is required field.", errorProvider);
-
-            if (!string.IsNullOrEmpty(ConfirmPasswordTextBox.Text))
+            if (ConfirmPasswordTextBox.Text != PasswordTextBox.Text)
             {
-                if (ConfirmPasswordTextBox.Text != PasswordTextBox.Text)
-                {
-                    errorProvider.SetError(ConfirmPasswordTextBox, "Passwords do not match.");
-                }
-                else
-                {
-                    errorProvider.SetError(ConfirmPasswordTextBox, "");
-                }
+                errorProvider.SetError(ConfirmPasswordTextBox, "Passwords is not match.");
+            }
+            else
+            {
+                errorProvider.SetError(ConfirmPasswordTextBox, "");
             }
         }
 

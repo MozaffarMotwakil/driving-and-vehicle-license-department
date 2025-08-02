@@ -46,7 +46,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Global\clsAppSettings.cs" />
+    <Compile Include="Utils\clsLoginManager .cs" />
+    <Compile Include="Utils\clsFormHelper.cs" />
     <Compile Include="MainForms\frmLogin.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -132,9 +133,8 @@
     <Compile Include="Users\ctrUserCardInfo.Designer.cs">
       <DependentUpon>ctrUserCardInfo.cs</DependentUpon>
     </Compile>
-    <Compile Include="Utils\clsFileManager.cs" />
-    <Compile Include="Utils\clsValidation.cs" />
-    <Compile Include="Utils\clsMessages.cs" />
+    <Compile Include="Utils\clsFormValidation.cs" />
+    <Compile Include="Utils\clsFormMessages.cs" />
     <EmbeddedResource Include="MainForms\frmLogin.resx">
       <DependentUpon>frmLogin.cs</DependentUpon>
     </EmbeddedResource>
@@ -324,5 +324,9 @@
   <ItemGroup>
     <None Include="Resources\closeBlack32.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\iconmonstr-eye-lined-24.png" />
+  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -22,9 +22,216 @@ namespace DVLD.WinForms.People
         public frmManagePeople()
         {
             InitializeComponent();
+            cbFiltterColumn.SelectedItem = "None";
+            _FilterColumn = "None";
+            _DataSource = clsPerson.GetAllPeople().DefaultView;
+            _RecordsCount = clsFormHelper.RefreshDataGridView(dgvPeopleList, _DataSource);
         }
-        
-        private void _ResetPeopleListColumnWidthAndName()
+
+        private void frmManagePeople_Load(object sender, EventArgs e)
+        {
+            _ResetPeopleListColumnsWidthAndName();
+            cbCountry.Items.AddRange(clsAppSettings.GetCountries());
+        }
+
+        private void txtTextForFilttering_TextChanged(object sender, EventArgs e)
+        {
+            _RecordsCount = clsFormHelper.RefreshDataGridViewWithFilter(dgvPeopleList, _DataSource, _FilterColumn, txtTextForFilttering.Text);
+        }
+
+        private void cbFiltterColumn_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            _UpdateFilterControlVisibility();
+        }
+
+        private void txtTextForFilttering_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (_FilterColumn == "PersonID")
+            {
+                clsFormValidation.HandleNumericKeyPress(e, txtTextForFilttering, errorProvider);
+            }
+            else
+            {
+                errorProvider.SetError(txtTextForFilttering, "");
+            }
+        }
+
+        private void rbMale_CheckedChanged(object sender, EventArgs e)
+        {
+            txtTextForFilttering.Text = "M";
+        }
+
+        private void rbFemale_CheckedChanged(object sender, EventArgs e)
+        {
+            txtTextForFilttering.Text = "F";
+        }
+
+        private void cbCountry_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (cbCountry.SelectedItem.ToString() == "None")
+            {
+                _RecordsCount = clsFormHelper.RefreshDataGridView(dgvPeopleList, _DataSource);
+            }
+            else
+            {
+                txtTextForFilttering.Text = cbCountry.SelectedItem.ToString();
+            }
+        }
+
+        private void dgvPeopleList_CellMouseDown(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            clsFormHelper.SelectEntireRow(dgvPeopleList, e);
+            contextMenuStrip.Items["addNewPersonToolStripMenuItem"].Visible = false;
+        }
+
+        private void dgvPeopleList_CellMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            clsFormHelper.SelectEntireRow(dgvPeopleList, e);
+            showDetailsToolStripMenuItem.PerformClick();
+        }
+
+        private void dgvPeopleList_MouseDown(object sender, MouseEventArgs e)
+        {
+            clsFormHelper.DeselectCellsAndRows(dgvPeopleList, e);
+            _AdjustPersonListContextMenuVisibility(e);
+        }
+
+        private void deleteToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            int PersonID = clsFormHelper.GetSelectedRowID(dgvPeopleList);
+
+            if (clsFormMessages.Confirm($"Are you sure do you want delete the person with ID = {PersonID}?", 
+                "Confirm Deletion", MessageBoxIcon.Warning, MessageBoxDefaultButton.Button2))
+            {
+                try
+                {
+                    if (clsPerson.Delete(PersonID))
+                    {
+                        clsFormMessages.ShowSuccess("Deleted successfully.");
+                        _RefreshPeopleList();
+                    }
+                    else
+                    {
+                        clsFormMessages.ShowPersonNotFoundError();
+                    }
+                } 
+                catch
+                {
+                        clsFormMessages.ShowError("Person was not deleted because it has data linked to it.", "Failed Deleted");
+                }
+            }
+        }
+
+        private void btnAddNewPerson_Click(object sender, EventArgs e)
+        {
+            frmAddUpdatePerson addEditPersonForm = new frmAddUpdatePerson();
+            addEditPersonForm.ShowDialog();
+            
+            if (addEditPersonForm.IsSaveSuccess)
+            {
+                _RefreshPeopleList();
+            }
+        }
+
+        private void btnCloseScreen_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
+        private void addNewPersonToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            btnAddNewPerson.PerformClick();
+        }
+
+        private void editToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            frmAddUpdatePerson EditPersonForm = new frmAddUpdatePerson(clsFormHelper.GetSelectedRowID(dgvPeopleList));
+            EditPersonForm.ShowDialog();
+
+            if (EditPersonForm.IsSaveSuccess)
+            {
+                _RefreshPeopleList();
+                clsFormHelper.ReapplyAndHighlightFilterText(txtTextForFilttering);
+            }
+        }
+
+        private void showDetailsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            frmShowPersonInfo personDetailsForm = new frmShowPersonInfo(clsFormHelper.GetSelectedRowID(dgvPeopleList));
+            personDetailsForm.ShowDialog();
+
+            if (personDetailsForm.IsInfoModified)
+            {
+                _RefreshPeopleList();
+                clsFormHelper.ReapplyAndHighlightFilterText(txtTextForFilttering);
+            }
+        }
+
+        private void sendEmailToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            clsFormMessages.ShowNotImplementedFeatureWarning();
+        }
+
+        private void sToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            clsFormMessages.ShowNotImplementedFeatureWarning();
+        }
+
+        private void _AdjustPersonListContextMenuVisibility(MouseEventArgs e)
+        {
+            DataGridView.HitTestInfo hit = dgvPeopleList.HitTest(e.X, e.Y);
+
+            if (e.Button == MouseButtons.Right && hit.Type == DataGridViewHitTestType.None ||
+                hit.Type == DataGridViewHitTestType.ColumnHeader)
+            {
+                foreach (ToolStripItem item in contextMenuStrip.Items)
+                {
+                    contextMenuStrip.Items["addNewPersonToolStripMenuItem"].Visible = true;
+
+                    if (item.Text != "Add New Person")
+                    {
+                        item.Visible = false;
+                    }
+                }
+            }
+            else
+            {
+                foreach (ToolStripItem item in contextMenuStrip.Items)
+                {
+                    item.Visible = true;
+                }
+            }
+        }
+
+        private void _UpdateFilterControlVisibility()
+        {
+            txtTextForFilttering.Text = string.Empty;
+            _FilterColumn = cbFiltterColumn.Text.Replace(" ", "");
+
+            txtTextForFilttering.Visible = cbCountry.Visible =
+                panelGender.Visible = false;
+
+            switch (_FilterColumn)
+            {
+                case "Gender":
+                    panelGender.Location = new Point(panelGender.Location.X, 180);
+                    panelGender.Visible = true;
+                    rbMale.Checked = true;
+                    break;
+                case "Nationality":
+                    cbCountry.Location = new Point(cbCountry.Location.X, 185);
+                    cbCountry.Visible = true;
+                    cbCountry.SelectedItem = "None";
+                    break;
+                default:
+                    txtTextForFilttering.Visible = true;
+                    txtTextForFilttering.Enabled = !(_FilterColumn == "None");
+                    txtTextForFilttering.Focus();
+                    break;
+            }
+        }
+
+        private void _ResetPeopleListColumnsWidthAndName()
         {
             if (dgvPeopleList.Rows.Count > 0)
             {
@@ -67,262 +274,10 @@ namespace DVLD.WinForms.People
 
         }
 
-        private void frmManagePeople_Load(object sender, EventArgs e)
+        private void _RefreshPeopleList()
         {
-            cbFiltterColumn.SelectedItem = "None";
-            _FilterColumn = "None";
             _DataSource = clsPerson.GetAllPeople().DefaultView;
-            _RecordsCount = clsAppSettings.RefreshDataGridView(dgvPeopleList, _DataSource);
-            _ResetPeopleListColumnWidthAndName();
-            cbCountry.Items.AddRange(clsAppSettings.GetCountries());
-        }
-
-        private void txtTextForFilttering_TextChanged(object sender, EventArgs e)
-        {
-            _RecordsCount = clsAppSettings.RefreshDataGridViewWithFilter(dgvPeopleList, _DataSource, _FilterColumn, txtTextForFilttering.Text);
-        }
-
-        private void cbFiltterColumn_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            txtTextForFilttering.Text = string.Empty;
-            _FilterColumn = cbFiltterColumn.Text.Replace(" ", "");
-
-            txtTextForFilttering.Visible = false;
-            cbCountry.Visible = false;
-            panelGender.Visible = false;
-
-            if (_FilterColumn == "Gender")
-            {
-                panelGender.Location = new Point(panelGender.Location.X, 180);
-                panelGender.Visible = true;
-                rbMale.Checked = true;
-                return;
-            }
-
-            if (_FilterColumn == "Nationality")
-            {
-                cbCountry.Location = new Point(cbCountry.Location.X, 185);
-                cbCountry.Visible = true;
-                cbCountry.SelectedItem = "None";
-                return;
-            }
-
-            txtTextForFilttering.Visible = true;
-            txtTextForFilttering.Enabled = !(_FilterColumn == "None");
-            txtTextForFilttering.Focus();
-        }
-
-        private void txtTextForFilttering_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            if (_FilterColumn == "PersonID")
-            {
-                clsValidation.HandleNumericKeyPress(e, txtTextForFilttering, errorProvider);
-            }
-            else
-            {
-                errorProvider.SetError(txtTextForFilttering, "");
-            }
-        }
-
-        private void dgvPeopleList_CellMouseDown(object sender, DataGridViewCellMouseEventArgs e)
-        {
-            clsAppSettings.SelectEntireRow(dgvPeopleList, e);
-        }
-
-        private void dgvPeopleList_CellMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)
-        {
-            clsAppSettings.SelectEntireRow(dgvPeopleList, e);
-            showDetailsToolStripMenuItem.PerformClick();
-        }
-
-        private void dgvPeopleList_MouseDown(object sender, MouseEventArgs e)
-        {
-            clsAppSettings.DeselectCellsAndRows(dgvPeopleList, e);
-            _AdjustPersonListContextMenuVisibility(e);
-        }
-
-        private void _AdjustPersonListContextMenuVisibility(MouseEventArgs e)
-        {
-            DataGridView.HitTestInfo hit = dgvPeopleList.HitTest(e.X, e.Y);
-
-            if (e.Button == MouseButtons.Right && hit.Type == DataGridViewHitTestType.None ||
-                hit.Type == DataGridViewHitTestType.ColumnHeader)
-            {
-                foreach (ToolStripItem item in contextMenuStrip.Items)
-                {
-                    if (item.Text != "Add New Person")
-                    {
-                        item.Visible = false;
-                    }
-                }
-            }
-            else
-            {
-                foreach (ToolStripItem item in contextMenuStrip.Items)
-                {
-                    item.Visible = true;
-                }
-            }
-        }
-
-        private void deleteToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            int PersonID = clsAppSettings.GetSelectedRowID(dgvPeopleList);
-
-            if (clsPerson.IsPersonExist(PersonID))
-            {
-                if (clsMessages.Confirm($"Are you sure do you want delete the person with ID = {PersonID}?", 
-                    "Confirm Deletion", MessageBoxIcon.Warning, MessageBoxDefaultButton.Button2))
-                {
-                    try
-                    {
-                        string ImagePath = clsPerson.Find(PersonID).ImagePath;
-
-                        if (clsPerson.Delete(PersonID))
-                        {
-                            clsMessages.ShowSuccess("Deleted successfully.");
-                            _DeletePersonImage(ImagePath);
-                            _DataSource = clsPerson.GetAllPeople().DefaultView;
-                            _RecordsCount = clsAppSettings.RefreshDataGridView(dgvPeopleList, _DataSource);
-                        }
-                        else
-                        {
-                            clsMessages.ShowError("Failed Deleted.");
-                        }
-                    } 
-                    catch
-                    {
-                         clsMessages.ShowError("Person was not deleted because it has data linked to it.", "Failed Deleted");
-                    }
-                }
-            }
-            else
-            {
-                clsMessages.ShowPersonNotFoundError();
-            }
-        }
-
-        private void btnAddNewPerson_Click(object sender, EventArgs e)
-        {
-            frmAddUpdatePerson addEditPersonForm = new frmAddUpdatePerson();
-            addEditPersonForm.ShowDialog();
-            
-            if (addEditPersonForm.IsSaveSuccess)
-            {
-                _DataSource = clsPerson.GetAllPeople().DefaultView;
-                _RecordsCount = clsAppSettings.RefreshDataGridView(dgvPeopleList, _DataSource);
-            }
-        }
-
-        private void addNewPersonToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            btnAddNewPerson.PerformClick();
-        }
-
-        private void editToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            frmAddUpdatePerson addEditPersonForm = new frmAddUpdatePerson(clsAppSettings.GetSelectedRowID(dgvPeopleList));
-            addEditPersonForm.ShowDialog();
-            _RefreshPeopleListIfPersonModified(addEditPersonForm.IsSaveSuccess);
-        }
-
-        private void showDetailsToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            frmShowPersonInfo personDetailsForm = new frmShowPersonInfo(clsAppSettings.GetSelectedRowID(dgvPeopleList));
-            personDetailsForm.ShowDialog();
-            _RefreshPeopleListIfPersonModified(personDetailsForm.IsInfoModified);
-        }
-
-        private void sendEmailToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            clsMessages.ShowNotImplementedFeatureWarning();
-        }
-
-        private void sToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            clsMessages.ShowNotImplementedFeatureWarning();
-        }
-
-        private void btnCloseScreen_Click(object sender, EventArgs e)
-        {
-            this.Close();
-        }
-
-        private void rbMale_CheckedChanged(object sender, EventArgs e)
-        {
-            txtTextForFilttering.Text = "M";
-        }
-
-        private void rbFemale_CheckedChanged(object sender, EventArgs e)
-        {
-            txtTextForFilttering.Text = "F";
-        }
-
-        private void cbCountry_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            if (cbCountry.SelectedItem.ToString() == "None")
-            {
-                _RecordsCount = clsAppSettings.RefreshDataGridView(dgvPeopleList, _DataSource);
-            }
-            else
-            {
-                txtTextForFilttering.Text = cbCountry.SelectedItem.ToString();
-            }
-        }
-
-        private void _DeletePersonImage(string ImagePath)
-        {
-            if (!string.IsNullOrEmpty(ImagePath))
-            {
-                try
-                {
-                    clsFileManager.DeletePersonImageFromLocalFolder(ImagePath);
-                }
-                catch (Exception ex)
-                {
-                    clsMessages.ShowFailedDeleteThePersonImage(ex);
-                }
-            }
-        }
-
-        /// <summary>
-        /// Updates the people list only if the person's data has been modified (e.g., after editing or viewing details).
-        /// This ensures the UI stays in sync with the database.
-        /// Also, if a filter text is applied, the list is refreshed based on the same filter to maintain the user experience.
-        /// </summary>
-        /// <param name="isPersonModified">
-        /// A flag indicating whether the person data has been modified.
-        /// If true, the list will be refreshed accordingly.
-        /// </param>
-        private void _RefreshPeopleListIfPersonModified(bool isPersonModified)
-        {
-            if (isPersonModified)
-            {
-                // If the data has been successfully saved, then the database has been updated,
-                // so we need to refresh the people list to reflect the latest changes.
-                _DataSource = clsPerson.GetAllPeople().DefaultView;
-                _RecordsCount = clsAppSettings.RefreshDataGridView(dgvPeopleList, _DataSource);
-
-                // If there's a filter text entered, it means the list is currently filtered
-                // (e.g., by gender, country, ID, etc.), so we reapply the filter after reloading the data.
-                if (!string.IsNullOrEmpty(txtTextForFilttering.Text))
-                {
-                    // To reapply the filter, we clear the textbox then reassign the original text.
-                    // This will trigger txtTextForFilttering_TextChanged event.
-                    // Don't worry — this method is optimized not to fetch data from the database again
-                    // when assigning an empty string. It simply re-filters the existing list in memory.
-                    string temp = txtTextForFilttering.Text;
-                    txtTextForFilttering.Text = string.Empty;
-                    txtTextForFilttering.Text = temp;
-
-                    //The purpose of highlighting text is to provide a seamless user experience
-                    //so that when someone has finished querying, we highlight the text
-                    //so that they can delete it by simply typing over it, such as deleting,
-                    //or if they want to press the arrows to move and edit it.
-                    txtTextForFilttering.SelectionStart = 0;
-                    txtTextForFilttering.SelectionLength = txtTextForFilttering.TextLength;
-                }
-            }
+            _RecordsCount = clsFormHelper.RefreshDataGridView(dgvPeopleList, _DataSource);
         }
 
     }

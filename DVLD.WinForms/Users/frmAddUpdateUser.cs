@@ -2,6 +2,7 @@
 using System.ComponentModel;
 using System.Windows.Forms;
 using DVLD.BusinessLogic;
+using DVLD.WinForms.Global;
 using DVLD.WinForms.Utils;
 
 namespace DVLD.WinForms.Users
@@ -33,16 +34,26 @@ namespace DVLD.WinForms.Users
             _User = clsUser.Find(PersonID);
             this.Text = lblHeader.Text = "Update User";
             _FormMode = enMode.Update;
-            txtPassword.PasswordChar = txtConfirmPassword.PasswordChar = '*';
             ctrPersonCardInfoWithFiltter.LoadPersonDataForDesplay(_User.PersonInfo);
         }
 
         private void frmAddUpdateUser_Load(object sender, EventArgs e)
         {
+            pcShowPassword.Tag = txtPassword;
+            pbShowConfirmPassword.Tag = txtConfirmPassword;
+
             if (_FormMode == enMode.Update)
             {
+                if (_User == null)
+                {
+                    clsFormMessages.ShowUserNotFoundError();
+                    this.Close();
+                    return;
+                }
+
                 _FillUserInfoToUI();
             }
+            
         }
 
         private void CtrPersonCardInfoWithFiltter_PersonFound()
@@ -62,23 +73,22 @@ namespace DVLD.WinForms.Users
 
         private void tabControl_Selecting(object sender, TabControlCancelEventArgs e)
         {
-            if (ctrPersonCardInfoWithFiltter.Person == null && tabControl.SelectedIndex != 0)
+            if (ctrPersonCardInfoWithFiltter.Person == null)
             {
                 e.Cancel = true;
-                clsMessages.ShowError("You must first select a person before moving on to the next step.");
+                clsFormMessages.ShowError("You must first select a person before moving on to the next step.");
                 return;
             }
 
-            if (ctrPersonCardInfoWithFiltter.Person != null && clsUser.IsPersonHasUser(ctrPersonCardInfoWithFiltter.Person.PersonID))
+            if (tabControl.SelectedIndex == 1)
             {
-                e.Cancel = true;
-                clsMessages.ShowError("Selected person already has a user, choose another one.");
+                btnNext.PerformClick();
             }
         }
 
         private void txtUsername_Validating(object sender, CancelEventArgs e)
         {
-            clsValidation.ValidatingRequiredField(sender as Control, "Username is required field.", errorProvider);
+            clsFormValidation.ValidatingRequiredField(sender as Control, "Username is required field.", errorProvider);
 
             if (!string.IsNullOrEmpty(txtUsername.Text))
             {
@@ -95,24 +105,34 @@ namespace DVLD.WinForms.Users
 
         private void txtPassword_Validating(object sender, CancelEventArgs e)
         {
-            clsValidation.ValidatingPassword(txtPassword, errorProvider);
+            if (_FormMode == enMode.AddNew)
+            {
+                clsFormValidation.ValidatingRequiredField(txtPassword, "Password is required field.", errorProvider);
+            }
+
+            clsFormValidation.ValidatingPassword(txtPassword, errorProvider);
         }
 
         private void txtConfirmPassword_Validating(object sender, CancelEventArgs e)
         {
-            clsValidation.ValidatingConfirmPassword(txtPassword, txtConfirmPassword, errorProvider);
+            if (_FormMode == enMode.AddNew)
+            {
+                clsFormValidation.ValidatingRequiredField(txtConfirmPassword, "Confirm password is required field.", errorProvider);
+            }
+
+            clsFormValidation.ValidatingConfirmPassword(txtPassword, txtConfirmPassword, errorProvider);
         }
 
         private void txtConfirmPassword_TextChanged(object sender, EventArgs e)
         {
-            clsValidation.ValidatingConfirmPassword(txtPassword, txtConfirmPassword, errorProvider);
+            clsFormValidation.ValidatingConfirmPassword(txtPassword, txtConfirmPassword, errorProvider);
         }
 
         private void btnSave_Click(object sender, EventArgs e)
         {
-            if (!clsValidation.IsDataValid(this, tpLoginInfo.Controls, errorProvider))
+            if (!clsFormValidation.IsDataValid(this, tpLoginInfo.Controls, errorProvider))
             {
-                clsMessages.ShowInvalidDataError();
+                clsFormMessages.ShowInvalidDataError();
                 return;
             }
 
@@ -122,16 +142,16 @@ namespace DVLD.WinForms.Users
             }
             else
             {
-                clsMessages.ShowPersonNotFoundError();
+                clsFormMessages.ShowPersonNotFoundError();
                 ctrPersonCardInfoWithFiltter.ClearPersonInfo();
                 return;
             }
 
-            if (clsMessages.ConfirmSava())
+            if (clsFormMessages.ConfirmSava())
             {
                 if (_User.Save())
                 {
-                    clsMessages.ShowSuccess("Saved successfully.");
+                    clsFormMessages.ShowSuccess("Saved successfully.");
 
                     if (_FormMode == enMode.AddNew)
                     {
@@ -143,7 +163,7 @@ namespace DVLD.WinForms.Users
                 }
                 else
                 {
-                    clsMessages.ShowError("Failed Save.");
+                    clsFormMessages.ShowError("Failed Save.");
                 }
             }
 
@@ -156,9 +176,9 @@ namespace DVLD.WinForms.Users
 
         private void btnNext_Click(object sender, EventArgs e)
         {
-            if (clsUser.IsPersonHasUser(ctrPersonCardInfoWithFiltter.Person.PersonID))
+            if (clsUser.IsPersonHasUser(ctrPersonCardInfoWithFiltter.Person.PersonID) && _FormMode == enMode.AddNew)
             {
-                clsMessages.ShowError("Selected person already has a user, choose another one.");
+                clsFormMessages.ShowError("Selected person already has a user, choose another one.");
                 return;
             }
 
@@ -181,7 +201,12 @@ namespace DVLD.WinForms.Users
         {
             _User.PersonInfo = ctrPersonCardInfoWithFiltter.Person;
             _User.Username = txtUsername.Text;
-            _User.Password = txtPassword.Text;
+
+            if (!string.IsNullOrEmpty(txtPassword.Text))
+            {
+                _User.SetPassword(txtPassword.Text);
+            }
+
             _User.IsActive = cbIsActive.Checked;
         }
 
@@ -189,9 +214,35 @@ namespace DVLD.WinForms.Users
         {
             lblUserID.Text = _User.UserID.ToString();
             txtUsername.Text = _User.Username;
-            txtPassword.Text = _User.Password;
-            txtConfirmPassword.Text = _User.Password;
             cbIsActive.Checked = _User.IsActive;
+        }
+
+        private void cbShowPasswords_CheckedChanged(object sender, EventArgs e)
+        {
+            clsFormHelper.SetPasswordsVisibility(
+                new TextBox[2] {txtPassword, txtConfirmPassword},
+                cbShowPasswords.Checked
+                );
+        }
+
+        private void pcShowPassword_MouseDown(object sender, MouseEventArgs e)
+        {
+            clsFormHelper.ShowPassword(sender, e);
+        }
+
+        private void pcShowPassword_MouseUp(object sender, MouseEventArgs e)
+        {
+            clsFormHelper.HidePassword(sender, e);
+        }
+
+        private void pbShowConfirmPassword_MouseDown(object sender, MouseEventArgs e)
+        {
+            clsFormHelper.ShowPassword(sender, e);
+        }
+
+        private void pbShowConfirmPassword_MouseUp(object sender, MouseEventArgs e)
+        {
+            clsFormHelper.HidePassword(sender, e);
         }
 
     }

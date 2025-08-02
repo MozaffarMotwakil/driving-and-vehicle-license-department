@@ -132,7 +132,7 @@ namespace DVLD.WinForms.People
 
         public bool IsDataValid()
         {
-            return clsValidation.IsDataValid(this, errorProvider);
+            return clsFormValidation.IsDataValid(this, errorProvider);
         }
 
         public void LoadPersonDataForEdit(clsPerson Person)
@@ -175,22 +175,6 @@ namespace DVLD.WinForms.People
             llRemoveImage.Visible = false;
         }
 
-        private void _SetOldImageDetails()
-        {
-            // Mark the current image path as the old one only if OldImagePath is still empty.
-            // This ensures we keep the original path of the first image changed in the session,
-            // preventing overwriting it if the user sets multiple images before saving.
-            // This helps track and delete the old image later if it is no longer used.
-            if (!string.IsNullOrEmpty(ImagePath) && string.IsNullOrEmpty(OldImagePath))
-            {
-                _IsImageChanged = true;
-                OldImagePath = ImagePath;
-            }
-
-            pbPersonImage.Image = null;
-            pbPersonImage.ImageLocation = string.Empty;
-        }
-
         private void llSetImage_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             OpenFileDialog openSetNewImage = new OpenFileDialog();
@@ -203,7 +187,6 @@ namespace DVLD.WinForms.People
             if (openSetNewImage.ShowDialog() == DialogResult.OK)
             {
                 _SetOldImageDetails();
-
                 pbPersonImage.ImageLocation = openSetNewImage.FileName;
                 llRemoveImage.Visible = true;
             }
@@ -212,37 +195,28 @@ namespace DVLD.WinForms.People
         private void llRemoveImage_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             _SetOldImageDetails();
-
             pbPersonImage.Image = IsMale ? Resources.Male_512 : Resources.Female_512;
             llRemoveImage.Visible = false;
         }
 
-        private void _SetGenderImage(object sender, EventArgs e)
-        {
-            if (string.IsNullOrEmpty(pbPersonImage.ImageLocation))
-            {
-                pbPersonImage.Image = clsAppSettings.GetDefaultPersonImage((IsMale ? clsPerson.enGender.Male : clsPerson.enGender.Female));
-            }
-        }
-
         private void txtFirstName_Validating(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            clsValidation.ValidatingRequiredField(sender as Control, "First name is required field.", errorProvider);
+            clsFormValidation.ValidatingRequiredField(sender as Control, "First name is required field.", errorProvider);
         }
 
         private void txtSecondName_Validating(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            clsValidation.ValidatingRequiredField(sender as Control, "Second name is required field.", errorProvider);
+            clsFormValidation.ValidatingRequiredField(sender as Control, "Second name is required field.", errorProvider);
         }
 
         private void txtLastName_Validating(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            clsValidation.ValidatingRequiredField(sender as Control, "Last name is required field.", errorProvider);
+            clsFormValidation.ValidatingRequiredField(sender as Control, "Last name is required field.", errorProvider);
         }
 
         private void txtNationalNo_Validating(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            clsValidation.ValidatingRequiredField(sender as Control, "National number is required field.", errorProvider);
+            clsFormValidation.ValidatingRequiredField(sender as Control, "National number is required field.", errorProvider);
             
             if (!string.IsNullOrEmpty(NationalNo))
             {
@@ -264,11 +238,11 @@ namespace DVLD.WinForms.People
 
         private void txtPhone_Validating(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            clsValidation.ValidatingRequiredField(sender as Control, "Phone number is required field.", errorProvider);
+            clsFormValidation.ValidatingRequiredField(sender as Control, "Phone number is required field.", errorProvider);
 
             if (!string.IsNullOrEmpty(Phone))
             {
-                if (!clsValidation.IsValidPhone(Phone) || Phone.Length != 10)
+                if (!clsValidationHelper.IsValidPhone(Phone) || Phone.Length != 10)
                 {
                     errorProvider.SetError(txtPhone, "Phone number must consist of 10 numbers only.");
                 }
@@ -281,12 +255,12 @@ namespace DVLD.WinForms.People
 
         private void txtPhone_KeyPress(object sender, KeyPressEventArgs e)
         {
-            clsValidation.HandleNumericKeyPress(e, txtPhone, errorProvider);
+            clsFormValidation.HandleNumericKeyPress(e, txtPhone, errorProvider);
         }
 
         private void txtEmail_Validating(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            if (!string.IsNullOrEmpty(Email) && !clsValidation.IsValidEmail(Email))
+            if (!string.IsNullOrEmpty(Email) && !clsValidationHelper.IsValidEmail(Email))
             {
                 errorProvider.SetError(txtEmail, "Email must end with @gmail.com");
             }
@@ -298,7 +272,31 @@ namespace DVLD.WinForms.People
 
         private void txtAddress_Validating(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            clsValidation.ValidatingRequiredField(sender as Control, "Address is required field.", errorProvider);
+            clsFormValidation.ValidatingRequiredField(sender as Control, "Address is required field.", errorProvider);
+        }
+
+        private void _SetGenderImage(object sender, EventArgs e)
+        {
+            if (string.IsNullOrEmpty(pbPersonImage.ImageLocation))
+            {
+                pbPersonImage.Image = clsFormHelper.GetDefaultPersonImage((IsMale ? clsPerson.enGender.Male : clsPerson.enGender.Female));
+            }
+        }
+
+        private void _SetOldImageDetails()
+        {
+            // Mark the current image path as the old one only if OldImagePath is still empty.
+            // This ensures we keep the original path of the first image changed in the session,
+            // preventing overwriting it if the user sets multiple images before saving.
+            // This helps track and delete the old image later if it is no longer used.
+            if (!string.IsNullOrEmpty(ImagePath) && string.IsNullOrEmpty(OldImagePath))
+            {
+                _IsImageChanged = true;
+                OldImagePath = ImagePath;
+            }
+
+            pbPersonImage.Image = null;
+            pbPersonImage.ImageLocation = string.Empty;
         }
 
     }

@@ -47,7 +47,7 @@ namespace DVLD.WinForms.People
         {
             if (cbFiltterColumn.SelectedIndex == 0)
             {
-                clsValidation.HandleNumericKeyPress(e, txtTextForFilttering, errorProvider);
+                clsFormValidation.HandleNumericKeyPress(e, txtTextForFilttering, errorProvider);
             }
             else
             {
@@ -80,7 +80,7 @@ namespace DVLD.WinForms.People
             {
                 OnPersonNotFound();
                 ctrPersonCardInfo.Clear();
-                clsMessages.ShowPersonNotFoundError();
+                clsFormMessages.ShowPersonNotFoundError();
             }
 
         }

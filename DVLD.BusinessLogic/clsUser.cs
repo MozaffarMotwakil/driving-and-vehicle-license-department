@@ -1,7 +1,7 @@
-﻿using System;
-using System.Data;
+﻿using System.Data;
 using DVLD.DataAccess;
 using DVLD.Entities;
+using DVLD.WinForms.Utils;
 
 namespace DVLD.BusinessLogic
 {

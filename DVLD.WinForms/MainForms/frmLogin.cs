@@ -15,19 +15,21 @@ namespace DVLD.WinForms.MainForms
 
         private void frmLogin_Load(object sender, EventArgs e)
         {
-            if (clsAppSettings.IsLoginInformationExist())
+            if (clsLoginManager.IsLoginInformationExist())
             {
-                txtUsername.Text = clsAppSettings.GetSavedUsername();
-                txtPassword.Text = clsAppSettings.GetSavedPassword();
+                txtUsername.Text = clsLoginManager.GetSavedUsername();
+                txtPassword.Text = clsLoginManager.GetSavedPassword();
                 cbRememberMe.Checked = true;
             }
+
+            pcShowPassword.Tag = txtPassword;
         }
 
         private void btnLogin_Click(object sender, EventArgs e)
         {
-            if (!clsValidation.IsDataValid(this, this.Controls, errorProvider))
+            if (!clsFormValidation.IsDataValid(this, this.Controls, errorProvider))
             {
-                clsMessages.ShowInvalidDataError();
+                clsFormMessages.ShowInvalidDataError();
                 return;
             }
 
@@ -35,19 +37,19 @@ namespace DVLD.WinForms.MainForms
             
             if (user == null)
             {
-                clsMessages.ShowError("Invalid Username.");
+                clsFormMessages.ShowError("Invalid Username.");
                 return;
             }
 
-            if (txtPassword.Text != user.Password)
+            if (!user.VerifyPassword(txtPassword.Text))
             {
-                clsMessages.ShowError("Password is incorrect.");
+                clsFormMessages.ShowError("Password is incorrect.");
                 return;
             }
 
             if (!user.IsActive)
             {
-                clsMessages.ShowError("Your account is deactivated. Please contact your administrator.");
+                clsFormMessages.ShowError("Your account is deactivated. Please contact your administrator.");
                 return;
             }
 
@@ -64,17 +66,12 @@ namespace DVLD.WinForms.MainForms
 
         private void txtUsername_Validating(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            clsValidation.ValidatingRequiredField(txtUsername, "Username must be entered.", errorProvider);
+            clsFormValidation.ValidatingRequiredField(txtUsername, "Username must be entered.", errorProvider);
         }
 
         private void txtPassword_Validating(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            clsValidation.ValidatingRequiredField(txtPassword, "Password must be entered.", errorProvider);
-        }
-
-        private void cbShowPassword_CheckedChanged(object sender, EventArgs e)
-        {
-            txtPassword.UseSystemPasswordChar = !cbShowPassword.Checked;
+            clsFormValidation.ValidatingRequiredField(txtPassword, "Password must be entered.", errorProvider);
         }
 
         private void frmLogin_VisibleChanged(object sender, EventArgs e)
@@ -87,14 +84,24 @@ namespace DVLD.WinForms.MainForms
 
             if (cbRememberMe.Checked)
             {
-                clsAppSettings.SaveLoginInformation(clsAppSettings.CurrentUser.Username, clsAppSettings.CurrentUser.Password);
+                clsLoginManager.SaveLoginInformation(txtUsername.Text, txtPassword.Text);
             }
             else
             {
-                clsAppSettings.DeleteLoginInformation();
+                clsLoginManager.DeleteLoginInformation();
                 txtUsername.Text = string.Empty;
                 txtPassword.Text = string.Empty;
             }
+        }
+
+        private void pcShowPassword_MouseDown(object sender, MouseEventArgs e)
+        {
+            clsFormHelper.ShowPassword(sender, e);
+        }
+
+        private void pcShowPassword_MouseUp(object sender, MouseEventArgs e)
+        {
+            clsFormHelper.HidePassword(sender, e);
         }
     }
 }

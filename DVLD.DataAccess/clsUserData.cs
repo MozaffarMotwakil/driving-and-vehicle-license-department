@@ -150,7 +150,7 @@ namespace DVLD.DataAccess
                             userEntity.UserID = UserID;
                             userEntity.PersonID = Convert.ToInt32(reader["PersonID"]);
                             userEntity.Username = reader["Username"].ToString();
-                            userEntity.Password = reader["Password"].ToString();
+                            userEntity.HashedPassword = reader["Password"].ToString();
                             userEntity.IsActive = Convert.ToBoolean(reader["IsActive"]);
                         }
                     }
@@ -190,7 +190,7 @@ namespace DVLD.DataAccess
                             userEntity.UserID = Convert.ToInt32(reader["UserID"]);
                             userEntity.PersonID = Convert.ToInt32(reader["PersonID"]);
                             userEntity.Username = Username;
-                            userEntity.Password = reader["Password"].ToString();
+                            userEntity.HashedPassword = reader["Password"].ToString();
                             userEntity.IsActive = Convert.ToBoolean(reader["IsActive"]);
                         }
                     }
@@ -219,7 +219,7 @@ namespace DVLD.DataAccess
                 SqlCommand command = new SqlCommand(query, connection);
                 command.Parameters.AddWithValue("@PersonID", UserEntity.PersonID);
                 command.Parameters.AddWithValue("@Username", UserEntity.Username);
-                command.Parameters.AddWithValue("@Password", UserEntity.Password);
+                command.Parameters.AddWithValue("@Password", UserEntity.HashedPassword);
                 command.Parameters.AddWithValue("@IsActive", UserEntity.IsActive);
 
                 try
@@ -279,7 +279,7 @@ namespace DVLD.DataAccess
                 command.Parameters.AddWithValue("@UserID", UserEntity.UserID);
                 command.Parameters.AddWithValue("@PersonID", UserEntity.PersonID);
                 command.Parameters.AddWithValue("@Username", UserEntity.Username);
-                command.Parameters.AddWithValue("@Password", UserEntity.Password);
+                command.Parameters.AddWithValue("@Password", UserEntity.HashedPassword);
                 command.Parameters.AddWithValue("@IsActive", UserEntity.IsActive);
 
                 try
