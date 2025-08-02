@@ -1,9 +1,8 @@
 ﻿using System.Windows.Forms;
-using DVLD.BusinessLogic;
 
 namespace DVLD.WinForms.Utils
 {
-    public static class clsMessages
+    public static class clsFormMessages
     {
         public static bool ConfirmSava()
         {
@@ -21,9 +20,14 @@ namespace DVLD.WinForms.Utils
             ShowWarning("The selected image file no longer exists. Please select a new image.", "Image Not Found");
         }
 
+        public static void ShowUserNotFoundError()
+        {
+            ShowError("User not found.");
+        }
+
         public static void ShowPersonNotFoundError()
         {
-            ShowError($"Person not found.");
+            ShowError("Person not found.");
         }
 
         public static void ShowNotImplementedFeatureWarning()

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
 using DVLD.BusinessLogic;
+using DVLD.WinForms.Utils;
 
 namespace DVLD.WinForms.Users
 {
@@ -24,6 +25,13 @@ namespace DVLD.WinForms.Users
 
         private void frmShowUserInfo_Load(object sender, EventArgs e)
         {
+            if (_User == null)
+            {
+                clsFormMessages.ShowUserNotFoundError();
+                this.Close();
+                return;
+            }
+
             ctrUserCardInfo.LoadUserDataForDesplay(_User);
         }
 
@@ -31,5 +39,6 @@ namespace DVLD.WinForms.Users
         {
             this.Close();
         }
+
     }
 }

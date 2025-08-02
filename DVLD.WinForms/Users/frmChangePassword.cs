@@ -29,16 +29,26 @@ namespace DVLD.WinForms.Users
 
         private void frmChangePassword_Load(object sender, EventArgs e)
         {
+            if (_User == null)
+            {
+                clsFormMessages.ShowUserNotFoundError();
+                this.Close();
+                return;
+            }
+
             ctrUserCardInfo.LoadUserDataForDesplay(_User);
+            pcShowCurrentPassword.Tag = txtCurrentPassword;
+            pcShowNewPassword.Tag = txtNewPassword;
+            pcShowConfirmPassword.Tag = txtConfirmPassword;
         }
 
         private void txtCurrentPassword_Validating(object sender, CancelEventArgs e)
         {
-            clsValidation.ValidatingRequiredField(txtCurrentPassword, "You must enter the current password.", errorProvider);
+            clsFormValidation.ValidatingRequiredField(txtCurrentPassword, "You must enter the current password.", errorProvider);
 
             if (!string.IsNullOrEmpty(txtCurrentPassword.Text))
             {
-                if (txtCurrentPassword.Text != _User.Password)
+                if (!_User.VerifyPassword(txtCurrentPassword.Text))
                 {
                     errorProvider.SetError(txtCurrentPassword, "Password is wrong.");
                 }
@@ -51,45 +61,46 @@ namespace DVLD.WinForms.Users
 
         private void txtNewPassword_Validating(object sender, CancelEventArgs e)
         {
-            clsValidation.ValidatingPassword(txtNewPassword, errorProvider);
+            clsFormValidation.ValidatingRequiredField(txtNewPassword, "Confirm password is required field.", errorProvider);
+            clsFormValidation.ValidatingPassword(txtNewPassword, errorProvider);
         }
 
         private void txtConfirmPassword_Validating(object sender, CancelEventArgs e)
         {
-            clsValidation.ValidatingConfirmPassword(txtNewPassword, txtConfirmPassword, errorProvider);
+            clsFormValidation.ValidatingRequiredField(txtConfirmPassword, "Confirm password is required field.", errorProvider);
+            clsFormValidation.ValidatingConfirmPassword(txtNewPassword, txtConfirmPassword, errorProvider);
         }
 
         private void txtConfirmPassword_TextChanged(object sender, EventArgs e)
         {
-            clsValidation.ValidatingConfirmPassword(txtNewPassword, txtConfirmPassword, errorProvider);
+            clsFormValidation.ValidatingConfirmPassword(txtNewPassword, txtConfirmPassword, errorProvider);
         }
 
         private void btnSave_Click(object sender, EventArgs e)
         {
-            if (!clsValidation.IsDataValid(this, this.Controls, errorProvider))
+            if (!clsFormValidation.IsDataValid(this, this.Controls, errorProvider))
             {
-                clsMessages.ShowInvalidDataError();
+                clsFormMessages.ShowInvalidDataError();
                 return;
             }
 
-            _User.Password = txtNewPassword.Text;
-
-            if (clsMessages.ConfirmSava())
+            if (clsFormMessages.ConfirmSava())
             {
-                if (_User.Save())
+                if (_User.ChangePassword(txtNewPassword.Text))
                 {
-                    clsMessages.ShowSuccess("Password has been successfully changed.");
+                    clsFormMessages.ShowSuccess("Password has been successfully changed.");
                     IsSaveSuccess = true;
+
+                    if (clsLoginManager.IsLoginInformationExist())
+                    {
+                        clsLoginManager.UpdatedLoginInformation(_User.Username, txtNewPassword.Text);
+                    }
+
                 }
                 else
                 {
-                    clsMessages.ShowError("Failed Save.");
+                    clsFormMessages.ShowError("Failed Save.");
                 }
-            }
-
-            if (clsAppSettings.IsLoginInformationExist())
-            {
-                clsAppSettings.UpdatedLoginInformation(_User.Username, _User.Password);
             }
 
         }
@@ -97,6 +108,44 @@ namespace DVLD.WinForms.Users
         private void btnCloseScreen_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        private void cbShowPasswords_CheckedChanged(object sender, EventArgs e)
+        {
+            clsFormHelper.SetPasswordsVisibility(
+                new TextBox[3] { txtCurrentPassword, txtNewPassword, txtConfirmPassword }, 
+                cbShowPasswords.Checked
+                );
+        }
+
+        private void pcShowCurrentPassword_MouseDown(object sender, MouseEventArgs e)
+        {
+            clsFormHelper.ShowPassword(sender, e);
+        }
+
+        private void pcShowCurrentPassword_MouseUp(object sender, MouseEventArgs e)
+        {
+            clsFormHelper.HidePassword(sender, e);
+        }
+
+        private void pcShowNewPassword_MouseDown(object sender, MouseEventArgs e)
+        {
+            clsFormHelper.ShowPassword(sender, e);
+        }
+
+        private void pcShowNewPassword_MouseUp(object sender, MouseEventArgs e)
+        {
+            clsFormHelper.HidePassword(sender, e);
+        }
+
+        private void pcShowConfirmPassword_MouseDown(object sender, MouseEventArgs e)
+        {
+            clsFormHelper.ShowPassword(sender, e);
+        }
+
+        private void pcShowConfirmPassword_MouseUp(object sender, MouseEventArgs e)
+        {
+            clsFormHelper.HidePassword(sender, e);
         }
 
     }

@@ -12,8 +12,8 @@ namespace DVLD.WinForms.People
     public partial class frmManageUsers : Form
     {
         private string _FilterColumn;
-
         private DataView _DataSource;
+
         private int _RecordsCount
         {
             get { return int.Parse(lblRecordsCount.Text); }
@@ -23,81 +23,26 @@ namespace DVLD.WinForms.People
         public frmManageUsers()
         {
             InitializeComponent();
+            cbFiltterColumn.SelectedItem = "None";
+            _FilterColumn = "None";
+            _DataSource = clsUser.GetAllUsers().DefaultView;
+            _RecordsCount = clsFormHelper.RefreshDataGridView(dgvUsersList, _DataSource);
         }
 
         private void frmManageUsers_Load(object sender, EventArgs e)
         {
-            cbFiltterColumn.SelectedItem = "None";
-            _FilterColumn = "None";
-            _DataSource = clsUser.GetAllUsers().DefaultView;
-            _RecordsCount = clsAppSettings.RefreshDataGridView(dgvUsersList, _DataSource);
-            _ResetUsersListColumnsWidth();
+            _ResetUsersListColumnsWidthAndName();
             cbCountry.Items.AddRange(clsAppSettings.GetCountries());
-        }
-
-        private void _ResetUsersListColumnsWidth()
-        {
-            dgvUsersList.Columns["UserID"].HeaderText = "User ID";
-            dgvUsersList.Columns["UserID"].Width = 70;
-
-            dgvUsersList.Columns["PersonID"].HeaderText = "Person ID";
-            dgvUsersList.Columns["PersonID"].Width = 70;
-
-            dgvUsersList.Columns["Username"].Width = 100;
-
-            dgvUsersList.Columns["FullName"].HeaderText = "Full Name";
-            dgvUsersList.Columns["FullName"].Width = 200;
-
-            dgvUsersList.Columns["Gender"].Width = 80;
-
-            dgvUsersList.Columns["Nationality"].Width = 100;
-
-            dgvUsersList.Columns["IsActive"].HeaderText = "Is Active";
-            dgvUsersList.Columns["IsActive"].Width = 80;
         }
 
         private void cbFiltterColumn_SelectedIndexChanged(object sender, EventArgs e)
         {
-            txtTextForFilttering.Text = string.Empty;
-            _FilterColumn = cbFiltterColumn.Text.Replace(" ", "");
-
-            txtTextForFilttering.Visible = false;
-            cbCountry.Visible = false;
-            panelGender.Visible = false;
-            cbActivity.Visible = false;
-
-            if (_FilterColumn == "Gender")
-            {
-                panelGender.Location = new Point(panelGender.Location.X, 180);
-                panelGender.Visible = true;
-                rbMale.Checked = true;
-                return;
-            }
-
-            if (_FilterColumn == "Nationality")
-            {
-                cbCountry.Location = new Point(cbCountry.Location.X, 185);
-                cbCountry.Visible = true;
-                cbCountry.SelectedItem = "None";
-                return;
-            }
-
-            if (_FilterColumn == "IsActive")
-            {
-                cbActivity.Location = new Point(cbCountry.Location.X, 185);
-                cbActivity.Visible = true;
-                cbActivity.SelectedItem = "All";
-                return;
-            }
-
-            txtTextForFilttering.Visible = true;
-            txtTextForFilttering.Enabled = !(_FilterColumn == "None");
-            txtTextForFilttering.Focus();
+            _UpdateFilterControlVisibility();
         }
 
         private void txtTextForFilttering_TextChanged(object sender, EventArgs e)
         {
-            _RecordsCount = clsAppSettings.RefreshDataGridViewWithFilter(dgvUsersList, _DataSource, _FilterColumn, txtTextForFilttering.Text);
+            _RecordsCount = clsFormHelper.RefreshDataGridViewWithFilter(dgvUsersList, _DataSource, _FilterColumn, txtTextForFilttering.Text);
         }
 
         private void rbMale_CheckedChanged(object sender, EventArgs e)
@@ -142,17 +87,12 @@ namespace DVLD.WinForms.People
         {
             if (_FilterColumn.EndsWith("ID"))
             {
-                clsValidation.HandleNumericKeyPress(e, txtTextForFilttering, errorProvider);
+                clsFormValidation.HandleNumericKeyPress(e, txtTextForFilttering, errorProvider);
             }
             else
             {
                 errorProvider.SetError(txtTextForFilttering, "");
             }
-        }
-
-        private void btnCloseScreen_Click(object sender, EventArgs e)
-        {
-            this.Close();
         }
 
         private void btnAddNewUser_Click(object sender, EventArgs e)
@@ -162,26 +102,107 @@ namespace DVLD.WinForms.People
 
             if (addUserForm.IsSaveSuccess)
             {
-                _DataSource = clsUser.GetAllUsers().DefaultView;
-                clsAppSettings.RefreshDataGridView(dgvUsersList, _DataSource);
+                _RefreshUserList();
             }
+        }
+
+        private void btnCloseScreen_Click(object sender, EventArgs e)
+        {
+            this.Close();
         }
 
         private void dgvUsersList_CellMouseDown(object sender, DataGridViewCellMouseEventArgs e)
         {
-            clsAppSettings.SelectEntireRow(dgvUsersList, e);
+            clsFormHelper.SelectEntireRow(dgvUsersList, e);
+            contextMenuStrip.Items["addNewUserToolStripMenuItem"].Visible = false;
         }
 
         private void dgvUsersList_CellMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)
         {
-            clsAppSettings.SelectEntireRow(dgvUsersList, e);
+            clsFormHelper.SelectEntireRow(dgvUsersList, e);
             showDetailsToolStripMenuItem.PerformClick();
         }
 
         private void dgvUsersList_MouseDown(object sender, MouseEventArgs e)
         {
-            clsAppSettings.DeselectCellsAndRows(dgvUsersList, e);
+            clsFormHelper.DeselectCellsAndRows(dgvUsersList, e);
             _AdjustUserListContextMenuVisibility(e);
+        }
+
+        private void showDetailsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            frmShowUserInfo userInfo = new frmShowUserInfo(clsFormHelper.GetSelectedRowID(dgvUsersList));
+            userInfo.ShowDialog();
+
+            if (userInfo.IsInfoModified)
+            {
+                _RefreshUserList();
+                clsFormHelper.ReapplyAndHighlightFilterText(txtTextForFilttering);
+            }
+        }
+
+        private void addNewUserToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            btnAddNewUser.PerformClick();
+        }
+
+        private void editToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            frmAddUpdateUser updateUser = new frmAddUpdateUser(clsFormHelper.GetSelectedRowID(dgvUsersList));
+            updateUser.ShowDialog();
+
+            if (updateUser.IsSaveSuccess)
+            {
+                _RefreshUserList();
+                clsFormHelper.ReapplyAndHighlightFilterText(txtTextForFilttering);
+            }
+        }
+
+        private void deleteToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            int UserID = clsFormHelper.GetSelectedRowID(dgvUsersList);
+
+            if (clsFormMessages.Confirm($"Are you sure do you want delete the user with ID = {UserID}?",
+                "Confirm Deletion", MessageBoxIcon.Warning, MessageBoxDefaultButton.Button2))
+            {
+                try
+                {
+                    if (clsUser.Delete(UserID))
+                    {
+                        clsFormMessages.ShowSuccess("Deleted successfully.");
+                        _RefreshUserList();
+                    }
+                    else
+                    {
+                        clsFormMessages.ShowUserNotFoundError();
+                    }
+                }
+                catch (Exception)
+                {
+                    clsFormMessages.ShowError("User was not deleted because it has data linked to it.", "Failed Deleted");
+                }
+            }
+        }
+
+        private void ChangePasswordtoolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            frmChangePassword changePassword = new frmChangePassword(clsFormHelper.GetSelectedRowID(dgvUsersList));
+            changePassword.ShowDialog();
+
+            if (changePassword.IsSaveSuccess)
+            {
+                _RefreshUserList();
+            }
+        }
+
+        private void sendEmailToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            clsFormMessages.ShowNotImplementedFeatureWarning();
+        }
+
+        private void sToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            clsFormMessages.ShowNotImplementedFeatureWarning();
         }
 
         // This function's logic is kept separate from the 'Persons' context menu logic
@@ -195,6 +216,8 @@ namespace DVLD.WinForms.People
             if (e.Button == MouseButtons.Right && hit.Type == DataGridViewHitTestType.None ||
                 hit.Type == DataGridViewHitTestType.ColumnHeader)
             {
+                contextMenuStrip.Items["addNewUserToolStripMenuItem"].Visible = true;
+
                 foreach (ToolStripItem item in contextMenuStrip.Items)
                 {
                     if (item.Text != "Add New User")
@@ -212,89 +235,65 @@ namespace DVLD.WinForms.People
             }
         }
 
-        private void showDetailsToolStripMenuItem_Click(object sender, EventArgs e)
+        private void _UpdateFilterControlVisibility()
         {
-            frmShowUserInfo userInfo = new frmShowUserInfo(clsAppSettings.GetSelectedRowID(dgvUsersList));
-            userInfo.ShowDialog();
+            txtTextForFilttering.Text = string.Empty;
+            _FilterColumn = cbFiltterColumn.Text.Replace(" ", "");
 
-            if (userInfo.IsInfoModified)
+            txtTextForFilttering.Visible = cbCountry.Visible =
+                panelGender.Visible = cbActivity.Visible = false;
+
+            switch (_FilterColumn)
             {
-                _DataSource = clsUser.GetAllUsers().DefaultView;
-                clsAppSettings.RefreshDataGridView(dgvUsersList, _DataSource);
+                case "Gender":
+                    panelGender.Location = new Point(panelGender.Location.X, 180);
+                    panelGender.Visible = true;
+                    rbMale.Checked = true;
+                    break;
+                case "Nationality":
+                    cbCountry.Location = new Point(cbCountry.Location.X, 185);
+                    cbCountry.Visible = true;
+                    cbCountry.SelectedItem = "None";
+                    break;
+                case "IsActive":
+                    cbActivity.Location = new Point(cbCountry.Location.X, 185);
+                    cbActivity.Visible = true;
+                    cbActivity.SelectedItem = "All";
+                    break;
+                default:
+                    txtTextForFilttering.Visible = true;
+                    txtTextForFilttering.Enabled = !(_FilterColumn == "None");
+                    txtTextForFilttering.Focus();
+                    break;
             }
+            
         }
 
-        private void addNewUserToolStripMenuItem_Click(object sender, EventArgs e)
+        private void _ResetUsersListColumnsWidthAndName()
         {
-            btnAddNewUser.PerformClick();
+            dgvUsersList.Columns["UserID"].HeaderText = "User ID";
+            dgvUsersList.Columns["UserID"].Width = 70;
+
+            dgvUsersList.Columns["PersonID"].HeaderText = "Person ID";
+            dgvUsersList.Columns["PersonID"].Width = 70;
+
+            dgvUsersList.Columns["Username"].Width = 100;
+
+            dgvUsersList.Columns["FullName"].HeaderText = "Full Name";
+            dgvUsersList.Columns["FullName"].Width = 200;
+
+            dgvUsersList.Columns["Gender"].Width = 80;
+
+            dgvUsersList.Columns["Nationality"].Width = 100;
+
+            dgvUsersList.Columns["IsActive"].HeaderText = "Is Active";
+            dgvUsersList.Columns["IsActive"].Width = 80;
         }
 
-        private void editToolStripMenuItem_Click(object sender, EventArgs e)
+        private void _RefreshUserList()
         {
-            frmAddUpdateUser updateUser = new frmAddUpdateUser(clsAppSettings.GetSelectedRowID(dgvUsersList));
-            updateUser.ShowDialog();
-
-            if (updateUser.IsSaveSuccess)
-            {
-                _DataSource = clsUser.GetAllUsers().DefaultView;
-                clsAppSettings.RefreshDataGridView(dgvUsersList, _DataSource);
-            }
-        }
-
-        private void deleteToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            int UserID = clsAppSettings.GetSelectedRowID(dgvUsersList);
-
-            if (clsUser.IsUserExist(UserID))
-            {
-                if (clsMessages.Confirm($"Are you sure do you want delete the user with ID = {UserID}?",
-                    "Confirm Deletion", MessageBoxIcon.Warning, MessageBoxDefaultButton.Button2))
-                {
-                    try
-                    {
-                        if (clsUser.Delete(UserID))
-                        {
-                            clsMessages.ShowSuccess("Deleted successfully.");
-                            _DataSource = clsUser.GetAllUsers().DefaultView;
-                            _RecordsCount = clsAppSettings.RefreshDataGridView(dgvUsersList, _DataSource);
-                        }
-                        else
-                        {
-                            clsMessages.ShowError("Failed Deleted.");
-                        }
-                    }
-                    catch (Exception)
-                    {
-                        clsMessages.ShowError("User was not deleted because it has data linked to it.", "Failed Deleted");
-                    }
-                }
-            }
-            else
-            {
-                clsMessages.ShowPersonNotFoundError();
-            }
-        }
-
-        private void ChangePasswordtoolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            frmChangePassword changePassword = new frmChangePassword(clsAppSettings.GetSelectedRowID(dgvUsersList));
-            changePassword.ShowDialog();
-
-            if (changePassword.IsSaveSuccess)
-            {
-                _DataSource = clsUser.GetAllUsers().DefaultView;
-                clsAppSettings.RefreshDataGridView(dgvUsersList, _DataSource);
-            }
-        }
-
-        private void sendEmailToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            clsMessages.ShowNotImplementedFeatureWarning();
-        }
-
-        private void sToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            clsMessages.ShowNotImplementedFeatureWarning();
+            _DataSource = clsUser.GetAllUsers().DefaultView;
+            clsFormHelper.RefreshDataGridView(dgvUsersList, _DataSource);
         }
 
     }

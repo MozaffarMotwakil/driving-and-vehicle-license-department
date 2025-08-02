@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Windows.Forms;
 using DVLD.BusinessLogic;
-using DVLD.WinForms.Global;
 using DVLD.WinForms.Utils;
 
 namespace DVLD.WinForms.People
@@ -44,16 +43,20 @@ namespace DVLD.WinForms.People
 
         private void CtrAddEditPerson_OnImageLoadFailed()
         {
-            clsMessages.ShowImageNotFoundWarning();
+            clsFormMessages.ShowImageNotFoundWarning();
         }
 
         private void frmAddEditPerson_Load(object sender, EventArgs e)
         {
+            if (_Person == null)
+            {
+                clsFormMessages.ShowPersonNotFoundError();
+                this.Close();
+                return;
+            }
+
             ctrAddEditPerson.OnImageLoadFailed += CtrAddEditPerson_OnImageLoadFailed;
             ctrAddEditPerson.LoadPersonDataForEdit(_Person);
-
-            // Set the national number to ignore in validation when editing an existing person
-            // This prevents their own number from being flagged as a duplicate.
             ctrAddEditPerson.SetCurrentNationalNoToIgnore(_Person.NationalNo);
         }
 
@@ -61,11 +64,11 @@ namespace DVLD.WinForms.People
         {
             if (!ctrAddEditPerson.IsDataValid())
             {
-                clsMessages.ShowInvalidDataError();
+                clsFormMessages.ShowInvalidDataError();
                 return;
             }
 
-            if (clsMessages.ConfirmSava())
+            if (clsFormMessages.ConfirmSava())
             {
                 _FillPersonObjectFromUI();
 
@@ -76,30 +79,22 @@ namespace DVLD.WinForms.People
 
                 if (_Person.Save())
                 {
-                    clsMessages.ShowSuccess("Saved successfully.");
+                    clsFormMessages.ShowSuccess("Saved successfully.");
 
                     if (_FormMode == enMode.AddNew)
                     {
                         _UpdateFormStateAfterSave();
                     }
 
-                    // Reset the OldImagePath property to ensure correct behavior
-                    // in ctrAddEditPerson.SetOldImagePath. (See method for details)
                     ctrAddEditPerson.OldImagePath = string.Empty;
                     IsSaveSuccess = true;
                     PersonBack?.Invoke(_Person);
                 }
                 else
                 {
-                    clsMessages.ShowError("Failed Save.");
+                    clsFormMessages.ShowError("Failed Save.");
                 }
             }
-        }
-
-        private void _ReloadTheOldImage(string OldImagePath)
-        {
-            ctrAddEditPerson.LoadImage(OldImagePath);
-            _Person.ImagePath = OldImagePath;
         }
 
         private void _FillPersonObjectFromUI()
@@ -120,55 +115,33 @@ namespace DVLD.WinForms.People
 
         private bool _HandlePersonImageSaving()
         {
-            // Check if the image was changed or a new image was set
             if (_Person.ImagePath != ctrAddEditPerson.ImagePath)
             {
                 string oldImagePath = ctrAddEditPerson.OldImagePath;
                 string selectedImagePath = ctrAddEditPerson.ImagePath;
 
-                // Set the new image path in the DVLD-People-Images folder (local storage)
-                string newImagePath = clsAppSettings.GetNewImagePathWithGUID();
-
                 try
                 {
-                    // If there is a selected image, copy it to the new location
                     if (!string.IsNullOrEmpty(selectedImagePath))
                     {
-                        clsFileManager.SavePersonImageToLocalFolder(selectedImagePath, newImagePath);
-                        _Person.ImagePath = newImagePath;
-
-                        /*
-                         * Switch the selected image to the new path so that operations are performed
-                         * on it (operations of selecting the old path for deletion) to avoid the problem
-                         * of not deleting the image stored in the local folder and deleting the image in the
-                         * original path from which it was selected.
-                         */
-                        ctrAddEditPerson.LoadImage(newImagePath);
+                        _Person.SaveImage(selectedImagePath);
+                        ctrAddEditPerson.LoadImage(_Person.ImagePath);
                     }
                     else
                     {
-                        // If the image is deleted.
-                        _Person.ImagePath = string.Empty;
+                        _Person.DeleteImage();
                     }
 
-                    if (ctrAddEditPerson.IsImageChanged())
-                    {
-                        try
-                        {
-                            clsFileManager.DeletePersonImageFromLocalFolder(oldImagePath);
-                        }
-                        catch (Exception ex)
-                        {
-                            clsMessages.ShowFailedDeleteThePersonImage(ex);
-                            _ReloadTheOldImage(oldImagePath);
-                            return false;
-                        }
-                    }
                 }
                 catch (Exception ex)
                 {
-                    clsMessages.ShowError($"Failed to save the new person's image file.\n{ex.Message}");
-                    _ReloadTheOldImage(oldImagePath);
+                    clsFormMessages.ShowError($"Failed to save the new person's image file.\n{ex.Message}");
+                    
+                    if (!string.IsNullOrEmpty(oldImagePath))
+                    {
+                        _ReloadTheOldImage(oldImagePath);
+                    }
+
                     return false;
                 }
             }
@@ -182,6 +155,12 @@ namespace DVLD.WinForms.People
             lblHeader.Text = "Update Person";
             lblPersonID.Text = _Person.PersonID.ToString();
             ctrAddEditPerson.SetCurrentNationalNoToIgnore(_Person.NationalNo);
+        }
+
+        private void _ReloadTheOldImage(string OldImagePath)
+        {
+            ctrAddEditPerson.LoadImage(OldImagePath);
+            _Person.ImagePath = OldImagePath;
         }
 
         private void btnCloseScreen_Click(object sender, EventArgs e)

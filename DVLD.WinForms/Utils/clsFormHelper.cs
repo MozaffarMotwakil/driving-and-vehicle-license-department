@@ -1,58 +1,14 @@
 ﻿using System;
 using System.Data;
 using System.Drawing;
-using System.IO;
 using System.Windows.Forms;
 using DVLD.BusinessLogic;
 using DVLD.WinForms.Properties;
 
 namespace DVLD.WinForms.Global
 {
-    public static class clsAppSettings
+    public static class clsFormHelper
     {
-        public static clsUser CurrentUser { get; set; }
-
-        private static string _AppDataFolder = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
-        private static string _LoginInfoFile = Path.Combine(_AppDataFolder, "Login-Information");
-
-        public static string PeopleImagesFolderPath
-        {
-            get
-            {
-                string peopleImagesFolderPath = Path.Combine(_AppDataFolder, "DVLD-People-Images");
-
-                if (!Directory.Exists(peopleImagesFolderPath))
-                {
-                    Directory.CreateDirectory(peopleImagesFolderPath);
-                }
-
-                return peopleImagesFolderPath;
-            }
-        }
-
-        public static string GetNewImagePathWithGUID()
-        {
-            return Path.Combine(PeopleImagesFolderPath, $"{Guid.NewGuid()}.JPG");
-        }
-
-        public static string[] GetCountries()
-        {
-            DataTable countriesFromDB = clsCountry.GetAllCountries();
-            string[] countriesNames = new string[countriesFromDB.Rows.Count];
-
-            for (int i = 0; i < countriesNames.Length; i++)
-            {
-                countriesNames[i] = countriesFromDB.Rows[i]["CountryName"].ToString();
-            }
-
-            return countriesNames;
-        }
-
-        public static Image GetDefaultPersonImage(clsPerson.enGender Gender)
-        {
-            return Gender == clsPerson.enGender.Male ? Resources.Male_512 : Resources.Female_512;
-        }
-
         public static int RefreshDataGridViewWithFilter(DataGridView dataGridView, DataView DataSource, string FilterColumn, string Text)
         {
             DataView list = (DataView)dataGridView.DataSource;
@@ -88,6 +44,19 @@ namespace DVLD.WinForms.Global
         {
             dataGridView.DataSource = DataSource;
             return dataGridView.RowCount;
+        }
+
+        public static void ReapplyAndHighlightFilterText(TextBox textBox)
+        {
+            if (!string.IsNullOrEmpty(textBox.Text))
+            {
+                string temp = textBox.Text;
+                textBox.Text = string.Empty;
+                textBox.Text = temp;
+
+                textBox.SelectionStart = 0;
+                textBox.SelectionLength = textBox.TextLength;
+            }
         }
 
         /// <summary>
@@ -132,42 +101,38 @@ namespace DVLD.WinForms.Global
             return -1;
         }
 
-        public static void SaveLoginInformation(string Username, string Password)
+        public static Image GetDefaultPersonImage(clsPerson.enGender gender)
         {
-            if (!File.Exists(_LoginInfoFile))
+            return gender == clsPerson.enGender.Male ? Resources.Male_512 : Resources.Female_512;
+        }
+
+        public static void ShowPassword(object sender, MouseEventArgs e)
+        {
+            if (sender is PictureBox pictureBox)
             {
-                File.WriteAllText(_LoginInfoFile, $"{Username}\n{Password}");
+                if (pictureBox.Tag is TextBox textBox)
+                {
+                    textBox.UseSystemPasswordChar = false;
+                }
             }
         }
 
-        public static void DeleteLoginInformation()
+        public static void HidePassword(object sender, MouseEventArgs e)
         {
-            if (File.Exists(_LoginInfoFile))
+            if (sender is PictureBox pictureBox)
             {
-                File.Delete(_LoginInfoFile);
+                if (pictureBox.Tag is TextBox textBox)
+                {
+                    textBox.UseSystemPasswordChar = true;
+                }
             }
         }
 
-        public static bool IsLoginInformationExist()
+        public static void SetPasswordsVisibility(TextBox[] passwordFields, bool isVisible)
         {
-            return File.Exists(_LoginInfoFile);
-        }
-
-        public static string GetSavedUsername()
-        {
-            return File.ReadAllLines(_LoginInfoFile)[0];
-        }
-
-        public static string GetSavedPassword()
-        {
-            return File.ReadAllLines(_LoginInfoFile)[1];
-        }
-
-        public static void UpdatedLoginInformation(string Username, string Password)
-        {
-            if (File.Exists(_LoginInfoFile))
+            foreach (TextBox textBox in passwordFields)
             {
-                File.WriteAllText(_LoginInfoFile, $"{Username}\n{Password}");
+                textBox.UseSystemPasswordChar = !isVisible;
             }
         }
 

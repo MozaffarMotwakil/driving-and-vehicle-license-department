@@ -1,4 +1,6 @@
-﻿namespace DVLD.WinForms.MainForms
+﻿using DVLD.WinForms.Global;
+
+namespace DVLD.WinForms.MainForms
 {
     partial class frmLogin
     {
@@ -41,19 +43,21 @@
             this.pictureBox4 = new System.Windows.Forms.PictureBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.errorProvider = new System.Windows.Forms.ErrorProvider(this.components);
-            this.cbShowPassword = new System.Windows.Forms.CheckBox();
+            this.pcShowPassword = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pcShowPassword)).BeginInit();
             this.SuspendLayout();
             // 
             // txtPassword
             // 
             this.txtPassword.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtPassword.Location = new System.Drawing.Point(557, 197);
+            this.txtPassword.Location = new System.Drawing.Point(545, 197);
+            this.txtPassword.MaxLength = 20;
             this.txtPassword.Name = "txtPassword";
-            this.txtPassword.Size = new System.Drawing.Size(201, 23);
+            this.txtPassword.Size = new System.Drawing.Size(231, 23);
             this.txtPassword.TabIndex = 1;
             this.txtPassword.UseSystemPasswordChar = true;
             this.txtPassword.Validating += new System.ComponentModel.CancelEventHandler(this.txtPassword_Validating);
@@ -61,9 +65,9 @@
             // txtUsername
             // 
             this.txtUsername.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtUsername.Location = new System.Drawing.Point(557, 146);
+            this.txtUsername.Location = new System.Drawing.Point(545, 145);
             this.txtUsername.Name = "txtUsername";
-            this.txtUsername.Size = new System.Drawing.Size(201, 23);
+            this.txtUsername.Size = new System.Drawing.Size(208, 23);
             this.txtUsername.TabIndex = 0;
             this.txtUsername.Validating += new System.ComponentModel.CancelEventHandler(this.txtUsername_Validating);
             // 
@@ -100,7 +104,7 @@
             // cbRememberMe
             // 
             this.cbRememberMe.AutoSize = true;
-            this.cbRememberMe.Location = new System.Drawing.Point(557, 244);
+            this.cbRememberMe.Location = new System.Drawing.Point(545, 244);
             this.cbRememberMe.Name = "cbRememberMe";
             this.cbRememberMe.Size = new System.Drawing.Size(94, 17);
             this.cbRememberMe.TabIndex = 2;
@@ -123,7 +127,7 @@
             this.btnLogin.BackgroundImage = global::DVLD.WinForms.Properties.Resources.sign_in_32;
             this.btnLogin.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.btnLogin.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnLogin.Location = new System.Drawing.Point(655, 279);
+            this.btnLogin.Location = new System.Drawing.Point(650, 280);
             this.btnLogin.Name = "btnLogin";
             this.btnLogin.Size = new System.Drawing.Size(103, 33);
             this.btnLogin.TabIndex = 4;
@@ -165,16 +169,18 @@
             // 
             this.errorProvider.ContainerControl = this;
             // 
-            // cbShowPassword
+            // pcShowPassword
             // 
-            this.cbShowPassword.AutoSize = true;
-            this.cbShowPassword.Location = new System.Drawing.Point(664, 244);
-            this.cbShowPassword.Name = "cbShowPassword";
-            this.cbShowPassword.Size = new System.Drawing.Size(101, 17);
-            this.cbShowPassword.TabIndex = 3;
-            this.cbShowPassword.Text = "Show Password";
-            this.cbShowPassword.UseVisualStyleBackColor = true;
-            this.cbShowPassword.CheckedChanged += new System.EventHandler(this.cbShowPassword_CheckedChanged);
+            this.pcShowPassword.BackColor = System.Drawing.Color.Transparent;
+            this.pcShowPassword.Image = global::DVLD.WinForms.Properties.Resources.iconmonstr_eye_lined_24;
+            this.pcShowPassword.Location = new System.Drawing.Point(752, 197);
+            this.pcShowPassword.Name = "pcShowPassword";
+            this.pcShowPassword.Size = new System.Drawing.Size(24, 24);
+            this.pcShowPassword.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
+            this.pcShowPassword.TabIndex = 31;
+            this.pcShowPassword.TabStop = false;
+            this.pcShowPassword.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pcShowPassword_MouseDown);
+            this.pcShowPassword.MouseUp += new System.Windows.Forms.MouseEventHandler(this.pcShowPassword_MouseUp);
             // 
             // frmLogin
             // 
@@ -183,9 +189,9 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.btnClose;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.pcShowPassword);
             this.Controls.Add(this.btnClose);
             this.Controls.Add(this.btnLogin);
-            this.Controls.Add(this.cbShowPassword);
             this.Controls.Add(this.cbRememberMe);
             this.Controls.Add(this.txtPassword);
             this.Controls.Add(this.txtUsername);
@@ -205,6 +211,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pcShowPassword)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -224,6 +231,6 @@
         private System.Windows.Forms.Button btnLogin;
         private System.Windows.Forms.Button btnClose;
         private System.Windows.Forms.ErrorProvider errorProvider;
-        private System.Windows.Forms.CheckBox cbShowPassword;
+        private System.Windows.Forms.PictureBox pcShowPassword;
     }
 }
