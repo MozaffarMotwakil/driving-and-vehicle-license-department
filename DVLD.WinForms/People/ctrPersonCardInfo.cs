@@ -9,42 +9,11 @@ namespace DVLD.WinForms.People
 {
     public partial class ctrPersonCardInfo : UserControl
     {
-        public string PersonID
-        {
-            get { return lblPersonID.Text; }
-        }
-        public string FullName
-        {
-            get { return lblFullName.Text; }
-        }
-        public string NationalNo
-        {
-            get { return lblNationalNumber.Text; }
-        }
-        public string DateOfBirth
-        {
-            get { return lblDateOfBirth.Text; }
-        }
-        public string Phone
-        {
-            get { return lblPhone.Text; }
-        }
-        public string Email
-        {
-            get { return lblEmail.Text; }
-        }
-        public string CountryName
-        {
-            get { return lblCountry.Text; }
-        }
-        public string Address
-        {
-            get { return lblAddress.Text; }
-        }
-        public string Gender
-        {
-            get { return lblGender.Text; }
-        }
+        /// <summary>
+        /// Gets the person if found successfully, otherwise returns null.
+        /// </summary>
+        public clsPerson Person { get; private set; }
+
         public bool IsInfoModified { get; private set; }
 
         public ctrPersonCardInfo()
@@ -118,6 +87,7 @@ namespace DVLD.WinForms.People
             }
 
             llEditPersonInformation.Visible = true;
+            this.Person = Person;
         }
 
         /// <summary>
@@ -131,6 +101,7 @@ namespace DVLD.WinForms.People
 
             pbPersonImage.Image = clsFormHelper.GetDefaultPersonImage(clsPerson.enGender.Male);
             llEditPersonInformation.Visible = false;
+            this.Person = null;
         }
 
     }

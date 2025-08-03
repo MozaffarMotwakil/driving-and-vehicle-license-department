@@ -156,7 +156,6 @@
             this.Name = "frmMainForm";
             this.Text = "Main";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
-            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.frmMainForm_FormClosing);
             this.msMainScreen.ResumeLayout(false);
             this.msMainScreen.PerformLayout();
             this.ResumeLayout(false);

@@ -3,7 +3,7 @@ using System.Security.Cryptography;
 
 namespace DVLD.WinForms.Utils
 {
-    public static class clsPasswordHelper
+    internal static class clsPasswordHelper
     {
         private const int SaltSize = 16;
         private const int HashSize = 32;

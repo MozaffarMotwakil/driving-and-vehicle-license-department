@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Data;
 using System.IO;
-using DVLD.BusinessLogic;
 
-namespace DVLD.WinForms.Global
+namespace DVLD.BusinessLogic
 {
     public static class clsAppSettings
     {

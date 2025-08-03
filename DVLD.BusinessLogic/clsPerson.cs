@@ -3,7 +3,6 @@ using System.Data;
 using System.IO;
 using DVLD.DataAccess;
 using DVLD.Entities;
-using DVLD.WinForms.Global;
 
 namespace DVLD.BusinessLogic
 {

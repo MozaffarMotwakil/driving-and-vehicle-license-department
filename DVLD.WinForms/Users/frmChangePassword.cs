@@ -96,6 +96,7 @@ namespace DVLD.WinForms.Users
                         clsLoginManager.UpdatedLoginInformation(_User.Username, txtNewPassword.Text);
                     }
 
+                    _ClearPasswords();
                 }
                 else
                 {
@@ -146,6 +147,11 @@ namespace DVLD.WinForms.Users
         private void pcShowConfirmPassword_MouseUp(object sender, MouseEventArgs e)
         {
             clsFormHelper.HidePassword(sender, e);
+        }
+
+        private void _ClearPasswords()
+        {
+            txtCurrentPassword.Text = txtConfirmPassword.Text = txtNewPassword.Text =  string.Empty;
         }
 
     }

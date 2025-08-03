@@ -1,5 +1,5 @@
 ﻿using System.IO;
-using DVLD.WinForms.Global;
+using DVLD.BusinessLogic;
 
 namespace DVLD.WinForms.Utils
 {
@@ -28,7 +28,7 @@ namespace DVLD.WinForms.Utils
 
         public static void DeleteLoginInformation()
         {
-            if (File.Exists(LoginInfoFilePath)) ;
+            if (File.Exists(LoginInfoFilePath))
             {
                 File.Delete(LoginInfoFilePath);
             }
