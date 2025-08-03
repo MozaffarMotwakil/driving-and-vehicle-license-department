@@ -115,6 +115,7 @@
             this.txtFees.Name = "txtFees";
             this.txtFees.Size = new System.Drawing.Size(286, 23);
             this.txtFees.TabIndex = 0;
+            this.txtFees.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtFees_KeyPress);
             this.txtFees.Validating += new System.ComponentModel.CancelEventHandler(this.txtFees_Validating);
             // 
             // btnSave

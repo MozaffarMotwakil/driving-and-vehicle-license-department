@@ -45,6 +45,11 @@ namespace DVLD.WinForms.Tests
             clsFormValidation.ValidatingRequiredField(txtFees, "Fees is required field.", errorProvider);
         }
 
+        private void txtFees_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            clsFormValidation.HandleNumericKeyPress(e, txtFees, errorProvider);
+        }
+
         private void btnSave_Click(object sender, EventArgs e)
         {
             if (!clsFormValidation.IsDataValid(this, this.Controls, errorProvider))
