@@ -61,7 +61,7 @@ namespace DVLD.WinForms.Global
 
         /// <summary>
         /// Select the entire row where the right mouse button was pressed, and check the selected is not column.
-        /// rather than selecting a single cell because the context menu is on the person, not the cell.
+        /// rather than selecting a single cell because the context menu is on the record, not the cell.
         /// </summary>
         public static void SelectEntireRow(DataGridView dataGridView, DataGridViewCellMouseEventArgs e)
         {

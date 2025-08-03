@@ -2,6 +2,7 @@
 using System.Drawing;
 using System.Windows.Forms;
 using DVLD.BusinessLogic;
+using DVLD.WinForms.Applications;
 using DVLD.WinForms.People;
 using DVLD.WinForms.Users;
 
@@ -90,5 +91,18 @@ namespace DVLD.WinForms.MainForms
             this.Close();
         }
 
+        private void manageAToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            frmManageApplicationTypes applicationTypes = new frmManageApplicationTypes();
+            applicationTypes.ShowDialog();
+        }
+
+        private void frmMainForm_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            // Because we used frmLogin.Hide(), the login form is still running but hidden.
+            // If we don’t close it manually, it will keep running in the background even after the main form is closed.
+            // This might cause problems, like not being able to open the app again because part of it is still running.
+            Application.OpenForms["frmLogin"].Close();
+        }
     }
 }
