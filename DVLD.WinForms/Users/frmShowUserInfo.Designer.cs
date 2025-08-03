@@ -59,9 +59,11 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.CancelButton = this.btnCloseScreen;
             this.ClientSize = new System.Drawing.Size(795, 398);
             this.Controls.Add(this.btnCloseScreen);
             this.Controls.Add(this.ctrUserCardInfo);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.MaximizeBox = false;
             this.Name = "frmShowUserInfo";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;

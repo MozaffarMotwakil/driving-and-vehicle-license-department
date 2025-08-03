@@ -4,6 +4,7 @@ using System.Windows.Forms;
 using DVLD.BusinessLogic;
 using DVLD.WinForms.Applications;
 using DVLD.WinForms.People;
+using DVLD.WinForms.Tests;
 using DVLD.WinForms.Users;
 
 namespace DVLD.WinForms.MainForms
@@ -97,6 +98,12 @@ namespace DVLD.WinForms.MainForms
             applicationTypes.ShowDialog();
         }
 
+        private void manageTestsTypesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            frmManageTestTypes manageTestTypes = new frmManageTestTypes();
+            manageTestTypes.ShowDialog();
+        }
+
         private void frmMainForm_FormClosed(object sender, FormClosedEventArgs e)
         {
             // Because we used frmLogin.Hide(), the login form is still running but hidden.
@@ -104,5 +111,6 @@ namespace DVLD.WinForms.MainForms
             // This might cause problems, like not being able to open the app again because part of it is still running.
             Application.OpenForms["frmLogin"].Close();
         }
+
     }
 }

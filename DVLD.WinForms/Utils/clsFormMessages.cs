@@ -20,6 +20,11 @@ namespace DVLD.WinForms.Utils
             ShowWarning("The selected image file no longer exists. Please select a new image.", "Image Not Found");
         }
 
+        public static void ShowTestTypeNotFoundError()
+        {
+            ShowError("Test type not found.");
+        }
+
         public static void ShowApplicationTypeNotFoundError()
         {
             ShowError("Application type not found.");

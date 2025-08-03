@@ -100,12 +100,12 @@
             // 
             // txtTitle
             // 
-            this.txtTitle.Enabled = false;
             this.txtTitle.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtTitle.Location = new System.Drawing.Point(95, 119);
             this.txtTitle.Name = "txtTitle";
             this.txtTitle.Size = new System.Drawing.Size(286, 23);
-            this.txtTitle.TabIndex = 19;
+            this.txtTitle.TabIndex = 3;
+            this.txtTitle.Validating += new System.ComponentModel.CancelEventHandler(this.txtTitle_Validating);
             // 
             // txtFees
             // 
@@ -126,7 +126,7 @@
             this.btnSave.Location = new System.Drawing.Point(296, 216);
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(85, 33);
-            this.btnSave.TabIndex = 2;
+            this.btnSave.TabIndex = 1;
             this.btnSave.Text = "      Save";
             this.btnSave.UseVisualStyleBackColor = true;
             this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
@@ -141,7 +141,7 @@
             this.btnCloseScreen.Location = new System.Drawing.Point(205, 216);
             this.btnCloseScreen.Name = "btnCloseScreen";
             this.btnCloseScreen.Size = new System.Drawing.Size(85, 33);
-            this.btnCloseScreen.TabIndex = 3;
+            this.btnCloseScreen.TabIndex = 2;
             this.btnCloseScreen.Text = "     Close";
             this.btnCloseScreen.UseVisualStyleBackColor = true;
             this.btnCloseScreen.Click += new System.EventHandler(this.btnCloseScreen_Click);

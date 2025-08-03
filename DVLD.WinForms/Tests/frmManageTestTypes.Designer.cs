@@ -1,6 +1,6 @@
-﻿namespace DVLD.WinForms.Applications
+﻿namespace DVLD.WinForms.Tests
 {
-    partial class frmManageApplicationTypes
+    partial class frmManageTestTypes
     {
         /// <summary>
         /// Required designer variable.
@@ -33,13 +33,13 @@
             this.lblRecordsCount = new System.Windows.Forms.Label();
             this.contextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.editToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.label1 = new System.Windows.Forms.Label();
-            this.dgvApplicatonsList = new System.Windows.Forms.DataGridView();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.btnCloseScreen = new System.Windows.Forms.Button();
+            this.label1 = new System.Windows.Forms.Label();
+            this.dgvTestsList = new System.Windows.Forms.DataGridView();
             this.contextMenuStrip.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvApplicatonsList)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvTestsList)).BeginInit();
             this.SuspendLayout();
             // 
             // label2
@@ -48,11 +48,11 @@
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Tahoma", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label2.ForeColor = System.Drawing.Color.Red;
-            this.label2.Location = new System.Drawing.Point(231, 134);
+            this.label2.Location = new System.Drawing.Point(270, 134);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(323, 33);
-            this.label2.TabIndex = 15;
-            this.label2.Text = "Manage Application Types";
+            this.label2.Size = new System.Drawing.Size(245, 33);
+            this.label2.TabIndex = 30;
+            this.label2.Text = "Manage Test Types";
             // 
             // lblRecordsCount
             // 
@@ -62,7 +62,7 @@
             this.lblRecordsCount.Location = new System.Drawing.Point(96, 515);
             this.lblRecordsCount.Name = "lblRecordsCount";
             this.lblRecordsCount.Size = new System.Drawing.Size(33, 19);
-            this.lblRecordsCount.TabIndex = 16;
+            this.lblRecordsCount.TabIndex = 31;
             this.lblRecordsCount.Text = "???";
             // 
             // contextMenuStrip
@@ -82,47 +82,16 @@
             this.editToolStripMenuItem.Text = "Edit";
             this.editToolStripMenuItem.Click += new System.EventHandler(this.editToolStripMenuItem_Click);
             // 
-            // label1
-            // 
-            this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(12, 515);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(88, 19);
-            this.label1.TabIndex = 17;
-            this.label1.Text = "# Records:";
-            // 
-            // dgvApplicatonsList
-            // 
-            this.dgvApplicatonsList.AllowUserToAddRows = false;
-            this.dgvApplicatonsList.AllowUserToDeleteRows = false;
-            this.dgvApplicatonsList.AllowUserToOrderColumns = true;
-            this.dgvApplicatonsList.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.dgvApplicatonsList.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            this.dgvApplicatonsList.BackgroundColor = System.Drawing.Color.White;
-            this.dgvApplicatonsList.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvApplicatonsList.ContextMenuStrip = this.contextMenuStrip;
-            this.dgvApplicatonsList.Location = new System.Drawing.Point(12, 204);
-            this.dgvApplicatonsList.Name = "dgvApplicatonsList";
-            this.dgvApplicatonsList.ReadOnly = true;
-            this.dgvApplicatonsList.Size = new System.Drawing.Size(760, 305);
-            this.dgvApplicatonsList.TabIndex = 14;
-            this.dgvApplicatonsList.CellMouseDown += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgvApplicatonsList_CellMouseDown);
-            this.dgvApplicatonsList.MouseDown += new System.Windows.Forms.MouseEventHandler(this.dgvApplicatonsList_MouseDown);
-            // 
             // pictureBox1
             // 
             this.pictureBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.pictureBox1.Image = global::DVLD.WinForms.Properties.Resources.Application_Types_512;
+            this.pictureBox1.Image = global::DVLD.WinForms.Properties.Resources.TestType_512;
             this.pictureBox1.Location = new System.Drawing.Point(294, 12);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(196, 119);
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pictureBox1.TabIndex = 18;
+            this.pictureBox1.TabIndex = 33;
             this.pictureBox1.TabStop = false;
             // 
             // btnCloseScreen
@@ -136,44 +105,76 @@
             this.btnCloseScreen.Location = new System.Drawing.Point(670, 515);
             this.btnCloseScreen.Name = "btnCloseScreen";
             this.btnCloseScreen.Size = new System.Drawing.Size(102, 34);
-            this.btnCloseScreen.TabIndex = 22;
+            this.btnCloseScreen.TabIndex = 34;
             this.btnCloseScreen.Text = "     Close";
             this.btnCloseScreen.UseVisualStyleBackColor = true;
             this.btnCloseScreen.Click += new System.EventHandler(this.btnCloseScreen_Click);
             // 
-            // frmManageApplicationTypes
+            // label1
+            // 
+            this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.Location = new System.Drawing.Point(12, 515);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(88, 19);
+            this.label1.TabIndex = 32;
+            this.label1.Text = "# Records:";
+            // 
+            // dgvTestsList
+            // 
+            this.dgvTestsList.AllowUserToAddRows = false;
+            this.dgvTestsList.AllowUserToDeleteRows = false;
+            this.dgvTestsList.AllowUserToOrderColumns = true;
+            this.dgvTestsList.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.dgvTestsList.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.dgvTestsList.BackgroundColor = System.Drawing.Color.White;
+            this.dgvTestsList.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvTestsList.ContextMenuStrip = this.contextMenuStrip;
+            this.dgvTestsList.Location = new System.Drawing.Point(12, 204);
+            this.dgvTestsList.Name = "dgvTestsList";
+            this.dgvTestsList.ReadOnly = true;
+            this.dgvTestsList.Size = new System.Drawing.Size(760, 305);
+            this.dgvTestsList.TabIndex = 29;
+            this.dgvTestsList.CellMouseDown += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgvTestsList_CellMouseDown);
+            this.dgvTestsList.MouseDown += new System.Windows.Forms.MouseEventHandler(this.dgvTestsList_MouseDown);
+            // 
+            // frmManageTestTypes
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.btnCloseScreen;
             this.ClientSize = new System.Drawing.Size(784, 561);
-            this.Controls.Add(this.pictureBox1);
-            this.Controls.Add(this.btnCloseScreen);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.lblRecordsCount);
+            this.Controls.Add(this.pictureBox1);
+            this.Controls.Add(this.btnCloseScreen);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.dgvApplicatonsList);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.SizableToolWindow;
-            this.Name = "frmManageApplicationTypes";
+            this.Controls.Add(this.dgvTestsList);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
+            this.Name = "frmManageTestTypes";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Manage Application Types";
-            this.Load += new System.EventHandler(this.frmManageApplicationTypes_Load);
+            this.Text = "Manage Test Types";
+            this.Load += new System.EventHandler(this.frmManageTestTypes_Load);
             this.contextMenuStrip.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.dgvApplicatonsList)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvTestsList)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
         }
 
         #endregion
-        private System.Windows.Forms.PictureBox pictureBox1;
-        private System.Windows.Forms.Button btnCloseScreen;
+
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label lblRecordsCount;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.DataGridView dgvApplicatonsList;
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip;
         private System.Windows.Forms.ToolStripMenuItem editToolStripMenuItem;
+        private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.Button btnCloseScreen;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.DataGridView dgvTestsList;
     }
 }

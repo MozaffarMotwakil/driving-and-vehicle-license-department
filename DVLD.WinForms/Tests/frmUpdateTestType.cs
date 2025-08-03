@@ -3,36 +3,41 @@ using System.Windows.Forms;
 using DVLD.BusinessLogic;
 using DVLD.WinForms.Utils;
 
-namespace DVLD.WinForms.Applications
+namespace DVLD.WinForms.Tests
 {
-    public partial class frmUpdateApplicationType : Form
+    public partial class frmUpdateTestType : Form
     {
-        private clsApplicationType _ApplicationType;
+        private clsTestType _TestType;
 
         public bool IsSaveSuccess { get; set; }
 
-        public frmUpdateApplicationType(int ApplicationTypeID)
+        public frmUpdateTestType(int TestTypeID)
         {
             InitializeComponent();
             IsSaveSuccess = false;
-            _ApplicationType = clsApplicationType.Find(ApplicationTypeID);
+            _TestType = clsTestType.Find(TestTypeID);
         }
 
         private void frmUpdateApplicationType_Load(object sender, EventArgs e)
         {
-            if (_ApplicationType == null)
+            if (_TestType == null)
             {
-                clsFormMessages.ShowApplicationTypeNotFoundError();
+                clsFormMessages.ShowTestTypeNotFoundError();
                 this.Close();
                 return;
             }
 
-            _LoadDataFromApplicationTypeObjectToUI();
+            _LoadDataFromTestTypeObjectToUI();
         }
 
         private void txtTitle_Validating(object sender, System.ComponentModel.CancelEventArgs e)
         {
             clsFormValidation.ValidatingRequiredField(txtTitle, "Title is required field.", errorProvider);
+        }
+
+        private void txtDescription_Validating(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            clsFormValidation.ValidatingRequiredField(txtDescription, "Description is required field.", errorProvider);
         }
 
         private void txtFees_Validating(object sender, System.ComponentModel.CancelEventArgs e)
@@ -48,11 +53,11 @@ namespace DVLD.WinForms.Applications
                 return;
             }
 
-            _FillApplicationTypeObjectFromUI();
+            _FillTestTypeObjectFromUI();
 
             if (clsFormMessages.ConfirmSava())
             {
-                if (_ApplicationType.Save())
+                if (_TestType.Save())
                 {
                     clsFormMessages.ShowSuccess("Saved successfully.");
                     IsSaveSuccess = true;
@@ -69,17 +74,19 @@ namespace DVLD.WinForms.Applications
             this.Close();
         }
 
-        private void _LoadDataFromApplicationTypeObjectToUI()
+        private void _LoadDataFromTestTypeObjectToUI()
         {
-            lblApplicationTypeID.Text = _ApplicationType.ID.ToString();
-            txtTitle.Text = _ApplicationType.Title;
-            txtFees.Text = _ApplicationType.Fees.ToString();
+            lblApplicationTypeID.Text = _TestType.ID.ToString();
+            txtTitle.Text = _TestType.Title;
+            txtDescription.Text = _TestType.Description;
+            txtFees.Text = _TestType.Fees.ToString();
         }
 
-        private void _FillApplicationTypeObjectFromUI()
+        private void _FillTestTypeObjectFromUI()
         {
-            _ApplicationType.Title = txtTitle.Text;
-            _ApplicationType.Fees = float.Parse(txtFees.Text);
+            _TestType.Title = txtTitle.Text;
+            _TestType.Description = txtDescription.Text;
+            _TestType.Fees = float.Parse(txtFees.Text);
         }
 
     }
