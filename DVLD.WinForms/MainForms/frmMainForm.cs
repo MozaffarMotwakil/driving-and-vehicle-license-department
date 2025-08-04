@@ -3,6 +3,7 @@ using System.Drawing;
 using System.Windows.Forms;
 using DVLD.BusinessLogic;
 using DVLD.WinForms.Applications;
+using DVLD.WinForms.Applications.LocalLicense;
 using DVLD.WinForms.People;
 using DVLD.WinForms.Tests;
 using DVLD.WinForms.Users;
@@ -112,5 +113,10 @@ namespace DVLD.WinForms.MainForms
             Application.OpenForms["frmLogin"].Close();
         }
 
+        private void localLicenseToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            frmAddUpdateLocalLicenseApplication addLocalLicenseApplication = new frmAddUpdateLocalLicenseApplication();
+            addLocalLicenseApplication.ShowDialog();
+        }
     }
 }
