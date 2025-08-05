@@ -6,13 +6,13 @@ namespace DVLD.BusinessLogic
 {
     public class clsApplicationType
     {
-        public int ID { get; }
+        public int TypeID { get; }
         public string Title { get; set; }
         public float Fees { get; set; }
 
         private clsApplicationType(clsApplicationTypeEntity applicationTypeEntity)
         {
-            this.ID = applicationTypeEntity.ID;
+            this.TypeID = applicationTypeEntity.TypeID;
             this.Title = applicationTypeEntity.Title;
             this.Fees = applicationTypeEntity.Fees;
         }
@@ -35,7 +35,7 @@ namespace DVLD.BusinessLogic
         private static clsApplicationTypeEntity _MapApplicationTypeObjectToApplicationTypeEntity(clsApplicationType applicationType)
         {
             return new clsApplicationTypeEntity(
-                applicationType.ID,
+                applicationType.TypeID,
                 applicationType.Title,
                 applicationType.Fees
                 );

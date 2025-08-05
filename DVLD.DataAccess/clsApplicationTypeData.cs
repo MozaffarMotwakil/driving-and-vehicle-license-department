@@ -90,7 +90,7 @@ namespace DVLD.DataAccess
                     WHERE ApplicationTypeID = @ApplicationTypeID";
 
                 SqlCommand command = new SqlCommand(query, connection);
-                command.Parameters.AddWithValue("@ApplicationTypeID", applicationTypeEntity.ID);
+                command.Parameters.AddWithValue("@ApplicationTypeID", applicationTypeEntity.TypeID);
                 command.Parameters.AddWithValue("@ApplicationTypeTitle", applicationTypeEntity.Title);
                 command.Parameters.AddWithValue("@ApplicationFees", applicationTypeEntity.Fees);
 
