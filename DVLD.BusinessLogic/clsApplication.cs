@@ -7,10 +7,10 @@ namespace DVLD.BusinessLogic
     public class clsApplication
     {
         public int ApplicationID { get; set; }
-        public int PersonID { get; set; }
-        public int TypeID { get; set; }
-        public int StatusID { get; set; }
-        public int CreatedByUserID { get; set; }
+        public clsPerson PersonInfo { get; set; }
+        public clsApplicationType TypeInfo { get; set; }
+        public clsApplicationStatus StatusInfo { get; set; }
+        public clsUser CreatedByUserInfo { get; set; }
         public DateTime CreatedDate { get; set; }
         public DateTime LastStatusDate { get; set; }
         public float PaidFees { get; set; }
@@ -18,9 +18,11 @@ namespace DVLD.BusinessLogic
 
         public clsApplication()
         {
-            ApplicationID = PersonID = TypeID =
-                StatusID = CreatedByUserID = -1;
-
+            ApplicationID = -1;
+            PersonInfo = null;
+            TypeInfo = null;
+            StatusInfo = null;
+            CreatedByUserInfo = null;
             CreatedDate = LastStatusDate = DateTime.Now;
             PaidFees = 0;
             this.Mode = enMode.AddNew;
@@ -29,10 +31,10 @@ namespace DVLD.BusinessLogic
         private clsApplication(clsApplicationEntity applicationEntity)
         {
             this.ApplicationID = applicationEntity.ApplicationID;
-            this.PersonID = applicationEntity.PersonID;
-            this.TypeID = applicationEntity.TypeID;
-            this.StatusID = applicationEntity.StatusID;
-            this.CreatedByUserID = applicationEntity.CreatedByUserID;
+            this.PersonInfo = clsPerson.Find(applicationEntity.PersonID);
+            this.TypeInfo = clsApplicationType.Find(applicationEntity.TypeID);
+            this.StatusInfo = clsApplicationStatus.Find(applicationEntity.StatusID);
+            this.CreatedByUserInfo = clsUser.Find(applicationEntity.CreatedByUserID);
             this.CreatedDate = applicationEntity.CreatedDate;
             this.LastStatusDate = applicationEntity.LastStatusDate;
             this.PaidFees = applicationEntity.PaidFees;
@@ -83,10 +85,10 @@ namespace DVLD.BusinessLogic
         {
             return new clsApplicationEntity(
                 application.ApplicationID,
-                application.PersonID,
-                application.TypeID,
-                application.StatusID,
-                application.CreatedByUserID,
+                application.PersonInfo.PersonID,
+                application.TypeInfo.TypeID,
+                application.StatusInfo.StatusID,
+                application.CreatedByUserInfo.UserID,
                 application.CreatedDate,
                 application.LastStatusDate,
                 application.PaidFees
