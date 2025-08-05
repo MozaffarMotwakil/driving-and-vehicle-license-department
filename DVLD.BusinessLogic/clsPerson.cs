@@ -74,29 +74,29 @@ namespace DVLD.BusinessLogic
 
         public static bool IsPersonExist(int PersonID)
         {
-            return clsPersonData.IsPersonExist(PersonID);
+            return DataAccess.clsPersonData.IsPersonExist(PersonID);
         }
 
         public static bool IsPersonExist(string NationalNo)
         {
-            return clsPersonData.IsPersonExist(NationalNo);
+            return DataAccess.clsPersonData.IsPersonExist(NationalNo);
         }
 
         public static clsPerson Find(int PersonID)
         {
-            clsPersonEntity personEntity = clsPersonData.FindPersonByID(PersonID);
+            clsPersonEntity personEntity = DataAccess.clsPersonData.FindPersonByID(PersonID);
             return personEntity != null ? new clsPerson(personEntity) : null;
         }
         
         public static clsPerson Find(string NationalNo)
         {
-            clsPersonEntity personEntity = clsPersonData.FindPersonByNationalNo(NationalNo);
+            clsPersonEntity personEntity = DataAccess.clsPersonData.FindPersonByNationalNo(NationalNo);
             return personEntity != null ? new clsPerson(personEntity) : null;
         }
 
         public static DataTable GetAllPeople()
         {
-            return clsPersonData.GetAllPeople();
+            return DataAccess.clsPersonData.GetAllPeople();
         }
 
         public static bool Delete(int PersonID)
@@ -108,7 +108,7 @@ namespace DVLD.BusinessLogic
                 person.DeleteImage();
             }
 
-            return clsPersonData.DeletePerson(PersonID);
+            return DataAccess.clsPersonData.DeletePerson(PersonID);
         }
 
         public void DeleteImage()
