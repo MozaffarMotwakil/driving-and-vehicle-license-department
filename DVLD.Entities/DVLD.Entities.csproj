@@ -41,6 +41,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="clsLocalLicenseApplicationEntity.cs" />
+    <Compile Include="clsLicenseClassEntity.cs" />
+    <Compile Include="clsApplicationStatusEntity.cs" />
     <Compile Include="clsApplicationEntity.cs" />
     <Compile Include="clsTestTypeEntity.cs" />
     <Compile Include="clsApplicationTypeEntity.cs" />
