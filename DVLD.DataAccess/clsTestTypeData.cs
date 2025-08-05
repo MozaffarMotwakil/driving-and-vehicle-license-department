@@ -91,7 +91,7 @@ namespace DVLD.DataAccess
                     WHERE TestTypeID = @TestTypeID";
 
                 SqlCommand command = new SqlCommand(query, connection);
-                command.Parameters.AddWithValue("@TestTypeID", testTypeEntity.ID);
+                command.Parameters.AddWithValue("@TestTypeID", testTypeEntity.TypeID);
                 command.Parameters.AddWithValue("@TestTypeTitle", testTypeEntity.Title);
                 command.Parameters.AddWithValue("@TestTypeDescription", testTypeEntity.Description);
                 command.Parameters.AddWithValue("@TestTypeFees", testTypeEntity.Fees);

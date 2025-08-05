@@ -6,14 +6,14 @@ namespace DVLD.BusinessLogic
 {
     public class clsTestType
     {
-        public int ID { get; }
+        public int TypeID { get; }
         public string Title { get; set; }
         public string Description { get; set; }
         public float Fees { get; set; }
 
         private clsTestType(clsTestTypeEntity testTypeEntity)
         {
-            this.ID = testTypeEntity.ID;
+            this.TypeID = testTypeEntity.TypeID;
             this.Title = testTypeEntity.Title;
             this.Description = testTypeEntity.Description;
             this.Fees = testTypeEntity.Fees;
@@ -37,7 +37,7 @@ namespace DVLD.BusinessLogic
         private static clsTestTypeEntity _MapTestTypeObjectToTestTypeEntity(clsTestType testType)
         {
             return new clsTestTypeEntity(
-                testType.ID,
+                testType.TypeID,
                 testType.Title,
                 testType.Description,
                 testType.Fees

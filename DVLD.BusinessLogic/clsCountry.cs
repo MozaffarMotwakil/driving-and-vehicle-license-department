@@ -9,7 +9,7 @@ namespace DVLD.BusinessLogic
         public int CountryID { get; set; }
         public string CountryName { get; set; }
 
-        public clsCountry(clsCountryEntity countryEntity)
+        private clsCountry(clsCountryEntity countryEntity)
         {
             this.CountryID = countryEntity.CountryID;
             this.CountryName = countryEntity.CountryName;
@@ -17,7 +17,7 @@ namespace DVLD.BusinessLogic
 
         public static DataTable GetAllCountries()
         {
-            return DataAccess.clsCountryData.GetAllCountries();
+            return clsCountryData.GetAllCountries();
         }
 
         public static clsCountry Find(int CountryID)
@@ -28,11 +28,6 @@ namespace DVLD.BusinessLogic
         public static clsCountry Find(string CountryName)
         {
             return new clsCountry(clsCountryData.FindCountryByName(CountryName));
-        }
-
-        public static bool IsCountryExist(int CountryID)
-        {
-            return IsCountryExist(CountryID);
         }
 
     }
