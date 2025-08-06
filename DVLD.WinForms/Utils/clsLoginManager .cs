@@ -12,7 +12,7 @@ namespace DVLD.WinForms.Utils
 
         public static void SaveLoginInformation(string Username, string Password)
         {
-            if (!File.Exists(LoginInfoFilePath))
+            if (!File.Exists(LoginInfoFilePath) || GetSavedUsername() != Username)
             {
                 File.WriteAllText(LoginInfoFilePath, $"{Username}\n{Password}");
             }

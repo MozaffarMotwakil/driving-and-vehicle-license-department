@@ -91,7 +91,7 @@ namespace DVLD.WinForms.Users
                     clsFormMessages.ShowSuccess("Password has been successfully changed.");
                     IsSaveSuccess = true;
 
-                    if (clsLoginManager.IsLoginInformationExist())
+                    if (_User.UserID == clsAppSettings.CurrentUser.UserID && clsLoginManager.IsLoginInformationExist())
                     {
                         clsLoginManager.UpdatedLoginInformation(_User.Username, txtNewPassword.Text);
                     }
