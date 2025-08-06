@@ -101,6 +101,17 @@ namespace DVLD.WinForms.Global
             return -1;
         }
 
+        public static void PreventContextMenuOnHeaderOrEmptySpace(DataGridView dataGridView, System.ComponentModel.CancelEventArgs e)
+        {
+            Point point = dataGridView.PointToClient(Cursor.Position);
+            DataGridView.HitTestInfo hit = dataGridView.HitTest(point.X, point.Y);
+
+            if (hit.Type == DataGridViewHitTestType.None || hit.Type == DataGridViewHitTestType.ColumnHeader)
+            {
+                e.Cancel = true;
+            }
+        }
+
         public static Image GetDefaultPersonImage(clsPerson.enGender gender)
         {
             return gender == clsPerson.enGender.Male ? Resources.Male_512 : Resources.Female_512;

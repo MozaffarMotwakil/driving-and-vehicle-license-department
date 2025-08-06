@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Windows.Forms;
 using DVLD.WinForms.MainForms;
-using DVLD.WinForms.Users;
 
 namespace DVLD.WinForms
 {

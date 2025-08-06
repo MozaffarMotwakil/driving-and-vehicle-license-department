@@ -1,85 +1,60 @@
-﻿using System.Drawing;
-using System.Windows.Forms;
+﻿using System.Data;
 using DVLD.BusinessLogic;
+using DVLD.WinForms.BaseForms;
 using DVLD.WinForms.Global;
+using DVLD.WinForms.Properties;
 
 namespace DVLD.WinForms.Applications
 {
-    public partial class frmManageApplicationTypes : Form
+    internal partial class frmManageApplicationTypes : frmBaseManage
     {
-
-        public frmManageApplicationTypes()
+        public frmManageApplicationTypes() : base(clsApplicationType.GetAllApplicationTypes().DefaultView)
         {
             InitializeComponent();
-            _RefreshApplicationsList();
-            lblRecordsCount.Text = dgvApplicatonsList.RowCount.ToString();
         }
 
         private void frmManageApplicationTypes_Load(object sender, System.EventArgs e)
         {
-            _ResetApplicationsListColumnsWidthAndName();
+            base.FormTitle = "Manage Application Types";
+            base.FormLogo = Resources.Application_Types_512;
+            base.RecordsList.ContextMenuStrip = contextMenuStrip;
         }
 
         private void editToolStripMenuItem_Click(object sender, System.EventArgs e)
         {
-            frmUpdateApplicationType updateApplicationType = new frmUpdateApplicationType(clsFormHelper.GetSelectedRowID(dgvApplicatonsList));
+            frmUpdateApplicationType updateApplicationType = new frmUpdateApplicationType(clsFormHelper.GetSelectedRowID(base.RecordsList));
             updateApplicationType.ShowDialog();
 
             if (updateApplicationType.IsSaveSuccess)
             {
-                _RefreshApplicationsList();
+                base.RefreshRecordsList();
             }
-        }
 
-        private void btnCloseScreen_Click(object sender, System.EventArgs e)
-        {
-            this.Close();
-        }
-
-        private void dgvApplicatonsList_CellMouseDown(object sender, DataGridViewCellMouseEventArgs e)
-        {
-            clsFormHelper.SelectEntireRow(dgvApplicatonsList, e);
-        }
-
-        private void dgvApplicatonsList_MouseDown(object sender, MouseEventArgs e)
-        {
-            clsFormHelper.DeselectCellsAndRows(dgvApplicatonsList, e);
         }
 
         private void contextMenuStrip_Opening(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            _AdjustContextMenuVisibility(e);
+            clsFormHelper.PreventContextMenuOnHeaderOrEmptySpace(base.RecordsList, e);
         }
 
-        private void _ResetApplicationsListColumnsWidthAndName()
+        protected override void ResetRecordsListColumnsWidthAndName()
         {
-            if (dgvApplicatonsList.Rows.Count > 0)
+            if (base.RecordsCount > 0)
             {
-                dgvApplicatonsList.Columns[0].HeaderText = "ID";
-                dgvApplicatonsList.Columns[0].Width = 60;
+                base.RecordsList.Columns[0].HeaderText = "ID";
+                base.RecordsList.Columns[0].Width = 60;
 
-                dgvApplicatonsList.Columns[1].HeaderText = "Title";
-                dgvApplicatonsList.Columns[1].Width = 250;
+                base.RecordsList.Columns[1].HeaderText = "Title";
+                base.RecordsList.Columns[1].Width = 250;
 
-                dgvApplicatonsList.Columns[2].HeaderText = "Fees";
-                dgvApplicatonsList.Columns[2].Width = 120;
+                base.RecordsList.Columns[2].HeaderText = "Fees";
+                base.RecordsList.Columns[2].Width = 120;
             }
         }
-
-        private void _AdjustContextMenuVisibility(System.ComponentModel.CancelEventArgs e)
+        
+        protected override DataView GetDataSource()
         {
-            Point point = dgvApplicatonsList.PointToClient(Cursor.Position);
-            DataGridView.HitTestInfo hit = dgvApplicatonsList.HitTest(point.X, point.Y);
-
-            if (hit.Type == DataGridViewHitTestType.None || hit.Type == DataGridViewHitTestType.ColumnHeader)
-            {
-                e.Cancel = true;
-            }
-        }
-
-        private void _RefreshApplicationsList()
-        {
-            dgvApplicatonsList.DataSource = clsApplicationType.GetAllApplicationTypes();
+            return clsApplicationType.GetAllApplicationTypes().DefaultView;
         }
 
     }

@@ -64,6 +64,12 @@
     <Compile Include="Applications\LocalLicense\frmAddUpdateLocalLicenseApplication.Designer.cs">
       <DependentUpon>frmAddUpdateLocalLicenseApplication.cs</DependentUpon>
     </Compile>
+    <Compile Include="BaseForms\frmBaseManage.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="BaseForms\frmBaseManage.Designer.cs">
+      <DependentUpon>frmBaseManage.cs</DependentUpon>
+    </Compile>
     <Compile Include="Tests\frmUpdateTestType.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -173,6 +179,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Applications\LocalLicense\frmAddUpdateLocalLicenseApplication.resx">
       <DependentUpon>frmAddUpdateLocalLicenseApplication.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="BaseForms\frmBaseManage.resx">
+      <DependentUpon>frmBaseManage.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MainForms\frmLogin.resx">
       <DependentUpon>frmLogin.cs</DependentUpon>

@@ -1,87 +1,63 @@
-﻿using System.Drawing;
-using System.Windows.Forms;
+﻿using System.Data;
 using DVLD.BusinessLogic;
+using DVLD.WinForms.BaseForms;
 using DVLD.WinForms.Global;
+using DVLD.WinForms.Properties;
 
 namespace DVLD.WinForms.Tests
 {
-    public partial class frmManageTestTypes : Form
+    internal partial class frmManageTestTypes : frmBaseManage
     {
-        public frmManageTestTypes()
+        public frmManageTestTypes() : base(clsTestType.GetAllTestTypes().DefaultView)
         {
             InitializeComponent();
-            _RefreshTestsList();
-            lblRecordsCount.Text = dgvTestsList.RowCount.ToString();
         }
 
         private void frmManageTestTypes_Load(object sender, System.EventArgs e)
         {
-            _ResetTestsListColumnsWidthAndName();
+            base.FormTitle = "Manage Test Types";
+            base.FormLogo = Resources.TestType_512;
+            base.RecordsList.ContextMenuStrip = contextMenuStrip;
         }
 
         private void editToolStripMenuItem_Click(object sender, System.EventArgs e)
         {
-            frmUpdateTestType updateTestType = new frmUpdateTestType(clsFormHelper.GetSelectedRowID(dgvTestsList));
+            frmUpdateTestType updateTestType = new frmUpdateTestType(clsFormHelper.GetSelectedRowID(base.RecordsList));
             updateTestType.ShowDialog();
 
             if (updateTestType.IsSaveSuccess)
             {
-                _RefreshTestsList();
+                base.RefreshRecordsList();
             }
-        }
 
-        private void btnCloseScreen_Click(object sender, System.EventArgs e)
-        {
-            this.Close();
-        }
-
-        private void dgvTestsList_CellMouseDown(object sender, DataGridViewCellMouseEventArgs e)
-        {
-            clsFormHelper.SelectEntireRow(dgvTestsList, e);
-        }
-
-        private void dgvTestsList_MouseDown(object sender, MouseEventArgs e)
-        {
-            clsFormHelper.DeselectCellsAndRows(dgvTestsList, e);
         }
 
         private void contextMenuStrip_Opening(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            _AdjustContextMenuVisibility(e);
+            clsFormHelper.PreventContextMenuOnHeaderOrEmptySpace(base.RecordsList, e);
         }
 
-        private void _ResetTestsListColumnsWidthAndName()
+        protected override void ResetRecordsListColumnsWidthAndName()
         {
-            if (dgvTestsList.Rows.Count > 0)
+            if (RecordsCount > 0)
             {
-                dgvTestsList.Columns[0].HeaderText = "ID";
-                dgvTestsList.Columns[0].Width = 50;
+                base.RecordsList.Columns[0].HeaderText = "ID";
+                base.RecordsList.Columns[0].Width = 50;
 
-                dgvTestsList.Columns[1].HeaderText = "Title";
-                dgvTestsList.Columns[1].Width = 150;
+                base.RecordsList.Columns[1].HeaderText = "Title";
+                base.RecordsList.Columns[1].Width = 150;
 
-                dgvTestsList.Columns[2].HeaderText = "Description";
-                dgvTestsList.Columns[2].Width = 450;
-                
-                dgvTestsList.Columns[3].HeaderText = "Fees";
-                dgvTestsList.Columns[3].Width = 80;
+                base.RecordsList.Columns[2].HeaderText = "Description";
+                base.RecordsList.Columns[2].Width = 450;
+
+                base.RecordsList.Columns[3].HeaderText = "Fees";
+                base.RecordsList.Columns[3].Width = 80;
             }
         }
 
-        private void _AdjustContextMenuVisibility(System.ComponentModel.CancelEventArgs e)
+        protected override DataView GetDataSource()
         {
-            Point point = dgvTestsList.PointToClient(Cursor.Position);
-            DataGridView.HitTestInfo hit = dgvTestsList.HitTest(point.X, point.Y);
-
-            if (hit.Type == DataGridViewHitTestType.None || hit.Type == DataGridViewHitTestType.ColumnHeader)
-            {
-                e.Cancel = true;
-            }
-        }
-
-        private void _RefreshTestsList()
-        {
-            dgvTestsList.DataSource = clsTestType.GetAllTestTypes();
+            return clsTestType.GetAllTestTypes().DefaultView;
         }
 
     }
