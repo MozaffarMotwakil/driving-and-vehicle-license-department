@@ -5,7 +5,7 @@ using System.Windows.Forms;
 using DVLD.BusinessLogic;
 using DVLD.WinForms.Properties;
 
-namespace DVLD.WinForms.Global
+namespace DVLD.WinForms.Utils
 {
     public static class clsFormHelper
     {

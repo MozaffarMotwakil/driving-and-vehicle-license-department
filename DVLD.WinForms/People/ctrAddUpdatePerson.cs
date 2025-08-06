@@ -2,7 +2,6 @@
 using System.IO;
 using System.Windows.Forms;
 using DVLD.BusinessLogic;
-using DVLD.WinForms.Global;
 using DVLD.WinForms.Properties;
 using DVLD.WinForms.Utils;
 

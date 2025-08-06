@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Windows.Forms;
 using DVLD.BusinessLogic;
-using DVLD.WinForms.Global;
 using DVLD.WinForms.Utils;
 
 namespace DVLD.WinForms.MainForms

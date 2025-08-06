@@ -1,7 +1,7 @@
 ﻿using System.Data;
 using DVLD.BusinessLogic;
 using DVLD.WinForms.BaseForms;
-using DVLD.WinForms.Global;
+using DVLD.WinForms.Utils;
 using DVLD.WinForms.Properties;
 
 namespace DVLD.WinForms.Applications

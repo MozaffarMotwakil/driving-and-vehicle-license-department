@@ -131,6 +131,7 @@
             this.Controls.Add(this.lblRecordsCount);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.dgvRecordsList);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Name = "frmBaseManage";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Base Manage";

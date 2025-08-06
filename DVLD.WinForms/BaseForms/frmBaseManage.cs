@@ -2,7 +2,7 @@
 using System.Data;
 using System.Drawing;
 using System.Windows.Forms;
-using DVLD.WinForms.Global;
+using DVLD.WinForms.Utils;
 
 namespace DVLD.WinForms.BaseForms
 {
@@ -29,14 +29,15 @@ namespace DVLD.WinForms.BaseForms
             get { return dgvRecordsList; }
         }
 
-        private frmBaseManage()
+        protected frmBaseManage()
         {
             InitializeComponent();
         }
 
-        public frmBaseManage(DataView DataSource)
+        public frmBaseManage(DataView DataSource, int Width = 800, int Height = 600) : this()
         {
-            InitializeComponent();
+            this.Width = Width;
+            this.Height = Height;
             RecordsList.DataSource = DataSource;
             RefreshRecordsList();
         }

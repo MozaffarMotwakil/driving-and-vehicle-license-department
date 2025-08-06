@@ -1,5 +1,4 @@
-﻿using DVLD.WinForms.Global;
-
+﻿
 namespace DVLD.WinForms.Users
 {
     partial class frmChangePassword
