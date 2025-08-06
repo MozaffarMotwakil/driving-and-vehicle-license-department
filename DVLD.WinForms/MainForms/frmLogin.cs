@@ -103,5 +103,13 @@ namespace DVLD.WinForms.MainForms
         {
             clsFormHelper.HidePassword(sender, e);
         }
+
+        private void frmLogin_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (!cbRememberMe.Checked)
+            {
+                clsLoginManager.DeleteLoginInformation();
+            }
+        }
     }
 }

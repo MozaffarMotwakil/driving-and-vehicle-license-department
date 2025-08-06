@@ -11,7 +11,7 @@ namespace DVLD.WinForms.Utils
 
         public static void ShowInvalidDataError()
         {
-            ShowError("Cannot save because not all data is valid. Please enter correct data.", "Save Failed");
+            ShowError("Error: not all data is valid. Please enter correct data.");
         }
 
 

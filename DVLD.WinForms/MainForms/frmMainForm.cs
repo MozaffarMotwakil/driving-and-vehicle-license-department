@@ -14,12 +14,14 @@ namespace DVLD.WinForms.MainForms
     {
         enum enFormTypes { ManagePeople , ManageUsers}
 
+        private bool _IsSignOut;
         private Form _ManagePeopleForm;
         private Form _ManageUsersForm;
 
         public frmMainForm()
         {
             InitializeComponent();
+            _IsSignOut = false;
             _ManagePeopleForm = null;
             _ManageUsersForm = null;
 
@@ -88,6 +90,7 @@ namespace DVLD.WinForms.MainForms
 
         private void sginOutToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            _IsSignOut = true;
             Application.OpenForms["frmLogin"].Show();
             clsAppSettings.CurrentUser = null;
             this.Close();
@@ -110,7 +113,10 @@ namespace DVLD.WinForms.MainForms
             // Because we used frmLogin.Hide(), the login form is still running but hidden.
             // If we don’t close it manually, it will keep running in the background even after the main form is closed.
             // This might cause problems, like not being able to open the app again because part of it is still running.
-            Application.OpenForms["frmLogin"].Close();
+            if (!_IsSignOut)
+            {
+                Application.OpenForms["frmLogin"].Close();
+            }
         }
 
         private void localLicenseToolStripMenuItem_Click(object sender, EventArgs e)

@@ -31,6 +31,16 @@ namespace DVLD.WinForms.People
                 PersonNotFound();
             }
         }
+        
+        public event Action AddNewPerson;
+
+        protected virtual void OnAddNewPerson()
+        {
+            if (AddNewPerson != null)
+            {
+                AddNewPerson();
+            }
+        }
 
         public ctrPersonCardInfoWithFiltter()
         {
@@ -93,13 +103,19 @@ namespace DVLD.WinForms.People
 
         private void btnAddNewPerson_Click(object sender, EventArgs e)
         {
-            frmAddUpdatePerson AddNewPersonForm = new frmAddUpdatePerson();
-            AddNewPersonForm.PersonBack += _DisplayPersonInfo;
-            AddNewPersonForm.ShowDialog();
+            frmAddUpdatePerson addNewPersonForm = new frmAddUpdatePerson();
+            addNewPersonForm.PersonBack += _DisplayPersonInfo;
+            addNewPersonForm.ShowDialog();
+
+            if (addNewPersonForm.IsSaveSuccess)
+            {
+                OnAddNewPerson();
+            }
         }
 
         private void _DisplayPersonInfo(clsPerson Person)
         {
+            this.Person = Person;
             ctrPersonCardInfo.LoadPersonDataForDesplay(Person);
             cbFiltterColumn.SelectedIndex = 0;
             txtTextForFilttering.Text = Person.PersonID.ToString();

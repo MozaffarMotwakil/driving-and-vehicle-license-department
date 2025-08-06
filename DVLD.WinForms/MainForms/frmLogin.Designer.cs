@@ -205,6 +205,7 @@ namespace DVLD.WinForms.MainForms
             this.Name = "frmLogin";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Login";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.frmLogin_FormClosing);
             this.Load += new System.EventHandler(this.frmLogin_Load);
             this.VisibleChanged += new System.EventHandler(this.frmLogin_VisibleChanged);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();

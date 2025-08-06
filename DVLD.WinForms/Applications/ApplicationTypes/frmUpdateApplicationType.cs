@@ -76,7 +76,7 @@ namespace DVLD.WinForms.Applications
 
         private void _LoadDataFromApplicationTypeObjectToUI()
         {
-            lblApplicationTypeID.Text = _ApplicationType.ID.ToString();
+            lblApplicationTypeID.Text = _ApplicationType.TypeID.ToString();
             txtTitle.Text = _ApplicationType.Title;
             txtFees.Text = _ApplicationType.Fees.ToString();
         }

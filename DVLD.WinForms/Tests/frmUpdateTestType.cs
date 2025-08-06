@@ -81,7 +81,7 @@ namespace DVLD.WinForms.Tests
 
         private void _LoadDataFromTestTypeObjectToUI()
         {
-            lblApplicationTypeID.Text = _TestType.ID.ToString();
+            lblApplicationTypeID.Text = _TestType.TypeID.ToString();
             txtTitle.Text = _TestType.Title;
             txtDescription.Text = _TestType.Description;
             txtFees.Text = _TestType.Fees.ToString();

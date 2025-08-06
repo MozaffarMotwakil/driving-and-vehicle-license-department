@@ -26,6 +26,7 @@ namespace DVLD.WinForms.Users
             btnNext.Enabled = btnSave.Enabled =false;
             ctrPersonCardInfoWithFiltter.PersonFound += CtrPersonCardInfoWithFiltter_PersonFound;
             ctrPersonCardInfoWithFiltter.PersonNotFound += CtrPersonCardInfoWithFiltter_PersonNotFound;
+            ctrPersonCardInfoWithFiltter.AddNewPerson += CtrPersonCardInfoWithFiltter_AddNewPerson;
         }
 
         public frmAddUpdateUser(int PersonID)
@@ -64,6 +65,11 @@ namespace DVLD.WinForms.Users
         private void CtrPersonCardInfoWithFiltter_PersonNotFound()
         {
             btnNext.Enabled = btnSave.Enabled = false;
+        }
+
+        private void CtrPersonCardInfoWithFiltter_AddNewPerson()
+        {
+            btnNext.Enabled = true;
         }
 
         private void tabControl_SelectedIndexChanged(object sender, EventArgs e)
@@ -156,6 +162,11 @@ namespace DVLD.WinForms.Users
                     if (_FormMode == enMode.AddNew)
                     {
                         _UpdateFormStateAfterSave();
+                    }
+
+                    if (_User.UserID == clsAppSettings.CurrentUser.UserID && clsLoginManager.IsLoginInformationExist())
+                    {
+                        clsLoginManager.UpdatedLoginInformation(_User.Username, txtPassword.Text);
                     }
 
                     IsSaveSuccess = true;
