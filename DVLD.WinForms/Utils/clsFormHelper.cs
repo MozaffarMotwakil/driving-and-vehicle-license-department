@@ -9,21 +9,19 @@ namespace DVLD.WinForms.Utils
 {
     public static class clsFormHelper
     {
-        public static int RefreshDataGridViewWithFilter(DataGridView dataGridView, DataView DataSource, string FilterColumn, string Text)
+        public static int RefreshDataGridViewWithFilter(DataGridView dataGridView, DataView DataSource, string FilterColumn, string FilterText)
         {
             DataView list = (DataView)dataGridView.DataSource;
 
-            // Apply different filter logic based on the selected column.
-            // 'LIKE' is used for text columns, '=' for exact ID match.
             if (!FilterColumn.EndsWith("ID") && FilterColumn != "IsActive")
             {
-                list.RowFilter = $"{FilterColumn} LIKE '{Text}%'";
+                list.RowFilter = $"{FilterColumn} LIKE '{FilterText}%'";
             }
             else
             {
-                if (!string.IsNullOrWhiteSpace(Text))
+                if (!string.IsNullOrWhiteSpace(FilterText))
                 {
-                    list.RowFilter = $"{FilterColumn} = {Text}";
+                    list.RowFilter = $"{FilterColumn} = {FilterText}";
                 }
                 else
                 {
@@ -101,14 +99,34 @@ namespace DVLD.WinForms.Utils
             return -1;
         }
 
+        public static Point GetCurrentPoint(Control control)
+        {
+            return control.PointToClient(Cursor.Position);
+        }
+
+        public static DataGridView.HitTestInfo GetHitTestInfo(DataGridView dataGridView)
+        {
+            Point point = GetCurrentPoint(dataGridView);
+            return dataGridView.HitTest(point.X, point.Y);
+        }
+
         public static void PreventContextMenuOnHeaderOrEmptySpace(DataGridView dataGridView, System.ComponentModel.CancelEventArgs e)
         {
-            Point point = dataGridView.PointToClient(Cursor.Position);
-            DataGridView.HitTestInfo hit = dataGridView.HitTest(point.X, point.Y);
+            DataGridView.HitTestInfo hit = GetHitTestInfo(dataGridView);
 
             if (hit.Type == DataGridViewHitTestType.None || hit.Type == DataGridViewHitTestType.ColumnHeader)
             {
                 e.Cancel = true;
+            }
+        }
+
+         public static void ShowAnotherContextMenuOnEmptySpaceInDGV(DataGridView dataGridView, ContextMenuStrip contextMenuStrip)
+        {
+            DataGridView.HitTestInfo hit = clsFormHelper.GetHitTestInfo(dataGridView);
+
+            if (hit.Type == DataGridViewHitTestType.None)
+            {
+                contextMenuStrip.Show(dataGridView, clsFormHelper.GetCurrentPoint(dataGridView));
             }
         }
 

@@ -34,10 +34,14 @@ namespace DVLD.WinForms.BaseForms
             InitializeComponent();
         }
 
-        public frmBaseManage(DataView DataSource, int Width = 800, int Height = 600) : this()
+        protected frmBaseManage(int Width = 800, int Height = 600) : this()
         {
             this.Width = Width;
             this.Height = Height;
+        }
+
+        public frmBaseManage(DataView DataSource, int Width = 800, int Height = 600) : this(Width, Height)
+        {
             RecordsList.DataSource = DataSource;
             RefreshRecordsList();
         }
@@ -47,22 +51,17 @@ namespace DVLD.WinForms.BaseForms
             ResetRecordsListColumnsWidthAndName();
         }
 
-        private void btnClose_Click(object sender, EventArgs e)
-        {
-            this.Close();
-        }
-
         private void dgvRecordsList_CellMouseDown(object sender, DataGridViewCellMouseEventArgs e)
         {
             clsFormHelper.SelectEntireRow(dgvRecordsList, e);
         }
 
-        private void dgvRecordsList_CellMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)
+        protected virtual void dgvRecordsList_CellMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)
         {
             clsFormHelper.SelectEntireRow(dgvRecordsList, e);
         }
-        
-        private void dgvRecordsList_MouseDown(object sender, MouseEventArgs e)
+
+        protected virtual void dgvRecordsList_MouseDown(object sender, MouseEventArgs e)
         {
             clsFormHelper.DeselectCellsAndRows(dgvRecordsList, e);
         }
@@ -76,6 +75,11 @@ namespace DVLD.WinForms.BaseForms
         {
             RecordsList.DataSource = GetDataSource();
             RecordsCount = clsFormHelper.RefreshDataGridView(RecordsList, RecordsList.DataSource);
+        }
+
+        private void btnClose_Click(object sender, EventArgs e)
+        {
+            this.Close();
         }
 
         protected virtual void ResetRecordsListColumnsWidthAndName() { }
