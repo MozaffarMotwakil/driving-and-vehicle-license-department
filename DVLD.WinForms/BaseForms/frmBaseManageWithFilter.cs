@@ -59,7 +59,11 @@ namespace DVLD.WinForms.BaseForms
         protected override void dgvRecordsList_CellMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)
         {
             base.dgvRecordsList_CellMouseDoubleClick(sender, e);
-            ShowRecordDetailsOperation();
+
+            if (clsFormHelper.GetHitTestInfo(base.RecordsList).Type == DataGridViewHitTestType.Cell)
+            {
+                ShowRecordDetailsOperation();
+            }
         }
 
         private void cbFilterColumn_SelectedIndexChanged(object sender, EventArgs e)
@@ -132,6 +136,8 @@ namespace DVLD.WinForms.BaseForms
                     clsFormMessages.ShowError("Record was not deleted because it has data linked to it.", "Failed Deleted");
                 }
             }
+
+            ResetFilterColumnToDefault();
         }
 
         protected virtual bool DeleteRecord(int recordID)
@@ -142,7 +148,6 @@ namespace DVLD.WinForms.BaseForms
         private void btnAddNewRecord_Click(object sender, EventArgs e)
         {
             AddNewRecordOperation();
-            ResetFilterColumnToDefault();
         }
 
         protected virtual void AddNewRecordOperation()

@@ -64,11 +64,22 @@
     <Compile Include="Applications\LocalLicense\frmAddUpdateLocalLicenseApplication.Designer.cs">
       <DependentUpon>frmAddUpdateLocalLicenseApplication.cs</DependentUpon>
     </Compile>
+    <Compile Include="BaseForms\frmBaseManageWithFilter.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="BaseForms\frmBaseManageWithFilter.Designer.cs">
+      <DependentUpon>frmBaseManageWithFilter.cs</DependentUpon>
+    </Compile>
     <Compile Include="BaseForms\frmBaseManage.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="BaseForms\frmBaseManage.Designer.cs">
       <DependentUpon>frmBaseManage.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="Tests\frmUpdateTestType.cs">
       <SubType>Form</SubType>
@@ -95,11 +106,6 @@
     </Compile>
     <Compile Include="MainForms\frmMainForm.Designer.cs">
       <DependentUpon>frmMainForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="Users\frmShowUserInfo.cs">
       <SubType>Form</SubType>
@@ -182,6 +188,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="BaseForms\frmBaseManage.resx">
       <DependentUpon>frmBaseManage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="BaseForms\frmBaseManageWithFilter.resx">
+      <DependentUpon>frmBaseManageWithFilter.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MainForms\frmLogin.resx">
       <DependentUpon>frmLogin.cs</DependentUpon>
@@ -461,6 +470,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\User 32 -2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\add_icon_48.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
