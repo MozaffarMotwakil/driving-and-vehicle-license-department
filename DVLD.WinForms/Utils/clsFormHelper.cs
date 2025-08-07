@@ -130,6 +130,13 @@ namespace DVLD.WinForms.Utils
             }
         }
 
+        public static void SetDefaultValuesToCountriesComboBox(ComboBox countriesComboBox)
+        {
+            countriesComboBox.Items.Add("None");
+            countriesComboBox.Items.AddRange(clsAppSettings.GetCountries());
+            countriesComboBox.SelectedIndex = 0;
+        }
+
         public static Image GetDefaultPersonImage(clsPerson.enGender gender)
         {
             return gender == clsPerson.enGender.Male ? Resources.Male_512 : Resources.Female_512;

@@ -19,7 +19,7 @@ namespace DVLD.WinForms.People
         private void frmManagePeople_Load(object sender, EventArgs e)
         {
             _SetValuesToBaseFormControls();
-            _SetValuesToCountriesComboBox();
+            clsFormHelper.SetDefaultValuesToCountriesComboBox(cbCountry);
         }
 
         private void _SetValuesToBaseFormControls()
@@ -42,13 +42,6 @@ namespace DVLD.WinForms.People
                     "Nationality"
                 }
             );
-        }
-
-        private void _SetValuesToCountriesComboBox()
-        {
-            cbCountry.Items.Add("None");
-            cbCountry.Items.AddRange(clsAppSettings.GetCountries());
-            cbCountry.SelectedIndex = 0;
         }
 
         private void cbCountry_SelectedIndexChanged(object sender, EventArgs e)
