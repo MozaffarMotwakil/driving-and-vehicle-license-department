@@ -46,14 +46,7 @@ namespace DVLD.WinForms.People
 
         private void cbCountry_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (cbCountry.SelectedIndex == 0)
-            {
-                base.FilterText = string.Empty;
-            }
-            else
-            {
-                base.FilterText = cbCountry.SelectedItem.ToString();
-            }
+            base.SetFilterTextFromComboBox(cbCountry);
         }
 
         private void rbMale_CheckedChanged(object sender, EventArgs e)

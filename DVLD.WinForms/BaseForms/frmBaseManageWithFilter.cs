@@ -178,6 +178,23 @@ namespace DVLD.WinForms.BaseForms
             }
         }
 
+        protected void SetFilterTextFromComboBox(ComboBox comboBox)
+        {
+            if (comboBox.SelectedIndex == 0)
+            {
+                this.FilterText = string.Empty;
+            }
+            else
+            {
+                this.FilterText = comboBox.SelectedItem.ToString();
+            }
+        }
+
+        protected void SetFilterTextFromDate(DateTime Date)
+        {
+            FilterText = Date.ToString("yyyy/MM/dd");
+        }
+
         private int _ApplyFilterToRecordsList(string FilterColumn, string FilterText)
         {
             DataView recordsListForFiltering;
