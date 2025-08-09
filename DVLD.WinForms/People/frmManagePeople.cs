@@ -11,7 +11,7 @@ namespace DVLD.WinForms.People
 {
     internal partial class frmManagePeople : frmBaseManageWithFilter
     {
-        public frmManagePeople() : base(clsPerson.GetAllPeople().DefaultView)
+        public frmManagePeople() : base(clsPerson.GetAllPeople())
         {
             InitializeComponent();
         }
@@ -81,9 +81,9 @@ namespace DVLD.WinForms.People
             }
         }
 
-        protected override DataView GetDataSource()
+        protected override DataTable GetDataSource()
         {
-            return clsPerson.GetAllPeople().DefaultView;
+            return clsPerson.GetAllPeople();
         }
 
         protected override void ResetRecordsListColumnsWidthAndName()

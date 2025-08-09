@@ -8,7 +8,7 @@ namespace DVLD.WinForms.Applications
 {
     internal partial class frmManageApplicationTypes : frmBaseManage
     {
-        public frmManageApplicationTypes() : base(clsApplicationType.GetAllApplicationTypes().DefaultView)
+        public frmManageApplicationTypes() : base(clsApplicationType.GetAllApplicationTypes())
         {
             InitializeComponent();
         }
@@ -52,9 +52,9 @@ namespace DVLD.WinForms.Applications
             }
         }
         
-        protected override DataView GetDataSource()
+        protected override DataTable GetDataSource()
         {
-            return clsApplicationType.GetAllApplicationTypes().DefaultView;
+            return clsApplicationType.GetAllApplicationTypes();
         }
 
     }

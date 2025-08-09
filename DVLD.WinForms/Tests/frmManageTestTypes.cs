@@ -8,7 +8,7 @@ namespace DVLD.WinForms.Tests
 {
     internal partial class frmManageTestTypes : frmBaseManage
     {
-        public frmManageTestTypes() : base(clsTestType.GetAllTestTypes().DefaultView)
+        public frmManageTestTypes() : base(clsTestType.GetAllTestTypes())
         {
             InitializeComponent();
         }
@@ -55,9 +55,9 @@ namespace DVLD.WinForms.Tests
             }
         }
 
-        protected override DataView GetDataSource()
+        protected override DataTable GetDataSource()
         {
-            return clsTestType.GetAllTestTypes().DefaultView;
+            return clsTestType.GetAllTestTypes();
         }
 
     }
