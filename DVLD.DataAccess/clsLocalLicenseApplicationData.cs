@@ -62,6 +62,58 @@ namespace DVLD.DataAccess
             return localDrivingLicenseApplications;
         }
 
+        public static DateTime GetMinimumApplicationDate()
+        {
+            using (SqlConnection connection = new SqlConnection(clsDataSettings.ConnectionString))
+            {
+                string query = "SELECT MIN(ApplicationDate) FROM LocalDrivingLicenseApplicationsDetailed";
+                SqlCommand command = new SqlCommand(query, connection);
+
+                try
+                {
+                    connection.Open();
+                    object minimumDate = command.ExecuteScalar();
+
+                    if (minimumDate != null)
+                    {
+                        return Convert.ToDateTime(minimumDate);
+                    }
+
+                    return DateTime.Now;
+                }
+                catch (Exception ex)
+                {
+                    throw new ApplicationException($"Error: get minimum application date.\n{ex.Message}", ex);
+                }
+            }
+        }
+       
+        public static DateTime GetMaximumApplicationDate()
+        {
+            using (SqlConnection connection = new SqlConnection(clsDataSettings.ConnectionString))
+            {
+                string query = "SELECT MAX(ApplicationDate) FROM LocalDrivingLicenseApplicationsDetailed";
+                SqlCommand command = new SqlCommand(query, connection);
+
+                try
+                {
+                    connection.Open();
+                    object maximumDate = command.ExecuteScalar();
+
+                    if (maximumDate != null)
+                    {
+                        return Convert.ToDateTime(maximumDate);
+                    }
+
+                    return DateTime.Now;
+                }
+                catch (Exception ex)
+                {
+                    throw new ApplicationException($"Error: get maximum application date.\n{ex.Message}", ex);
+                }
+            }
+        }
+
         public static clsLocalLicenseApplicationEntity FindLocalLicenseApplicationByID(int LocalLicenseApplicationID)
         {
             clsLocalLicenseApplicationEntity localLicenseApplicationEntity = null;

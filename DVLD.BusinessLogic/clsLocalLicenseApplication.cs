@@ -28,6 +28,16 @@ namespace DVLD.BusinessLogic
             this.Mode = enMode.Update;
         }
 
+        public static DateTime GetMinimumApplicationDate()
+        {
+            return clsLocalLicenseApplicationData.GetMinimumApplicationDate();
+        }
+
+         public static DateTime GetMaximumApplicationDate()
+        {
+            return clsLocalLicenseApplicationData.GetMaximumApplicationDate();
+        }
+
         public static bool IsLocalLicenseApplicationExist(int LocalLicenseApplicationID)
         {
             return clsLocalLicenseApplicationData.IsLocalLicenseApplicationExist(LocalLicenseApplicationID);
