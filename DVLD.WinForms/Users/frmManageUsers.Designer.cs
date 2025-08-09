@@ -158,8 +158,6 @@
             this.cbCountry.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbCountry.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cbCountry.FormattingEnabled = true;
-            this.cbCountry.Items.AddRange(new object[] {
-            "None"});
             this.cbCountry.Location = new System.Drawing.Point(228, 111);
             this.cbCountry.Name = "cbCountry";
             this.cbCountry.Size = new System.Drawing.Size(200, 24);
@@ -228,14 +226,14 @@
             this.formContextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.addNewUserToolStripMenuItem});
             this.formContextMenuStrip.Name = "formContextMenuStrip";
-            this.formContextMenuStrip.Size = new System.Drawing.Size(197, 64);
+            this.formContextMenuStrip.Size = new System.Drawing.Size(166, 42);
             // 
             // addNewUserToolStripMenuItem
             // 
             this.addNewUserToolStripMenuItem.Image = global::DVLD.WinForms.Properties.Resources.AddPerson_32;
             this.addNewUserToolStripMenuItem.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.addNewUserToolStripMenuItem.Name = "addNewUserToolStripMenuItem";
-            this.addNewUserToolStripMenuItem.Size = new System.Drawing.Size(196, 38);
+            this.addNewUserToolStripMenuItem.Size = new System.Drawing.Size(165, 38);
             this.addNewUserToolStripMenuItem.Text = "Add New User";
             this.addNewUserToolStripMenuItem.Click += new System.EventHandler(this.addNewUserToolStripMenuItem_Click);
             // 

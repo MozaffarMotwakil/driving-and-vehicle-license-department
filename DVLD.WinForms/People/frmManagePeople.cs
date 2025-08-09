@@ -27,7 +27,7 @@ namespace DVLD.WinForms.People
             base.FormTitle = "Manage People";
             base.FormLogo = Resources.People_400;
             base.RecordsList.ContextMenuStrip = recordsListContextMenuStrip;
-            base.AddRecordButtonBackgroumd = Resources.Add_Person_40;
+            base.AddNewRecordButtonBackgroumd = Resources.Add_Person_40;
             base.FilterColumns.AddRange(
                 new object[] {
                     "Person ID",
@@ -48,7 +48,7 @@ namespace DVLD.WinForms.People
         {
             if (cbCountry.SelectedIndex == 0)
             {
-                base.RecordsCount = clsFormHelper.RefreshDataGridView(base.RecordsList, GetDataSource());
+                base.FilterText = string.Empty;
             }
             else
             {
