@@ -8,6 +8,7 @@ namespace DVLD.WinForms.BaseForms
 {
     internal partial class frmBaseManage : Form
     {
+        protected DataTable OriginalDataSourceOfRecords { get; set; }
         protected string FormTitle
         {
             set { lblFormTitle.Text = value; }
@@ -40,9 +41,9 @@ namespace DVLD.WinForms.BaseForms
             this.Height = Height;
         }
 
-        public frmBaseManage(DataView DataSource, int Width = 800, int Height = 600) : this(Width, Height)
+        public frmBaseManage(DataTable DataSource, int Width = 800, int Height = 600) : this(Width, Height)
         {
-            RecordsList.DataSource = DataSource;
+            OriginalDataSourceOfRecords = DataSource;
             RefreshRecordsList();
         }
 
@@ -53,28 +54,7 @@ namespace DVLD.WinForms.BaseForms
 
         private void dgvRecordsList_CellMouseDown(object sender, DataGridViewCellMouseEventArgs e)
         {
-            clsFormHelper.SelectEntireRow(dgvRecordsList, e);
-        }
-
-        protected virtual void dgvRecordsList_CellMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)
-        {
-            clsFormHelper.SelectEntireRow(dgvRecordsList, e);
-        }
-
-        protected virtual void dgvRecordsList_MouseDown(object sender, MouseEventArgs e)
-        {
-            clsFormHelper.DeselectCellsAndRows(dgvRecordsList, e);
-        }
-
-        protected virtual DataView GetDataSource()
-        {
-            return (DataView)RecordsList.DataSource;
-        }
-
-        protected void RefreshRecordsList()
-        {
-            RecordsList.DataSource = GetDataSource();
-            RecordsCount = clsFormHelper.RefreshDataGridView(RecordsList, RecordsList.DataSource);
+            _SelectEntireRow(dgvRecordsList, e);
         }
 
         private void btnClose_Click(object sender, EventArgs e)
@@ -82,7 +62,63 @@ namespace DVLD.WinForms.BaseForms
             this.Close();
         }
 
+        protected virtual void dgvRecordsList_CellMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            _SelectEntireRow(dgvRecordsList, e);
+        }
+
+        protected virtual void dgvRecordsList_MouseDown(object sender, MouseEventArgs e)
+        {
+            _DeselectCellsAndRows(dgvRecordsList, e);
+        }
+
+        protected virtual DataTable GetDataSource()
+        {
+            return (DataTable)RecordsList.DataSource;
+        }
+
+        protected void RefreshRecordsList()
+        {
+            OriginalDataSourceOfRecords = GetDataSource();
+            RecordsCount = RefreshDataGridView(RecordsList, OriginalDataSourceOfRecords);
+        }
+
         protected virtual void ResetRecordsListColumnsWidthAndName() { }
+
+        protected int RefreshDataGridView(DataGridView dataGridView, object DataSource)
+        {
+            dataGridView.DataSource = DataSource;
+            return dataGridView.RowCount;
+        }
+
+
+        private void _SelectEntireRow(DataGridView dataGridView, DataGridViewCellMouseEventArgs e)
+        {
+            if ((e.Clicks == 2 || e.Button == MouseButtons.Right) && e.RowIndex >= 0)
+            {
+                dataGridView.ClearSelection();
+                dataGridView.Rows[e.RowIndex].Selected = true;
+                dataGridView.CurrentCell = dataGridView.SelectedRows[0].Cells[0];
+            }
+        }
+
+        private void _DeselectCellsAndRows(DataGridView dataGridView, MouseEventArgs e)
+        {
+            DataGridView.HitTestInfo hit = dataGridView.HitTest(e.X, e.Y);
+
+            if (e.Button == MouseButtons.Right || e.Button == MouseButtons.Left && hit.Type == DataGridViewHitTestType.None)
+            {
+                foreach (DataGridViewCell cell in dataGridView.SelectedCells)
+                {
+                    cell.Selected = false;
+                }
+
+                foreach (DataGridViewRow row in dataGridView.SelectedRows)
+                {
+                    row.Selected = false;
+                }
+            }
+        }
 
     }
 }

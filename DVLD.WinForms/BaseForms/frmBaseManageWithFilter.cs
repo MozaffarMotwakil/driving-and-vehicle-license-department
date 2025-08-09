@@ -13,7 +13,7 @@ namespace DVLD.WinForms.BaseForms
             get { return cbFilterColumn.Items; }
         }
 
-        protected string SelectedFilterColumn { get; private set; }
+        protected string SelectedFilterColumn { get; set; }
 
         protected int SelectedFilterColumnIndex
         {
@@ -33,9 +33,14 @@ namespace DVLD.WinForms.BaseForms
             set { txtFilterText.Visible = value; }
         }
 
-        protected Image AddRecordButtonBackgroumd
+        protected Image AddNewRecordButtonBackgroumd
         {
             set { btnAddNewRecord.BackgroundImage = value; }
+        }
+        
+        protected ImageLayout AddNewRecordButtonBackgroumdLayout
+        {
+            set { btnAddNewRecord.BackgroundImageLayout = value; }
         }
 
         protected frmBaseManageWithFilter() : base(1200, 600)
@@ -44,7 +49,7 @@ namespace DVLD.WinForms.BaseForms
             InitializeComponent();
         }
 
-        public frmBaseManageWithFilter(DataView DataSource) : base(DataSource, 1200, 600) 
+        public frmBaseManageWithFilter(DataTable DataSource) : base(DataSource, 1200, 600) 
         {
             base.FormTitle = "Base Manage With Filter";
             InitializeComponent();
@@ -54,6 +59,11 @@ namespace DVLD.WinForms.BaseForms
         {
             cbFilterColumn.Items.Add("None");
             ResetFilterColumnToDefault();
+        }
+
+        private void btnAddNewRecord_Click(object sender, EventArgs e)
+        {
+            AddNewRecordOperation();
         }
 
         protected override void dgvRecordsList_CellMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)
@@ -85,7 +95,7 @@ namespace DVLD.WinForms.BaseForms
 
         private void txtFilterText_TextChanged(object sender, EventArgs e)
         {
-            base.RecordsCount = clsFormHelper.RefreshDataGridViewWithFilter(base.RecordsList, base.RecordsList.DataSource as DataView, SelectedFilterColumn, FilterText);
+            base.RecordsCount = _ApplyFilterToRecordsList(SelectedFilterColumn, FilterText);
         }
 
         protected virtual void UpdateFilterControlsVisibility()
@@ -94,7 +104,7 @@ namespace DVLD.WinForms.BaseForms
             DefaultFilterControlsVisibility();
         }
 
-        protected void SetFilterColumnValue()
+        protected virtual void SetFilterColumnValue()
         {
             FilterText = string.Empty;
             SelectedFilterColumn = cbFilterColumn.Text.Replace(" ", "");
@@ -145,11 +155,6 @@ namespace DVLD.WinForms.BaseForms
             throw new NotImplementedException();
         }
 
-        private void btnAddNewRecord_Click(object sender, EventArgs e)
-        {
-            AddNewRecordOperation();
-        }
-
         protected virtual void AddNewRecordOperation()
         {
             throw new NotImplementedException();
@@ -162,7 +167,67 @@ namespace DVLD.WinForms.BaseForms
 
         protected void ReapplyAndHighlightFilterText()
         {
-            clsFormHelper.ReapplyAndHighlightFilterText(txtFilterText);
+            if (!string.IsNullOrEmpty(txtFilterText.Text))
+            {
+                string temp = txtFilterText.Text;
+                txtFilterText.Text = string.Empty;
+                txtFilterText.Text = temp;
+
+                txtFilterText.SelectionStart = 0;
+                txtFilterText.SelectionLength = txtFilterText.TextLength;
+            }
+        }
+
+        private int _ApplyFilterToRecordsList(string FilterColumn, string FilterText)
+        {
+            DataView recordsListForFiltering;
+
+            if (base.RecordsList.DataSource is DataTable)
+            {
+                recordsListForFiltering = ((DataTable)base.RecordsList.DataSource).DefaultView;
+            }
+            else
+            {
+                recordsListForFiltering = (DataView)base.RecordsList.DataSource;
+            }
+
+            if (FilterColumn == "None")
+            {
+                recordsListForFiltering.RowFilter = string.Empty;
+                return base.RefreshDataGridView(base.RecordsList, base.OriginalDataSourceOfRecords);
+            }
+
+            Type columnType = base.OriginalDataSourceOfRecords.Columns[FilterColumn].DataType;
+
+            if (columnType == typeof(Int32) || columnType == typeof(Boolean))
+            {
+                if (!string.IsNullOrWhiteSpace(FilterText))
+                {
+                    recordsListForFiltering.RowFilter = $"{FilterColumn} = {FilterText}";
+                }
+                else
+                {
+                    recordsListForFiltering.RowFilter = string.Empty;
+                }
+            }
+            else if (columnType == typeof(DateTime))
+            {
+                if (DateTime.TryParse(FilterText, out DateTime applicationDate))
+                {
+                    recordsListForFiltering.RowFilter = $@"{FilterColumn} >= #{applicationDate.ToString("yyyy/MM/dd")}# AND
+                        {FilterColumn} <= #{applicationDate.AddDays(1).ToString("yyyy/MM/dd")}#";
+                }
+                else
+                {
+                    recordsListForFiltering.RowFilter = string.Empty;
+                }
+            }
+            else
+            {
+                recordsListForFiltering.RowFilter = $"{FilterColumn} LIKE '{FilterText}%'";
+            }
+
+            return base.RefreshDataGridView(base.RecordsList, recordsListForFiltering);
         }
 
     }
