@@ -34,7 +34,7 @@ namespace DVLD.WinForms.Users
             _User = clsUser.Find(PersonID);
             this.Text = lblHeader.Text = "Update User";
             _FormMode = enMode.Update;
-            ctrPersonCardInfoWithFiltter.LoadPersonDataForDesplay(_User.PersonInfo);
+            ctrPersonCardInfoWithFiltter.LoadPersonDataForEdit(_User.PersonInfo);
         }
 
         private void frmAddUpdateUser_Load(object sender, EventArgs e)
@@ -73,7 +73,7 @@ namespace DVLD.WinForms.Users
 
         private void tabControl_SelectedIndexChanged(object sender, EventArgs e)
         {
-            btnSave.Enabled = (tabControl.SelectedTab == tpLoginInfo);
+            btnSave.Enabled = (tabControl.SelectedTab == tpLoginInfo) && ctrPersonCardInfoWithFiltter.Person != null;
         }
 
         private void tabControl_Selecting(object sender, TabControlCancelEventArgs e)
@@ -87,7 +87,10 @@ namespace DVLD.WinForms.Users
 
             if (tabControl.SelectedIndex == 1)
             {
-                btnNext.PerformClick();
+                if (!_HandlePersonSelection())
+                {
+                    e.Cancel = true;
+                }
             }
         }
 
@@ -156,7 +159,7 @@ namespace DVLD.WinForms.Users
             {
                 if (_User.Save())
                 {
-                    clsFormMessages.ShowSuccess("Saved successfully.");
+                    clsFormMessages.ShowSuccess("Saved Successfully.");
 
                     if (_FormMode == enMode.AddNew)
                     {
@@ -186,13 +189,24 @@ namespace DVLD.WinForms.Users
 
         private void btnNext_Click(object sender, EventArgs e)
         {
-            if (clsUser.IsPersonHasUser(ctrPersonCardInfoWithFiltter.Person.PersonID) && _FormMode == enMode.AddNew)
+            if (_HandlePersonSelection())
             {
-                clsFormMessages.ShowError("Selected person already has a user, choose another one.");
-                return;
+                tabControl.SelectedTab = tpLoginInfo;
+            }
+        }
+
+        private bool _HandlePersonSelection()
+        {
+            if (_FormMode == enMode.AddNew)
+            {
+                if (clsUser.IsPersonHasUser(ctrPersonCardInfoWithFiltter.Person.PersonID))
+                {
+                    clsFormMessages.ShowError("Selected person already has a user, choose another one.");
+                    return false;
+                }
             }
 
-            tabControl.SelectedTab = tpLoginInfo;
+            return true;
         }
 
         private void btnBack_Click(object sender, EventArgs e)
@@ -205,6 +219,7 @@ namespace DVLD.WinForms.Users
             _FormMode = enMode.Update;
             this.Text = lblHeader.Text = "Update User";
             lblUserID.Text = _User.UserID.ToString();
+            ctrPersonCardInfoWithFiltter.IsFilterEnabled = false;
         }
 
         private void _FillUserObjectFromUI()
