@@ -12,11 +12,12 @@ namespace DVLD.WinForms.MainForms
 {
     public partial class frmMainForm : Form
     {
-        enum enFormTypes { ManagePeople , ManageUsers}
+        enum enFormTypes { ManagePeople , ManageUsers, ManageLocalLicenseApplications }
 
         private bool _IsSignOut;
         private Form _ManagePeopleForm;
         private Form _ManageUsersForm;
+        private Form _LocalLicenseApplications;
 
         public frmMainForm()
         {
@@ -24,6 +25,7 @@ namespace DVLD.WinForms.MainForms
             _IsSignOut = false;
             _ManagePeopleForm = null;
             _ManageUsersForm = null;
+            _LocalLicenseApplications = null;
 
             foreach (Control control in this.Controls)
             {
@@ -42,6 +44,11 @@ namespace DVLD.WinForms.MainForms
         private void userToolStripMenuItem_Click(object sender, EventArgs e)
         {
             _OpenForm(ref _ManageUsersForm, enFormTypes.ManageUsers);
+        }
+
+        private void localDrivingLicenseApplicationsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            _OpenForm(ref _LocalLicenseApplications, enFormTypes.ManageLocalLicenseApplications);
         }
 
         private void _OpenForm(ref Form form, enFormTypes FormType)
@@ -71,6 +78,8 @@ namespace DVLD.WinForms.MainForms
                     return new frmManagePeople();
                 case enFormTypes.ManageUsers:
                     return new frmManageUsers();
+                case enFormTypes.ManageLocalLicenseApplications:
+                    return new frmManageLocalLicenseApplications();
                 default:
                     return new Form();
             }
@@ -91,8 +100,8 @@ namespace DVLD.WinForms.MainForms
         private void sginOutToolStripMenuItem_Click(object sender, EventArgs e)
         {
             _IsSignOut = true;
-            Application.OpenForms["frmLogin"].Show();
             clsAppSettings.CurrentUser = null;
+            Application.OpenForms["frmLogin"].Show();
             this.Close();
         }
 
@@ -124,5 +133,6 @@ namespace DVLD.WinForms.MainForms
             frmAddUpdateLocalLicenseApplication addLocalLicenseApplication = new frmAddUpdateLocalLicenseApplication();
             addLocalLicenseApplication.ShowDialog();
         }
+
     }
 }
