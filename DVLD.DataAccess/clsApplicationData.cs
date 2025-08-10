@@ -176,5 +176,69 @@ namespace DVLD.DataAccess
             }
         }
 
+        public static bool UpdateStatus(int ApplicationID, int ApplicationStatusID)
+        {
+            using (SqlConnection connection = new SqlConnection(clsDataSettings.ConnectionString))
+            {
+                string query = @"UPDATE Applications
+                                SET
+                                    ApplicationStatusID = @ApplicationStatusID,
+                                    LastStatusDate = @CurrentDateTime
+                                WHERE ApplicationID = @ApplicationID";
+
+                SqlCommand command = new SqlCommand(query, connection);
+                command.Parameters.AddWithValue("@ApplicationID", ApplicationID);
+                command.Parameters.AddWithValue("@ApplicationStatusID", ApplicationStatusID);
+                command.Parameters.AddWithValue("@CurrentDateTime", DateTime.Now);
+
+                try
+                {
+                    connection.Open();
+                    return command.ExecuteNonQuery() > 0;
+                }
+                catch (Exception ex)
+                {
+                    throw new ApplicationException($"Error: update application status.\n{ex.Message}", ex);
+                }
+            }
+        }
+
+        public static int GetActiveApplicationID(int PersonID, int ApplicationTypeID)
+        {
+            using (SqlConnection connection = new SqlConnection(clsDataSettings.ConnectionString))
+            {
+                string query = @"SELECT 
+                                    ApplicationID
+                                FROM 
+                                    Applications
+                                WHERE
+                                    ApplicantPersonID = @PersonID
+                                    AND ApplicationTypeID = @ApplicationTypeID
+                                    AND ApplicationStatusID = 1";
+
+                SqlCommand command = new SqlCommand(query, connection);
+                command.Parameters.AddWithValue("@PersonID", PersonID);
+                command.Parameters.AddWithValue("@ApplicationTypeID", ApplicationTypeID);
+
+                try
+                {
+                    connection.Open();
+
+                    object result = command.ExecuteScalar();
+
+                    if (result != null && int.TryParse(result.ToString(), out int applicationID))
+                    {
+                        return applicationID;
+                    }
+
+                    return -1;
+                }
+                catch (Exception ex)
+                {
+                    throw new ApplicationException($"Error: get active application ID.\n{ex.Message}", ex);
+                }
+            }
+        }
+
     }
 }

@@ -12,7 +12,7 @@ namespace DVLD.BusinessLogic
         public string Username { get; set; }
         public string HashedPassword { get; private set; }
         public bool IsActive { get; set; }
-        public enMode Mode { get; set; }
+        private enMode Mode { get; set; }
 
         public clsUser()
         {

@@ -32,6 +32,7 @@
             this.errorProvider = new System.Windows.Forms.ErrorProvider(this.components);
             this.lblHeader = new System.Windows.Forms.Label();
             this.tpPersonalInfo = new System.Windows.Forms.TabPage();
+            this.ctrPersonCardInfoWithFiltter = new DVLD.WinForms.People.ctrPersonCardInfoWithFiltter();
             this.btnNext = new System.Windows.Forms.Button();
             this.tpApplicationInfo = new System.Windows.Forms.TabPage();
             this.lblApplicationDate = new System.Windows.Forms.Label();
@@ -54,7 +55,6 @@
             this.tabControl = new System.Windows.Forms.TabControl();
             this.btnClose = new System.Windows.Forms.Button();
             this.btnSave = new System.Windows.Forms.Button();
-            this.ctrPersonCardInfoWithFiltter = new DVLD.WinForms.People.ctrPersonCardInfoWithFiltter();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider)).BeginInit();
             this.tpPersonalInfo.SuspendLayout();
             this.tpApplicationInfo.SuspendLayout();
@@ -94,6 +94,14 @@
             this.tpPersonalInfo.TabIndex = 0;
             this.tpPersonalInfo.Text = "Personal Info";
             this.tpPersonalInfo.UseVisualStyleBackColor = true;
+            // 
+            // ctrPersonCardInfoWithFiltter
+            // 
+            this.ctrPersonCardInfoWithFiltter.IsFilterEnabled = true;
+            this.ctrPersonCardInfoWithFiltter.Location = new System.Drawing.Point(15, 15);
+            this.ctrPersonCardInfoWithFiltter.Name = "ctrPersonCardInfoWithFiltter";
+            this.ctrPersonCardInfoWithFiltter.Size = new System.Drawing.Size(788, 342);
+            this.ctrPersonCardInfoWithFiltter.TabIndex = 0;
             // 
             // btnNext
             // 
@@ -353,13 +361,6 @@
             this.btnSave.UseVisualStyleBackColor = true;
             this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
             // 
-            // ctrPersonCardInfoWithFiltter
-            // 
-            this.ctrPersonCardInfoWithFiltter.Location = new System.Drawing.Point(15, 15);
-            this.ctrPersonCardInfoWithFiltter.Name = "ctrPersonCardInfoWithFiltter";
-            this.ctrPersonCardInfoWithFiltter.Size = new System.Drawing.Size(788, 342);
-            this.ctrPersonCardInfoWithFiltter.TabIndex = 0;
-            // 
             // frmAddUpdateLocalLicenseApplication
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -369,7 +370,9 @@
             this.Controls.Add(this.btnSave);
             this.Controls.Add(this.lblHeader);
             this.Controls.Add(this.tabControl);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Name = "frmAddUpdateLocalLicenseApplication";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Add/Update Local Driving License Application";
             this.Load += new System.EventHandler(this.frmAddUpdateLocalLicenseApplication_Load);
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider)).EndInit();

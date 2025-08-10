@@ -88,7 +88,7 @@ namespace DVLD.WinForms.Applications.LocalLicense
                 this.Text = lblHeader.Text = "Add New Local License Application";
                 lblApplicationDate.Text = DateTime.Now.ToString("dd/MM/yyyy");
                 cbLicenseClass.SelectedIndex = 0;
-                lblApplicationFees.Text = clsApplicationType.Get(clsApplication.enApplicationType.NewLocalDrivingLicenseService).Fees.ToString();
+                lblApplicationFees.Text = _LocalLicenseApplication.ApplicationInfo.TypeInfo.Fees.ToString();
                 lblCreatedByUsername.Text = clsAppSettings.CurrentUser.Username;
                 return;
             }
@@ -143,6 +143,11 @@ namespace DVLD.WinForms.Applications.LocalLicense
                 else
                 {
                     clsFormMessages.ShowError("Failed Save.");
+
+                    if (!clsApplication.Delete(_LocalLicenseApplication.ApplicationInfo.ApplicationID))
+                    {
+                        clsFormMessages.ShowWarning("Failed to delete the base application, please delete it manual.");
+                    }
                 }
 
             }

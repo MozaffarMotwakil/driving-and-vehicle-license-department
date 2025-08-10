@@ -25,7 +25,7 @@ namespace DVLD.BusinessLogic
         public string Email { get; set; }
         public clsCountry CountryInfo { get; set; }
         public string ImagePath { get; set; }
-        public enMode Mode { get; set; }
+        private enMode Mode { get; set; }
 
         public clsPerson()
         {

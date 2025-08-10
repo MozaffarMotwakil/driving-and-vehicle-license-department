@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.CompilerServices;
 using DVLD.DataAccess;
 using DVLD.Entities;
 
@@ -82,6 +83,31 @@ namespace DVLD.BusinessLogic
         public static bool Delete(int ApplicationID)
         {
             return clsApplicationData.DeleteApplication(ApplicationID);
+        }
+
+        public bool SetCanclled()
+        {
+            if (this.Status != enApplicationStatus.New)
+            {
+                return false;
+            }
+
+            return clsApplicationData.UpdateStatus(this.ApplicationID, (int)enApplicationStatus.Cancelled);
+        }
+
+        public bool SetCompleted()
+        {
+            if (this.Status != enApplicationStatus.New)
+            {
+                return false;
+            }
+
+            return clsApplicationData.UpdateStatus(this.ApplicationID, (int)enApplicationStatus.Completed);
+        }
+
+        public static int GetActiveApplicationID(int PersonID, enApplicationType applicationType)
+        {
+            return clsApplicationData.GetActiveApplicationID(PersonID, (int)applicationType);
         }
 
         public bool Save()
