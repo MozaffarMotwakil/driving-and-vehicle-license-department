@@ -32,9 +32,9 @@
             this.gbFiltter = new System.Windows.Forms.GroupBox();
             this.btnFindPerson = new System.Windows.Forms.Button();
             this.btnAddNewPerson = new System.Windows.Forms.Button();
-            this.txtTextForFilttering = new System.Windows.Forms.TextBox();
+            this.txtFilterText = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
-            this.cbFiltterColumn = new System.Windows.Forms.ComboBox();
+            this.cbFilterColumn = new System.Windows.Forms.ComboBox();
             this.errorProvider = new System.Windows.Forms.ErrorProvider(this.components);
             this.ctrPersonCardInfo = new DVLD.WinForms.People.ctrPersonCardInfo();
             this.gbFiltter.SuspendLayout();
@@ -45,9 +45,9 @@
             // 
             this.gbFiltter.Controls.Add(this.btnFindPerson);
             this.gbFiltter.Controls.Add(this.btnAddNewPerson);
-            this.gbFiltter.Controls.Add(this.txtTextForFilttering);
+            this.gbFiltter.Controls.Add(this.txtFilterText);
             this.gbFiltter.Controls.Add(this.label3);
-            this.gbFiltter.Controls.Add(this.cbFiltterColumn);
+            this.gbFiltter.Controls.Add(this.cbFilterColumn);
             this.gbFiltter.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.gbFiltter.Location = new System.Drawing.Point(3, -1);
             this.gbFiltter.Name = "gbFiltter";
@@ -63,7 +63,7 @@
             this.btnFindPerson.Location = new System.Drawing.Point(457, 16);
             this.btnFindPerson.Name = "btnFindPerson";
             this.btnFindPerson.Size = new System.Drawing.Size(42, 38);
-            this.btnFindPerson.TabIndex = 28;
+            this.btnFindPerson.TabIndex = 0;
             this.btnFindPerson.UseVisualStyleBackColor = true;
             this.btnFindPerson.Click += new System.EventHandler(this.btnFindPerson_Click);
             // 
@@ -78,15 +78,16 @@
             this.btnAddNewPerson.UseVisualStyleBackColor = true;
             this.btnAddNewPerson.Click += new System.EventHandler(this.btnAddNewPerson_Click);
             // 
-            // txtTextForFilttering
+            // txtFilterText
             // 
-            this.txtTextForFilttering.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.txtFilterText.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
-            this.txtTextForFilttering.Location = new System.Drawing.Point(225, 29);
-            this.txtTextForFilttering.Name = "txtTextForFilttering";
-            this.txtTextForFilttering.Size = new System.Drawing.Size(200, 23);
-            this.txtTextForFilttering.TabIndex = 0;
-            this.txtTextForFilttering.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtTextForFilttering_KeyPress);
+            this.txtFilterText.Location = new System.Drawing.Point(225, 29);
+            this.txtFilterText.Name = "txtFilterText";
+            this.txtFilterText.Size = new System.Drawing.Size(200, 23);
+            this.txtFilterText.TabIndex = 0;
+            this.txtFilterText.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtFilterText_KeyDown);
+            this.txtFilterText.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtFilterText_KeyPress);
             // 
             // label3
             // 
@@ -100,21 +101,21 @@
             this.label3.TabIndex = 26;
             this.label3.Text = "Filtter By:";
             // 
-            // cbFiltterColumn
+            // cbFilterColumn
             // 
-            this.cbFiltterColumn.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.cbFilterColumn.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
-            this.cbFiltterColumn.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbFiltterColumn.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.cbFiltterColumn.FormattingEnabled = true;
-            this.cbFiltterColumn.Items.AddRange(new object[] {
+            this.cbFilterColumn.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbFilterColumn.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cbFilterColumn.FormattingEnabled = true;
+            this.cbFilterColumn.Items.AddRange(new object[] {
             "Person ID",
             "National No"});
-            this.cbFiltterColumn.Location = new System.Drawing.Point(90, 28);
-            this.cbFiltterColumn.Name = "cbFiltterColumn";
-            this.cbFiltterColumn.Size = new System.Drawing.Size(129, 24);
-            this.cbFiltterColumn.TabIndex = 25;
-            this.cbFiltterColumn.SelectedIndexChanged += new System.EventHandler(this.cbFiltterColumn_SelectedIndexChanged);
+            this.cbFilterColumn.Location = new System.Drawing.Point(90, 28);
+            this.cbFilterColumn.Name = "cbFilterColumn";
+            this.cbFilterColumn.Size = new System.Drawing.Size(129, 24);
+            this.cbFilterColumn.TabIndex = 25;
+            this.cbFilterColumn.SelectedIndexChanged += new System.EventHandler(this.cbFiltterColumn_SelectedIndexChanged);
             // 
             // errorProvider
             // 
@@ -148,9 +149,9 @@
 
         private ctrPersonCardInfo ctrPersonCardInfo;
         private System.Windows.Forms.GroupBox gbFiltter;
-        private System.Windows.Forms.TextBox txtTextForFilttering;
+        private System.Windows.Forms.TextBox txtFilterText;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.ComboBox cbFiltterColumn;
+        private System.Windows.Forms.ComboBox cbFilterColumn;
         private System.Windows.Forms.Button btnAddNewPerson;
         private System.Windows.Forms.Button btnFindPerson;
         private System.Windows.Forms.ErrorProvider errorProvider;

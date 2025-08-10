@@ -12,6 +12,12 @@ namespace DVLD.WinForms.People
         /// </summary>
         public clsPerson Person { get; private set; }
 
+        public bool IsFilterEnabled
+        {
+            get { return gbFiltter.Enabled; }
+            set { gbFiltter.Enabled = value; }
+        }
+
         public event Action PersonFound;
 
         protected virtual void OnPersonFound()
@@ -46,39 +52,49 @@ namespace DVLD.WinForms.People
         {
             InitializeComponent();
             Person = null;
+            IsFilterEnabled = true;
         }
 
         private void ctrPersonCardInfoWithFiltter_Load(object sender, EventArgs e)
         {
-            cbFiltterColumn.SelectedIndex = 0; // Person ID
+            cbFilterColumn.SelectedIndex = 0; // Person ID
         }
 
-        private void txtTextForFilttering_KeyPress(object sender, KeyPressEventArgs e)
+        private void txtFilterText_KeyPress(object sender, KeyPressEventArgs e)
         {
-            if (cbFiltterColumn.SelectedIndex == 0)
+            if (cbFilterColumn.SelectedIndex == 0)
             {
-                clsFormValidation.HandleNumericKeyPress(e, txtTextForFilttering, errorProvider);
+                clsFormValidation.HandleNumericKeyPress(e, txtFilterText, errorProvider);
             }
             else
             {
-                errorProvider.SetError(txtTextForFilttering, "");
+                errorProvider.SetError(txtFilterText, "");
+            }
+        }
+
+        private void txtFilterText_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                btnFindPerson.PerformClick();
+                e.Handled = true;
             }
         }
 
         private void btnFindPerson_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrEmpty(txtTextForFilttering.Text))
+            if (string.IsNullOrEmpty(txtFilterText.Text))
             {
                 return;
             }
 
-            if (cbFiltterColumn.SelectedIndex == 0)
+            if (cbFilterColumn.SelectedIndex == 0)
             {
-                Person = clsPerson.Find(int.Parse(txtTextForFilttering.Text));
+                Person = clsPerson.Find(int.Parse(txtFilterText.Text));
             }
             else 
             {
-                Person = clsPerson.Find(txtTextForFilttering.Text);
+                Person = clsPerson.Find(txtFilterText.Text);
             }
             
             if (Person != null)
@@ -97,14 +113,14 @@ namespace DVLD.WinForms.People
 
         private void cbFiltterColumn_SelectedIndexChanged(object sender, EventArgs e)
         {
-            txtTextForFilttering.Text = string.Empty;
-            txtTextForFilttering.Focus();
+            txtFilterText.Text = string.Empty;
+            txtFilterText.Focus();
         }
 
         private void btnAddNewPerson_Click(object sender, EventArgs e)
         {
             frmAddUpdatePerson addNewPersonForm = new frmAddUpdatePerson();
-            addNewPersonForm.PersonBack += _DisplayPersonInfo;
+            addNewPersonForm.PersonBack += _DisplayTheAddedPersonInfo;
             addNewPersonForm.ShowDialog();
 
             if (addNewPersonForm.IsSaveSuccess)
@@ -113,20 +129,20 @@ namespace DVLD.WinForms.People
             }
         }
 
-        private void _DisplayPersonInfo(clsPerson Person)
+        private void _DisplayTheAddedPersonInfo(clsPerson Person)
         {
             this.Person = Person;
             ctrPersonCardInfo.LoadPersonDataForDesplay(Person);
-            cbFiltterColumn.SelectedIndex = 0;
-            txtTextForFilttering.Text = Person.PersonID.ToString();
+            cbFilterColumn.SelectedIndex = 0;
+            txtFilterText.Text = Person.PersonID.ToString();
         }
 
-        public void LoadPersonDataForDesplay(clsPerson Person)
+        public void LoadPersonDataForEdit(clsPerson Person)
         {
             this.Person = Person;
-            cbFiltterColumn.SelectedIndex = 0;
-            txtTextForFilttering.Text = Person.PersonID.ToString();
-            gbFiltter.Enabled = false;
+            cbFilterColumn.SelectedIndex = 0;
+            txtFilterText.Text = Person.PersonID.ToString();
+            IsFilterEnabled = false;
             ctrPersonCardInfo.LoadPersonDataForDesplay(Person);
         }
 
