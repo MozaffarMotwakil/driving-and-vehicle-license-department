@@ -31,6 +31,45 @@ namespace DVLD.DataAccess
             }
         }
 
+        public static int GetActiveApplicationIDForLicenseClass(int PersonID, int LicenseClassID)
+        {
+            using (SqlConnection connection = new SqlConnection(clsDataSettings.ConnectionString))
+            {
+                string query = @"SELECT 
+                                    LocalDrivingLicenseApplicationID
+                                FROM 
+                                    Applications
+                                    INNER JOIN LocalDrivingLicenseApplications ON 
+                                        Applications.ApplicationID = LocalDrivingLicenseApplications.ApplicationID
+                                WHERE
+                                    ApplicantPersonID = @PersonID
+                                    AND LicenseClassID = @LicenseClassID
+                                    AND ApplicationStatusID = 1";
+
+                SqlCommand command = new SqlCommand(query, connection);
+                command.Parameters.AddWithValue("@PersonID", PersonID);
+                command.Parameters.AddWithValue("@LicenseClassID", LicenseClassID);
+
+                try
+                {
+                    connection.Open();
+
+                    object result = command.ExecuteScalar();
+
+                    if (result != null && int.TryParse(result.ToString(), out int applicationID))
+                    {
+                        return applicationID;
+                    }
+
+                    return -1;
+                }
+                catch (Exception ex)
+                {
+                    throw new ApplicationException($"Error: get active local license application ID for license class.\n{ex.Message}", ex);
+                }
+            }
+        }
+
         public static DataTable GetAllLocalLicenseApplications()
         {
             DataTable localDrivingLicenseApplications = null;
@@ -121,8 +160,8 @@ namespace DVLD.DataAccess
             using (SqlConnection connection = new SqlConnection(clsDataSettings.ConnectionString))
             {
                 string query = @"SELECT * 
-                                FROM LocalLicenseApplications 
-                                WHERE LocalLicenseApplicationID = @LocalLicenseApplicationID";
+                                FROM LocalDrivingLicenseApplications 
+                                WHERE LocalDrivingLicenseApplicationID = @LocalLicenseApplicationID";
 
                 SqlCommand command = new SqlCommand(query, connection);
                 command.Parameters.AddWithValue("@LocalLicenseApplicationID", LocalLicenseApplicationID);
@@ -136,7 +175,6 @@ namespace DVLD.DataAccess
                         if (reader.Read())
                         {
                             localLicenseApplicationEntity = new clsLocalLicenseApplicationEntity();
-
                             localLicenseApplicationEntity.LocalLicenseApplicationID = LocalLicenseApplicationID;
                             localLicenseApplicationEntity.ApplicationID = Convert.ToInt32(reader["ApplicationID"]);
                             localLicenseApplicationEntity.LicenseClassID = Convert.ToInt32(reader["LicenseClassID"]);

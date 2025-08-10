@@ -43,7 +43,6 @@
   <ItemGroup>
     <Compile Include="clsLocalLicenseApplication.cs" />
     <Compile Include="clsLicenseClass.cs" />
-    <Compile Include="clsApplicationStatus.cs" />
     <Compile Include="clsApplication.cs" />
     <Compile Include="clsTestType.cs" />
     <Compile Include="clsApplicationType.cs" />
