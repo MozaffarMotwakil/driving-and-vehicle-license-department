@@ -22,7 +22,7 @@ namespace DVLD.WinForms.Applications
         {
             if (_ApplicationType == null)
             {
-                clsFormMessages.ShowApplicationTypeNotFoundError();
+                clsFormMessages.ShowError("Application type not found.");
                 this.Close();
                 return;
             }

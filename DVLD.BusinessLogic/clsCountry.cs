@@ -24,11 +24,6 @@ namespace DVLD.BusinessLogic
         {
             return new clsCountry(clsCountryData.FindCountryByID(CountryID));
         }
-        
-        public static clsCountry Find(string CountryName)
-        {
-            return new clsCountry(clsCountryData.FindCountryByName(CountryName));
-        }
 
     }
 }

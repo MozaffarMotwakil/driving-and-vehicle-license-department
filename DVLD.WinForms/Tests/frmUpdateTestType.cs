@@ -22,7 +22,7 @@ namespace DVLD.WinForms.Tests
         {
             if (_TestType == null)
             {
-                clsFormMessages.ShowTestTypeNotFoundError();
+                clsFormMessages.ShowError("Test type not found.");
                 this.Close();
                 return;
             }

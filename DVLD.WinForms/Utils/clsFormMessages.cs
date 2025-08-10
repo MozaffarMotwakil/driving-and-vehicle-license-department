@@ -14,20 +14,9 @@ namespace DVLD.WinForms.Utils
             ShowError("Error: not all data is valid. Please enter correct data.");
         }
 
-
         public static void ShowImageNotFoundWarning()
         {
             ShowWarning("The selected image file no longer exists. Please select a new image.", "Image Not Found");
-        }
-
-        public static void ShowTestTypeNotFoundError()
-        {
-            ShowError("Test type not found.");
-        }
-
-        public static void ShowApplicationTypeNotFoundError()
-        {
-            ShowError("Application type not found.");
         }
 
         public static void ShowUserNotFoundError()
@@ -43,11 +32,6 @@ namespace DVLD.WinForms.Utils
         public static void ShowNotImplementedFeatureWarning()
         {
             ShowWarning("This feature is not implemented yet.", "Not Implemented Feature");
-        }
-
-        public static void ShowFailedDeleteThePersonImage(System.Exception ex) 
-        {
-            ShowError($"Failed to delete the person's image file.\n{ex.Message}");
         }
 
         public static void ShowSuccess(string message, string title = "Success")

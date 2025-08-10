@@ -14,6 +14,8 @@ namespace DVLD.BusinessLogic
         public byte DefaultValidityLength { get; set; }
         public float ClassFees { get; set; }
 
+        public clsLicenseClass() { }
+
         private clsLicenseClass(clsLicenseClassEntity licenseClassEntity)
         {
             this.LicenseClassID = licenseClassEntity.LicenseClassID;

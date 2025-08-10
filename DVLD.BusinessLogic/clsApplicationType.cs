@@ -6,7 +6,7 @@ namespace DVLD.BusinessLogic
 {
     public class clsApplicationType
     {
-        public int TypeID { get; }
+        public int TypeID { get; set; }
         public string Title { get; set; }
         public float Fees { get; set; }
 
@@ -25,6 +25,11 @@ namespace DVLD.BusinessLogic
         public static clsApplicationType Find(int ApplicationTypeID)
         {
             return new clsApplicationType(clsApplicationTypeData.FindApplicationTypeByID(ApplicationTypeID));
+        }
+
+        public static clsApplicationType Get(clsApplication.enApplicationType applicationType)
+        {
+            return Find((int)applicationType);
         }
 
         public bool Save()
