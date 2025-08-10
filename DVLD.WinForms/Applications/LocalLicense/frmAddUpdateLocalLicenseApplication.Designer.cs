@@ -31,40 +31,40 @@
             this.components = new System.ComponentModel.Container();
             this.errorProvider = new System.Windows.Forms.ErrorProvider(this.components);
             this.lblHeader = new System.Windows.Forms.Label();
-            this.ctrPersonCardInfoWithFiltter = new DVLD.WinForms.People.ctrPersonCardInfoWithFiltter();
             this.tpPersonalInfo = new System.Windows.Forms.TabPage();
-            this.tpApplicationInfo = new System.Windows.Forms.TabPage();
-            this.tabControl = new System.Windows.Forms.TabControl();
-            this.label1 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
-            this.label6 = new System.Windows.Forms.Label();
-            this.btnCloseScreen = new System.Windows.Forms.Button();
-            this.btnSave = new System.Windows.Forms.Button();
             this.btnNext = new System.Windows.Forms.Button();
+            this.tpApplicationInfo = new System.Windows.Forms.TabPage();
+            this.lblApplicationDate = new System.Windows.Forms.Label();
+            this.cbLicenseClass = new System.Windows.Forms.ComboBox();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.pictureBox6 = new System.Windows.Forms.PictureBox();
             this.pictureBox5 = new System.Windows.Forms.PictureBox();
             this.pictureBox4 = new System.Windows.Forms.PictureBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.lblCreatedByUsername = new System.Windows.Forms.Label();
+            this.lblApplicationFees = new System.Windows.Forms.Label();
+            this.lblApplicationID = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
             this.btnBack = new System.Windows.Forms.Button();
             this.pictureBox3 = new System.Windows.Forms.PictureBox();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
-            this.label7 = new System.Windows.Forms.Label();
-            this.label8 = new System.Windows.Forms.Label();
-            this.label9 = new System.Windows.Forms.Label();
+            this.tabControl = new System.Windows.Forms.TabControl();
+            this.btnClose = new System.Windows.Forms.Button();
+            this.btnSave = new System.Windows.Forms.Button();
+            this.ctrPersonCardInfoWithFiltter = new DVLD.WinForms.People.ctrPersonCardInfoWithFiltter();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider)).BeginInit();
             this.tpPersonalInfo.SuspendLayout();
             this.tpApplicationInfo.SuspendLayout();
-            this.tabControl.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox6)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
+            this.tabControl.SuspendLayout();
             this.SuspendLayout();
             // 
             // errorProvider
@@ -82,13 +82,6 @@
             this.lblHeader.TabIndex = 7;
             this.lblHeader.Text = "Add/Update Local Driving License Application";
             // 
-            // ctrPersonCardInfoWithFiltter
-            // 
-            this.ctrPersonCardInfoWithFiltter.Location = new System.Drawing.Point(15, 15);
-            this.ctrPersonCardInfoWithFiltter.Name = "ctrPersonCardInfoWithFiltter";
-            this.ctrPersonCardInfoWithFiltter.Size = new System.Drawing.Size(788, 342);
-            this.ctrPersonCardInfoWithFiltter.TabIndex = 0;
-            // 
             // tpPersonalInfo
             // 
             this.tpPersonalInfo.Controls.Add(this.ctrPersonCardInfoWithFiltter);
@@ -102,18 +95,32 @@
             this.tpPersonalInfo.Text = "Personal Info";
             this.tpPersonalInfo.UseVisualStyleBackColor = true;
             // 
+            // btnNext
+            // 
+            this.btnNext.BackgroundImage = global::DVLD.WinForms.Properties.Resources.Next_32;
+            this.btnNext.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.btnNext.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnNext.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnNext.Location = new System.Drawing.Point(690, 363);
+            this.btnNext.Name = "btnNext";
+            this.btnNext.Size = new System.Drawing.Size(102, 34);
+            this.btnNext.TabIndex = 4;
+            this.btnNext.Text = "      Next";
+            this.btnNext.UseVisualStyleBackColor = true;
+            this.btnNext.Click += new System.EventHandler(this.btnNext_Click);
+            // 
             // tpApplicationInfo
             // 
-            this.tpApplicationInfo.Controls.Add(this.label7);
-            this.tpApplicationInfo.Controls.Add(this.comboBox1);
+            this.tpApplicationInfo.Controls.Add(this.lblApplicationDate);
+            this.tpApplicationInfo.Controls.Add(this.cbLicenseClass);
             this.tpApplicationInfo.Controls.Add(this.pictureBox2);
             this.tpApplicationInfo.Controls.Add(this.pictureBox6);
             this.tpApplicationInfo.Controls.Add(this.pictureBox5);
             this.tpApplicationInfo.Controls.Add(this.pictureBox4);
             this.tpApplicationInfo.Controls.Add(this.pictureBox1);
-            this.tpApplicationInfo.Controls.Add(this.label9);
-            this.tpApplicationInfo.Controls.Add(this.label8);
-            this.tpApplicationInfo.Controls.Add(this.label2);
+            this.tpApplicationInfo.Controls.Add(this.lblCreatedByUsername);
+            this.tpApplicationInfo.Controls.Add(this.lblApplicationFees);
+            this.tpApplicationInfo.Controls.Add(this.lblApplicationID);
             this.tpApplicationInfo.Controls.Add(this.label6);
             this.tpApplicationInfo.Controls.Add(this.label5);
             this.tpApplicationInfo.Controls.Add(this.label4);
@@ -129,115 +136,24 @@
             this.tpApplicationInfo.Text = "Applicaation Info";
             this.tpApplicationInfo.UseVisualStyleBackColor = true;
             // 
-            // tabControl
+            // lblApplicationDate
             // 
-            this.tabControl.Controls.Add(this.tpPersonalInfo);
-            this.tabControl.Controls.Add(this.tpApplicationInfo);
-            this.tabControl.Location = new System.Drawing.Point(3, 59);
-            this.tabControl.Name = "tabControl";
-            this.tabControl.SelectedIndex = 0;
-            this.tabControl.Size = new System.Drawing.Size(834, 430);
-            this.tabControl.TabIndex = 6;
+            this.lblApplicationDate.AutoSize = true;
+            this.lblApplicationDate.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblApplicationDate.Location = new System.Drawing.Point(595, 70);
+            this.lblApplicationDate.Name = "lblApplicationDate";
+            this.lblApplicationDate.Size = new System.Drawing.Size(71, 16);
+            this.lblApplicationDate.TabIndex = 26;
+            this.lblApplicationDate.Text = "DD/M/YYYY";
             // 
-            // label1
+            // cbLicenseClass
             // 
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(470, 15);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(203, 16);
-            this.label1.TabIndex = 22;
-            this.label1.Text = "Driving License Application ID:";
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(679, 15);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(28, 16);
-            this.label2.TabIndex = 23;
-            this.label2.Text = "N/A";
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(470, 70);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(119, 16);
-            this.label3.TabIndex = 22;
-            this.label3.Text = "Application Date:";
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.Location = new System.Drawing.Point(470, 126);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(97, 16);
-            this.label4.TabIndex = 22;
-            this.label4.Text = "License Class:";
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label5.Location = new System.Drawing.Point(470, 182);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(116, 16);
-            this.label5.TabIndex = 22;
-            this.label5.Text = "Application Fess:";
-            // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label6.Location = new System.Drawing.Point(470, 237);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(84, 16);
-            this.label6.TabIndex = 22;
-            this.label6.Text = "Created By:";
-            // 
-            // btnCloseScreen
-            // 
-            this.btnCloseScreen.BackgroundImage = global::DVLD.WinForms.Properties.Resources.Close_32;
-            this.btnCloseScreen.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.btnCloseScreen.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnCloseScreen.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnCloseScreen.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnCloseScreen.Location = new System.Drawing.Point(618, 495);
-            this.btnCloseScreen.Name = "btnCloseScreen";
-            this.btnCloseScreen.Size = new System.Drawing.Size(102, 34);
-            this.btnCloseScreen.TabIndex = 9;
-            this.btnCloseScreen.Text = "     Close";
-            this.btnCloseScreen.UseVisualStyleBackColor = true;
-            // 
-            // btnSave
-            // 
-            this.btnSave.BackgroundImage = global::DVLD.WinForms.Properties.Resources.Save_32;
-            this.btnSave.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.btnSave.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnSave.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnSave.Location = new System.Drawing.Point(726, 495);
-            this.btnSave.Name = "btnSave";
-            this.btnSave.Size = new System.Drawing.Size(102, 34);
-            this.btnSave.TabIndex = 8;
-            this.btnSave.Text = "      Save";
-            this.btnSave.UseVisualStyleBackColor = true;
-            // 
-            // btnNext
-            // 
-            this.btnNext.BackgroundImage = global::DVLD.WinForms.Properties.Resources.Next_32;
-            this.btnNext.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.btnNext.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnNext.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnNext.Location = new System.Drawing.Point(690, 363);
-            this.btnNext.Name = "btnNext";
-            this.btnNext.Size = new System.Drawing.Size(102, 34);
-            this.btnNext.TabIndex = 4;
-            this.btnNext.Text = "      Next";
-            this.btnNext.UseVisualStyleBackColor = true;
+            this.cbLicenseClass.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbLicenseClass.FormattingEnabled = true;
+            this.cbLicenseClass.Location = new System.Drawing.Point(598, 125);
+            this.cbLicenseClass.Name = "cbLicenseClass";
+            this.cbLicenseClass.Size = new System.Drawing.Size(194, 21);
+            this.cbLicenseClass.TabIndex = 25;
             // 
             // pictureBox2
             // 
@@ -289,6 +205,86 @@
             this.pictureBox1.TabIndex = 24;
             this.pictureBox1.TabStop = false;
             // 
+            // lblCreatedByUsername
+            // 
+            this.lblCreatedByUsername.AutoSize = true;
+            this.lblCreatedByUsername.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblCreatedByUsername.Location = new System.Drawing.Point(595, 237);
+            this.lblCreatedByUsername.Name = "lblCreatedByUsername";
+            this.lblCreatedByUsername.Size = new System.Drawing.Size(25, 16);
+            this.lblCreatedByUsername.TabIndex = 23;
+            this.lblCreatedByUsername.Text = "???";
+            // 
+            // lblApplicationFees
+            // 
+            this.lblApplicationFees.AutoSize = true;
+            this.lblApplicationFees.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblApplicationFees.Location = new System.Drawing.Point(595, 182);
+            this.lblApplicationFees.Name = "lblApplicationFees";
+            this.lblApplicationFees.Size = new System.Drawing.Size(25, 16);
+            this.lblApplicationFees.TabIndex = 23;
+            this.lblApplicationFees.Text = "???";
+            // 
+            // lblApplicationID
+            // 
+            this.lblApplicationID.AutoSize = true;
+            this.lblApplicationID.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblApplicationID.Location = new System.Drawing.Point(679, 15);
+            this.lblApplicationID.Name = "lblApplicationID";
+            this.lblApplicationID.Size = new System.Drawing.Size(28, 16);
+            this.lblApplicationID.TabIndex = 23;
+            this.lblApplicationID.Text = "N/A";
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label6.Location = new System.Drawing.Point(470, 237);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(84, 16);
+            this.label6.TabIndex = 22;
+            this.label6.Text = "Created By:";
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label5.Location = new System.Drawing.Point(470, 182);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(116, 16);
+            this.label5.TabIndex = 22;
+            this.label5.Text = "Application Fess:";
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label4.Location = new System.Drawing.Point(470, 126);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(97, 16);
+            this.label4.TabIndex = 22;
+            this.label4.Text = "License Class:";
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label3.Location = new System.Drawing.Point(470, 70);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(119, 16);
+            this.label3.TabIndex = 22;
+            this.label3.Text = "Application Date:";
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.Location = new System.Drawing.Point(470, 15);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(203, 16);
+            this.label1.TabIndex = 22;
+            this.label1.Text = "Driving License Application ID:";
+            // 
             // btnBack
             // 
             this.btnBack.BackgroundImage = global::DVLD.WinForms.Properties.Resources.Prev_32;
@@ -301,6 +297,7 @@
             this.btnBack.TabIndex = 21;
             this.btnBack.Text = "      Back";
             this.btnBack.UseVisualStyleBackColor = true;
+            this.btnBack.Click += new System.EventHandler(this.btnBack_Click);
             // 
             // pictureBox3
             // 
@@ -315,66 +312,77 @@
             this.pictureBox3.TabIndex = 16;
             this.pictureBox3.TabStop = false;
             // 
-            // comboBox1
+            // tabControl
             // 
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new System.Drawing.Point(598, 125);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(194, 21);
-            this.comboBox1.TabIndex = 25;
+            this.tabControl.Controls.Add(this.tpPersonalInfo);
+            this.tabControl.Controls.Add(this.tpApplicationInfo);
+            this.tabControl.Location = new System.Drawing.Point(3, 59);
+            this.tabControl.Name = "tabControl";
+            this.tabControl.SelectedIndex = 0;
+            this.tabControl.Size = new System.Drawing.Size(834, 430);
+            this.tabControl.TabIndex = 6;
+            this.tabControl.SelectedIndexChanged += new System.EventHandler(this.tabControl_SelectedIndexChanged);
+            this.tabControl.Selecting += new System.Windows.Forms.TabControlCancelEventHandler(this.tabControl_Selecting);
             // 
-            // label7
+            // btnClose
             // 
-            this.label7.AutoSize = true;
-            this.label7.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label7.Location = new System.Drawing.Point(595, 70);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(71, 16);
-            this.label7.TabIndex = 26;
-            this.label7.Text = "DD/M/YYYY";
+            this.btnClose.BackgroundImage = global::DVLD.WinForms.Properties.Resources.Close_32;
+            this.btnClose.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.btnClose.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            this.btnClose.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnClose.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnClose.Location = new System.Drawing.Point(618, 495);
+            this.btnClose.Name = "btnClose";
+            this.btnClose.Size = new System.Drawing.Size(102, 34);
+            this.btnClose.TabIndex = 9;
+            this.btnClose.Text = "     Close";
+            this.btnClose.UseVisualStyleBackColor = true;
+            this.btnClose.Click += new System.EventHandler(this.btnClose_Click);
             // 
-            // label8
+            // btnSave
             // 
-            this.label8.AutoSize = true;
-            this.label8.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label8.Location = new System.Drawing.Point(595, 182);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(25, 16);
-            this.label8.TabIndex = 23;
-            this.label8.Text = "???";
+            this.btnSave.BackgroundImage = global::DVLD.WinForms.Properties.Resources.Save_32;
+            this.btnSave.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.btnSave.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnSave.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnSave.Location = new System.Drawing.Point(726, 495);
+            this.btnSave.Name = "btnSave";
+            this.btnSave.Size = new System.Drawing.Size(102, 34);
+            this.btnSave.TabIndex = 8;
+            this.btnSave.Text = "      Save";
+            this.btnSave.UseVisualStyleBackColor = true;
+            this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
             // 
-            // label9
+            // ctrPersonCardInfoWithFiltter
             // 
-            this.label9.AutoSize = true;
-            this.label9.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label9.Location = new System.Drawing.Point(595, 237);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(25, 16);
-            this.label9.TabIndex = 23;
-            this.label9.Text = "???";
+            this.ctrPersonCardInfoWithFiltter.Location = new System.Drawing.Point(15, 15);
+            this.ctrPersonCardInfoWithFiltter.Name = "ctrPersonCardInfoWithFiltter";
+            this.ctrPersonCardInfoWithFiltter.Size = new System.Drawing.Size(788, 342);
+            this.ctrPersonCardInfoWithFiltter.TabIndex = 0;
             // 
             // frmAddUpdateLocalLicenseApplication
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(840, 546);
-            this.Controls.Add(this.btnCloseScreen);
+            this.Controls.Add(this.btnClose);
             this.Controls.Add(this.btnSave);
             this.Controls.Add(this.lblHeader);
             this.Controls.Add(this.tabControl);
             this.Name = "frmAddUpdateLocalLicenseApplication";
             this.Text = "Add/Update Local Driving License Application";
+            this.Load += new System.EventHandler(this.frmAddUpdateLocalLicenseApplication_Load);
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider)).EndInit();
             this.tpPersonalInfo.ResumeLayout(false);
             this.tpApplicationInfo.ResumeLayout(false);
             this.tpApplicationInfo.PerformLayout();
-            this.tabControl.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox6)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).EndInit();
+            this.tabControl.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -382,7 +390,7 @@
 
         #endregion
 
-        private System.Windows.Forms.Button btnCloseScreen;
+        private System.Windows.Forms.Button btnClose;
         private System.Windows.Forms.ErrorProvider errorProvider;
         private System.Windows.Forms.Button btnSave;
         private System.Windows.Forms.Label lblHeader;
@@ -393,7 +401,7 @@
         private System.Windows.Forms.TabPage tpApplicationInfo;
         private System.Windows.Forms.Button btnBack;
         private System.Windows.Forms.PictureBox pictureBox3;
-        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label lblApplicationID;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label4;
@@ -404,9 +412,9 @@
         private System.Windows.Forms.PictureBox pictureBox4;
         private System.Windows.Forms.PictureBox pictureBox5;
         private System.Windows.Forms.PictureBox pictureBox6;
-        private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.ComboBox comboBox1;
-        private System.Windows.Forms.Label label9;
-        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.Label lblApplicationDate;
+        private System.Windows.Forms.ComboBox cbLicenseClass;
+        private System.Windows.Forms.Label lblCreatedByUsername;
+        private System.Windows.Forms.Label lblApplicationFees;
     }
 }
