@@ -10,20 +10,22 @@ namespace DVLD.WinForms.Users
     {
         private clsUser _User;
 
-        public bool IsSaveSuccess { get; private set; }
+        public event Action SaveSuccess;
+        protected virtual void OnSaveSuccess()
+        {
+            SaveSuccess?.Invoke();
+        }
 
         public frmChangePassword(int UserID)
         {
             InitializeComponent();
             _User = clsUser.Find(UserID);
-            IsSaveSuccess = false;
         }
 
         public frmChangePassword(clsUser User)
         {
             InitializeComponent();
             _User = User;
-            IsSaveSuccess = false;
         }
 
         private void frmChangePassword_Load(object sender, EventArgs e)
@@ -88,13 +90,13 @@ namespace DVLD.WinForms.Users
                 if (_User.ChangePassword(txtNewPassword.Text))
                 {
                     clsFormMessages.ShowSuccess("Password has been successfully changed.");
-                    IsSaveSuccess = true;
 
                     if (_User.UserID == clsAppSettings.CurrentUser.UserID && clsLoginManager.IsLoginInformationExist())
                     {
                         clsLoginManager.UpdatedLoginInformation(_User.Username, txtNewPassword.Text);
                     }
 
+                    OnSaveSuccess();
                     _ClearPasswords();
                 }
                 else

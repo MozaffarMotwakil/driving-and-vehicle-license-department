@@ -9,10 +9,10 @@ namespace DVLD.WinForms.People
     {
         private clsPerson _Person;
 
-        public bool IsInfoModified 
+        public event Action InfoModified;
+        protected virtual void OnInfoModified()
         {
-            get { return ctrPersonInformation.IsInfoModified; }
-
+            InfoModified?.Invoke();
         }
 
         public frmShowPersonInfo(int PersonID)
@@ -20,6 +20,12 @@ namespace DVLD.WinForms.People
             InitializeComponent();
             _Person = clsPerson.Find(PersonID);
             ctrPersonInformation.ImageLoadFailed += CtrPersonInformation_OnImageLoadFailed;
+            ctrPersonInformation.InfoModified += CtrPersonInformation_InfoModified;
+        }
+
+        private void CtrPersonInformation_InfoModified()
+        {
+            OnInfoModified();
         }
 
         private void CtrPersonInformation_OnImageLoadFailed()

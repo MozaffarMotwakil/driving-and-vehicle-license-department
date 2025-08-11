@@ -19,33 +19,27 @@ namespace DVLD.WinForms.People
         }
 
         public event Action PersonFound;
-
         protected virtual void OnPersonFound()
         {
-            if (PersonFound != null)
-            {
-                PersonFound();
-            }
+            PersonFound?.Invoke();
         }
 
         public event Action PersonNotFound;
-
         protected virtual void OnPersonNotFound()
         {
-            if (PersonNotFound != null)
-            {
-                PersonNotFound();
-            }
+            PersonNotFound?.Invoke();
         }
         
         public event Action AddNewPerson;
-
         protected virtual void OnAddNewPerson()
         {
-            if (AddNewPerson != null)
-            {
-                AddNewPerson();
-            }
+            AddNewPerson?.Invoke();
+        }
+
+        public event Action InfoModifie;
+        protected virtual void OnInfoModifie()
+        {
+            InfoModifie?.Invoke();
         }
 
         public ctrPersonCardInfoWithFiltter()
@@ -53,6 +47,12 @@ namespace DVLD.WinForms.People
             InitializeComponent();
             Person = null;
             IsFilterEnabled = true;
+            ctrPersonCardInfo.InfoModified += CtrPersonCardInfo_InfoModified;
+        }
+
+        private void CtrPersonCardInfo_InfoModified()
+        {
+            OnInfoModifie();
         }
 
         private void ctrPersonCardInfoWithFiltter_Load(object sender, EventArgs e)
@@ -121,12 +121,13 @@ namespace DVLD.WinForms.People
         {
             frmAddUpdatePerson addNewPersonForm = new frmAddUpdatePerson();
             addNewPersonForm.PersonBack += _DisplayTheAddedPersonInfo;
+            addNewPersonForm.SaveSuccess += AddNewPersonForm_SaveSuccess;
             addNewPersonForm.ShowDialog();
+        }
 
-            if (addNewPersonForm.IsSaveSuccess)
-            {
-                OnAddNewPerson();
-            }
+        private void AddNewPersonForm_SaveSuccess()
+        {
+            OnAddNewPerson();
         }
 
         private void _DisplayTheAddedPersonInfo(clsPerson Person)

@@ -9,14 +9,10 @@ namespace DVLD.WinForms.People
 {
     public partial class ctrAddUpdatePerson : UserControl
     {
-        public event Action OnImageLoadFailed;
-
-        protected virtual void ImageLoadFailed()
+        public event Action ImageLoadFailed;
+        protected virtual void OnImageLoadFailed()
         {
-            if (OnImageLoadFailed != null)
-            {
-                OnImageLoadFailed();
-            }
+            ImageLoadFailed?.Invoke();
         }
 
         public string FirstName
@@ -157,9 +153,9 @@ namespace DVLD.WinForms.People
                 }
                 else
                 {
-                    if (OnImageLoadFailed != null && !SuppressImageLoadWarning)
+                    if (!SuppressImageLoadWarning)
                     {
-                        ImageLoadFailed();
+                        OnImageLoadFailed();
                     }
                 }
             }

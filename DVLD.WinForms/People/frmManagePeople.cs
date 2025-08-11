@@ -150,25 +150,22 @@ namespace DVLD.WinForms.People
         protected override void AddNewRecordOperation()
         {
             frmAddUpdatePerson addEditPersonForm = new frmAddUpdatePerson();
+            addEditPersonForm.SaveSuccess += base.RefreshAndResetFilterColumnToDefault;
             addEditPersonForm.ShowDialog();
-
-            if (addEditPersonForm.IsSaveSuccess)
-            {
-                base.RefreshRecordsList();
-                base.ResetFilterColumnToDefault();
-            }
         }
 
         protected override void ShowRecordDetailsOperation()
         {
             frmShowPersonInfo personDetailsForm = new frmShowPersonInfo(clsFormHelper.GetSelectedRowID(base.RecordsList));
+            personDetailsForm.InfoModified += base.RefreshAndReapplyCurrentFilter;
             personDetailsForm.ShowDialog();
+        }
 
-            if (personDetailsForm.IsInfoModified)
-            {
-                base.RefreshRecordsList();
-                base.ReapplyAndHighlightFilterText();
-            }
+        private void editToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            frmAddUpdatePerson EditPersonForm = new frmAddUpdatePerson(clsFormHelper.GetSelectedRowID(base.RecordsList));
+            EditPersonForm.SaveSuccess += base.RefreshAndReapplyCurrentFilter;
+            EditPersonForm.ShowDialog();
         }
 
         private void showDetailsToolStripMenuItem_Click(object sender, EventArgs e)
@@ -179,18 +176,6 @@ namespace DVLD.WinForms.People
         private void addNewPersonToolStripMenuItem_Click(object sender, EventArgs e)
         {
             AddNewRecordOperation();
-        }
-
-        private void editToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            frmAddUpdatePerson EditPersonForm = new frmAddUpdatePerson(clsFormHelper.GetSelectedRowID(base.RecordsList));
-            EditPersonForm.ShowDialog();
-
-            if (EditPersonForm.IsSaveSuccess)
-            {
-                base.RefreshRecordsList();
-                base.ReapplyAndHighlightFilterText();
-            }
         }
 
         private void deleteToolStripMenuItem_Click(object sender, EventArgs e)

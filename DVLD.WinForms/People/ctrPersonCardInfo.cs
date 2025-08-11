@@ -13,13 +13,16 @@ namespace DVLD.WinForms.People
         /// Gets the person if found successfully, otherwise returns null.
         /// </summary>
         public clsPerson Person { get; private set; }
-
-        public bool IsInfoModified { get; private set; }
+       
+        public event Action InfoModified;
+        protected virtual void OnInfoModified()
+        {
+            InfoModified?.Invoke();
+        }
 
         public ctrPersonCardInfo()
         {
             InitializeComponent();
-            IsInfoModified = false;
             llEditPersonInformation.Visible = false;
         }
 
@@ -39,12 +42,17 @@ namespace DVLD.WinForms.People
         {
             frmAddUpdatePerson addEditPersonForm = new frmAddUpdatePerson(int.Parse(lblPersonID.Text));
             addEditPersonForm.PersonBack += LoadPersonDataForDesplay;
+            addEditPersonForm.SaveSuccess += AddEditPersonForm_SaveSuccess;
 
             // To ensure a smoother user experience and avoid showing the image load warning again,
             // since it was already shown when opening the Person Details form.
             addEditPersonForm.SuppressImageLoadWarning = true;
             addEditPersonForm.ShowDialog();
-            IsInfoModified = addEditPersonForm.IsSaveSuccess;
+        }
+
+        private void AddEditPersonForm_SaveSuccess()
+        {
+            OnInfoModified();
         }
 
         public void LoadPersonDataForDesplay(clsPerson Person)

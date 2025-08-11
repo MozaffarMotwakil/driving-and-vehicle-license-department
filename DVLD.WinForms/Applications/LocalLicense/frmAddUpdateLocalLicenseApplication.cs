@@ -10,6 +10,18 @@ namespace DVLD.WinForms.Applications.LocalLicense
         private clsLocalLicenseApplication _LocalLicenseApplication;
         private enMode _FormMode;
 
+        public event Action SaveSuccess;
+        protected virtual void OnSaveSuccess()
+        {
+            SaveSuccess?.Invoke();
+        }
+
+        public event Action PersonInfoModifie;
+        protected virtual void OnPersonInfoModifie()
+        {
+            PersonInfoModifie?.Invoke();
+        }
+
         public frmAddUpdateLocalLicenseApplication()
         {
             InitializeComponent();
@@ -19,14 +31,21 @@ namespace DVLD.WinForms.Applications.LocalLicense
             ctrPersonCardInfoWithFiltter.PersonFound += CtrPersonCardInfoWithFiltter_PersonFound;
             ctrPersonCardInfoWithFiltter.PersonNotFound += CtrPersonCardInfoWithFiltter_PersonNotFound;
             ctrPersonCardInfoWithFiltter.AddNewPerson += CtrPersonCardInfoWithFiltter_AddNewPerson;
+            ctrPersonCardInfoWithFiltter.InfoModifie += CtrPersonCardInfoWithFiltter_InfoModifie;
         }
-        
+
         public frmAddUpdateLocalLicenseApplication(int LocalLicenseApplicationID)
         {
             InitializeComponent();
             _LocalLicenseApplication = clsLocalLicenseApplication.Find(LocalLicenseApplicationID);
             _FormMode = enMode.Update;
             btnNext.Enabled = btnSave.Enabled = true;
+            ctrPersonCardInfoWithFiltter.InfoModifie += CtrPersonCardInfoWithFiltter_InfoModifie;
+        }
+
+        private void CtrPersonCardInfoWithFiltter_InfoModifie()
+        {
+            OnPersonInfoModifie(); 
         }
 
         private void CtrPersonCardInfoWithFiltter_PersonFound()
@@ -139,6 +158,8 @@ namespace DVLD.WinForms.Applications.LocalLicense
                     {
                         _UpdateFormStateAfterSave();
                     }
+
+                    OnSaveSuccess();
                 }
                 else
                 {

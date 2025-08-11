@@ -195,6 +195,18 @@ namespace DVLD.WinForms.BaseForms
             FilterText = Date.ToString("yyyy/MM/dd");
         }
 
+        protected void RefreshAndResetFilterColumnToDefault()
+        {
+            base.RefreshRecordsList();
+            ResetFilterColumnToDefault();
+        }
+
+        protected void RefreshAndReapplyCurrentFilter()
+        {
+            base.RefreshRecordsList();
+            ReapplyAndHighlightFilterText();
+        }
+
         private int _ApplyFilterToRecordsList(string FilterColumn, string FilterText)
         {
             DataView recordsListForFiltering;

@@ -10,10 +10,21 @@ namespace DVLD.WinForms.People
         private clsPerson _Person;
         private enMode _FormMode;
 
-        public bool IsSaveSuccess { get; private set; }
-
         public delegate void PersonBackEventHandler(clsPerson Person);
         public event PersonBackEventHandler PersonBack;
+        protected virtual void OnPersonBack()
+        {
+            PersonBack?.Invoke(_Person);
+        }
+
+        public event Action SaveSuccess;
+        protected virtual void OnSaveSuccess()
+        {
+            if (SaveSuccess != null)
+            {
+                SaveSuccess();
+            }
+        }
 
         public bool SuppressImageLoadWarning
         {
@@ -24,7 +35,6 @@ namespace DVLD.WinForms.People
         public frmAddUpdatePerson()
         {
             InitializeComponent();
-            IsSaveSuccess = false;
             this.Text = lblHeader.Text = "Add New Person";
             _FormMode = enMode.AddNew;
             _Person = new clsPerson();
@@ -34,7 +44,6 @@ namespace DVLD.WinForms.People
         public frmAddUpdatePerson(int PersonID)
         {
             InitializeComponent();
-            IsSaveSuccess = false;
             this.Text = lblHeader.Text = "Update Person";
             _FormMode = enMode.Update;
             _Person = clsPerson.Find(PersonID);
@@ -55,7 +64,7 @@ namespace DVLD.WinForms.People
                 return;
             }
 
-            ctrAddEditPerson.OnImageLoadFailed += CtrAddEditPerson_OnImageLoadFailed;
+            ctrAddEditPerson.ImageLoadFailed += CtrAddEditPerson_OnImageLoadFailed;
             ctrAddEditPerson.LoadPersonDataForEdit(_Person);
             ctrAddEditPerson.SetCurrentNationalNoToIgnore(_Person.NationalNo);
         }
@@ -86,9 +95,9 @@ namespace DVLD.WinForms.People
                         _UpdateFormStateAfterSave();
                     }
 
+                    OnPersonBack();
+                    OnSaveSuccess();
                     ctrAddEditPerson.OldImagePath = string.Empty;
-                    IsSaveSuccess = true;
-                    PersonBack?.Invoke(_Person);
                 }
                 else
                 {

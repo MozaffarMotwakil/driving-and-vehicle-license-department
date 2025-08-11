@@ -108,6 +108,33 @@ namespace DVLD.WinForms.Applications.LocalLicense
             }
         }
 
+        protected override void ResetRecordsListColumnsWidthAndName()
+        {
+            if (base.RecordsCount > 0)
+            {
+                base.RecordsList.Columns["LocalDrivingLicenseApplicationID"].HeaderText = "L.D.L.App ID";
+                base.RecordsList.Columns["LocalDrivingLicenseApplicationID"].Width = 80;
+
+                base.RecordsList.Columns["ClassName"].HeaderText = "Driving Class";
+                base.RecordsList.Columns["ClassName"].Width = 150;
+
+                base.RecordsList.Columns["NationalNo"].HeaderText = "National No";
+                base.RecordsList.Columns["NationalNo"].Width = 100;
+
+                base.RecordsList.Columns["FullName"].HeaderText = "Full Name";
+                base.RecordsList.Columns["FullName"].Width = 200;
+
+                base.RecordsList.Columns["ApplicationDate"].HeaderText = "Application Date";
+                base.RecordsList.Columns["ApplicationDate"].Width = 80;
+
+                base.RecordsList.Columns["PassedTests"].HeaderText = "Passed Tests";
+                base.RecordsList.Columns["PassedTests"].Width = 75;
+
+                base.RecordsList.Columns["ApplicationStatusName"].HeaderText = "Status";
+                base.RecordsList.Columns["ApplicationStatusName"].Width = 100;
+            }
+        }
+
         protected override void SetFilterColumnValue()
         {
             base.SetFilterColumnValue();
@@ -156,5 +183,104 @@ namespace DVLD.WinForms.Applications.LocalLicense
             }
         }
 
+        protected override bool DeleteRecord(int recordID)
+        {
+            return clsLocalLicenseApplication.Delete(recordID);
+        }
+
+        protected override void AddNewRecordOperation()
+        {
+            frmAddUpdateLocalLicenseApplication addLocalLicenseApplicationForm = new frmAddUpdateLocalLicenseApplication();
+            addLocalLicenseApplicationForm.SaveSuccess += base.RefreshAndResetFilterColumnToDefault;
+            addLocalLicenseApplicationForm.PersonInfoModifie += base.RefreshAndResetFilterColumnToDefault;
+            addLocalLicenseApplicationForm.ShowDialog();
+        }
+
+        private void addNewUserToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            AddNewRecordOperation();
+        }
+
+        private void showDetailsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void editToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            frmAddUpdateLocalLicenseApplication updateLocalLicenseApplicationForm = new frmAddUpdateLocalLicenseApplication(clsFormHelper.GetSelectedRowID(base.RecordsList));
+            updateLocalLicenseApplicationForm.SaveSuccess += base.RefreshAndReapplyCurrentFilter;
+            updateLocalLicenseApplicationForm.PersonInfoModifie += base.RefreshAndReapplyCurrentFilter;
+            updateLocalLicenseApplicationForm.ShowDialog();
+        }
+
+        private void deleteToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            base.DeleteRecordOperation();
+        }
+
+        private void cancleToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            clsLocalLicenseApplication localLicenseApplication = clsLocalLicenseApplication.Find(clsFormHelper.GetSelectedRowID(base.RecordsList));
+
+            if (localLicenseApplication == null)
+            {
+                clsFormMessages.ShowError("Sorry, the local driving license application not found.");
+                return;
+            }
+
+            if (clsFormMessages.Confirm($"Are you sure to set status of record with ID = {localLicenseApplication.LocalLicenseApplicationID} to cancelled?", 
+                messageBoxIcon: System.Windows.Forms.MessageBoxIcon.Warning, messageBoxDefaultButton: System.Windows.Forms.MessageBoxDefaultButton.Button2))
+            {
+                if (localLicenseApplication.ApplicationInfo.SetCanclled())
+                {
+                    base.RefreshRecordsList();
+                    base.ReapplyAndHighlightFilterText();
+                }
+                else
+                {
+                    clsFormMessages.ShowError("Failed to change status.");
+                }
+            }
+        }
+
+        private void recordsListContextMenuStrip_Opening(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            clsLocalLicenseApplication localLicenseApplication = clsLocalLicenseApplication.Find(clsFormHelper.GetSelectedRowID(base.RecordsList));
+
+            editToolStripMenuItem.Visible = deleteToolStripMenuItem.Visible = cancleToolStripMenuItem.Visible =
+                    scheduleTestsToolStripMenuItem.Visible = issueDrivingLicenseToolStripMenuItem.Visible =
+                    showLicenseToolStripMenuItem.Visible = showPersonLicensesHistoryToolStripMenuItem.Visible = true;
+
+            toolStripSeparator1.Visible = toolStripSeparator2.Visible = toolStripSeparator3.Visible =
+                toolStripSeparator4.Visible = toolStripSeparator5.Visible = true;
+
+            if (localLicenseApplication.ApplicationInfo.Status == clsApplication.enApplicationStatus.New)
+            {
+                toolStripSeparator3.Visible = toolStripSeparator4.Visible = toolStripSeparator5.Visible = false;
+
+                issueDrivingLicenseToolStripMenuItem.Visible = showLicenseToolStripMenuItem.Visible =
+                    showPersonLicensesHistoryToolStripMenuItem.Visible = false;
+            }
+            else if (localLicenseApplication.ApplicationInfo.Status == clsApplication.enApplicationStatus.Completed)
+            {
+                toolStripSeparator1.Visible = toolStripSeparator2.Visible = toolStripSeparator3.Visible = false;
+
+                editToolStripMenuItem.Visible = deleteToolStripMenuItem.Visible = cancleToolStripMenuItem.Visible =
+                    scheduleTestsToolStripMenuItem.Visible = issueDrivingLicenseToolStripMenuItem.Visible = false;
+            }
+            else
+            {
+                toolStripSeparator1.Visible = toolStripSeparator2.Visible = toolStripSeparator3.Visible =
+               toolStripSeparator4.Visible = toolStripSeparator5.Visible = false;
+
+                editToolStripMenuItem.Visible = deleteToolStripMenuItem.Visible = cancleToolStripMenuItem.Visible =
+                    scheduleTestsToolStripMenuItem.Visible = issueDrivingLicenseToolStripMenuItem.Visible =
+                    showLicenseToolStripMenuItem.Visible = showPersonLicensesHistoryToolStripMenuItem.Visible = false;
+            }
+
+        }
+
+        
     }
 }

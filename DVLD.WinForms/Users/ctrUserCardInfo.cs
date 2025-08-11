@@ -1,15 +1,26 @@
-﻿using System.Windows.Forms;
+﻿using System;
+using System.Windows.Forms;
 using DVLD.BusinessLogic;
 
 namespace DVLD.WinForms.Users
 {
     public partial class ctrUserCardInfo : UserControl
     {
-        public bool IsInfoModified { get { return ctrPersonCardInfo.IsInfoModified; } }
+        public event Action InfoModified;
+        protected virtual void OnInfoModified()
+        {
+            InfoModified?.Invoke();
+        }
 
         public ctrUserCardInfo()
         {
             InitializeComponent();
+            ctrPersonCardInfo.InfoModified += CtrPersonCardInfo_InfoModified;
+        }
+
+        private void CtrPersonCardInfo_InfoModified()
+        {
+            OnInfoModified();
         }
 
         public void LoadUserDataForDesplay(clsUser User)

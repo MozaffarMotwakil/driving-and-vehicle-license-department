@@ -11,10 +11,24 @@ namespace DVLD.WinForms.Users
         private clsUser _User;
         private enMode _FormMode;
 
-        public bool IsSaveSuccess { get; private set; }
-
         public delegate void UserBackEventHandler(clsUser User);
         public event UserBackEventHandler UserBack;
+        protected virtual void OnUserBack()
+        {
+            UserBack?.Invoke(_User);
+        }
+
+        public event Action SaveSuccess;
+        protected virtual void OnSaveSuccess()
+        {
+            SaveSuccess?.Invoke();
+        }
+
+        public event Action PersonInfoModifie;
+        protected virtual void OnPersonInfoModifie()
+        {
+            PersonInfoModifie?.Invoke();
+        }
 
         public frmAddUpdateUser()
         {
@@ -26,6 +40,12 @@ namespace DVLD.WinForms.Users
             ctrPersonCardInfoWithFiltter.PersonFound += CtrPersonCardInfoWithFiltter_PersonFound;
             ctrPersonCardInfoWithFiltter.PersonNotFound += CtrPersonCardInfoWithFiltter_PersonNotFound;
             ctrPersonCardInfoWithFiltter.AddNewPerson += CtrPersonCardInfoWithFiltter_AddNewPerson;
+            ctrPersonCardInfoWithFiltter.InfoModifie += CtrPersonCardInfoWithFiltter_InfoModifie;
+        }
+
+        private void CtrPersonCardInfoWithFiltter_InfoModifie()
+        {
+            OnPersonInfoModifie();
         }
 
         public frmAddUpdateUser(int PersonID)
@@ -171,8 +191,8 @@ namespace DVLD.WinForms.Users
                         clsLoginManager.UpdatedLoginInformation(_User.Username, txtPassword.Text);
                     }
 
-                    IsSaveSuccess = true;
-                    UserBack?.Invoke(_User);
+                    OnUserBack();
+                    OnSaveSuccess();
                 }
                 else
                 {

@@ -155,25 +155,31 @@ namespace DVLD.WinForms.People
         protected override void AddNewRecordOperation()
         {
             frmAddUpdateUser addUserForm = new frmAddUpdateUser();
+            addUserForm.SaveSuccess += base.RefreshAndResetFilterColumnToDefault;
+            addUserForm.PersonInfoModifie += base.RefreshAndResetFilterColumnToDefault;
             addUserForm.ShowDialog();
-
-            if (addUserForm.IsSaveSuccess)
-            {
-                base.RefreshRecordsList();
-                base.ResetFilterColumnToDefault();
-            }
         }
 
         protected override void ShowRecordDetailsOperation()
         {
             frmShowUserInfo userInfoForm = new frmShowUserInfo(clsFormHelper.GetSelectedRowID(base.RecordsList));
+            userInfoForm.InfoModifie += base.RefreshAndReapplyCurrentFilter;
             userInfoForm.ShowDialog();
-
-            if (userInfoForm.IsInfoModified)
-            {
-                base.RefreshRecordsList();
-                base.ReapplyAndHighlightFilterText();
-            }
+        }
+        
+        private void editToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            frmAddUpdateUser updateUserForm = new frmAddUpdateUser(clsFormHelper.GetSelectedRowID(base.RecordsList));
+            updateUserForm.SaveSuccess += base.RefreshAndReapplyCurrentFilter;
+            updateUserForm.PersonInfoModifie += base.RefreshAndReapplyCurrentFilter;
+            updateUserForm.ShowDialog();
+        }
+        
+        private void ChangePasswordtoolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            frmChangePassword changePasswordForm = new frmChangePassword(clsFormHelper.GetSelectedRowID(base.RecordsList));
+            changePasswordForm.SaveSuccess += base.RefreshAndReapplyCurrentFilter;
+            changePasswordForm.ShowDialog();
         }
 
         private void showDetailsToolStripMenuItem_Click(object sender, EventArgs e)
@@ -186,33 +192,9 @@ namespace DVLD.WinForms.People
             AddNewRecordOperation();
         }
 
-        private void editToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            frmAddUpdateUser updateUserForm = new frmAddUpdateUser(clsFormHelper.GetSelectedRowID(base.RecordsList));
-            updateUserForm.ShowDialog();
-
-            if (updateUserForm.IsSaveSuccess)
-            {
-                base.RefreshRecordsList();
-                base.ReapplyAndHighlightFilterText();
-            }
-        }
-
         private void deleteToolStripMenuItem_Click(object sender, EventArgs e)
         {
             base.DeleteRecordOperation();
-        }
-
-        private void ChangePasswordtoolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            frmChangePassword changePasswordForm = new frmChangePassword(clsFormHelper.GetSelectedRowID(base.RecordsList));
-            changePasswordForm.ShowDialog();
-
-            if (changePasswordForm.IsSaveSuccess)
-            {
-                base.RefreshRecordsList();
-                base.ReapplyAndHighlightFilterText();
-            }
         }
 
         private void sendEmailToolStripMenuItem_Click(object sender, EventArgs e)

@@ -62,7 +62,9 @@ namespace DVLD.BusinessLogic
 
         public static bool Delete(int LocalLicenseApplicationID)
         {
-            return clsLocalLicenseApplicationData.DeleteLocalLicenseApplication(LocalLicenseApplicationID);
+            int baseApplicationID = Find(LocalLicenseApplicationID).ApplicationInfo.ApplicationID;
+            return clsLocalLicenseApplicationData.DeleteLocalLicenseApplication(LocalLicenseApplicationID) && 
+                clsApplication.Delete(baseApplicationID);
         }
 
         public bool Save()

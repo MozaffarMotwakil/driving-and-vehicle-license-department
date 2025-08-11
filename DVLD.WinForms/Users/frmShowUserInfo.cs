@@ -9,12 +9,22 @@ namespace DVLD.WinForms.Users
     {
         private clsUser _User;
 
-        public bool IsInfoModified { get { return ctrUserCardInfo.IsInfoModified; } }
+        public event Action InfoModifie;
+        protected virtual void OnInfoModifie()
+        {
+            InfoModifie?.Invoke();
+        }
 
         public frmShowUserInfo(int UserID)
         {
             InitializeComponent();
             _User = clsUser.Find(UserID);
+            ctrUserCardInfo.InfoModified += CtrUserCardInfo_InfoModified;
+        }
+
+        private void CtrUserCardInfo_InfoModified()
+        {
+            OnInfoModifie();
         }
 
         public frmShowUserInfo(clsUser User)
