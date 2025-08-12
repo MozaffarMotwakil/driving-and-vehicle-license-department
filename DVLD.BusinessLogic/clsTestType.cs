@@ -6,6 +6,8 @@ namespace DVLD.BusinessLogic
 {
     public class clsTestType
     {
+        public enum enTestType { Vision = 1, Written = 2, Street = 3 };
+
         public int TypeID { get; }
         public string Title { get; set; }
         public string Description { get; set; }
@@ -29,6 +31,11 @@ namespace DVLD.BusinessLogic
             return new clsTestType(clsTestTypeData.FindTestTypeByID(TestTypeID));
         }
 
+        public static clsTestType Get(enTestType testType)
+        {
+            return Find((int)testType);
+        }
+
         public bool Save()
         {
             return clsTestTypeData.UpdateTestType(_MapTestTypeObjectToTestTypeEntity(this));
@@ -43,5 +50,6 @@ namespace DVLD.BusinessLogic
                 testType.Fees
                 );
         }
+
     }
 }

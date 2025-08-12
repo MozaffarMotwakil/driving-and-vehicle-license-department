@@ -18,7 +18,7 @@ namespace DVLD.WinForms.Applications.LocalLicense
             ctrBaseApplicationInfo.LoadBaseApplicationDataForDisplay(LocalLicenseApplication.ApplicationInfo);
             lblLocalLicenseApplicationID.Text = LocalLicenseApplication.LocalLicenseApplicationID.ToString();
             lblLicenseClass.Text = LocalLicenseApplication.LicenseClassInfo.ClassName;
-            lblPassedTests.Text = LocalLicenseApplication.PassedTests.ToString();
+            lblPassedTests.Text = LocalLicenseApplication.PassedTests.ToString() + "/3";
             llShowLicenseInfo.Visible = LocalLicenseApplication.ApplicationInfo.Status == clsApplication.enApplicationStatus.Completed;
         }
 
