@@ -42,7 +42,6 @@
             this.pictureBox5 = new System.Windows.Forms.PictureBox();
             this.pictureBox4 = new System.Windows.Forms.PictureBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.lblCreatedByUsername = new System.Windows.Forms.Label();
             this.lblApplicationFees = new System.Windows.Forms.Label();
             this.lblApplicationID = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
@@ -55,6 +54,7 @@
             this.tabControl = new System.Windows.Forms.TabControl();
             this.btnClose = new System.Windows.Forms.Button();
             this.btnSave = new System.Windows.Forms.Button();
+            this.llCreatedByUsername = new System.Windows.Forms.LinkLabel();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider)).BeginInit();
             this.tpPersonalInfo.SuspendLayout();
             this.tpApplicationInfo.SuspendLayout();
@@ -73,7 +73,6 @@
             // 
             // lblHeader
             // 
-            this.lblHeader.AutoSize = true;
             this.lblHeader.Font = new System.Drawing.Font("Tahoma", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblHeader.ForeColor = System.Drawing.Color.Red;
             this.lblHeader.Location = new System.Drawing.Point(165, 9);
@@ -81,6 +80,7 @@
             this.lblHeader.Size = new System.Drawing.Size(546, 33);
             this.lblHeader.TabIndex = 7;
             this.lblHeader.Text = "Add/Update Local Driving License Application";
+            this.lblHeader.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // tpPersonalInfo
             // 
@@ -119,6 +119,7 @@
             // 
             // tpApplicationInfo
             // 
+            this.tpApplicationInfo.Controls.Add(this.llCreatedByUsername);
             this.tpApplicationInfo.Controls.Add(this.lblApplicationDate);
             this.tpApplicationInfo.Controls.Add(this.cbLicenseClass);
             this.tpApplicationInfo.Controls.Add(this.pictureBox2);
@@ -126,7 +127,6 @@
             this.tpApplicationInfo.Controls.Add(this.pictureBox5);
             this.tpApplicationInfo.Controls.Add(this.pictureBox4);
             this.tpApplicationInfo.Controls.Add(this.pictureBox1);
-            this.tpApplicationInfo.Controls.Add(this.lblCreatedByUsername);
             this.tpApplicationInfo.Controls.Add(this.lblApplicationFees);
             this.tpApplicationInfo.Controls.Add(this.lblApplicationID);
             this.tpApplicationInfo.Controls.Add(this.label6);
@@ -212,16 +212,6 @@
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
             this.pictureBox1.TabIndex = 24;
             this.pictureBox1.TabStop = false;
-            // 
-            // lblCreatedByUsername
-            // 
-            this.lblCreatedByUsername.AutoSize = true;
-            this.lblCreatedByUsername.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblCreatedByUsername.Location = new System.Drawing.Point(595, 237);
-            this.lblCreatedByUsername.Name = "lblCreatedByUsername";
-            this.lblCreatedByUsername.Size = new System.Drawing.Size(25, 16);
-            this.lblCreatedByUsername.TabIndex = 23;
-            this.lblCreatedByUsername.Text = "???";
             // 
             // lblApplicationFees
             // 
@@ -361,6 +351,18 @@
             this.btnSave.UseVisualStyleBackColor = true;
             this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
             // 
+            // llCreatedByUsername
+            // 
+            this.llCreatedByUsername.AutoSize = true;
+            this.llCreatedByUsername.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.llCreatedByUsername.Location = new System.Drawing.Point(595, 237);
+            this.llCreatedByUsername.Name = "llCreatedByUsername";
+            this.llCreatedByUsername.Size = new System.Drawing.Size(25, 16);
+            this.llCreatedByUsername.TabIndex = 27;
+            this.llCreatedByUsername.TabStop = true;
+            this.llCreatedByUsername.Text = "???";
+            this.llCreatedByUsername.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.llCreatedByUsername_LinkClicked);
+            // 
             // frmAddUpdateLocalLicenseApplication
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -387,7 +389,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).EndInit();
             this.tabControl.ResumeLayout(false);
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
@@ -417,7 +418,7 @@
         private System.Windows.Forms.PictureBox pictureBox6;
         private System.Windows.Forms.Label lblApplicationDate;
         private System.Windows.Forms.ComboBox cbLicenseClass;
-        private System.Windows.Forms.Label lblCreatedByUsername;
         private System.Windows.Forms.Label lblApplicationFees;
+        private System.Windows.Forms.LinkLabel llCreatedByUsername;
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
 using DVLD.BusinessLogic;
+using DVLD.WinForms.Users;
 using DVLD.WinForms.Utils;
 
 namespace DVLD.WinForms.Applications.LocalLicense
@@ -40,6 +41,7 @@ namespace DVLD.WinForms.Applications.LocalLicense
             _LocalLicenseApplication = clsLocalLicenseApplication.Find(LocalLicenseApplicationID);
             _FormMode = enMode.Update;
             btnNext.Enabled = btnSave.Enabled = true;
+            tabControl.SelectedTab = tpApplicationInfo;
             ctrPersonCardInfoWithFiltter.InfoModifie += CtrPersonCardInfoWithFiltter_InfoModifie;
         }
 
@@ -108,7 +110,7 @@ namespace DVLD.WinForms.Applications.LocalLicense
                 lblApplicationDate.Text = DateTime.Now.ToString("dd/MM/yyyy");
                 cbLicenseClass.SelectedIndex = 0;
                 lblApplicationFees.Text = _LocalLicenseApplication.ApplicationInfo.TypeInfo.Fees.ToString();
-                lblCreatedByUsername.Text = clsAppSettings.CurrentUser.Username;
+                llCreatedByUsername.Text = clsAppSettings.CurrentUser.Username;
                 return;
             }
 
@@ -131,14 +133,8 @@ namespace DVLD.WinForms.Applications.LocalLicense
 
             if (activeApplication != null)
             {
-                clsFormMessages.ShowError(
-                    $"Please choose another license class, " +
-                    $"the selected person already have an active application for the selected class." +
-                    $"\n\nApplication Details:" +
-                    $"\n- Application ID: {activeApplication.LocalLicenseApplicationID}" +
-                    $"\n- Application Date: {activeApplication.ApplicationInfo.CreatedDate}"
-                );
-
+                frmPersonHaveActiveApplication errorForm = new frmPersonHaveActiveApplication(activeApplication);
+                errorForm.ShowDialog();
                 return;
             }
 
@@ -204,7 +200,14 @@ namespace DVLD.WinForms.Applications.LocalLicense
             lblApplicationDate.Text = _LocalLicenseApplication.ApplicationInfo.CreatedDate.ToString("dd/MM/yyyy");
             cbLicenseClass.SelectedIndex = _LocalLicenseApplication.LicenseClassInfo.LicenseClassID - 1;
             lblApplicationFees.Text = _LocalLicenseApplication.ApplicationInfo.PaidFees.ToString();
-            lblCreatedByUsername.Text = _LocalLicenseApplication.ApplicationInfo.CreatedByUserInfo.Username;
+            llCreatedByUsername.Text = _LocalLicenseApplication.ApplicationInfo.CreatedByUserInfo.Username;
+        }
+
+        private void llCreatedByUsername_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            frmShowUserInfo userInfo = new frmShowUserInfo(clsUser.Find(llCreatedByUsername.Text));
+            userInfo.InfoModifie += OnPersonInfoModifie;
+            userInfo.ShowDialog();
         }
 
     }
