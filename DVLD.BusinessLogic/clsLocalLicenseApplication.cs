@@ -10,6 +10,7 @@ namespace DVLD.BusinessLogic
         public int LocalLicenseApplicationID { get; set; }
         public clsApplication ApplicationInfo { get; set; }
         public clsLicenseClass LicenseClassInfo { get; set; }
+        public byte PassedTests { get; set; }
         private enMode Mode { get; set; }
 
         public clsLocalLicenseApplication() 
@@ -17,6 +18,7 @@ namespace DVLD.BusinessLogic
             LocalLicenseApplicationID = -1;
             this.ApplicationInfo = new clsApplication(clsApplication.enApplicationType.NewLocalDrivingLicenseService);
             this.LicenseClassInfo = new clsLicenseClass();
+            this.PassedTests = 0;
             this.Mode = enMode.AddNew;
         }
 
@@ -25,6 +27,7 @@ namespace DVLD.BusinessLogic
             this.LocalLicenseApplicationID = localLicenseApplicationEntity.LocalLicenseApplicationID;
             this.ApplicationInfo = clsApplication.FindBaseApplication(localLicenseApplicationEntity.ApplicationID);
             this.LicenseClassInfo = clsLicenseClass.Find(localLicenseApplicationEntity.LicenseClassID);
+            this.PassedTests = localLicenseApplicationEntity.PassedTests;
             this.Mode = enMode.Update;
         }
 
@@ -94,7 +97,8 @@ namespace DVLD.BusinessLogic
             return new clsLocalLicenseApplicationEntity(
                 localLicenseApplication.LocalLicenseApplicationID,
                 localLicenseApplication.ApplicationInfo.ApplicationID,
-                localLicenseApplication.LicenseClassInfo.LicenseClassID
+                localLicenseApplication.LicenseClassInfo.LicenseClassID,
+                localLicenseApplication.PassedTests
                 );
         }
 

@@ -178,6 +178,7 @@ namespace DVLD.DataAccess
                             localLicenseApplicationEntity.LocalLicenseApplicationID = LocalLicenseApplicationID;
                             localLicenseApplicationEntity.ApplicationID = Convert.ToInt32(reader["ApplicationID"]);
                             localLicenseApplicationEntity.LicenseClassID = Convert.ToInt32(reader["LicenseClassID"]);
+                            localLicenseApplicationEntity.PassedTests = Convert.ToByte(reader["PassedTests"]);
                         }
                     }
                 }
@@ -258,13 +259,14 @@ namespace DVLD.DataAccess
             {
                 string query = @"UPDATE LocalDrivingLicenseApplications
                                 SET
-	                                ApplicationID = @ApplicationID, LicenseClassID = @LicenseClassID
+	                                ApplicationID = @ApplicationID, LicenseClassID = @LicenseClassID, PassedTests = @PassedTests
                                 WHERE LocalDrivingLicenseApplicationID = @LocalLicenseApplicationID";
 
                 SqlCommand command = new SqlCommand(query, connection);
                 command.Parameters.AddWithValue("@LocalLicenseApplicationID", LocalLicenseApplicationEntity.LocalLicenseApplicationID);
                 command.Parameters.AddWithValue("@ApplicationID", LocalLicenseApplicationEntity.ApplicationID);
                 command.Parameters.AddWithValue("@LicenseClassID", LocalLicenseApplicationEntity.LicenseClassID);
+                command.Parameters.AddWithValue("@PassedTests", LocalLicenseApplicationEntity.PassedTests);
 
                 try
                 {
