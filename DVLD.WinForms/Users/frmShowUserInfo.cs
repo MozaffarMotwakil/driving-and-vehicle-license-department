@@ -9,6 +9,12 @@ namespace DVLD.WinForms.Users
     {
         private clsUser _User;
 
+        public bool ShowEditPersonInformationLinke
+        {
+            get { return ctrUserCardInfo.ShowEditPersonInformationLinke; }
+            set { ctrUserCardInfo.ShowEditPersonInformationLinke = value; }
+        }
+
         public event Action InfoModifie;
         protected virtual void OnInfoModifie()
         {

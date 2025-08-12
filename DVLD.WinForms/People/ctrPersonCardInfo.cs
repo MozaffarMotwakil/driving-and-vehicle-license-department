@@ -13,7 +13,9 @@ namespace DVLD.WinForms.People
         /// Gets the person if found successfully, otherwise returns null.
         /// </summary>
         public clsPerson Person { get; private set; }
-       
+
+        public bool ShowEditPersonInformationLinke { get; set; }
+
         public event Action InfoModified;
         protected virtual void OnInfoModified()
         {
@@ -23,11 +25,11 @@ namespace DVLD.WinForms.People
         public ctrPersonCardInfo()
         {
             InitializeComponent();
+            ShowEditPersonInformationLinke = true;
             llEditPersonInformation.Visible = false;
         }
 
         public event Action ImageLoadFailed;
-
         protected virtual void OnImageLoadFailed()
         {
             if (ImageLoadFailed != null)
@@ -41,8 +43,8 @@ namespace DVLD.WinForms.People
         private void llEditPersonInformation_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             frmAddUpdatePerson addEditPersonForm = new frmAddUpdatePerson(int.Parse(lblPersonID.Text));
-            addEditPersonForm.PersonBack += LoadPersonDataForDesplay;
-            addEditPersonForm.SaveSuccess += AddEditPersonForm_SaveSuccess;
+            addEditPersonForm.PersonBack += LoadPersonDataForDisplay;
+            addEditPersonForm.SaveSuccess += OnInfoModified;
 
             // To ensure a smoother user experience and avoid showing the image load warning again,
             // since it was already shown when opening the Person Details form.
@@ -50,12 +52,7 @@ namespace DVLD.WinForms.People
             addEditPersonForm.ShowDialog();
         }
 
-        private void AddEditPersonForm_SaveSuccess()
-        {
-            OnInfoModified();
-        }
-
-        public void LoadPersonDataForDesplay(clsPerson Person)
+        public void LoadPersonDataForDisplay(clsPerson Person)
         {
             lblPersonID.Text = Person.PersonID.ToString();
             lblNationalNumber.Text = Person.NationalNo.ToString();
@@ -89,12 +86,12 @@ namespace DVLD.WinForms.People
                 {
                     if (ImageLoadFailed != null && !SuppressImageLoadWarning)
                     {
-                        ImageLoadFailed();
+                        OnImageLoadFailed();
                     }
                 }
             }
 
-            llEditPersonInformation.Visible = true;
+            llEditPersonInformation.Visible = ShowEditPersonInformationLinke;
             this.Person = Person;
         }
 

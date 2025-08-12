@@ -9,6 +9,12 @@ namespace DVLD.WinForms.People
     {
         private clsPerson _Person;
 
+        public bool ShowEditPersonInformationLinke
+        {
+            get { return ctrPersonInformation.ShowEditPersonInformationLinke; }
+            set { ctrPersonInformation.ShowEditPersonInformationLinke = value; }
+        }
+
         public event Action InfoModified;
         protected virtual void OnInfoModified()
         {
@@ -19,6 +25,14 @@ namespace DVLD.WinForms.People
         {
             InitializeComponent();
             _Person = clsPerson.Find(PersonID);
+            ctrPersonInformation.ImageLoadFailed += CtrPersonInformation_OnImageLoadFailed;
+            ctrPersonInformation.InfoModified += CtrPersonInformation_InfoModified;
+        }
+
+        public frmShowPersonInfo(clsPerson Person)
+        {
+            InitializeComponent();
+            this._Person = Person;
             ctrPersonInformation.ImageLoadFailed += CtrPersonInformation_OnImageLoadFailed;
             ctrPersonInformation.InfoModified += CtrPersonInformation_InfoModified;
         }
@@ -45,7 +59,7 @@ namespace DVLD.WinForms.People
             // Stop showing the warning again while this form is still open.
             // This avoids showing it twice when coming back from frmAddEditPerson.
             ctrPersonInformation.SuppressImageLoadWarning = true;
-            ctrPersonInformation.LoadPersonDataForDesplay(_Person);
+            ctrPersonInformation.LoadPersonDataForDisplay(_Person);
         }
 
         private void btnCloseScreen_Click(object sender, EventArgs e)

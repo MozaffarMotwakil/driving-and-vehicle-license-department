@@ -7,6 +7,13 @@ namespace DVLD.WinForms.Users
     public partial class ctrUserCardInfo : UserControl
     {
         public event Action InfoModified;
+
+        public bool ShowEditPersonInformationLinke
+        {
+            get { return ctrPersonCardInfo.ShowEditPersonInformationLinke; }
+            set { ctrPersonCardInfo.ShowEditPersonInformationLinke = value; }
+        }
+
         protected virtual void OnInfoModified()
         {
             InfoModified?.Invoke();
@@ -25,7 +32,7 @@ namespace DVLD.WinForms.Users
 
         public void LoadUserDataForDesplay(clsUser User)
         {
-            ctrPersonCardInfo.LoadPersonDataForDesplay(User.PersonInfo);
+            ctrPersonCardInfo.LoadPersonDataForDisplay(User.PersonInfo);
             lblUserID.Text = User.UserID.ToString();
             lblUsername.Text = User.Username;
             lblIsActive.Text = (User.IsActive ? "Yes" : "No");

@@ -54,6 +54,7 @@ namespace DVLD.WinForms.Users
             _User = clsUser.Find(PersonID);
             this.Text = lblHeader.Text = "Update User";
             _FormMode = enMode.Update;
+            tabControl.SelectedTab = tpLoginInfo;
             ctrPersonCardInfoWithFiltter.LoadPersonDataForEdit(_User.PersonInfo);
         }
 

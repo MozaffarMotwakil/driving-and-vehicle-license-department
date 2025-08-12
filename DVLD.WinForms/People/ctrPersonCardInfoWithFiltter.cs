@@ -100,7 +100,7 @@ namespace DVLD.WinForms.People
             if (Person != null)
             {
                 OnPersonFound();
-                ctrPersonCardInfo.LoadPersonDataForDesplay(Person);
+                ctrPersonCardInfo.LoadPersonDataForDisplay(Person);
             }
             else
             {
@@ -133,7 +133,7 @@ namespace DVLD.WinForms.People
         private void _DisplayTheAddedPersonInfo(clsPerson Person)
         {
             this.Person = Person;
-            ctrPersonCardInfo.LoadPersonDataForDesplay(Person);
+            ctrPersonCardInfo.LoadPersonDataForDisplay(Person);
             cbFilterColumn.SelectedIndex = 0;
             txtFilterText.Text = Person.PersonID.ToString();
         }
@@ -144,7 +144,7 @@ namespace DVLD.WinForms.People
             cbFilterColumn.SelectedIndex = 0;
             txtFilterText.Text = Person.PersonID.ToString();
             IsFilterEnabled = false;
-            ctrPersonCardInfo.LoadPersonDataForDesplay(Person);
+            ctrPersonCardInfo.LoadPersonDataForDisplay(Person);
         }
 
         public void ClearPersonInfo()
