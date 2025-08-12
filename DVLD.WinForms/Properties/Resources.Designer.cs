@@ -393,6 +393,16 @@ namespace DVLD.WinForms.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap Error_64 {
+            get {
+                object obj = ResourceManager.GetObject("Error_64", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap Female_512 {
             get {
                 object obj = ResourceManager.GetObject("Female 512", resourceCulture);
@@ -623,6 +633,16 @@ namespace DVLD.WinForms.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap PassedTests_32 {
+            get {
+                object obj = ResourceManager.GetObject("PassedTests 32", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap Password_32 {
             get {
                 object obj = ResourceManager.GetObject("Password 32", resourceCulture);
@@ -656,6 +676,16 @@ namespace DVLD.WinForms.Properties {
         internal static System.Drawing.Bitmap Person_32 {
             get {
                 object obj = ResourceManager.GetObject("Person 32", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Person_321 {
+            get {
+                object obj = ResourceManager.GetObject("Person 321", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -803,6 +833,16 @@ namespace DVLD.WinForms.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap Street_Test_32 {
+            get {
+                object obj = ResourceManager.GetObject("Street Test 32", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap TestType_32 {
             get {
                 object obj = ResourceManager.GetObject("TestType 32", resourceCulture);
@@ -853,9 +893,29 @@ namespace DVLD.WinForms.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap Vision_Test_32 {
+            get {
+                object obj = ResourceManager.GetObject("Vision Test 32", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap Woman_32 {
             get {
                 object obj = ResourceManager.GetObject("Woman 32", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Written_Test_32 {
+            get {
+                object obj = ResourceManager.GetObject("Written Test 32", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

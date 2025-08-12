@@ -41,14 +41,14 @@ namespace DVLD.WinForms.Utils
         }
 
          public static void ShowAnotherContextMenuOnEmptySpaceInDGV(DataGridView dataGridView, ContextMenuStrip contextMenuStrip)
-        {
+         {
             DataGridView.HitTestInfo hit = clsFormHelper.GetHitTestInfo(dataGridView);
 
             if (hit.Type == DataGridViewHitTestType.None)
             {
                 contextMenuStrip.Show(dataGridView, clsFormHelper.GetCurrentPoint(dataGridView));
             }
-        }
+         }
 
         public static void SetDefaultValuesToCountriesComboBox(ComboBox countriesComboBox)
         {
