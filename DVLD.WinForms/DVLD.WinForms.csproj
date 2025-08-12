@@ -33,8 +33,11 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Xaml" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -44,6 +47,7 @@
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Applications\ApplicationTypes\frmUpdateApplicationType.cs">
@@ -58,6 +62,24 @@
     <Compile Include="Applications\ApplicationTypes\frmManageApplicationTypes.Designer.cs">
       <DependentUpon>frmManageApplicationTypes.cs</DependentUpon>
     </Compile>
+    <Compile Include="Applications\BaseApplication\ctrBaseApplicationInfo.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Applications\BaseApplication\ctrBaseApplicationInfo.Designer.cs">
+      <DependentUpon>ctrBaseApplicationInfo.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Applications\LocalLicense\frmPersonHaveActiveApplication.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Applications\LocalLicense\frmPersonHaveActiveApplication.Designer.cs">
+      <DependentUpon>frmPersonHaveActiveApplication.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Applications\LocalLicense\frmShowLocalLicenseApplicationInfo.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Applications\LocalLicense\frmShowLocalLicenseApplicationInfo.Designer.cs">
+      <DependentUpon>frmShowLocalLicenseApplicationInfo.cs</DependentUpon>
+    </Compile>
     <Compile Include="Applications\LocalLicense\frmManageLocalLicenseApplications.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -69,6 +91,12 @@
     </Compile>
     <Compile Include="Applications\LocalLicense\frmAddUpdateLocalLicenseApplication.Designer.cs">
       <DependentUpon>frmAddUpdateLocalLicenseApplication.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Applications\LocalLicense\ctrLocalLicenseApplicationInfo.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Applications\LocalLicense\ctrLocalLicenseApplicationInfo.Designer.cs">
+      <DependentUpon>ctrLocalLicenseApplicationInfo.cs</DependentUpon>
     </Compile>
     <Compile Include="BaseForms\frmBaseManageWithFilter.cs">
       <SubType>Form</SubType>
@@ -189,11 +217,23 @@
     <EmbeddedResource Include="Applications\ApplicationTypes\frmManageApplicationTypes.resx">
       <DependentUpon>frmManageApplicationTypes.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Applications\BaseApplication\ctrBaseApplicationInfo.resx">
+      <DependentUpon>ctrBaseApplicationInfo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Applications\LocalLicense\ctrLocalLicenseApplicationInfo.resx">
+      <DependentUpon>ctrLocalLicenseApplicationInfo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Applications\LocalLicense\frmPersonHaveActiveApplication.resx">
+      <DependentUpon>frmPersonHaveActiveApplication.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Applications\LocalLicense\frmAddUpdateLocalLicenseApplication.resx">
       <DependentUpon>frmAddUpdateLocalLicenseApplication.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Applications\LocalLicense\frmManageLocalLicenseApplications.resx">
       <DependentUpon>frmManageLocalLicenseApplications.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Applications\LocalLicense\frmShowLocalLicenseApplicationInfo.resx">
+      <DependentUpon>frmShowLocalLicenseApplicationInfo.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="BaseForms\frmBaseManage.resx">
       <DependentUpon>frmBaseManage.cs</DependentUpon>
@@ -506,6 +546,24 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\New Application 32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Person 321.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\PassedTests 32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Error_64.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Vision Test 32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Written Test 32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Street Test 32.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

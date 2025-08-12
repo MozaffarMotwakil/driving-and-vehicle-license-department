@@ -37,6 +37,9 @@
             this.cancleToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.scheduleTestsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.schedualVisionTestToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.schedualWrittenTestToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.schedualStreetTestToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.issueDrivingLicenseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
@@ -124,11 +127,39 @@
             // 
             // scheduleTestsToolStripMenuItem
             // 
+            this.scheduleTestsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.schedualVisionTestToolStripMenuItem,
+            this.schedualWrittenTestToolStripMenuItem,
+            this.schedualStreetTestToolStripMenuItem});
             this.scheduleTestsToolStripMenuItem.Image = global::DVLD.WinForms.Properties.Resources.Schedule_Test_32;
             this.scheduleTestsToolStripMenuItem.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.scheduleTestsToolStripMenuItem.Name = "scheduleTestsToolStripMenuItem";
             this.scheduleTestsToolStripMenuItem.Size = new System.Drawing.Size(261, 38);
             this.scheduleTestsToolStripMenuItem.Text = "Schedule Tests";
+            // 
+            // schedualVisionTestToolStripMenuItem
+            // 
+            this.schedualVisionTestToolStripMenuItem.Image = global::DVLD.WinForms.Properties.Resources.Vision_Test_32;
+            this.schedualVisionTestToolStripMenuItem.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.schedualVisionTestToolStripMenuItem.Name = "schedualVisionTestToolStripMenuItem";
+            this.schedualVisionTestToolStripMenuItem.Size = new System.Drawing.Size(203, 38);
+            this.schedualVisionTestToolStripMenuItem.Text = "Schedual Vision Test";
+            // 
+            // schedualWrittenTestToolStripMenuItem
+            // 
+            this.schedualWrittenTestToolStripMenuItem.Image = global::DVLD.WinForms.Properties.Resources.Written_Test_32;
+            this.schedualWrittenTestToolStripMenuItem.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.schedualWrittenTestToolStripMenuItem.Name = "schedualWrittenTestToolStripMenuItem";
+            this.schedualWrittenTestToolStripMenuItem.Size = new System.Drawing.Size(203, 38);
+            this.schedualWrittenTestToolStripMenuItem.Text = "Schedual Written Test";
+            // 
+            // schedualStreetTestToolStripMenuItem
+            // 
+            this.schedualStreetTestToolStripMenuItem.Image = global::DVLD.WinForms.Properties.Resources.Street_Test_32;
+            this.schedualStreetTestToolStripMenuItem.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.schedualStreetTestToolStripMenuItem.Name = "schedualStreetTestToolStripMenuItem";
+            this.schedualStreetTestToolStripMenuItem.Size = new System.Drawing.Size(203, 38);
+            this.schedualStreetTestToolStripMenuItem.Text = "Schedual Street Test";
             // 
             // toolStripSeparator3
             // 
@@ -189,9 +220,9 @@
             // 
             this.pictureBox1.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.pictureBox1.Image = global::DVLD.WinForms.Properties.Resources.Local_32;
-            this.pictureBox1.Location = new System.Drawing.Point(637, 43);
+            this.pictureBox1.Location = new System.Drawing.Point(637, 36);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(54, 40);
+            this.pictureBox1.Size = new System.Drawing.Size(58, 47);
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pictureBox1.TabIndex = 31;
             this.pictureBox1.TabStop = false;
@@ -269,6 +300,7 @@
             this.Controls.Add(this.nudPassedTests);
             this.Controls.Add(this.cbApplicationStatus);
             this.Controls.Add(this.pictureBox1);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Name = "frmManageLocalLicenseApplications";
             this.Text = "Manage Local License Applications";
             this.Load += new System.EventHandler(this.frmManageLocalLicenseApplications_Load);
@@ -309,5 +341,8 @@
         private System.Windows.Forms.ComboBox cbDrivingClass;
         private System.Windows.Forms.NumericUpDown nudPassedTests;
         private System.Windows.Forms.DateTimePicker dtpApplicationDate;
+        private System.Windows.Forms.ToolStripMenuItem schedualVisionTestToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem schedualWrittenTestToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem schedualStreetTestToolStripMenuItem;
     }
 }
