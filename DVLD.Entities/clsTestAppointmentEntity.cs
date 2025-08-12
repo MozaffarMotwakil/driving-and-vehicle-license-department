@@ -13,6 +13,8 @@ namespace DVLD.Entities
         public int RetakeTestApplicationID { get; set; }
         public int CreatedByUserID { get; set; }
 
+        public clsTestAppointmentEntity() { }
+
         public clsTestAppointmentEntity(int testAppointmentID, int testTypeID, int localLicenseApplicationID, DateTime appointmentDate, float paidFees, bool isLocked, int retakeTestApplicationID, int createdByUserID)
         {
             TestAppointmentID = testAppointmentID;

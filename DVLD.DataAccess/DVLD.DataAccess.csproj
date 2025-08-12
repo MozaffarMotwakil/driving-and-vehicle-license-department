@@ -41,6 +41,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="clsTestData.cs" />
     <Compile Include="clsTestAppointmentData.cs" />
     <Compile Include="clsLicenseClassData.cs" />
     <Compile Include="clsLocalLicenseApplicationData.cs" />
