@@ -5,6 +5,7 @@ using System.Windows.Forms;
 using DVLD.BusinessLogic;
 using DVLD.WinForms.BaseForms;
 using DVLD.WinForms.Properties;
+using DVLD.WinForms.Tests.TestAppointmests;
 using DVLD.WinForms.Utils;
 
 namespace DVLD.WinForms.Applications.LocalLicense
@@ -268,21 +269,14 @@ namespace DVLD.WinForms.Applications.LocalLicense
                 return;
             }
 
-            clsLocalLicenseApplication localLicenseApplication = clsLocalLicenseApplication.Find(clsFormHelper.GetSelectedRowID(base.RecordsList));
             _ConfigureAllMenuItems();
-
-            switch (localLicenseApplication.ApplicationInfo.Status)
+            switch (base.RecordsList.SelectedRows[0].Cells["ApplicationStatusName"].Value.ToString())
             {
-                case clsApplication.enApplicationStatus.New:
+                case "New":
                     _ConfigureMenuItemsForNewStatus();
-                    schedualVisionTestToolStripMenuItem.Enabled = localLicenseApplication.PassedTests == 0;
-                    schedualWrittenTestToolStripMenuItem.Enabled = localLicenseApplication.PassedTests == 1;
-                    schedualStreetTestToolStripMenuItem.Enabled = localLicenseApplication.PassedTests == 2;
+                    _HandleTestMenuItemsVisibility();
                     break;
-                case clsApplication.enApplicationStatus.Cancelled:
-                    _ConfigureMenuItemsForCancelledStatus();
-                    break;
-                case clsApplication.enApplicationStatus.Completed:
+                case "Completed":
                     _ConfigureMenuItemsForCompletedStatus();
                     break;
             }
@@ -292,37 +286,55 @@ namespace DVLD.WinForms.Applications.LocalLicense
         {
             editToolStripMenuItem.Visible = deleteToolStripMenuItem.Visible = cancleToolStripMenuItem.Visible =
                     scheduleTestsToolStripMenuItem.Visible = issueDrivingLicenseToolStripMenuItem.Visible =
-                    showLicenseToolStripMenuItem.Visible = showPersonLicensesHistoryToolStripMenuItem.Visible = true;
+                    showLicenseToolStripMenuItem.Visible = showPersonLicensesHistoryToolStripMenuItem.Visible = false;
 
             toolStripSeparator1.Visible = toolStripSeparator2.Visible = toolStripSeparator3.Visible =
-                toolStripSeparator4.Visible = toolStripSeparator5.Visible = true;
+                toolStripSeparator4.Visible = toolStripSeparator5.Visible = false;
+
+            schedualVisionTestToolStripMenuItem.Enabled = schedualWrittenTestToolStripMenuItem.Enabled =
+                schedualStreetTestToolStripMenuItem.Enabled = false;
         }
 
         private void _ConfigureMenuItemsForNewStatus()
         {
-            toolStripSeparator3.Visible = toolStripSeparator4.Visible = toolStripSeparator5.Visible = false;
+            toolStripSeparator1.Visible = toolStripSeparator2.Visible = true;
 
-            issueDrivingLicenseToolStripMenuItem.Visible = showLicenseToolStripMenuItem.Visible =
-                showPersonLicensesHistoryToolStripMenuItem.Visible = false;
+            editToolStripMenuItem.Visible = deleteToolStripMenuItem.Visible =
+                cancleToolStripMenuItem.Visible = scheduleTestsToolStripMenuItem.Visible = true;
         }
 
         private void _ConfigureMenuItemsForCompletedStatus()
         {
-            toolStripSeparator1.Visible = toolStripSeparator2.Visible = toolStripSeparator3.Visible = false;
-
-            editToolStripMenuItem.Visible = deleteToolStripMenuItem.Visible = cancleToolStripMenuItem.Visible =
-                scheduleTestsToolStripMenuItem.Visible = issueDrivingLicenseToolStripMenuItem.Visible = false;
+            toolStripSeparator4.Visible = toolStripSeparator5.Visible = true;
+            showLicenseToolStripMenuItem.Visible = showPersonLicensesHistoryToolStripMenuItem.Visible = true;
         }
 
-        private void _ConfigureMenuItemsForCancelledStatus()
+        private void _HandleTestMenuItemsVisibility()
         {
-            toolStripSeparator1.Visible = toolStripSeparator2.Visible = toolStripSeparator3.Visible =
-                    toolStripSeparator4.Visible = toolStripSeparator5.Visible = false;
-
-            editToolStripMenuItem.Visible = deleteToolStripMenuItem.Visible = cancleToolStripMenuItem.Visible =
-                scheduleTestsToolStripMenuItem.Visible = issueDrivingLicenseToolStripMenuItem.Visible =
-                showLicenseToolStripMenuItem.Visible = showPersonLicensesHistoryToolStripMenuItem.Visible = false;
+            switch (Convert.ToByte(base.RecordsList.SelectedRows[0].Cells["PassedTests"].Value))
+            {
+                case 0:
+                    schedualVisionTestToolStripMenuItem.Enabled = true;
+                    break;
+                case 1:
+                    schedualWrittenTestToolStripMenuItem.Enabled = true;
+                    break;
+                case 2:
+                    schedualStreetTestToolStripMenuItem.Enabled = true;
+                    break;
+                default:
+                    scheduleTestsToolStripMenuItem.Visible = false;
+                    issueDrivingLicenseToolStripMenuItem.Visible = true;
+                    break;
+            }
         }
-        
+
+        private void schedualVisionTestToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            frmVisionTestAppointments visionTestAppointments = new frmVisionTestAppointments(clsFormHelper.GetSelectedRowID(base.RecordsList));
+            visionTestAppointments.PassedTest += base.RefreshAndResetFilterColumnToDefault;
+            visionTestAppointments.ShowDialog();
+        }
+
     }
 }
