@@ -223,7 +223,7 @@ namespace DVLD.WinForms.BaseForms
             if (FilterColumn == "None")
             {
                 recordsListForFiltering.RowFilter = string.Empty;
-                return base.RefreshDataGridView(base.RecordsList, base.OriginalDataSourceOfRecords);
+                return clsFormHelper.RefreshDataGridView(base.RecordsList, base.OriginalDataSourceOfRecords);
             }
 
             Type columnType = base.OriginalDataSourceOfRecords.Columns[FilterColumn].DataType;
@@ -256,7 +256,7 @@ namespace DVLD.WinForms.BaseForms
                 recordsListForFiltering.RowFilter = $"{FilterColumn} LIKE '{FilterText}%'";
             }
 
-            return base.RefreshDataGridView(base.RecordsList, recordsListForFiltering);
+            return clsFormHelper.RefreshDataGridView(base.RecordsList, recordsListForFiltering);
         }
 
     }

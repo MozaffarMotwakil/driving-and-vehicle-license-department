@@ -54,7 +54,7 @@ namespace DVLD.WinForms.BaseForms
 
         private void dgvRecordsList_CellMouseDown(object sender, DataGridViewCellMouseEventArgs e)
         {
-            _SelectEntireRow(dgvRecordsList, e);
+            clsFormHelper.SelectEntireRow(dgvRecordsList, e);
         }
 
         private void btnClose_Click(object sender, EventArgs e)
@@ -64,12 +64,12 @@ namespace DVLD.WinForms.BaseForms
 
         protected virtual void dgvRecordsList_CellMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)
         {
-            _SelectEntireRow(dgvRecordsList, e);
+            clsFormHelper.SelectEntireRow(dgvRecordsList, e);
         }
 
         protected virtual void dgvRecordsList_MouseDown(object sender, MouseEventArgs e)
         {
-            _DeselectCellsAndRows(dgvRecordsList, e);
+            clsFormHelper.DeselectCellsAndRows(dgvRecordsList, e);
         }
 
         protected virtual DataTable GetDataSource()
@@ -80,45 +80,10 @@ namespace DVLD.WinForms.BaseForms
         protected void RefreshRecordsList()
         {
             OriginalDataSourceOfRecords = GetDataSource();
-            RecordsCount = RefreshDataGridView(RecordsList, OriginalDataSourceOfRecords);
+            RecordsCount = clsFormHelper.RefreshDataGridView(RecordsList, OriginalDataSourceOfRecords);
         }
 
         protected virtual void ResetRecordsListColumnsWidthAndName() { }
-
-        protected int RefreshDataGridView(DataGridView dataGridView, object DataSource)
-        {
-            dataGridView.DataSource = DataSource;
-            return dataGridView.RowCount;
-        }
-
-
-        private void _SelectEntireRow(DataGridView dataGridView, DataGridViewCellMouseEventArgs e)
-        {
-            if ((e.Clicks == 2 || e.Button == MouseButtons.Right) && e.RowIndex >= 0)
-            {
-                dataGridView.ClearSelection();
-                dataGridView.Rows[e.RowIndex].Selected = true;
-                dataGridView.CurrentCell = dataGridView.SelectedRows[0].Cells[0];
-            }
-        }
-
-        private void _DeselectCellsAndRows(DataGridView dataGridView, MouseEventArgs e)
-        {
-            DataGridView.HitTestInfo hit = dataGridView.HitTest(e.X, e.Y);
-
-            if (e.Button == MouseButtons.Right || e.Button == MouseButtons.Left && hit.Type == DataGridViewHitTestType.None)
-            {
-                foreach (DataGridViewCell cell in dataGridView.SelectedCells)
-                {
-                    cell.Selected = false;
-                }
-
-                foreach (DataGridViewRow row in dataGridView.SelectedRows)
-                {
-                    row.Selected = false;
-                }
-            }
-        }
 
     }
 }

@@ -9,6 +9,40 @@ namespace DVLD.WinForms.Utils
 {
     public static class clsFormHelper
     {
+        public static void SelectEntireRow(DataGridView dataGridView, DataGridViewCellMouseEventArgs e)
+        {
+            if ((e.Clicks == 2 || e.Button == MouseButtons.Right) && e.RowIndex >= 0)
+            {
+                dataGridView.ClearSelection();
+                dataGridView.Rows[e.RowIndex].Selected = true;
+                dataGridView.CurrentCell = dataGridView.SelectedRows[0].Cells[0];
+            }
+        }
+
+        public static void DeselectCellsAndRows(DataGridView dataGridView, MouseEventArgs e)
+        {
+            DataGridView.HitTestInfo hit = dataGridView.HitTest(e.X, e.Y);
+
+            if (e.Button == MouseButtons.Right || e.Button == MouseButtons.Left && hit.Type == DataGridViewHitTestType.None)
+            {
+                foreach (DataGridViewCell cell in dataGridView.SelectedCells)
+                {
+                    cell.Selected = false;
+                }
+
+                foreach (DataGridViewRow row in dataGridView.SelectedRows)
+                {
+                    row.Selected = false;
+                }
+            }
+        }
+
+        public static int RefreshDataGridView(DataGridView dataGridView, object DataSource)
+        {
+            dataGridView.DataSource = DataSource;
+            return dataGridView.RowCount;
+        }
+
         public static int GetSelectedRowID(DataGridView dataGridView)
         {
             if (dataGridView.SelectedRows.Count > 0)
