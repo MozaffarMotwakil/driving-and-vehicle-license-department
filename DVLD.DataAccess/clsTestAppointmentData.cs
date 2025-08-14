@@ -7,6 +7,45 @@ namespace DVLD.DataAccess
 {
     public class clsTestAppointmentData
     {
+        public static int GetActiveTestAppointmentID(int LocalLicenseApplicationID, int TestTypeID)
+        {
+            using (SqlConnection connection = new SqlConnection(clsDataSettings.ConnectionString))
+            {
+                string query = @"
+                    SELECT 
+	                    TestAppointments.TestAppointmentID
+                    FROM 
+	                    TestAppointments
+	                    INNER JOIN LocalDrivingLicenseApplications ON TestAppointments.LocalDrivingLicenseApplicationID = LocalDrivingLicenseApplications.LocalDrivingLicenseApplicationID
+                    WHERE
+	                    LocalDrivingLicenseApplications.LocalDrivingLicenseApplicationID = @LocalLicenseApplicationID
+	                    AND TestAppointments.TestTypeID = @TestTypeID
+	                    AND TestAppointments.IsLocked = 0";
+
+                SqlCommand command = new SqlCommand(query, connection);
+                command.Parameters.AddWithValue("@LocalLicenseApplicationID", LocalLicenseApplicationID);
+                command.Parameters.AddWithValue("@TestTypeID", TestTypeID);
+
+                try
+                {
+                    connection.Open();
+                    object result = command.ExecuteScalar();
+
+                    if (result != null && int.TryParse(result.ToString(), out int activeTestAppointmentID))
+                    {
+                        return activeTestAppointmentID;
+                    }
+
+                    return -1;
+                }
+                catch (Exception ex)
+                {
+
+                    throw new ApplicationException($"Error: get active test appointment for test type.\n{ex.Message}", ex);
+                }
+            }
+        }
+
         public static DataTable GetAllTestAppointmentsForLocalLicenseApplication(int LocalLicenseApplicationID, int TestTypeID)
         {
             DataTable testAppointments = null;
@@ -22,7 +61,9 @@ namespace DVLD.DataAccess
 	                                 TestAppointments
                                  WHERE
 	                                 LocalDrivingLicenseApplicationID = @LocalLicenseApplicationID
-	                                 AND TestTypeID = @TestTypeID";
+	                                 AND TestTypeID = @TestTypeID
+                                 ORDER BY
+                                     TestAppointmentID DESC";
 
                 SqlCommand command = new SqlCommand(query, connection);
                 command.Parameters.AddWithValue("@LocalLicenseApplicationID", LocalLicenseApplicationID);
@@ -78,8 +119,17 @@ namespace DVLD.DataAccess
                             testAppointmentEntity.AppointmentDate = Convert.ToDateTime(reader["AppointmentDate"]);
                             testAppointmentEntity.PaidFees = Convert.ToSingle(reader["PaidFees"]);
                             testAppointmentEntity.IsLocked = Convert.ToBoolean(reader["IsLocked"]);
-                            testAppointmentEntity.RetakeTestApplicationID = Convert.ToInt32(reader["RetakeTestApplicationID"]);
                             testAppointmentEntity.CreatedByUserID = Convert.ToInt32(reader["CreatedByUserID"]);
+
+                            if (reader["RetakeTestApplicationID"] == DBNull.Value)
+                            {
+                                testAppointmentEntity.RetakeTestApplicationID = -1;
+                            }
+                            else
+                            {
+                                testAppointmentEntity.RetakeTestApplicationID = Convert.ToInt32(reader["RetakeTestApplicationID"]);
+                            }
+
                         }
                     }
                 }
@@ -116,7 +166,15 @@ namespace DVLD.DataAccess
                 command.Parameters.AddWithValue("@PaidFees", TestAppointmentEntity.PaidFees);
                 command.Parameters.AddWithValue("@CreatedByUserID", TestAppointmentEntity.CreatedByUserID);
                 command.Parameters.AddWithValue("@IsLocked", TestAppointmentEntity.IsLocked);
-                command.Parameters.AddWithValue("@RetakeTestApplicationID", TestAppointmentEntity.RetakeTestApplicationID);
+
+                if (TestAppointmentEntity.RetakeTestApplicationID == -1)
+                {
+                    command.Parameters.AddWithValue("@RetakeTestApplicationID", DBNull.Value);
+                }
+                else
+                {
+                    command.Parameters.AddWithValue("@RetakeTestApplicationID", TestAppointmentEntity.RetakeTestApplicationID);
+                }
 
                 try
                 {

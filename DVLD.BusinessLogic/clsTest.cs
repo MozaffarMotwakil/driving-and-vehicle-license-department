@@ -6,19 +6,19 @@ namespace DVLD.BusinessLogic
 {
     public class clsTest
     {
-        public int TestID { get; set; }
-        public clsTestAppointment TestAppointmentInfo { get; set; }
+        public int TestID { get; private set; }
+        public clsTestAppointment TestAppointmentInfo { get; private set; }
         public bool TestResult { get; set; }
         public string Notes { get; set; }
-        public clsUser CreatedByUserInfo { get; set; }
+        public clsUser CreatedByUserInfo { get; private set; }
 
-        public clsTest()
+        public clsTest(clsTestAppointment testAppointment)
         {
             TestID = -1;
-            TestAppointmentInfo = null;
+            TestAppointmentInfo = testAppointment;
             TestResult = false;
             Notes = string.Empty;
-            CreatedByUserInfo = null;
+            CreatedByUserInfo = clsAppSettings.CurrentUser;
         }
 
         private clsTest(clsTestEntity testEntity)
@@ -30,6 +30,26 @@ namespace DVLD.BusinessLogic
             CreatedByUserInfo = clsUser.Find(testEntity.CreatedByUserID);
         }
 
+        public static int GetAttemptsCountForLocalLicenseApplication(int LocalLicenseApplicationID, int TestTypeID)
+        {
+            return clsTestData.GetAttemptsCountForLocalLicenseApplication(LocalLicenseApplicationID, TestTypeID);
+        }
+
+        public static int GetPassedTestsCountForLocalLicenseApplication(int LcoalLicenseApplicationID)
+        {
+            return clsTestData.GetPassedTestsCountForLocalLicenseApplication(LcoalLicenseApplicationID);
+        }
+
+        public static int GetPassedTestID(int LocalLicenseApplicationID, int TestTypeID)
+        {
+            return clsTestData.GetPassedTestID(LocalLicenseApplicationID, TestTypeID);
+        }
+
+        public static bool IsHasPassedTest(int LocalLicenseApplicationID, int TestTypeID)
+        {
+            return clsTestData.GetPassedTestID(LocalLicenseApplicationID, TestTypeID) != -1;
+        }
+
         public static clsTest Find(int TestAppointmentID)
         {
             clsTestEntity testEntity = clsTestData.FindTestByID(TestAppointmentID);
@@ -38,8 +58,27 @@ namespace DVLD.BusinessLogic
 
         public bool Save()
         {
-            clsTestEntity testEntity = _MapTestObjectToTestEntity(this);
+            if (this.TestAppointmentInfo.IsHasRetakeTestApplication())
+            {
+                this.TestAppointmentInfo.RetakeTestApplicationInfo.Status = clsApplication.enApplicationStatus.Completed;
 
+                if (!this.TestAppointmentInfo.RetakeTestApplicationInfo.Save())
+                {
+                    this.TestAppointmentInfo.RetakeTestApplicationInfo.Status = clsApplication.enApplicationStatus.New;
+                    throw new InvalidOperationException(
+                        $"Failed to update status of the ratake test appointment with ID " +
+                        $"[{this.TestAppointmentInfo.RetakeTestApplicationInfo.ApplicationID}] to completed.");
+                }
+            }
+
+            if (!this.TestAppointmentInfo.Locked())
+            {
+                throw new InvalidOperationException(
+                    $"Failed to update the test appointment with ID " +
+                    $"[{this.TestAppointmentInfo.TestAppointmentID}] to locked.");
+            }
+
+            clsTestEntity testEntity = _MapTestObjectToTestEntity(this);
             if (clsTestData.AddNewTest(testEntity))
             {
                 this.TestID = testEntity.TestID;
