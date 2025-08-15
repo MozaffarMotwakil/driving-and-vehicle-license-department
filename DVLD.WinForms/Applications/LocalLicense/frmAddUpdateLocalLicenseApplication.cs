@@ -26,9 +26,8 @@ namespace DVLD.WinForms.Applications.LocalLicense
         public frmAddUpdateLocalLicenseApplication()
         {
             InitializeComponent();
-            _LocalLicenseApplication = new clsLocalLicenseApplication();
+            _LocalLicenseApplication = null;
             _FormMode = enMode.AddNew;
-            btnNext.Enabled = btnSave.Enabled = false;
             ctrPersonCardInfoWithFiltter.PersonFound += CtrPersonCardInfoWithFiltter_PersonFound;
             ctrPersonCardInfoWithFiltter.PersonNotFound += CtrPersonCardInfoWithFiltter_PersonNotFound;
             ctrPersonCardInfoWithFiltter.AddNewPerson += CtrPersonCardInfoWithFiltter_AddNewPerson;
@@ -40,9 +39,55 @@ namespace DVLD.WinForms.Applications.LocalLicense
             InitializeComponent();
             _LocalLicenseApplication = clsLocalLicenseApplication.Find(LocalLicenseApplicationID);
             _FormMode = enMode.Update;
-            btnNext.Enabled = btnSave.Enabled = true;
-            tabControl.SelectedTab = tpApplicationInfo;
             ctrPersonCardInfoWithFiltter.InfoModifie += CtrPersonCardInfoWithFiltter_InfoModifie;
+        }
+
+        private void frmAddUpdateLocalLicenseApplication_Load(object sender, EventArgs e)
+        {
+            clsFormHelper.SetLicenseClassesToComboBox(cbLicenseClass);
+
+            if (_FormMode == enMode.AddNew)
+            {
+                _SetDefaultValuesForAddNewModeToUI();
+                return;
+            }
+
+            if (_LocalLicenseApplication == null)
+            {
+                clsFormMessages.ShowError("Application not found.");
+                this.Close();
+                return;
+            }
+
+            _SetDefaultValuesForUpdateModeToUI();
+        }
+
+        private void _SetDefaultValuesForAddNewModeToUI()
+        {
+            this.Text = lblHeader.Text = "Add New Local License Application";
+            lblApplicationDate.Text = DateTime.Now.ToString("dd/MM/yyyy");
+            btnNext.Enabled = btnSave.Enabled = false;
+            cbLicenseClass.SelectedIndex = 0;
+            lblApplicationFees.Text = clsApplicationType.Get(clsApplication.enApplicationType.NewLocalDrivingLicenseService).Fees.ToString();
+            llCreatedByUsername.Text = clsAppSettings.CurrentUser.Username;
+        }
+
+        private void _SetDefaultValuesForUpdateModeToUI()
+        {
+            this.Text = lblHeader.Text = "Update Local License Application";
+            _FillApplicationInfoToUI();
+            tabControl.SelectedTab = tpApplicationInfo;
+            btnNext.Enabled = btnSave.Enabled = true;
+        }
+
+        private void _FillApplicationInfoToUI()
+        {
+            ctrPersonCardInfoWithFiltter.LoadPersonDataForEdit(_LocalLicenseApplication.ApplicationInfo.PersonInfo);
+            lblApplicationID.Text = _LocalLicenseApplication.LocalLicenseApplicationID.ToString();
+            lblApplicationDate.Text = _LocalLicenseApplication.ApplicationInfo.CreatedDate.ToString("dd/MM/yyyy");
+            cbLicenseClass.SelectedIndex = _LocalLicenseApplication.LicenseClassInfo.LicenseClassID - 1;
+            lblApplicationFees.Text = _LocalLicenseApplication.ApplicationInfo.PaidFees.ToString();
+            llCreatedByUsername.Text = _LocalLicenseApplication.ApplicationInfo.CreatedByUserInfo.Username;
         }
 
         private void CtrPersonCardInfoWithFiltter_InfoModifie()
@@ -99,32 +144,7 @@ namespace DVLD.WinForms.Applications.LocalLicense
         {
             tabControl.SelectedTab = tpPersonalInfo;
         }
-
-        private void frmAddUpdateLocalLicenseApplication_Load(object sender, EventArgs e)
-        {
-            clsFormHelper.SetLicenseClassesToComboBox(cbLicenseClass);
-
-            if (_FormMode == enMode.AddNew)
-            {
-                this.Text = lblHeader.Text = "Add New Local License Application";
-                lblApplicationDate.Text = DateTime.Now.ToString("dd/MM/yyyy");
-                cbLicenseClass.SelectedIndex = 0;
-                lblApplicationFees.Text = _LocalLicenseApplication.ApplicationInfo.TypeInfo.Fees.ToString();
-                llCreatedByUsername.Text = clsAppSettings.CurrentUser.Username;
-                return;
-            }
-
-            if (_LocalLicenseApplication == null)
-            {
-                clsFormMessages.ShowError("Application not found.");
-                this.Close();
-                return;
-            }
-
-            this.Text = lblHeader.Text = "Update Local License Application";
-            _FillApplicationInfoToUI();
-        }
-
+        
         private void btnSave_Click(object sender, EventArgs e)
         {
             clsLocalLicenseApplication activeApplication = clsLocalLicenseApplication.GetActiveLocalLicenseApplication(
@@ -140,11 +160,10 @@ namespace DVLD.WinForms.Applications.LocalLicense
 
             if (clsFormMessages.ConfirmSava())
             {
-                if (!_FillApplicationInfoFromUI())
-                {
-                    clsFormMessages.ShowError("Create a new application failed, please try again.");
-                    return;
-                }
+                _LocalLicenseApplication = new clsLocalLicenseApplication(
+                    ctrPersonCardInfoWithFiltter.Person,
+                    clsLicenseClass.Find(cbLicenseClass.SelectedIndex + 1)
+                    );
 
                 if (_LocalLicenseApplication.Save())
                 {
@@ -160,13 +179,7 @@ namespace DVLD.WinForms.Applications.LocalLicense
                 else
                 {
                     clsFormMessages.ShowError("Failed Save.");
-
-                    if (!clsApplication.Delete(_LocalLicenseApplication.ApplicationInfo.ApplicationID))
-                    {
-                        clsFormMessages.ShowWarning("Failed to delete the base application, please delete it manual.");
-                    }
                 }
-
             }
         }
 
@@ -176,31 +189,6 @@ namespace DVLD.WinForms.Applications.LocalLicense
             this.Text = lblHeader.Text = "Update Local License Application";
             lblApplicationID.Text = _LocalLicenseApplication.LocalLicenseApplicationID.ToString();
             ctrPersonCardInfoWithFiltter.IsFilterEnabled = false;
-        }
-
-        private bool _FillApplicationInfoFromUI()
-        {
-            int applicationID = clsApplication.CreateApplication(ctrPersonCardInfoWithFiltter.Person.PersonID, 
-                clsApplication.enApplicationType.NewLocalDrivingLicenseService);
-
-            if (applicationID == -1)
-            {
-                return false;
-            }
-
-            _LocalLicenseApplication.ApplicationInfo.ApplicationID = applicationID;
-            _LocalLicenseApplication.LicenseClassInfo.LicenseClassID = cbLicenseClass.SelectedIndex + 1;
-            return true;
-        }
-
-        private void _FillApplicationInfoToUI()
-        {
-            ctrPersonCardInfoWithFiltter.LoadPersonDataForEdit(_LocalLicenseApplication.ApplicationInfo.PersonInfo);
-            lblApplicationID.Text = _LocalLicenseApplication.LocalLicenseApplicationID.ToString();
-            lblApplicationDate.Text = _LocalLicenseApplication.ApplicationInfo.CreatedDate.ToString("dd/MM/yyyy");
-            cbLicenseClass.SelectedIndex = _LocalLicenseApplication.LicenseClassInfo.LicenseClassID - 1;
-            lblApplicationFees.Text = _LocalLicenseApplication.ApplicationInfo.PaidFees.ToString();
-            llCreatedByUsername.Text = _LocalLicenseApplication.ApplicationInfo.CreatedByUserInfo.Username;
         }
 
         private void llCreatedByUsername_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)

@@ -76,7 +76,7 @@
             this.toolStripSeparator5,
             this.showPersonLicensesHistoryToolStripMenuItem});
             this.recordsListContextMenuStrip.Name = "contextMenuStrip1";
-            this.recordsListContextMenuStrip.Size = new System.Drawing.Size(262, 360);
+            this.recordsListContextMenuStrip.Size = new System.Drawing.Size(262, 338);
             this.recordsListContextMenuStrip.Opening += new System.ComponentModel.CancelEventHandler(this.recordsListContextMenuStrip_Opening);
             // 
             // showDetailsToolStripMenuItem
@@ -144,7 +144,7 @@
             this.schedualVisionTestToolStripMenuItem.Name = "schedualVisionTestToolStripMenuItem";
             this.schedualVisionTestToolStripMenuItem.Size = new System.Drawing.Size(203, 38);
             this.schedualVisionTestToolStripMenuItem.Text = "Schedual Vision Test";
-            this.schedualVisionTestToolStripMenuItem.Click += new System.EventHandler(this.schedualVisionTestToolStripMenuItem_Click);
+            this.schedualVisionTestToolStripMenuItem.Click += new System.EventHandler(this.schedualTestType_Click);
             // 
             // schedualWrittenTestToolStripMenuItem
             // 
@@ -153,6 +153,7 @@
             this.schedualWrittenTestToolStripMenuItem.Name = "schedualWrittenTestToolStripMenuItem";
             this.schedualWrittenTestToolStripMenuItem.Size = new System.Drawing.Size(203, 38);
             this.schedualWrittenTestToolStripMenuItem.Text = "Schedual Written Test";
+            this.schedualWrittenTestToolStripMenuItem.Click += new System.EventHandler(this.schedualTestType_Click);
             // 
             // schedualStreetTestToolStripMenuItem
             // 
@@ -161,6 +162,7 @@
             this.schedualStreetTestToolStripMenuItem.Name = "schedualStreetTestToolStripMenuItem";
             this.schedualStreetTestToolStripMenuItem.Size = new System.Drawing.Size(203, 38);
             this.schedualStreetTestToolStripMenuItem.Text = "Schedual Street Test";
+            this.schedualStreetTestToolStripMenuItem.Click += new System.EventHandler(this.schedualTestType_Click);
             // 
             // toolStripSeparator3
             // 

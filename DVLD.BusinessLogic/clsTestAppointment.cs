@@ -8,13 +8,33 @@ namespace DVLD.BusinessLogic
     public class clsTestAppointment
     {
         public int TestAppointmentID { get; private set; }
-        public clsLocalLicenseApplication LocalLicenseApplicationInfo { get; private set; }
-        public clsTestType.enTestType TestType { get; private set; }
-        public DateTime AppointmentDate { get; set; }
-        public float PaidFees { get; private set; }
-        public bool IsLocked { get; private set; }
-        public clsUser CreatedByUserInfo { get; private set; }
-        public clsApplication RetakeTestApplicationInfo { get; private set; }
+        public clsLocalLicenseApplication LocalLicenseApplicationInfo { get; }
+        public clsTestType.enTestType TestType { get; }
+        
+        private DateTime _appointmentDate;
+        public DateTime AppointmentDate
+        {
+            get
+            {
+                return _appointmentDate;
+            }
+
+            set
+            {
+                if (value < DateTime.Now.Date)
+                {
+                    throw new ArgumentOutOfRangeException(nameof(AppointmentDate),
+                        "Appointment date cannot be in the past.");
+                }
+
+                _appointmentDate = value;
+            }
+        }
+
+        public float PaidFees { get; }
+        public bool IsLocked { get; }
+        public clsUser CreatedByUserInfo { get; }
+        public clsApplication RetakeTestApplicationInfo { get; }
         private enMode Mode { get; set; }
 
         public clsTestAppointment(clsLocalLicenseApplication localLicenseApplication, clsTestType.enTestType testType)
@@ -34,6 +54,11 @@ namespace DVLD.BusinessLogic
             if (clsTest.IsHasPassedTest(localLicenseApplication.LocalLicenseApplicationID, (int)testType))
             {
                 throw new InvalidOperationException("The applicant has already passed this test type.");
+            }
+
+            if (this.LocalLicenseApplicationInfo.GetPassedTestCount() == 3)
+            {
+                throw new InvalidOperationException("The applicant has already passed all tests.");
             }
 
             TestAppointmentID = -1;
@@ -72,9 +97,9 @@ namespace DVLD.BusinessLogic
                     this.LocalLicenseApplicationInfo.LocalLicenseApplicationID, (int)this.TestType);
         }
 
-        public static DataTable GetAllTestAppointmentsForLocalLicenseApplication(int LocalLicenseApplicationID, int TestTypeID)
+        public static DataTable GetAllTestAppointmentsForLocalLicenseApplication(int LocalLicenseApplicationID, clsTestType.enTestType TestType)
         {
-            return clsTestAppointmentData.GetAllTestAppointmentsForLocalLicenseApplication(LocalLicenseApplicationID, TestTypeID);
+            return clsTestAppointmentData.GetAllTestAppointmentsForLocalLicenseApplication(LocalLicenseApplicationID, (int)TestType);
         }
 
         public static clsTestAppointment Find(int TestAppointmentID)
@@ -113,11 +138,6 @@ namespace DVLD.BusinessLogic
             switch (Mode)
             {
                 case enMode.AddNew:
-                    if (this.AppointmentDate < DateTime.Now.Date)
-                    {
-                        throw new InvalidOperationException("Appointment date cannot be in the past.");
-                    }
-
                     if (this.IsHasRetakeTestApplication() && !this.RetakeTestApplicationInfo.Save())
                     {
                         throw new InvalidOperationException($"Failed to save the retake test application with ID " +
@@ -154,8 +174,7 @@ namespace DVLD.BusinessLogic
 
             return new clsApplication(
                 this.LocalLicenseApplicationInfo.ApplicationInfo.PersonInfo,
-                clsApplicationType.Get(clsApplication.enApplicationType.RetakeTest),
-                clsAppSettings.CurrentUser
+                clsApplication.enApplicationType.RetakeTest
                 );
         }
 

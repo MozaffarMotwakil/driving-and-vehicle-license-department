@@ -86,7 +86,9 @@ namespace DVLD.WinForms.Applications.LocalLicense
                         base.FilterText = dtpApplicationDate.Value.ToString("yyyy/MM/dd");
                     }
 
-                    dtpApplicationDate.Value = dtpApplicationDate.MaxDate > DateTime.Now.Date ? DateTime.Now.Date : dtpApplicationDate.MaxDate;
+                    dtpApplicationDate.Value = dtpApplicationDate.MaxDate > DateTime.Now.Date ?
+                        DateTime.Now.Date :
+                        dtpApplicationDate.MaxDate;
                     break;
                 case "PassedTests":
                     nudPassedTests.Location = new Point(nudPassedTests.Location.X, 179); ;
@@ -248,7 +250,7 @@ namespace DVLD.WinForms.Applications.LocalLicense
             }
 
             if (clsFormMessages.Confirm($"This action cannot be undone. Are you sure you want to cancel local driving license application number [{localLicenseApplication.LocalLicenseApplicationID}] ?", 
-                messageBoxIcon: System.Windows.Forms.MessageBoxIcon.Warning, messageBoxDefaultButton: System.Windows.Forms.MessageBoxDefaultButton.Button2))
+                messageBoxIcon: MessageBoxIcon.Warning, messageBoxDefaultButton: MessageBoxDefaultButton.Button2))
             {
                 if (localLicenseApplication.ApplicationInfo.SetCanclled())
                 {
@@ -263,7 +265,7 @@ namespace DVLD.WinForms.Applications.LocalLicense
 
         private void recordsListContextMenuStrip_Opening(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            if (clsFormHelper.GetHitTestInfo(base.RecordsList).Type != System.Windows.Forms.DataGridViewHitTestType.Cell)
+            if (clsFormHelper.GetHitTestInfo(base.RecordsList).Type != DataGridViewHitTestType.Cell)
             {
                 e.Cancel = true;
                 return;
@@ -329,9 +331,9 @@ namespace DVLD.WinForms.Applications.LocalLicense
             }
         }
 
-        private void schedualVisionTestToolStripMenuItem_Click(object sender, EventArgs e)
+        private void schedualTestType_Click(object sender, EventArgs e)
         {
-            frmVisionTestAppointments visionTestAppointments = new frmVisionTestAppointments(clsFormHelper.GetSelectedRowID(base.RecordsList));
+            frmTestAppointments visionTestAppointments = new frmTestAppointments(clsFormHelper.GetSelectedRowID(base.RecordsList));
             visionTestAppointments.PassedTest += base.RefreshAndResetFilterColumnToDefault;
             visionTestAppointments.ShowDialog();
         }

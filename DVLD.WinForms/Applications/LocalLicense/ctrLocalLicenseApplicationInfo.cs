@@ -1,5 +1,6 @@
 ﻿using System.Windows.Forms;
 using DVLD.BusinessLogic;
+using DVLD.WinForms.Utils;
 
 namespace DVLD.WinForms.Applications.LocalLicense
 {
@@ -18,8 +19,8 @@ namespace DVLD.WinForms.Applications.LocalLicense
             ctrBaseApplicationInfo.LoadBaseApplicationDataForDisplay(LocalLicenseApplication.ApplicationInfo);
             lblLocalLicenseApplicationID.Text = LocalLicenseApplication.LocalLicenseApplicationID.ToString();
             lblLicenseClass.Text = LocalLicenseApplication.LicenseClassInfo.ClassName;
-            lblPassedTests.Text = clsTest.GetPassedTestsCountForLocalLicenseApplication(LocalLicenseApplication.LocalLicenseApplicationID).ToString() + "/3";
-            llShowLicenseInfo.Visible = LocalLicenseApplication.ApplicationInfo.Status == clsApplication.enApplicationStatus.Completed;
+            lblPassedTests.Text = LocalLicenseApplication.GetPassedTestCount().ToString() + "/3";
+            llShowLicenseInfo.Visible = (LocalLicenseApplication.ApplicationInfo.Status == clsApplication.enApplicationStatus.Completed);
         }
 
         public void Clear()
@@ -31,7 +32,7 @@ namespace DVLD.WinForms.Applications.LocalLicense
 
         private void llShowLicenseInfo_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-
+            clsFormMessages.ShowNotImplementedFeatureWarning();
         }
 
     }

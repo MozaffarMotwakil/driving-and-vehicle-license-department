@@ -7,13 +7,23 @@ namespace DVLD.BusinessLogic
     public class clsTest
     {
         public int TestID { get; private set; }
-        public clsTestAppointment TestAppointmentInfo { get; private set; }
+        public clsTestAppointment TestAppointmentInfo { get; }
         public bool TestResult { get; set; }
         public string Notes { get; set; }
-        public clsUser CreatedByUserInfo { get; private set; }
+        public clsUser CreatedByUserInfo { get; }
 
         public clsTest(clsTestAppointment testAppointment)
         {
+            if (testAppointment == null)
+            {
+                throw new ArgumentNullException(nameof(testAppointment), "Test appointment cannot be null.");
+            }
+
+            if (testAppointment.IsLocked)
+            {
+                throw new InvalidOperationException("Test appointment is locked, cannot create an exam.");
+            }
+
             TestID = -1;
             TestAppointmentInfo = testAppointment;
             TestResult = false;
@@ -58,27 +68,22 @@ namespace DVLD.BusinessLogic
 
         public bool Save()
         {
-            if (this.TestAppointmentInfo.IsHasRetakeTestApplication())
+            if (this.TestAppointmentInfo.IsHasRetakeTestApplication() && !this.TestAppointmentInfo.RetakeTestApplicationInfo.SetCompleted())
             {
-                this.TestAppointmentInfo.RetakeTestApplicationInfo.Status = clsApplication.enApplicationStatus.Completed;
-
-                if (!this.TestAppointmentInfo.RetakeTestApplicationInfo.Save())
-                {
-                    this.TestAppointmentInfo.RetakeTestApplicationInfo.Status = clsApplication.enApplicationStatus.New;
-                    throw new InvalidOperationException(
-                        $"Failed to update status of the ratake test appointment with ID " +
-                        $"[{this.TestAppointmentInfo.RetakeTestApplicationInfo.ApplicationID}] to completed.");
-                }
+                throw new InvalidOperationException(
+                    $"Failed to update status of the ratake test appointment with ID " +
+                    $"[{this.TestAppointmentInfo.RetakeTestApplicationInfo.ApplicationID}] to completed.");
             }
 
             if (!this.TestAppointmentInfo.Locked())
             {
                 throw new InvalidOperationException(
-                    $"Failed to update the test appointment with ID " +
+                    $"Failed to set the test appointment with ID " +
                     $"[{this.TestAppointmentInfo.TestAppointmentID}] to locked.");
             }
 
             clsTestEntity testEntity = _MapTestObjectToTestEntity(this);
+
             if (clsTestData.AddNewTest(testEntity))
             {
                 this.TestID = testEntity.TestID;
