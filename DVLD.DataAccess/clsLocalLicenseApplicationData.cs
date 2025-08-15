@@ -178,7 +178,6 @@ namespace DVLD.DataAccess
                             localLicenseApplicationEntity.LocalLicenseApplicationID = LocalLicenseApplicationID;
                             localLicenseApplicationEntity.ApplicationID = Convert.ToInt32(reader["ApplicationID"]);
                             localLicenseApplicationEntity.LicenseClassID = Convert.ToInt32(reader["LicenseClassID"]);
-                            localLicenseApplicationEntity.PassedTests = Convert.ToByte(reader["PassedTests"]);
                         }
                     }
                 }
@@ -266,7 +265,6 @@ namespace DVLD.DataAccess
                 command.Parameters.AddWithValue("@LocalLicenseApplicationID", LocalLicenseApplicationEntity.LocalLicenseApplicationID);
                 command.Parameters.AddWithValue("@ApplicationID", LocalLicenseApplicationEntity.ApplicationID);
                 command.Parameters.AddWithValue("@LicenseClassID", LocalLicenseApplicationEntity.LicenseClassID);
-                command.Parameters.AddWithValue("@PassedTests", LocalLicenseApplicationEntity.PassedTests);
 
                 try
                 {
