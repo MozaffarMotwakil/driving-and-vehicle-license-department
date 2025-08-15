@@ -94,8 +94,8 @@ namespace DVLD.DataAccess
                 command.Parameters.AddWithValue("@TypeID", ApplicationEntity.TypeID);
                 command.Parameters.AddWithValue("@StatusID", ApplicationEntity.StatusID);
                 command.Parameters.AddWithValue("@CreatedByUserID", ApplicationEntity.CreatedByUserID);
-                command.Parameters.AddWithValue("@CreatedDate", ApplicationEntity.CreatedDate);
-                command.Parameters.AddWithValue("@LastStatusDate", ApplicationEntity.LastStatusDate);
+                command.Parameters.AddWithValue("@CreatedDate", DateTime.Now);
+                command.Parameters.AddWithValue("@LastStatusDate", DateTime.Now);
                 command.Parameters.AddWithValue("@PaidFees", ApplicationEntity.PaidFees);
                 
                 try
@@ -148,8 +148,7 @@ namespace DVLD.DataAccess
                 string query = @"UPDATE Applications
                                 SET
 	                                ApplicantPersonID = @PersonID, ApplicationTypeID = @TypeID, ApplicationStatusID = @StatusID, 
-                                    CreatedByUserID = @CreatedByUserID, ApplicationDate = @CreatedDate,
-                                    LastStatusDate = @LastStatusDate, PaidFees = @PaidFees
+                                    CreatedByUserID = @CreatedByUserID, PaidFees = @PaidFees
                                 WHERE ApplicationID = @ApplicationID";
 
                 SqlCommand command = new SqlCommand(query, connection);
@@ -158,8 +157,6 @@ namespace DVLD.DataAccess
                 command.Parameters.AddWithValue("@TypeID", ApplicationEntity.TypeID);
                 command.Parameters.AddWithValue("@StatusID", ApplicationEntity.StatusID);
                 command.Parameters.AddWithValue("@CreatedByUserID", ApplicationEntity.CreatedByUserID);
-                command.Parameters.AddWithValue("@CreatedDate", ApplicationEntity.CreatedDate);
-                command.Parameters.AddWithValue("@LastStatusDate", ApplicationEntity.LastStatusDate);
                 command.Parameters.AddWithValue("@PaidFees", ApplicationEntity.PaidFees);
 
                 try

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Runtime.CompilerServices;
 using DVLD.DataAccess;
 using DVLD.Entities;
 
@@ -25,26 +24,30 @@ namespace DVLD.BusinessLogic
             Completed = 3
         }
 
-        public int ApplicationID { get; set; }
-        public clsPerson PersonInfo { get; set; }
-        public clsApplicationType TypeInfo { get; set; }
-        public enApplicationStatus Status { get; set; }
-        public clsUser CreatedByUserInfo { get; set; }
-        public DateTime CreatedDate { get; set; }
-        public DateTime LastStatusDate { get; set; }
-        public float PaidFees { get; set; }
+        public int ApplicationID { get; private set; }
+        public clsPerson PersonInfo { get; }
+        public clsApplicationType TypeInfo { get; }
+        public enApplicationStatus Status { get; }
+        public clsUser CreatedByUserInfo { get; }
+        public DateTime CreatedDate { get; }
+        public DateTime LastStatusDate { get; }
+        public float PaidFees { get; }
         private enMode Mode { get; set; }
 
-        internal clsApplication(enApplicationType applicationType)
+        public clsApplication(clsPerson person, enApplicationType applicationType)
         {
+            if (person == null)
+            {
+                throw new ArgumentNullException(nameof(person), "Person cannot be null.");
+            }
+
             ApplicationID = -1;
-            PersonInfo = new clsPerson();
-            CreatedByUserInfo = new clsUser();
+            PersonInfo = person;
             TypeInfo = clsApplicationType.Get(applicationType);
             Status = enApplicationStatus.New;
-            CreatedDate = LastStatusDate = DateTime.Now;
-            PaidFees = 0;
-            this.Mode = enMode.AddNew;
+            CreatedByUserInfo = clsAppSettings.CurrentUser;
+            PaidFees = TypeInfo.Fees;
+            Mode = enMode.AddNew;
         }
 
         private clsApplication(clsApplicationEntity applicationEntity)
@@ -58,16 +61,6 @@ namespace DVLD.BusinessLogic
             this.LastStatusDate = applicationEntity.LastStatusDate;
             this.PaidFees = applicationEntity.PaidFees;
             this.Mode = enMode.Update;
-        }
-
-        public static int CreateApplication(int PersonID, enApplicationType applicationType)
-        {
-            clsApplication application = new clsApplication(applicationType);
-            application.PersonInfo.PersonID = PersonID;
-            application.CreatedByUserInfo.UserID = clsAppSettings.CurrentUser.UserID;
-            application.PaidFees = application.TypeInfo.Fees;
-
-            return application.Save() ? application.ApplicationID : -1;
         }
 
         public static bool IsApplicaionExist(int ApplicationID)
@@ -142,8 +135,6 @@ namespace DVLD.BusinessLogic
                 application.TypeInfo.TypeID,
                 (int)application.Status,
                 application.CreatedByUserInfo.UserID,
-                application.CreatedDate,
-                application.LastStatusDate,
                 application.PaidFees
                 );
         }

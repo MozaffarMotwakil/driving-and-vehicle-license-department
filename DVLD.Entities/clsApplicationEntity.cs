@@ -16,15 +16,13 @@ namespace DVLD.Entities
         public clsApplicationEntity() { }
 
         public clsApplicationEntity(int ApplicationID, int PersonID, int TypeID, int StatusID,
-            int CreatedByUserID, DateTime CreatedDate, DateTime LastStatusDate, float PaidFees)
+            int CreatedByUserID, float PaidFees)
         {
             this.ApplicationID = ApplicationID;
             this.PersonID = PersonID;
             this.TypeID = TypeID;
             this.StatusID = StatusID;
             this.CreatedByUserID = CreatedByUserID;
-            this.CreatedDate = CreatedDate;
-            this.LastStatusDate = LastStatusDate;
             this.PaidFees = PaidFees;
         }
 
