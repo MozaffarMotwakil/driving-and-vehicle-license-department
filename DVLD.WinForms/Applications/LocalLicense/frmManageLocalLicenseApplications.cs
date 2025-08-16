@@ -4,6 +4,7 @@ using System.Drawing;
 using System.Windows.Forms;
 using DVLD.BusinessLogic;
 using DVLD.WinForms.BaseForms;
+using DVLD.WinForms.Licenses;
 using DVLD.WinForms.Properties;
 using DVLD.WinForms.Tests.TestAppointmests;
 using DVLD.WinForms.Utils;
@@ -336,6 +337,13 @@ namespace DVLD.WinForms.Applications.LocalLicense
             frmTestAppointments visionTestAppointments = new frmTestAppointments(clsFormHelper.GetSelectedRowID(base.RecordsList));
             visionTestAppointments.PassedTest += base.RefreshAndResetFilterColumnToDefault;
             visionTestAppointments.ShowDialog();
+        }
+
+        private void issueDrivingLicenseToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            frmIssueLicenseForTheFirstTime licenseForTheFirstTime = new frmIssueLicenseForTheFirstTime(clsFormHelper.GetSelectedRowID(this.RecordsList));
+            licenseForTheFirstTime.IssueSuccess += base.RefreshAndReapplyCurrentFilter;
+            licenseForTheFirstTime.ShowDialog();
         }
 
     }

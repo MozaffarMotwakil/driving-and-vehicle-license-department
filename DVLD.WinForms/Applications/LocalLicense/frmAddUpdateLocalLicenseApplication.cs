@@ -160,10 +160,17 @@ namespace DVLD.WinForms.Applications.LocalLicense
 
             if (clsFormMessages.ConfirmSava())
             {
-                _LocalLicenseApplication = new clsLocalLicenseApplication(
+                if (_FormMode == enMode.AddNew)
+                {
+                    _LocalLicenseApplication = new clsLocalLicenseApplication(
                     ctrPersonCardInfoWithFiltter.Person,
                     clsLicenseClass.Find(cbLicenseClass.SelectedIndex + 1)
                     );
+                }
+                else
+                {
+                    _LocalLicenseApplication.LicenseClassInfo = clsLicenseClass.Find(cbLicenseClass.SelectedIndex + 1);
+                }
 
                 if (_LocalLicenseApplication.Save())
                 {

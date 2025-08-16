@@ -71,7 +71,7 @@ namespace DVLD.BusinessLogic
             if (this.TestAppointmentInfo.IsHasRetakeTestApplication() && !this.TestAppointmentInfo.RetakeTestApplicationInfo.SetCompleted())
             {
                 throw new InvalidOperationException(
-                    $"Failed to update status of the ratake test appointment with ID " +
+                    $"Failed to update status of the ratake test application with ID " +
                     $"[{this.TestAppointmentInfo.RetakeTestApplicationInfo.ApplicationID}] to completed.");
             }
 

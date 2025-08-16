@@ -56,7 +56,7 @@ namespace DVLD.BusinessLogic
                 throw new InvalidOperationException("The applicant has already passed this test type.");
             }
 
-            if (this.LocalLicenseApplicationInfo.GetPassedTestCount() == 3)
+            if (localLicenseApplication.GetPassedTestCount() == 3)
             {
                 throw new InvalidOperationException("The applicant has already passed all tests.");
             }

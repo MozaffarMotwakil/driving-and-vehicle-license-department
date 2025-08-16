@@ -149,7 +149,7 @@ namespace DVLD.DataAccess
 	                                @ExpirationDate, 
 	                                @Notes, 
 	                                @PaidFees, 
-	                                @IsActive, 
+	                                @IsActive
                                 );
                                 SELECT SCOPE_IDENTITY()"; ;
 

@@ -31,7 +31,7 @@ namespace DVLD.DataAccess
             }
         }
 
-        public static clsDriverEntity FindDriverByDriverID(int DriverID)
+        public static clsDriverEntity FindDriverByPersonID(int PersonID)
         {
             clsDriverEntity driverEntity = null;
 
@@ -42,7 +42,7 @@ namespace DVLD.DataAccess
                                 WHERE PersonID = @PersonID";
 
                 SqlCommand command = new SqlCommand(query, connection);
-                command.Parameters.AddWithValue("@PersonID", DriverID);
+                command.Parameters.AddWithValue("@PersonID", PersonID);
 
                 try
                 {
@@ -54,7 +54,7 @@ namespace DVLD.DataAccess
                         {
                             driverEntity = new clsDriverEntity();
                             driverEntity.DriverID = Convert.ToInt32(reader["DriverID"]);
-                            driverEntity.PersonID = DriverID;
+                            driverEntity.PersonID = PersonID;
                             driverEntity.CreatedByUserID = Convert.ToInt32(reader["CreatedByUserID"]);
                             driverEntity.CreatedDate = Convert.ToDateTime(reader["CreatedDate"]);
                         }

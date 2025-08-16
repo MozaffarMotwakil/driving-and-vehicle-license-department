@@ -44,14 +44,15 @@ namespace DVLD.BusinessLogic
         {
             return clsDriverData.IsDriverExist(PersonID);
         }
+
         public static DataTable GetAllDrivers()
         {
             return clsDriverData.GetAllDrivers();
         }
 
-        public static clsDriver Find(int DriverID)
+        public static clsDriver Find(int PersonID)
         {
-            clsDriverEntity driverEntity = clsDriverData.FindDriverByDriverID(DriverID);
+            clsDriverEntity driverEntity = clsDriverData.FindDriverByPersonID(PersonID);
             return driverEntity != null ? new clsDriver(driverEntity) : null;
         }
 
@@ -71,7 +72,6 @@ namespace DVLD.BusinessLogic
 
                     return false;
                 case enMode.Update:
-                    throw new InvalidOperationException("Cannot update driver info.");
                 default:
                     return false;
             }

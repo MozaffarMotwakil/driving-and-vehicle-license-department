@@ -252,19 +252,18 @@ namespace DVLD.DataAccess
             }
         }
 
-        public static bool UpdateLocalLicenseApplication(clsLocalLicenseApplicationEntity LocalLicenseApplicationEntity)
+        public static bool UpdateLicenseClassForLocalLicenseApplication(int LocalLicenseApplicationID, int LicenseClassID)
         {
             using (SqlConnection connection = new SqlConnection(clsDataSettings.ConnectionString))
             {
                 string query = @"UPDATE LocalDrivingLicenseApplications
                                 SET
-	                                ApplicationID = @ApplicationID, LicenseClassID = @LicenseClassID, PassedTests = @PassedTests
+	                                LicenseClassID = @LicenseClassID
                                 WHERE LocalDrivingLicenseApplicationID = @LocalLicenseApplicationID";
 
                 SqlCommand command = new SqlCommand(query, connection);
-                command.Parameters.AddWithValue("@LocalLicenseApplicationID", LocalLicenseApplicationEntity.LocalLicenseApplicationID);
-                command.Parameters.AddWithValue("@ApplicationID", LocalLicenseApplicationEntity.ApplicationID);
-                command.Parameters.AddWithValue("@LicenseClassID", LocalLicenseApplicationEntity.LicenseClassID);
+                command.Parameters.AddWithValue("@LocalLicenseApplicationID", LocalLicenseApplicationID);
+                command.Parameters.AddWithValue("@LicenseClassID", LicenseClassID);
 
                 try
                 {

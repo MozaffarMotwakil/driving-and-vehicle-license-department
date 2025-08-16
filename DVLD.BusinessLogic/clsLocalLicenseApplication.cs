@@ -9,7 +9,7 @@ namespace DVLD.BusinessLogic
     {
         public int LocalLicenseApplicationID { get; private set; }
         public clsApplication ApplicationInfo { get; }
-        public clsLicenseClass LicenseClassInfo { get; }
+        public clsLicenseClass LicenseClassInfo { get; set; }
         private enMode Mode { get; set; }
 
         public clsLocalLicenseApplication(clsPerson person, clsLicenseClass licenseClass) 
@@ -107,15 +107,16 @@ namespace DVLD.BusinessLogic
 
         public bool Save()
         {
-            clsLocalLicenseApplicationEntity localLicenseApplicationEntity = _MapLocalLicenseApplicationObjectToLocalLicenseApplicationEntity(this);
 
-            switch (Mode)
+            switch (this.Mode)
             {
                 case enMode.AddNew:
                     if (!this.ApplicationInfo.Save())
                     {
                         throw new InvalidOperationException($"Failed to save the base application.");
                     }
+
+                    clsLocalLicenseApplicationEntity localLicenseApplicationEntity = _MapLocalLicenseApplicationObjectToLocalLicenseApplicationEntity(this);
 
                     if (clsLocalLicenseApplicationData.AddNewLocalLicenseApplication(localLicenseApplicationEntity))
                     {
@@ -135,7 +136,7 @@ namespace DVLD.BusinessLogic
                         return false;
                     }
                 case enMode.Update:
-                    return clsLocalLicenseApplicationData.UpdateLocalLicenseApplication(localLicenseApplicationEntity);
+                    return clsLocalLicenseApplicationData.UpdateLicenseClassForLocalLicenseApplication(this.LocalLicenseApplicationID, this.LicenseClassInfo.LicenseClassID);
                 default:
                     return false;
             }

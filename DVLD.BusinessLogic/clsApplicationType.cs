@@ -6,7 +6,11 @@ namespace DVLD.BusinessLogic
 {
     public class clsApplicationType
     {
-        public int TypeID { get; set; }
+        public int TypeID { get; }
+        public clsApplication.enApplicationType Type
+        {
+            get { return (clsApplication.enApplicationType)this.TypeID; }
+        }
         public string Title { get; set; }
         public float Fees { get; set; }
 

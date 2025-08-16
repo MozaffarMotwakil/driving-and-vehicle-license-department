@@ -72,7 +72,7 @@ namespace DVLD.WinForms.Tests.TestAppointmests
 
         private void _FillDataFormTestAppointmentToUI()
         {
-            dtpAppointmentDate.MinDate = DateTime.Now;
+            dtpAppointmentDate.MinDate = _TestAppointment.AppointmentDate < DateTime.Now ? _TestAppointment.AppointmentDate : DateTime.Now;
             dtpAppointmentDate.Value = _TestAppointment.AppointmentDate;
             llLocalLicenseApplicationID.Text = _TestAppointment.LocalLicenseApplicationInfo.LocalLicenseApplicationID.ToString();
             llFullName.Text = _TestAppointment.LocalLicenseApplicationInfo.ApplicationInfo.PersonInfo.GetFullName();
