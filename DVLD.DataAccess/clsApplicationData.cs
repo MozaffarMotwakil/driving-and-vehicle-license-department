@@ -141,38 +141,6 @@ namespace DVLD.DataAccess
             }
         }
 
-        public static bool UpdateApplication(clsApplicationEntity ApplicationEntity)
-        {
-            using (SqlConnection connection = new SqlConnection(clsDataSettings.ConnectionString))
-            {
-                string query = @"UPDATE Applications
-                                SET
-	                                ApplicantPersonID = @PersonID, ApplicationTypeID = @TypeID, ApplicationStatusID = @StatusID, 
-                                    CreatedByUserID = @CreatedByUserID, PaidFees = @PaidFees
-                                WHERE ApplicationID = @ApplicationID";
-
-                SqlCommand command = new SqlCommand(query, connection);
-                command.Parameters.AddWithValue("@ApplicationID", ApplicationEntity.ApplicationID);
-                command.Parameters.AddWithValue("@PersonID", ApplicationEntity.PersonID);
-                command.Parameters.AddWithValue("@TypeID", ApplicationEntity.TypeID);
-                command.Parameters.AddWithValue("@StatusID", ApplicationEntity.StatusID);
-                command.Parameters.AddWithValue("@CreatedByUserID", ApplicationEntity.CreatedByUserID);
-                command.Parameters.AddWithValue("@PaidFees", ApplicationEntity.PaidFees);
-
-                try
-                {
-                    connection.Open();
-
-                    return command.ExecuteNonQuery() > 0;
-                }
-                catch (Exception ex)
-                {
-
-                    throw new ApplicationException($"Error: update a Application.\n{ex.Message}", ex);
-                }
-            }
-        }
-
         public static bool UpdateStatus(int ApplicationID, int ApplicationStatusID)
         {
             using (SqlConnection connection = new SqlConnection(clsDataSettings.ConnectionString))

@@ -7,14 +7,12 @@ namespace DVLD.BusinessLogic
 {
     public class clsLicenseClass
     {
-        public int LicenseClassID { get; set; }
-        public string ClassName { get; set; }
-        public string ClassDescription { get; set; }
-        public byte MinimumAllowedAge { get; set; }
-        public byte DefaultValidityLength { get; set; }
-        public float ClassFees { get; set; }
-
-        public clsLicenseClass() { }
+        public int LicenseClassID { get; }
+        public string ClassName { get; }
+        public string ClassDescription { get; }
+        public byte MinimumAllowedAge { get; }
+        public byte DefaultValidityLength { get; }
+        public float ClassFees { get; }
 
         private clsLicenseClass(clsLicenseClassEntity licenseClassEntity)
         {
@@ -34,23 +32,6 @@ namespace DVLD.BusinessLogic
         public static clsLicenseClass Find(int LicenseClassID)
         {
             return new clsLicenseClass(clsLicenseClassData.FindLicenseClassByID(LicenseClassID));
-        }
-
-        public bool Save()
-        {
-            return clsLicenseClassData.UpdateLicenseClass(_MapLicenseClassObjectToLicenseClassEntity(this));
-        }
-
-        private static clsLicenseClassEntity _MapLicenseClassObjectToLicenseClassEntity(clsLicenseClass LicenseClass)
-        {
-            return new clsLicenseClassEntity(
-                LicenseClass.LicenseClassID,
-                LicenseClass.ClassName,
-                LicenseClass.ClassDescription,
-                LicenseClass.MinimumAllowedAge,
-                LicenseClass.DefaultValidityLength,
-                LicenseClass.ClassFees
-                );
         }
 
     }

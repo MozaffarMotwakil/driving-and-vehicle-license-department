@@ -49,9 +49,9 @@ namespace DVLD.BusinessLogic
             return clsDriverData.GetAllDrivers();
         }
 
-        public static clsDriver Find(int PersonID)
+        public static clsDriver Find(int DriverID)
         {
-            clsDriverEntity driverEntity = clsDriverData.FindDriverByPersonID(PersonID);
+            clsDriverEntity driverEntity = clsDriverData.FindDriverByDriverID(DriverID);
             return driverEntity != null ? new clsDriver(driverEntity) : null;
         }
 

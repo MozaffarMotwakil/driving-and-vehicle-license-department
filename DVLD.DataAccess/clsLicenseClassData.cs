@@ -80,41 +80,5 @@ namespace DVLD.DataAccess
             return LicenseClasses;
         }
 
-        public static bool UpdateLicenseClass(clsLicenseClassEntity LicenseClassEntity)
-        {
-            using (SqlConnection connection = new SqlConnection(clsDataSettings.ConnectionString))
-            {
-                string query =
-                    @"UPDATE LicenseClasses 
-                    SET
-                    ClassName = @ClassName,
-                    ClassDescription = @ClassDescription,
-                    MinimumAllowedAge = @MinimumAllowedAge,
-                    DefaultValidityLength = @DefaultValidityLength,
-                    ClassFees = @ClassFees
-                    WHERE LicenseClassID = @LicenseClassID";
-
-                SqlCommand command = new SqlCommand(query, connection);
-                command.Parameters.AddWithValue("@LicenseClassID", LicenseClassEntity.LicenseClassID);
-                command.Parameters.AddWithValue("@ClassName", LicenseClassEntity.ClassName);
-                command.Parameters.AddWithValue("@ClassDescription", LicenseClassEntity.ClassDescription);
-                command.Parameters.AddWithValue("@MinimumAllowedAge", LicenseClassEntity.MinimumAllowedAge);
-                command.Parameters.AddWithValue("@DefaultValidityLength", LicenseClassEntity.DefaultValidityLength);
-                command.Parameters.AddWithValue("@ClassFees", LicenseClassEntity.ClassFees);
-
-                try
-                {
-                    connection.Open();
-
-                    return command.ExecuteNonQuery() > 0;
-                }
-                catch (Exception ex)
-                {
-                    throw new ApplicationException($"Error: update license class.\n{ex.Message}", ex);
-                }
-
-            }
-        }
-
     }
 }

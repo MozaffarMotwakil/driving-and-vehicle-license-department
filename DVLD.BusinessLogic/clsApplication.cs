@@ -105,11 +105,11 @@ namespace DVLD.BusinessLogic
 
         public bool Save()
         {
-            clsApplicationEntity applicationEntity = _MapApplicationObjectToApplicationEntity(this);
-
             switch (Mode)
             {
                 case enMode.AddNew:
+                    clsApplicationEntity applicationEntity = _MapApplicationObjectToApplicationEntity(this);
+
                     if (clsApplicationData.AddNewApplication(applicationEntity))
                     {
                         this.ApplicationID = applicationEntity.ApplicationID;
@@ -120,7 +120,7 @@ namespace DVLD.BusinessLogic
                     
                     return false;
                 case enMode.Update:
-                    return clsApplicationData.UpdateApplication(applicationEntity);
+                    throw new InvalidOperationException("Cannot update application info.");
                 default:
                     return false;
             }

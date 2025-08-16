@@ -14,19 +14,23 @@ namespace DVLD.BusinessLogic
 
         public clsLocalLicenseApplication(clsPerson person, clsLicenseClass licenseClass) 
         {
+            if (person == null)
+            {
+                throw new ArgumentNullException(nameof(person), "Person cannot be null.");
+            }
+
             if (licenseClass == null)
             {
                 throw new ArgumentNullException(nameof(licenseClass), "License class cannot be null.");
             }
 
-            LocalLicenseApplicationID = -1;
-            this.ApplicationInfo = new clsApplication(person, clsApplication.enApplicationType.NewLocalDrivingLicenseService);
-            
             if (IsActiveLocalLicenseApplicationExist(person.PersonID, licenseClass.LicenseClassID))
             {
                 throw new InvalidOperationException("Person already have an active application for the selected class.");
             }
 
+            LocalLicenseApplicationID = -1;
+            this.ApplicationInfo = new clsApplication(person, clsApplication.enApplicationType.NewLocalDrivingLicenseService);
             this.LicenseClassInfo = licenseClass;
             this.Mode = enMode.AddNew;
         }
