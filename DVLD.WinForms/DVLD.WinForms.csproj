@@ -110,11 +110,47 @@
     <Compile Include="BaseForms\frmBaseManage.Designer.cs">
       <DependentUpon>frmBaseManage.cs</DependentUpon>
     </Compile>
+    <Compile Include="Drivers\frmManageDrivers.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Drivers\frmManageDrivers.Designer.cs">
+      <DependentUpon>frmManageDrivers.cs</DependentUpon>
+    </Compile>
     <Compile Include="Licenses\frmIssueLicenseForTheFirstTime.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Licenses\frmIssueLicenseForTheFirstTime.Designer.cs">
       <DependentUpon>frmIssueLicenseForTheFirstTime.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Licenses\frmLicenseIssuedSeccessfuly.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Licenses\frmLicenseIssuedSeccessfuly.Designer.cs">
+      <DependentUpon>frmLicenseIssuedSeccessfuly.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Licenses\frmPersonLicensesHistory.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Licenses\frmPersonLicensesHistory.Designer.cs">
+      <DependentUpon>frmPersonLicensesHistory.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Licenses\frmShowLicenseInfo.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Licenses\frmShowLicenseInfo.Designer.cs">
+      <DependentUpon>frmShowLicenseInfo.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Licenses\ctrDriverLicenseInfo.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Licenses\ctrDriverLicenseInfo.Designer.cs">
+      <DependentUpon>ctrDriverLicenseInfo.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Licenses\ctrDriverLicenses.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Licenses\ctrDriverLicenses.Designer.cs">
+      <DependentUpon>ctrDriverLicenses.cs</DependentUpon>
     </Compile>
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -265,8 +301,26 @@
     <EmbeddedResource Include="BaseForms\frmBaseManageWithFilter.resx">
       <DependentUpon>frmBaseManageWithFilter.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Drivers\frmManageDrivers.resx">
+      <DependentUpon>frmManageDrivers.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Licenses\ctrDriverLicenseInfo.resx">
+      <DependentUpon>ctrDriverLicenseInfo.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Licenses\frmIssueLicenseForTheFirstTime.resx">
       <DependentUpon>frmIssueLicenseForTheFirstTime.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Licenses\frmPersonLicensesHistory.resx">
+      <DependentUpon>frmPersonLicensesHistory.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Licenses\frmShowLicenseInfo.resx">
+      <DependentUpon>frmShowLicenseInfo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Licenses\ctrDriverLicenses.resx">
+      <DependentUpon>ctrDriverLicenses.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Licenses\frmLicenseIssuedSeccessfuly.resx">
+      <DependentUpon>frmLicenseIssuedSeccessfuly.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MainForms\frmLogin.resx">
       <DependentUpon>frmLogin.cs</DependentUpon>
@@ -624,6 +678,21 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\TestType 5121.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Question 32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\LicenseView 400.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\PersonLicenseHistory 512.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Driver Main.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Passed.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

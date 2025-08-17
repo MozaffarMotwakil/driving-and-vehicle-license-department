@@ -4,6 +4,7 @@ using System.Windows.Forms;
 using DVLD.BusinessLogic;
 using DVLD.WinForms.Applications;
 using DVLD.WinForms.Applications.LocalLicense;
+using DVLD.WinForms.Drivers;
 using DVLD.WinForms.People;
 using DVLD.WinForms.Tests;
 using DVLD.WinForms.Users;
@@ -12,20 +13,21 @@ namespace DVLD.WinForms.MainForms
 {
     public partial class frmMainForm : Form
     {
-        enum enFormTypes { ManagePeople , ManageUsers, ManageLocalLicenseApplications }
+        enum enFormTypes { ManagePeople , ManageUsers, ManageDrivers, ManageLocalLicenseApplications }
 
         private bool _IsSignOut;
-        private Form _ManagePeopleForm;
-        private Form _ManageUsersForm;
-        private Form _LocalLicenseApplications;
+        private Form _ManagePeople;
+        private Form _ManageUsers;
+        private Form _ManageDrivers;
+        private Form _ManageLocalLicenseApplications;
 
         public frmMainForm()
         {
             InitializeComponent();
             _IsSignOut = false;
-            _ManagePeopleForm = null;
-            _ManageUsersForm = null;
-            _LocalLicenseApplications = null;
+            _ManagePeople = null;
+            _ManageUsers = null;
+            _ManageLocalLicenseApplications = null;
 
             foreach (Control control in this.Controls)
             {
@@ -38,17 +40,17 @@ namespace DVLD.WinForms.MainForms
 
         private void peopleToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            _OpenForm(ref _ManagePeopleForm, enFormTypes.ManagePeople);
+            _OpenForm(ref _ManagePeople, enFormTypes.ManagePeople);
         }
 
         private void userToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            _OpenForm(ref _ManageUsersForm, enFormTypes.ManageUsers);
+            _OpenForm(ref _ManageUsers, enFormTypes.ManageUsers);
         }
 
         private void localDrivingLicenseApplicationsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            _OpenForm(ref _LocalLicenseApplications, enFormTypes.ManageLocalLicenseApplications);
+            _OpenForm(ref _ManageLocalLicenseApplications, enFormTypes.ManageLocalLicenseApplications);
         }
 
         private void _OpenForm(ref Form form, enFormTypes FormType)
@@ -80,6 +82,8 @@ namespace DVLD.WinForms.MainForms
                     return new frmManageUsers();
                 case enFormTypes.ManageLocalLicenseApplications:
                     return new frmManageLocalLicenseApplications();
+                case enFormTypes.ManageDrivers:
+                    return new frmManageDrivers();
                 default:
                     return new Form();
             }
@@ -132,6 +136,11 @@ namespace DVLD.WinForms.MainForms
         {
             frmAddUpdateLocalLicenseApplication addLocalLicenseApplication = new frmAddUpdateLocalLicenseApplication();
             addLocalLicenseApplication.ShowDialog();
+        }
+
+        private void driversToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            _OpenForm(ref _ManageDrivers, enFormTypes.ManageDrivers);
         }
 
     }
