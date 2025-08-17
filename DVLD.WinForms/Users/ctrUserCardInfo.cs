@@ -30,7 +30,7 @@ namespace DVLD.WinForms.Users
             OnInfoModified();
         }
 
-        public void LoadUserDataForDesplay(clsUser User)
+        public void LoadUserDataForDisplay(clsUser User)
         {
             ctrPersonCardInfo.LoadPersonDataForDisplay(User.PersonInfo);
             lblUserID.Text = User.UserID.ToString();

@@ -48,7 +48,7 @@ namespace DVLD.WinForms.Users
                 return;
             }
 
-            ctrUserCardInfo.LoadUserDataForDesplay(_User);
+            ctrUserCardInfo.LoadUserDataForDisplay(_User);
         }
 
         private void btnCloseScreen_Click(object sender, EventArgs e)

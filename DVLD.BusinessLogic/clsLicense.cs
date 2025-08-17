@@ -43,7 +43,7 @@ namespace DVLD.BusinessLogic
 
             if (IsPersonHasLicense(application.PersonInfo.PersonID, licenseClass.LicenseClassID) && issueReason == enIssueReason.FirstTime)
             {
-                throw new InvalidOperationException("Person already have a license in this class, cannot create a new license.");
+                throw new InvalidOperationException("Person already have a license in this class, cannot issue a new license.");
             }
 
             this.LicenseID = -1;
@@ -87,9 +87,9 @@ namespace DVLD.BusinessLogic
             return licenseEntity != null ? new clsLicense(licenseEntity) : null;
         }
 
-        public DataTable GetAllLicense()
+        public static DataTable GetAllLicensesForPerson(int PersonID)
         {
-            return clsLicenseData.GetAllLicensesForPerson(this.DriverInfo.PersonInfo.PersonID);
+            return clsLicenseData.GetAllLicensesForPerson(PersonID);
         }
 
         public bool SetDeactivated()

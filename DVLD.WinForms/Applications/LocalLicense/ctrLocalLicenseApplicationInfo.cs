@@ -1,6 +1,6 @@
 ﻿using System.Windows.Forms;
 using DVLD.BusinessLogic;
-using DVLD.WinForms.Utils;
+using DVLD.WinForms.Licenses;
 
 namespace DVLD.WinForms.Applications.LocalLicense
 {
@@ -32,7 +32,8 @@ namespace DVLD.WinForms.Applications.LocalLicense
 
         private void llShowLicenseInfo_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            clsFormMessages.ShowNotImplementedFeatureWarning();
+            frmShowLicenseInfo licenseInfo = new frmShowLicenseInfo(LocalLicenseApplication.ApplicationInfo.ApplicationID);
+            licenseInfo.ShowDialog();
         }
 
     }

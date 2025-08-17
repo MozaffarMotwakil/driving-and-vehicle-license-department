@@ -29,6 +29,11 @@ namespace DVLD.BusinessLogic
                 throw new InvalidOperationException("Person already have an active application for the selected class.");
             }
 
+            if (clsLicense.IsPersonHasLicense(person.PersonID, licenseClass.LicenseClassID))
+            {
+                throw new InvalidOperationException("Person already have a license in this class, cannot issue a new license.");
+            }
+
             LocalLicenseApplicationID = -1;
             this.ApplicationInfo = new clsApplication(person, clsApplication.enApplicationType.NewLocalDrivingLicenseService);
             this.LicenseClassInfo = licenseClass;
@@ -107,7 +112,6 @@ namespace DVLD.BusinessLogic
 
         public bool Save()
         {
-
             switch (this.Mode)
             {
                 case enMode.AddNew:

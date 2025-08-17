@@ -37,7 +37,7 @@ namespace DVLD.WinForms.Users
                 return;
             }
 
-            ctrUserCardInfo.LoadUserDataForDesplay(_User);
+            ctrUserCardInfo.LoadUserDataForDisplay(_User);
             pcShowCurrentPassword.Tag = txtCurrentPassword;
             pcShowNewPassword.Tag = txtNewPassword;
             pcShowConfirmPassword.Tag = txtConfirmPassword;

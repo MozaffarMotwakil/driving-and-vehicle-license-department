@@ -346,5 +346,16 @@ namespace DVLD.WinForms.Applications.LocalLicense
             licenseForTheFirstTime.ShowDialog();
         }
 
+        private void showLicenseToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            frmShowLicenseInfo licenseInfo = new frmShowLicenseInfo(clsLocalLicenseApplication.Find(clsFormHelper.GetSelectedRowID(base.RecordsList)).ApplicationInfo.ApplicationID);
+            licenseInfo.ShowDialog();
+        }
+
+        private void showPersonLicensesHistoryToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            frmPersonLicensesHistory licensesHistory = new frmPersonLicensesHistory(clsLocalLicenseApplication.Find(clsFormHelper.GetSelectedRowID(base.RecordsList)).ApplicationInfo.PersonInfo);
+            licensesHistory.ShowDialog();
+        }
     }
 }

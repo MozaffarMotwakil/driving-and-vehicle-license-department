@@ -158,6 +158,12 @@ namespace DVLD.WinForms.Applications.LocalLicense
                 return;
             }
 
+            if (clsLicense.IsPersonHasLicense(ctrPersonCardInfoWithFiltter.Person.PersonID, cbLicenseClass.SelectedIndex + 1))
+            {
+                clsFormMessages.ShowError("Person already have a license in this class, cannot issue a new license.");
+                return;
+            }
+
             if (clsFormMessages.ConfirmSava())
             {
                 if (_FormMode == enMode.AddNew)

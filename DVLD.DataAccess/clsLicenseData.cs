@@ -50,6 +50,7 @@ namespace DVLD.DataAccess
 	                                 ApplicationID = @ApplicationID";
 
                 SqlCommand command = new SqlCommand(query, connection);
+                command.Parameters.AddWithValue("@ApplicationID", ApplicationID);
 
                 try
                 {

@@ -43,16 +43,24 @@ namespace DVLD.WinForms.BaseForms
             set { btnAddNewRecord.BackgroundImageLayout = value; }
         }
 
+        protected bool ShowAddNewRecordButton
+        {
+            get { return btnAddNewRecord.Visible; }
+            set { btnAddNewRecord.Visible = value; }
+        }
+
         protected frmBaseManageWithFilter() : base(1200, 600)
         {
             base.FormTitle = "Base Manage With Filter";
             InitializeComponent();
+            ShowAddNewRecordButton = true;
         }
 
         public frmBaseManageWithFilter(DataTable DataSource) : base(DataSource, 1200, 600) 
         {
             base.FormTitle = "Base Manage With Filter";
             InitializeComponent();
+            ShowAddNewRecordButton = true;
         }
 
         private void frmBaseManageWithFilter_Load(object sender, EventArgs e)
@@ -70,7 +78,7 @@ namespace DVLD.WinForms.BaseForms
         {
             base.dgvRecordsList_CellMouseDoubleClick(sender, e);
 
-            if (clsFormHelper.GetHitTestInfo(base.RecordsList).Type == DataGridViewHitTestType.Cell)
+            if (clsFormHelper.GetHitTestInfo(base.RecordsList).Type == DataGridViewHitTestType.Cell && e.Button == MouseButtons.Left)
             {
                 ShowRecordDetailsOperation();
             }

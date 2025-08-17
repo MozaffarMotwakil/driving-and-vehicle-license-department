@@ -145,6 +145,7 @@ namespace DVLD.BusinessLogic
                     }
 
                     clsTestAppointmentEntity testAppointmentEntity = _MapTestAppointmentObjectToTestAppointmentEntity(this);
+
                     if (clsTestAppointmentData.AddNewTestAppointment(testAppointmentEntity))
                     {
                         this.TestAppointmentID = testAppointmentEntity.TestAppointmentID;

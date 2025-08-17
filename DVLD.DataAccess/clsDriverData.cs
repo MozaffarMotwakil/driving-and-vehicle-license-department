@@ -31,7 +31,7 @@ namespace DVLD.DataAccess
             }
         }
 
-        public static clsDriverEntity FindDriverByPersonID(int PersonID)
+        public static clsDriverEntity FindDriverByDriverID(int DriverID)
         {
             clsDriverEntity driverEntity = null;
 
@@ -39,10 +39,10 @@ namespace DVLD.DataAccess
             {
                 string query = @"SELECT * 
                                 FROM Drivers 
-                                WHERE PersonID = @PersonID";
+                                WHERE DriverID = @DriverID";
 
                 SqlCommand command = new SqlCommand(query, connection);
-                command.Parameters.AddWithValue("@PersonID", PersonID);
+                command.Parameters.AddWithValue("@DriverID", DriverID);
 
                 try
                 {
@@ -53,8 +53,8 @@ namespace DVLD.DataAccess
                         if (reader.Read())
                         {
                             driverEntity = new clsDriverEntity();
-                            driverEntity.DriverID = Convert.ToInt32(reader["DriverID"]);
-                            driverEntity.PersonID = PersonID;
+                            driverEntity.DriverID = DriverID;
+                            driverEntity.PersonID = Convert.ToInt32(reader["PersonID"]);
                             driverEntity.CreatedByUserID = Convert.ToInt32(reader["CreatedByUserID"]);
                             driverEntity.CreatedDate = Convert.ToDateTime(reader["CreatedDate"]);
                         }
@@ -109,6 +109,7 @@ namespace DVLD.DataAccess
                                 VALUES
                                 (
 	                                @PersonID, 
+	                                @CreatedDate, 
                                     @CreatedByUserID
                                 );
                                 SELECT SCOPE_IDENTITY()"; ;

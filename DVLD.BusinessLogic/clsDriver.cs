@@ -52,7 +52,7 @@ namespace DVLD.BusinessLogic
 
         public static clsDriver Find(int PersonID)
         {
-            clsDriverEntity driverEntity = clsDriverData.FindDriverByPersonID(PersonID);
+            clsDriverEntity driverEntity = clsDriverData.FindDriverByDriverID(PersonID);
             return driverEntity != null ? new clsDriver(driverEntity) : null;
         }
 
