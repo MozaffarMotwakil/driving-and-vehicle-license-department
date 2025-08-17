@@ -56,8 +56,9 @@ namespace DVLD.WinForms.Licenses
 
                 if (_License.Issue())
                 {
-                    clsFormMessages.ShowSuccess($"License issued seccessfuly with ID[{_License.LicenseID}].");
                     OnIssueSuccess();
+                    frmLicenseIssuedSeccessfuly issuedSeccessfuly = new frmLicenseIssuedSeccessfuly(_License);
+                    issuedSeccessfuly.ShowDialog();
                 }
                 else
                 {

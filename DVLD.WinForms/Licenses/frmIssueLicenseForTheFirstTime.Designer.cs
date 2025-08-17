@@ -139,7 +139,11 @@
             this.Controls.Add(this.txtNotes);
             this.Controls.Add(this.label7);
             this.Controls.Add(this.ctrLocalLicenseApplicationInfo);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "frmIssueLicenseForTheFirstTime";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Issue License For First Time";
             this.Load += new System.EventHandler(this.frmIssueLicenseForTheFirstTime_Load);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox9)).EndInit();
