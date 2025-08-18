@@ -127,6 +127,23 @@ namespace DVLD.BusinessLogic
             return clsLicenseData.GetAllLicensesForPerson(PersonID);
         }
 
+        public string GetIssueReasonAsText()
+        {
+            switch (this.IssueReason)
+            {
+                case enIssueReason.FirstTime:
+                    return "First Time";
+                case enIssueReason.Renew:
+                    return "Renew";
+                case enIssueReason.ReplacementForDamaged:
+                    return "Replacement For Damaged";
+                case enIssueReason.ReplacementForLost:
+                    return "Replacement For Lost";
+                default:
+                    return "Invalid Issue Reason";
+            }
+        }
+
         public bool SetDeactivated()
         {
             if (this.Mode != enMode.AddNew)

@@ -54,5 +54,36 @@ namespace DVLD.WinForms.Licenses
             }
         }
 
+        private void dgvLocalLicenses_CellMouseDown(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            clsFormHelper.SelectEntireRow(dgvLocalLicenses, e);
+        }
+
+        private void dgvLocalLicenses_CellMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            clsFormHelper.SelectEntireRow(dgvLocalLicenses, e);
+
+            if (clsFormHelper.GetHitTestInfo(dgvLocalLicenses).Type == DataGridViewHitTestType.Cell && e.Button == MouseButtons.Left)
+            {
+                frmShowLicenseInfo licenseInfo = new frmShowLicenseInfo(clsLicense.FindByLicenseID(clsFormHelper.GetSelectedRowID(dgvLocalLicenses)));
+                licenseInfo.ShowDialog();
+            }
+        }
+
+        private void dgvLocalLicenses_MouseDown(object sender, MouseEventArgs e)
+        {
+            clsFormHelper.DeselectCellsAndRows(dgvLocalLicenses, e);
+        }
+
+        private void showLicenseDetailsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            frmShowLicenseInfo licenseInfo = new frmShowLicenseInfo(clsLicense.FindByLicenseID(clsFormHelper.GetSelectedRowID(dgvLocalLicenses)));
+            licenseInfo.ShowDialog();
+        }
+
+        private void licensesListContextMenuStrip_Opening(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            clsFormHelper.PreventContextMenuOnHeaderOrEmptySpace(dgvLocalLicenses, e);
+        }
     }
 }

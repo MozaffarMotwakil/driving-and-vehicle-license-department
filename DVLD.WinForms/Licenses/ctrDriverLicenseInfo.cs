@@ -32,7 +32,7 @@ namespace DVLD.WinForms.Licenses
             lblNotes.Text = string.IsNullOrEmpty(license.Notes) ? "No Notes" : license.Notes;
             lblIssueDate.Text = license.IssueDate.ToString("dd/MM/yyyy");
             lblExpirationDate.Text = license.ExpirationDate.ToString("dd/MM/yyyy");
-            lblIssueReason.Text = license.IssueReason.ToString();
+            lblIssueReason.Text = license.GetIssueReasonAsText();
             lblIsActive.Text = license.IsActive ? "Yes" : "No";
             // implementation this part later on after add "DetainedLicense" classes.
             // lblIsDetained.Text = clsDetainedLicense ? "Yes" : "No";
