@@ -21,15 +21,14 @@ namespace DVLD.BusinessLogic
         public clsLicenseClass LicenseClassInfo { get; }
         public enIssueReason IssueReason { get; }
         public clsUser CreatedByUserInfo { get; }
-        public DateTime IssueDate { get; private set; }
-        public DateTime ExpirationDate { get; private set; }
-        public string Notes { get; set; }
+        public DateTime IssueDate { get; }
+        public DateTime ExpirationDate { get; }
+        public string Notes { get; }
         public float PaidFees { get; }
         public bool IsActive { get; }
         private enMode Mode { get; set; }
 
-
-        public clsLicense(clsApplication application, clsLicenseClass licenseClass, enIssueReason issueReason)
+        public clsLicense(clsApplication application, clsLicenseClass licenseClass, enIssueReason issueReason, string notes)
         {
             if (application == null)
             {
@@ -48,14 +47,44 @@ namespace DVLD.BusinessLogic
 
             this.LicenseID = -1;
             this.DriverInfo = clsDriver.IsDriverExist(application.PersonInfo.PersonID) ?
-                clsDriver.Find(application.PersonInfo.PersonID) :
+                clsDriver.FindByPersonID(application.PersonInfo.PersonID) :
                 new clsDriver(application.PersonInfo);
             this.ApplicationInfo = application;
             this.LicenseClassInfo = licenseClass;
             this.IssueReason = issueReason;
             this.CreatedByUserInfo = clsAppSettings.CurrentUser;
-            this.Notes = string.Empty;
+            this.Notes = notes;
             this.PaidFees = LicenseClassInfo.ClassFees;
+            this.IssueDate = DateTime.Now;
+            this.ExpirationDate = DateTime.Now.AddYears(licenseClass.DefaultValidityLength);
+            this.IsActive = true;
+            this.Mode = enMode.AddNew;
+        }
+
+        public clsLicense(clsLocalLicenseApplication localLicenseApplication, string notes)
+        {
+            if (localLicenseApplication == null)
+            {
+                throw new ArgumentNullException(nameof(localLicenseApplication), "Local license application cannot be null.");
+            }
+
+            if (IsPersonHasLicense(localLicenseApplication.ApplicationInfo.PersonInfo.PersonID, localLicenseApplication.LicenseClassInfo.LicenseClassID))
+            {
+                throw new InvalidOperationException("Person already have a license in this class, cannot issue a new license.");
+            }
+
+            this.LicenseID = -1;
+            this.DriverInfo = clsDriver.IsDriverExist(localLicenseApplication.ApplicationInfo.PersonInfo.PersonID) ?
+                clsDriver.FindByPersonID(localLicenseApplication.ApplicationInfo.PersonInfo.PersonID) :
+                new clsDriver(localLicenseApplication.ApplicationInfo.PersonInfo);
+            this.ApplicationInfo = localLicenseApplication.ApplicationInfo;
+            this.LicenseClassInfo = localLicenseApplication.LicenseClassInfo;
+            this.IssueReason = enIssueReason.FirstTime;
+            this.CreatedByUserInfo = clsAppSettings.CurrentUser;
+            this.Notes = notes;
+            this.PaidFees = LicenseClassInfo.ClassFees;
+            this.IssueDate = DateTime.Now;
+            this.ExpirationDate = DateTime.Now.AddYears(localLicenseApplication.LicenseClassInfo.DefaultValidityLength);
             this.IsActive = true;
             this.Mode = enMode.AddNew;
         }
@@ -63,15 +92,15 @@ namespace DVLD.BusinessLogic
         private clsLicense(clsLicenseEntity licenseEntity)
         {
             this.LicenseID = licenseEntity.LicenseID;
-            this.DriverInfo = clsDriver.Find(licenseEntity.DriverID);
+            this.DriverInfo = clsDriver.FindByDriverID(licenseEntity.DriverID);
             this.ApplicationInfo = clsApplication.FindBaseApplication(licenseEntity.ApplicationID);
             this.LicenseClassInfo = clsLicenseClass.Find(licenseEntity.LicenseClassID);
             this.IssueReason = (enIssueReason)licenseEntity.IssueReasonID;
             this.CreatedByUserInfo = clsUser.Find(licenseEntity.CreatedByUserID);
-            this.IssueDate = licenseEntity.IssueDate;
-            this.ExpirationDate = licenseEntity.ExpirationDate;
             this.Notes = licenseEntity.Notes;
             this.PaidFees = licenseEntity.PaidFees;
+            this.IssueDate = licenseEntity.IssueDate;
+            this.ExpirationDate = licenseEntity.ExpirationDate;
             this.IsActive = licenseEntity.IsActive;
             this.Mode = enMode.Update;
         }
@@ -81,7 +110,13 @@ namespace DVLD.BusinessLogic
             return clsLicenseData.IsLicenseExist(PersonID, LicenseClassID);
         }
 
-        public static clsLicense Find(int ApplicationID)
+        public static clsLicense FindByLicenseID(int LicenseID)
+        {
+            clsLicenseEntity licenseEntity = clsLicenseData.FindLicenseByLicenseID(LicenseID);
+            return licenseEntity != null ? new clsLicense(licenseEntity) : null;
+        }
+
+        public static clsLicense FindByApplicationID(int ApplicationID)
         {
             clsLicenseEntity licenseEntity = clsLicenseData.FindLicenseByApplicationID(ApplicationID);
             return licenseEntity != null ? new clsLicense(licenseEntity) : null;
@@ -102,39 +137,57 @@ namespace DVLD.BusinessLogic
             return clsLicenseData.SetLicenseToDeactivated(this.LicenseID);
         }
 
-        public bool Issue()
+        /// <summary>
+        /// Issues a new license for the first time.
+        /// </summary>
+        /// <remarks>
+        /// This method is only valid when the current object is in <see cref="enMode.AddNew"/> mode 
+        /// and the <see cref="IssueReason"/> is set to <see cref="enIssueReason.FirstTime"/>.
+        /// It will attempt to save driver information if it hasn't been persisted yet, 
+        /// mark the base application as completed, and insert a new license record in the database.
+        /// </remarks>
+        /// <returns>
+        /// The <see cref="LicenseID"/> of the newly created license if successful; 
+        /// otherwise, returns <c>-1</c> if the preconditions are not met.
+        /// </returns>
+        /// <exception cref="InvalidOperationException">
+        /// Thrown when:
+        /// <list type="bullet">
+        ///   <item><description>Saving the driver information fails.</description></item>
+        ///   <item><description>Updating the base application status to completed fails.</description></item>
+        /// </list>
+        /// </exception>
+        /// <seealso cref="DriverInfo"/>
+        /// <seealso cref="ApplicationInfo"/>
+        /// <seealso cref="clsLicenseData"/>
+        internal int IssueLicenseForFirstTime()
         {
-            switch (this.Mode)
+            if (Mode != enMode.AddNew || IssueReason != enIssueReason.FirstTime)
             {
-                case enMode.AddNew:
-                    this.IssueDate = DateTime.Now;
-                    this.ExpirationDate = DateTime.Now.AddYears(this.LicenseClassInfo.DefaultValidityLength);
-
-                    if (this.DriverInfo.DriverID == -1 && !this.DriverInfo.Save())
-                    {
-                        throw new InvalidOperationException($"Failed to save the driver.");
-                    }
-
-                    if (!this.ApplicationInfo.SetCompleted())
-                    {
-                        throw new InvalidOperationException(
-                                $"Failed to update status of the base aplication with ID " +
-                                $"[{this.ApplicationInfo.ApplicationID}] to completed.");
-                    }
-
-                    clsLicenseEntity licenseEntity = _MapLicenseObjectToLicenseEntity(this);
-
-                    if (clsLicenseData.AddNewLicense(licenseEntity))
-                    {
-                        this.LicenseID = licenseEntity.LicenseID;
-                        this.Mode = enMode.Update;
-                        return true;
-                    }
-
-                    return false;
-                default:
-                    return false;
+                return -1;
             }
+
+            if (this.DriverInfo.DriverID == -1 && !this.DriverInfo.Save())
+            {
+                throw new InvalidOperationException($"Failed to save the driver.");
+            }
+
+            if (!this.ApplicationInfo.SetCompleted())
+            {
+                throw new InvalidOperationException(
+                        $"Failed to update status of the base aplication with ID " +
+                        $"[{this.ApplicationInfo.ApplicationID}] to completed.");
+            }
+
+            clsLicenseEntity licenseEntity = _MapLicenseObjectToLicenseEntity(this);
+
+            if (clsLicenseData.AddNewLicense(licenseEntity))
+            {
+                this.LicenseID = licenseEntity.LicenseID;
+                this.Mode = enMode.Update;
+            }
+
+            return this.LicenseID;
         }
 
         private static clsLicenseEntity _MapLicenseObjectToLicenseEntity(clsLicense License)

@@ -12,7 +12,7 @@ namespace DVLD.WinForms.Licenses
         public frmShowLicenseInfo(int ApplicaitonID)
         {
             InitializeComponent();
-            _License = clsLicense.Find(ApplicaitonID);
+            _License = clsLicense.FindByApplicationID(ApplicaitonID);
         }
 
         public frmShowLicenseInfo(clsLicense License)

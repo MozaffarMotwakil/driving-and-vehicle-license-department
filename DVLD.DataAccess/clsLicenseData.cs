@@ -37,6 +37,56 @@ namespace DVLD.DataAccess
             }
         }
 
+        public static clsLicenseEntity FindLicenseByLicenseID(int LicenseID)
+        {
+            clsLicenseEntity licenseEntity = null;
+
+            using (SqlConnection connection = new SqlConnection(clsDataSettings.ConnectionString))
+            {
+                string query = @"SELECT * 
+                                 FROM 
+	                                 Licenses 
+                                 WHERE
+	                                 LicenseID = @LicenseID";
+
+                SqlCommand command = new SqlCommand(query, connection);
+                command.Parameters.AddWithValue("@LicenseID", LicenseID);
+
+                try
+                {
+                    connection.Open();
+
+                    using (SqlDataReader reader = command.ExecuteReader())
+                    {
+                        if (reader.Read())
+                        {
+                            licenseEntity = new clsLicenseEntity();
+                            licenseEntity.LicenseID = LicenseID;
+                            licenseEntity.DriverID = Convert.ToInt32(reader["DriverID"]);
+                            licenseEntity.ApplicationID = Convert.ToInt32(reader["ApplicationID"]);
+                            licenseEntity.LicenseClassID = Convert.ToInt32(reader["LicenseClassID"]);
+                            licenseEntity.IssueReasonID = Convert.ToInt32(reader["IssueReasonID"]);
+                            licenseEntity.CreatedByUserID = Convert.ToInt32(reader["CreatedByUserID"]);
+                            licenseEntity.IssueDate = Convert.ToDateTime(reader["IssueDate"]);
+                            licenseEntity.ExpirationDate = Convert.ToDateTime(reader["ExpirationDate"]);
+                            licenseEntity.Notes = reader["Notes"] != DBNull.Value ?
+                                Convert.ToString(reader["Notes"]) :
+                                string.Empty;
+                            licenseEntity.PaidFees = Convert.ToSingle(reader["PaidFees"]);
+                            licenseEntity.IsActive = Convert.ToBoolean(reader["IsActive"]);
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    throw new ApplicationException($"Error: find license by person ID.\n{ex.Message}", ex);
+                }
+            }
+
+            return licenseEntity;
+        }
+
+
         public static clsLicenseEntity FindLicenseByApplicationID(int ApplicationID)
         {
             clsLicenseEntity licenseEntity = null;
@@ -106,7 +156,9 @@ namespace DVLD.DataAccess
 	                                 INNER JOIN Drivers ON Licenses.DriverID = Drivers.DriverID
 	                                 INNER JOIN People ON Drivers.PersonID = People.PersonID 
                                  WHERE
-	                                 People.PersonID = @PersonID";
+	                                 People.PersonID = @PersonID
+                                 ORDER BY
+                                     IssueDate DESC";
 
                 SqlCommand command = new SqlCommand(query, connection);
                 command.Parameters.AddWithValue("@PersonID", PersonID);

@@ -8,7 +8,6 @@ namespace DVLD.WinForms.Licenses
     public partial class frmIssueLicenseForTheFirstTime : Form
     {
         private readonly clsLocalLicenseApplication _LocalLicenseApplication;
-        private clsLicense _License;
 
         public event Action IssueSuccess;
         protected virtual void OnIssueSuccess()
@@ -20,15 +19,6 @@ namespace DVLD.WinForms.Licenses
         {
             InitializeComponent();
             _LocalLicenseApplication = clsLocalLicenseApplication.Find(LocalLicenseApplicationID);
-
-            if (_LocalLicenseApplication != null)
-            {
-                _License = new clsLicense(
-                _LocalLicenseApplication.ApplicationInfo,
-                _LocalLicenseApplication.LicenseClassInfo,
-                clsLicense.enIssueReason.FirstTime
-                );
-            }
         }
 
         private void frmIssueLicenseForTheFirstTime_Load(object sender, EventArgs e)
@@ -52,17 +42,17 @@ namespace DVLD.WinForms.Licenses
         {
             if (clsFormMessages.ConfirmSava())
             {
-                _License.Notes = txtNotes.Text;
+                int newLicenseID = _LocalLicenseApplication.IssueLicenseForFirstTime(txtNotes.Text);
 
-                if (_License.Issue())
+                if (newLicenseID != -1)
                 {
                     OnIssueSuccess();
-                    frmLicenseIssuedSeccessfuly issuedSeccessfuly = new frmLicenseIssuedSeccessfuly(_License);
+                    frmLicenseIssuedSeccessfuly issuedSeccessfuly = new frmLicenseIssuedSeccessfuly(newLicenseID);
                     issuedSeccessfuly.ShowDialog();
                 }
                 else
                 {
-                    clsFormMessages.ShowError("Failed license issue");
+                    clsFormMessages.ShowError("Failed to issue driving license");
                 }
 
                 this.Close();

@@ -76,7 +76,7 @@ namespace DVLD.DataAccess
 
             using (SqlConnection connection = new SqlConnection(clsDataSettings.ConnectionString))
             {
-                string query = "SELECT * FROM LocalDrivingLicenseApplicationsDetailed";
+                string query = "SELECT * FROM LocalDrivingLicenseApplicationsDetailed ORDER BY ApplicationDate DESC";
                 SqlCommand command = new SqlCommand(query, connection);
 
                 try

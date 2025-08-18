@@ -10,6 +10,12 @@ namespace DVLD.WinForms.Licenses
     {
         private clsLicense _License;
 
+        public frmLicenseIssuedSeccessfuly(int LicenseID)
+        {
+            InitializeComponent();
+            _License = clsLicense.FindByLicenseID(LicenseID);
+        }
+
         public frmLicenseIssuedSeccessfuly(clsLicense License)
         {
             InitializeComponent();

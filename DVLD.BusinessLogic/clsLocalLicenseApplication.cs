@@ -24,7 +24,7 @@ namespace DVLD.BusinessLogic
                 throw new ArgumentNullException(nameof(licenseClass), "License class cannot be null.");
             }
 
-            if (IsActiveLocalLicenseApplicationExist(person.PersonID, licenseClass.LicenseClassID))
+            if (IsThereActiveLocalLicenseApplication(person.PersonID, licenseClass.LicenseClassID))
             {
                 throw new InvalidOperationException("Person already have an active application for the selected class.");
             }
@@ -55,7 +55,7 @@ namespace DVLD.BusinessLogic
 
         public static DateTime GetMaximumApplicationDate()
         {
-        return clsLocalLicenseApplicationData.GetMaximumApplicationDate();
+            return clsLocalLicenseApplicationData.GetMaximumApplicationDate();
         }
 
         public static bool IsLocalLicenseApplicationExist(int LocalLicenseApplicationID)
@@ -63,11 +63,16 @@ namespace DVLD.BusinessLogic
             return clsLocalLicenseApplicationData.IsLocalLicenseApplicationExist(LocalLicenseApplicationID);
         }
 
-        public static bool IsActiveLocalLicenseApplicationExist(int PersonID, int LicenseClassID)
+        public static bool IsThereActiveLocalLicenseApplication(int PersonID, int LicenseClassID)
         {
             return clsLocalLicenseApplicationData.GetActiveApplicationIDForLicenseClass(PersonID, LicenseClassID) != -1;
         }
-        
+
+        public bool IsPersonHasLicense()
+        {
+            return clsLicenseData.IsLicenseExist(this.ApplicationInfo.PersonInfo.PersonID, this.LicenseClassInfo.LicenseClassID);
+        }
+
         public static clsLocalLicenseApplication GetActiveLocalLicenseApplication(int PersonID, int LicenseClassID)
         {
             int applicationID = clsLocalLicenseApplicationData.GetActiveApplicationIDForLicenseClass(PersonID, LicenseClassID);
@@ -108,6 +113,34 @@ namespace DVLD.BusinessLogic
                 default:
                     return clsTestType.enTestType.Street;
             }
+        }
+
+        /// <summary>
+        /// Issues a new local license for the first time associated with this application.
+        /// </summary>
+        /// <param name="Notes">
+        /// Additional notes or comments to be recorded with the license issuance.
+        /// </param>
+        /// <returns>
+        /// The newly created <see cref="clsLicense.LicenseID"/> if the license is successfully issued;  
+        /// otherwise, <c>-1</c> if the person already holds a license in this license class.
+        /// </returns>
+        /// <remarks>
+        /// This method checks whether the person already has a license using 
+        /// <see cref="IsPersonHasLicense"/>.  
+        /// If no license exists, it creates a new <see cref="clsLicense"/> object, passing this 
+        /// application and the provided notes, and issues the license.
+        /// </remarks>
+        /// <seealso cref="clsLicense"/>
+        /// <seealso cref="IsPersonHasLicense"/>
+        public int IssueLicenseForFirstTime(string Notes)
+        {
+            if (this.IsPersonHasLicense())
+            {
+                return -1;
+            }
+
+            return new clsLicense(this, Notes).IssueLicenseForFirstTime();
         }
 
         public bool Save()

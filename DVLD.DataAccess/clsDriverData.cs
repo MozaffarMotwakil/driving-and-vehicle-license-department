@@ -69,13 +69,52 @@ namespace DVLD.DataAccess
             return driverEntity;
         }
 
+        public static clsDriverEntity FindDriverByPersonID(int PersonID)
+        {
+            clsDriverEntity driverEntity = null;
+
+            using (SqlConnection connection = new SqlConnection(clsDataSettings.ConnectionString))
+            {
+                string query = @"SELECT * 
+                                FROM Drivers 
+                                WHERE PersonID = @PersonID";
+
+                SqlCommand command = new SqlCommand(query, connection);
+                command.Parameters.AddWithValue("@PersonID", PersonID);
+
+                try
+                {
+                    connection.Open();
+
+                    using (SqlDataReader reader = command.ExecuteReader())
+                    {
+                        if (reader.Read())
+                        {
+                            driverEntity = new clsDriverEntity();
+                            driverEntity.DriverID = Convert.ToInt32(reader["DriverID"]);
+                            driverEntity.PersonID = PersonID;
+                            driverEntity.CreatedByUserID = Convert.ToInt32(reader["CreatedByUserID"]);
+                            driverEntity.CreatedDate = Convert.ToDateTime(reader["CreatedDate"]);
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    throw new ApplicationException($"Error: find driver by ID.\n{ex.Message}", ex);
+                }
+            }
+
+            return driverEntity;
+        }
+
+
         public static DataTable GetAllDrivers()
         {
             DataTable drivers = null;
 
             using (SqlConnection connection = new SqlConnection(clsDataSettings.ConnectionString))
             {
-                string query = "SELECT * FROM DriversDetailed";
+                string query = "SELECT * FROM DriversDetailed ORDER BY CreatedDate DESC";
                 SqlCommand command = new SqlCommand(query, connection);
 
                 try
