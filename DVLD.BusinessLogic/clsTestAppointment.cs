@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Data;
 using DVLD.DataAccess;
 using DVLD.Entities;
 
@@ -45,18 +44,18 @@ namespace DVLD.BusinessLogic
                     "Local license application cannot be null.");
             }
 
-            if (IsActiveTestAppointmentExist(localLicenseApplication.LocalLicenseApplicationID, testType))
+            if (localLicenseApplication.IsThereActiveTestAppointment(testType))
             {
                 throw new InvalidOperationException(
                     "An active test appointment for the specified test type already exists.");
             }
 
-            if (clsTest.IsHasPassedTest(localLicenseApplication.LocalLicenseApplicationID, (int)testType))
+            if (localLicenseApplication.IsPassedThisTestType(testType))
             {
                 throw new InvalidOperationException("The applicant has already passed this test type.");
             }
 
-            if (localLicenseApplication.GetPassedTestCount() == 3)
+            if (localLicenseApplication.PassedTestsCount() == 3)
             {
                 throw new InvalidOperationException("The applicant has already passed all tests.");
             }
@@ -85,23 +84,6 @@ namespace DVLD.BusinessLogic
             Mode = enMode.Update;
         }
 
-        public static bool IsActiveTestAppointmentExist(int LocalLicenseApplicationID, clsTestType.enTestType testType)
-        {
-            return clsTestAppointmentData.GetActiveTestAppointmentID(
-                    LocalLicenseApplicationID, (int)testType) != -1;
-        }
-        
-        public int GetActiveTestAppointmentID()
-        {
-            return clsTestAppointmentData.GetActiveTestAppointmentID(
-                    this.LocalLicenseApplicationInfo.LocalLicenseApplicationID, (int)this.TestType);
-        }
-
-        public static DataTable GetAllTestAppointmentsForLocalLicenseApplication(int LocalLicenseApplicationID, clsTestType.enTestType TestType)
-        {
-            return clsTestAppointmentData.GetAllTestAppointmentsForLocalLicenseApplication(LocalLicenseApplicationID, (int)TestType);
-        }
-
         public static clsTestAppointment Find(int TestAppointmentID)
         {
             clsTestAppointmentEntity testAppointmentEntity = clsTestAppointmentData.FindTestAppointmentByID(TestAppointmentID);
@@ -120,10 +102,7 @@ namespace DVLD.BusinessLogic
 
         public int GetPreviousAttemptsCount()
         {
-            return clsTest.GetAttemptsCountForLocalLicenseApplication(
-                this.LocalLicenseApplicationInfo.LocalLicenseApplicationID,
-                (int)this.TestType
-                );
+            return this.LocalLicenseApplicationInfo.AttemptsCountForTestType(this.TestType);
         }
 
         public float CalculateTotalFees()

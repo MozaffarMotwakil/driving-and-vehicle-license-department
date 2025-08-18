@@ -99,10 +99,7 @@ namespace DVLD.WinForms.Tests.TestAppointmests
         private void _RefreshAppointmentsList()
         {
             lblRecordsCount.Text = clsFormHelper.RefreshDataGridView(dgvAppointmentsList,
-                clsTestAppointment.GetAllTestAppointmentsForLocalLicenseApplication(
-                    _LocalLicenseApplication.LocalLicenseApplicationID,
-                    _TestType
-                    )
+                _LocalLicenseApplication.GetAllTestAppointments(_TestType)
                 ).ToString();
         }
 

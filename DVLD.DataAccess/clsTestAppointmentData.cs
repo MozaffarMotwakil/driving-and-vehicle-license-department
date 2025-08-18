@@ -1,96 +1,11 @@
 ﻿using System;
 using System.Data.SqlClient;
-using System.Data;
 using DVLD.Entities;
 
 namespace DVLD.DataAccess
 {
     public class clsTestAppointmentData
     {
-        public static int GetActiveTestAppointmentID(int LocalLicenseApplicationID, int TestTypeID)
-        {
-            using (SqlConnection connection = new SqlConnection(clsDataSettings.ConnectionString))
-            {
-                string query = @"
-                    SELECT 
-	                    TestAppointments.TestAppointmentID
-                    FROM 
-	                    TestAppointments
-	                    INNER JOIN LocalDrivingLicenseApplications ON TestAppointments.LocalDrivingLicenseApplicationID = LocalDrivingLicenseApplications.LocalDrivingLicenseApplicationID
-                    WHERE
-	                    LocalDrivingLicenseApplications.LocalDrivingLicenseApplicationID = @LocalLicenseApplicationID
-	                    AND TestAppointments.TestTypeID = @TestTypeID
-	                    AND TestAppointments.IsLocked = 0";
-
-                SqlCommand command = new SqlCommand(query, connection);
-                command.Parameters.AddWithValue("@LocalLicenseApplicationID", LocalLicenseApplicationID);
-                command.Parameters.AddWithValue("@TestTypeID", TestTypeID);
-
-                try
-                {
-                    connection.Open();
-                    object result = command.ExecuteScalar();
-
-                    if (result != null && int.TryParse(result.ToString(), out int activeTestAppointmentID))
-                    {
-                        return activeTestAppointmentID;
-                    }
-
-                    return -1;
-                }
-                catch (Exception ex)
-                {
-
-                    throw new ApplicationException($"Error: get active test appointment for test type.\n{ex.Message}", ex);
-                }
-            }
-        }
-
-        public static DataTable GetAllTestAppointmentsForLocalLicenseApplication(int LocalLicenseApplicationID, int TestTypeID)
-        {
-            DataTable testAppointments = null;
-            
-            using (SqlConnection connection = new SqlConnection(clsDataSettings.ConnectionString))
-            {
-                string query = @"SELECT 
-	                                 TestAppointmentID,
-	                                 AppointmentDate,
-	                                 PaidFees,
-	                                 IsLocked
-                                 FROM 
-	                                 TestAppointments
-                                 WHERE
-	                                 LocalDrivingLicenseApplicationID = @LocalLicenseApplicationID
-	                                 AND TestTypeID = @TestTypeID
-                                 ORDER BY
-                                     TestAppointmentID DESC";
-
-                SqlCommand command = new SqlCommand(query, connection);
-                command.Parameters.AddWithValue("@LocalLicenseApplicationID", LocalLicenseApplicationID);
-                command.Parameters.AddWithValue("@TestTypeID", TestTypeID);
-
-                try
-                {
-                    connection.Open();
-
-                    using (SqlDataReader reader = command.ExecuteReader())
-                    {
-                        if (reader.HasRows)
-                        {
-                            testAppointments = new DataTable();
-                            testAppointments.Load(reader);
-                        }
-                    }
-                }
-                catch (Exception ex)
-                {
-                    throw new ApplicationException($"Error: get all test appointments for local license application.\n{ex.Message}", ex);
-                }
-            }
-
-            return testAppointments;
-        }
-
         public static clsTestAppointmentEntity FindTestAppointmentByID(int TestAppointmentID)
         {
             clsTestAppointmentEntity testAppointmentEntity  = null;

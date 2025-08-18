@@ -68,11 +68,6 @@ namespace DVLD.BusinessLogic
             return clsLocalLicenseApplicationData.GetActiveApplicationIDForLicenseClass(PersonID, LicenseClassID) != -1;
         }
 
-        public bool IsPersonHasLicense()
-        {
-            return clsLicenseData.IsLicenseExist(this.ApplicationInfo.PersonInfo.PersonID, this.LicenseClassInfo.LicenseClassID);
-        }
-
         public static clsLocalLicenseApplication GetActiveLocalLicenseApplication(int PersonID, int LicenseClassID)
         {
             int applicationID = clsLocalLicenseApplicationData.GetActiveApplicationIDForLicenseClass(PersonID, LicenseClassID);
@@ -97,14 +92,9 @@ namespace DVLD.BusinessLogic
                 clsApplication.Delete(baseApplicationID);
         }
 
-        public int GetPassedTestCount()
-        {
-            return clsTest.GetPassedTestsCountForLocalLicenseApplication(this.LocalLicenseApplicationID);
-        }
-
         public clsTestType.enTestType GetCurrentTestType()
         {
-            switch (this.GetPassedTestCount())
+            switch (this.PassedTestsCount())
             {
                 case 0:
                     return clsTestType.enTestType.Vision;
@@ -113,6 +103,37 @@ namespace DVLD.BusinessLogic
                 default:
                     return clsTestType.enTestType.Street;
             }
+        }
+
+        public DataTable GetAllTestAppointments(clsTestType.enTestType TestType)
+        {
+            return clsLocalLicenseApplicationData.GetAllTestAppointments(this.LocalLicenseApplicationID, (int)TestType);
+        }
+
+        public bool IsThereActiveTestAppointment(clsTestType.enTestType testType)
+        {
+            return clsLocalLicenseApplicationData.GetActiveTestAppointmentID(
+                    this.LocalLicenseApplicationID, (int)testType) != -1;
+        }
+
+        public bool IsPassedThisTestType(clsTestType.enTestType TestType)
+        {
+            return clsLocalLicenseApplicationData.GetPassedTestID(this.LocalLicenseApplicationID, (int)TestType) != -1;
+        }
+
+        public int AttemptsCountForTestType(clsTestType.enTestType TestType)
+        {
+            return clsLocalLicenseApplicationData.GetAttemptsCountForTestType(this.LocalLicenseApplicationID, (int)TestType);
+        }
+
+        public int PassedTestsCount()
+        {
+            return clsLocalLicenseApplicationData.GetPassedTestsCount(this.LocalLicenseApplicationID);
+        }
+
+        public bool IsPersonHasLicense()
+        {
+            return clsLicenseData.IsLicenseExist(this.ApplicationInfo.PersonInfo.PersonID, this.LicenseClassInfo.LicenseClassID);
         }
 
         /// <summary>

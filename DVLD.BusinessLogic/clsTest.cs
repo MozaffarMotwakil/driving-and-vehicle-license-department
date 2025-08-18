@@ -40,26 +40,6 @@ namespace DVLD.BusinessLogic
             CreatedByUserInfo = clsUser.Find(testEntity.CreatedByUserID);
         }
 
-        public static int GetAttemptsCountForLocalLicenseApplication(int LocalLicenseApplicationID, int TestTypeID)
-        {
-            return clsTestData.GetAttemptsCountForLocalLicenseApplication(LocalLicenseApplicationID, TestTypeID);
-        }
-
-        public static int GetPassedTestsCountForLocalLicenseApplication(int LcoalLicenseApplicationID)
-        {
-            return clsTestData.GetPassedTestsCountForLocalLicenseApplication(LcoalLicenseApplicationID);
-        }
-
-        public static int GetPassedTestID(int LocalLicenseApplicationID, int TestTypeID)
-        {
-            return clsTestData.GetPassedTestID(LocalLicenseApplicationID, TestTypeID);
-        }
-
-        public static bool IsHasPassedTest(int LocalLicenseApplicationID, int TestTypeID)
-        {
-            return clsTestData.GetPassedTestID(LocalLicenseApplicationID, TestTypeID) != -1;
-        }
-
         public static clsTest Find(int TestAppointmentID)
         {
             clsTestEntity testEntity = clsTestData.FindTestByID(TestAppointmentID);
