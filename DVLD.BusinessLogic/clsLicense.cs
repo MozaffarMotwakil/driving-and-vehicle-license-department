@@ -73,6 +73,11 @@ namespace DVLD.BusinessLogic
             {
                 throw new ArgumentNullException(nameof(localLicenseApplication), "Local license application cannot be null.");
             }
+
+            if (!localLicenseApplication.IsPersonPassedAllTests())
+            {
+                throw new InvalidOperationException("The applicant has not passed all tests yet.");
+            }
         }
 
         private clsLicense(clsLicenseEntity licenseEntity)

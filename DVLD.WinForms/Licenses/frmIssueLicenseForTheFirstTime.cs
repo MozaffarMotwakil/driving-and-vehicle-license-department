@@ -40,6 +40,12 @@ namespace DVLD.WinForms.Licenses
 
         private void btnIssue_Click(object sender, EventArgs e)
         {
+            if (!_LocalLicenseApplication.IsPersonPassedAllTests())
+            {
+                clsFormMessages.ShowError("The applicant has not passed all tests yet.");
+                return;
+            }
+
             if (!_LocalLicenseApplication.IsPersonAgeAllowedToHaveThisLicense())
             {
                 clsFormMessages.ShowError(

@@ -131,6 +131,11 @@ namespace DVLD.BusinessLogic
             return clsLocalLicenseApplicationData.GetPassedTestsCount(this.LocalLicenseApplicationID);
         }
 
+        public bool IsPersonPassedAllTests()
+        {
+            return this.PassedTestsCount() == 3;
+        }
+
         public bool IsPersonHasLicense()
         {
             return clsLicenseData.IsLicenseExist(this.ApplicationInfo.PersonInfo.PersonID, this.LicenseClassInfo.LicenseClassID);
