@@ -40,6 +40,16 @@ namespace DVLD.WinForms.Licenses
 
         private void btnIssue_Click(object sender, EventArgs e)
         {
+            if (!_LocalLicenseApplication.IsPersonAgeAllowedToHaveThisLicense())
+            {
+                clsFormMessages.ShowError(
+                    $"The person's current age ({_LocalLicenseApplication.ApplicationInfo.PersonInfo.GetAge()} Years) " +
+                    $"does not allow him to obtain a license in this class, minimum age allowed is {_LocalLicenseApplication.LicenseClassInfo.MinimumAllowedAge}."
+                    );
+
+                return;
+            }
+
             if (clsFormMessages.ConfirmSava())
             {
                 int newLicenseID = _LocalLicenseApplication.IssueLicenseForFirstTime(txtNotes.Text);

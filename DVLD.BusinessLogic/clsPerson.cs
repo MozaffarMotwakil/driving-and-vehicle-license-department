@@ -111,6 +111,11 @@ namespace DVLD.BusinessLogic
             return clsPersonData.DeletePerson(PersonID);
         }
 
+        public byte GetAge()
+        {
+            return (byte)(((DateTime.Now.Date - this.DateOfBirth.Date).Days) / 365);
+        }
+
         public void DeleteImage()
         {
             if (File.Exists(this.ImagePath))

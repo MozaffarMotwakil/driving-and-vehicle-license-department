@@ -126,7 +126,7 @@ namespace DVLD.BusinessLogic
             return clsLocalLicenseApplicationData.GetAttemptsCountForTestType(this.LocalLicenseApplicationID, (int)TestType);
         }
 
-        public int PassedTestsCount()
+        public sbyte PassedTestsCount()
         {
             return clsLocalLicenseApplicationData.GetPassedTestsCount(this.LocalLicenseApplicationID);
         }
@@ -134,6 +134,11 @@ namespace DVLD.BusinessLogic
         public bool IsPersonHasLicense()
         {
             return clsLicenseData.IsLicenseExist(this.ApplicationInfo.PersonInfo.PersonID, this.LicenseClassInfo.LicenseClassID);
+        }
+
+        public bool IsPersonAgeAllowedToHaveThisLicense()
+        {
+            return this.ApplicationInfo.PersonInfo.GetAge() >= this.LicenseClassInfo.MinimumAllowedAge;
         }
 
         /// <summary>
