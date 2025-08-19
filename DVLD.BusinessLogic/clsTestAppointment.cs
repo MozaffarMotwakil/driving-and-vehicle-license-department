@@ -55,7 +55,27 @@ namespace DVLD.BusinessLogic
                 throw new InvalidOperationException("The applicant has already passed this test type.");
             }
 
-            if (localLicenseApplication.PassedTestsCount() == 3)
+            sbyte passedTestCount = localLicenseApplication.PassedTestsCount();
+
+            switch (testType)
+            {
+                case clsTestType.enTestType.Written:
+                    if (passedTestCount != 1)
+                    {
+                        throw new InvalidOperationException(
+                            "The applicant does not passed the vision test.");
+                    }
+                    break;
+                case clsTestType.enTestType.Street:
+                    if (passedTestCount != 2)
+                    {
+                        throw new InvalidOperationException(
+                            "The applicant does not passed the written test.");
+                    }
+                    break;
+            }
+
+            if (passedTestCount == 3)
             {
                 throw new InvalidOperationException("The applicant has already passed all tests.");
             }

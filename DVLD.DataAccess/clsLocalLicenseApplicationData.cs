@@ -355,7 +355,7 @@ namespace DVLD.DataAccess
             }
         }
 
-        public static int GetPassedTestsCount(int LocaolLicenseApplication)
+        public static sbyte GetPassedTestsCount(int LocaolLicenseApplication)
         {
             using (SqlConnection connection = new SqlConnection(clsDataSettings.ConnectionString))
             {
@@ -377,7 +377,7 @@ namespace DVLD.DataAccess
                     connection.Open();
                     object result = command.ExecuteScalar();
 
-                    if (result != null && int.TryParse(result.ToString(), out int passedTests))
+                    if (result != null && sbyte.TryParse(result.ToString(), out sbyte passedTests))
                     {
                         return passedTests;
                     }
