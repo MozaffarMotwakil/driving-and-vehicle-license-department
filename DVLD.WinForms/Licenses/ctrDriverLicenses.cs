@@ -30,6 +30,10 @@ namespace DVLD.WinForms.Licenses
             dgvLocalLicenses.DataSource = clsLicense.GetAllLicensesForPerson(Person.PersonID);
             lblRecordsCount.Text = dgvLocalLicenses.RowCount.ToString();
             _ResetLicensesListColumnsWidthAndName(dgvLocalLicenses);
+            
+            /// International licenses class not completed yet.
+            /// 
+            ///
             _ResetLicensesListColumnsWidthAndName(dgvInternationalLicenses);
         }
 
@@ -62,6 +66,37 @@ namespace DVLD.WinForms.Licenses
             clsFormHelper.SelectEntireRow(dgvLocalLicenses, e);
         }
 
+        private void dgvInternationalLicenses_CellMouseDown(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            clsFormHelper.SelectEntireRow(dgvInternationalLicenses, e);
+        }
+
+        private void showLicenseDetailsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (tabControl.SelectedTab == tpLocal)
+            {
+                frmShowLicenseInfo licenseInfo = new frmShowLicenseInfo(clsLicense.FindByLicenseID(clsFormHelper.GetSelectedRowID(dgvLocalLicenses)));
+                licenseInfo.ShowDialog();
+            }
+            else
+            {
+                frmShowLicenseInfo licenseInfo = new frmShowLicenseInfo(clsLicense.FindByLicenseID(clsFormHelper.GetSelectedRowID(dgvInternationalLicenses)));
+                licenseInfo.ShowDialog();
+            }
+        }
+
+        private void licensesListContextMenuStrip_Opening(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            if (tabControl.SelectedTab == tpLocal)
+            {
+                clsFormHelper.PreventContextMenuOnHeaderOrEmptySpace(dgvLocalLicenses, e);
+            }
+            else
+            {
+                clsFormHelper.PreventContextMenuOnHeaderOrEmptySpace(dgvInternationalLicenses, e);
+            }
+        }
+
         private void dgvLocalLicenses_CellMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)
         {
             clsFormHelper.SelectEntireRow(dgvLocalLicenses, e);
@@ -73,20 +108,36 @@ namespace DVLD.WinForms.Licenses
             }
         }
 
+        private void dgvInternationalLicenses_CellMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            clsFormHelper.SelectEntireRow(dgvLocalLicenses, e);
+
+            if (clsFormHelper.GetHitTestInfo(dgvLocalLicenses).Type == DataGridViewHitTestType.Cell && e.Button == MouseButtons.Left)
+            {
+                frmShowLicenseInfo licenseInfo = new frmShowLicenseInfo(clsLicense.FindByLicenseID(clsFormHelper.GetSelectedRowID(dgvInternationalLicenses)));
+                licenseInfo.ShowDialog();
+            }
+        }
+
         private void dgvLocalLicenses_MouseDown(object sender, MouseEventArgs e)
         {
             clsFormHelper.ClearSelectionOnEmptyClick(dgvLocalLicenses, e);
         }
 
-        private void showLicenseDetailsToolStripMenuItem_Click(object sender, EventArgs e)
+        private void dgvInternationalLicenses_MouseDown(object sender, MouseEventArgs e)
         {
-            frmShowLicenseInfo licenseInfo = new frmShowLicenseInfo(clsLicense.FindByLicenseID(clsFormHelper.GetSelectedRowID(dgvLocalLicenses)));
-            licenseInfo.ShowDialog();
+            clsFormHelper.ClearSelectionOnEmptyClick(dgvInternationalLicenses, e);
         }
 
-        private void licensesListContextMenuStrip_Opening(object sender, System.ComponentModel.CancelEventArgs e)
+        private void dgvLocalLicenses_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
         {
-            clsFormHelper.PreventContextMenuOnHeaderOrEmptySpace(dgvLocalLicenses, e);
+            dgvLocalLicenses.ClearSelection();
         }
+
+        private void dgvInternationalLicenses_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
+        {
+            dgvInternationalLicenses.ClearSelection();
+        }
+
     }
 }

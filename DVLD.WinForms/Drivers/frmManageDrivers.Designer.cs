@@ -33,8 +33,6 @@
             this.recordsListContextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.showPersonDetailsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-            this.issueInternationalLicenseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
             this.showPersonLicensesHistoryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.nudActiveLicenses)).BeginInit();
             this.recordsListContextMenuStrip.SuspendLayout();
@@ -59,11 +57,9 @@
             this.recordsListContextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.showPersonDetailsToolStripMenuItem,
             this.toolStripSeparator1,
-            this.issueInternationalLicenseToolStripMenuItem,
-            this.toolStripSeparator5,
             this.showPersonLicensesHistoryToolStripMenuItem});
             this.recordsListContextMenuStrip.Name = "contextMenuStrip1";
-            this.recordsListContextMenuStrip.Size = new System.Drawing.Size(247, 130);
+            this.recordsListContextMenuStrip.Size = new System.Drawing.Size(247, 108);
             this.recordsListContextMenuStrip.Opening += new System.ComponentModel.CancelEventHandler(this.recordsListContextMenuStrip_Opening);
             // 
             // showPersonDetailsToolStripMenuItem
@@ -79,20 +75,6 @@
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
             this.toolStripSeparator1.Size = new System.Drawing.Size(243, 6);
-            // 
-            // issueInternationalLicenseToolStripMenuItem
-            // 
-            this.issueInternationalLicenseToolStripMenuItem.Image = global::DVLD.WinForms.Properties.Resources.International_32;
-            this.issueInternationalLicenseToolStripMenuItem.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
-            this.issueInternationalLicenseToolStripMenuItem.Name = "issueInternationalLicenseToolStripMenuItem";
-            this.issueInternationalLicenseToolStripMenuItem.Size = new System.Drawing.Size(246, 38);
-            this.issueInternationalLicenseToolStripMenuItem.Text = "Issue International License";
-            this.issueInternationalLicenseToolStripMenuItem.Click += new System.EventHandler(this.issueInternationalLicenseToolStripMenuItem_Click);
-            // 
-            // toolStripSeparator5
-            // 
-            this.toolStripSeparator5.Name = "toolStripSeparator5";
-            this.toolStripSeparator5.Size = new System.Drawing.Size(243, 6);
             // 
             // showPersonLicensesHistoryToolStripMenuItem
             // 
@@ -126,8 +108,6 @@
         private System.Windows.Forms.ContextMenuStrip recordsListContextMenuStrip;
         private System.Windows.Forms.ToolStripMenuItem showPersonDetailsToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
-        private System.Windows.Forms.ToolStripMenuItem issueInternationalLicenseToolStripMenuItem;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator5;
         private System.Windows.Forms.ToolStripMenuItem showPersonLicensesHistoryToolStripMenuItem;
     }
 }

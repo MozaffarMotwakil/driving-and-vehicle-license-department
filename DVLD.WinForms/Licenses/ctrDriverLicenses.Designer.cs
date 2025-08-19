@@ -135,6 +135,7 @@
             this.dgvLocalLicenses.TabIndex = 0;
             this.dgvLocalLicenses.CellMouseDoubleClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgvLocalLicenses_CellMouseDoubleClick);
             this.dgvLocalLicenses.CellMouseDown += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgvLocalLicenses_CellMouseDown);
+            this.dgvLocalLicenses.DataBindingComplete += new System.Windows.Forms.DataGridViewBindingCompleteEventHandler(this.dgvLocalLicenses_DataBindingComplete);
             this.dgvLocalLicenses.MouseDown += new System.Windows.Forms.MouseEventHandler(this.dgvLocalLicenses_MouseDown);
             // 
             // licensesListContextMenuStrip
@@ -142,7 +143,7 @@
             this.licensesListContextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.showLicenseDetailsToolStripMenuItem});
             this.licensesListContextMenuStrip.Name = "licensesListContextMenuStrip";
-            this.licensesListContextMenuStrip.Size = new System.Drawing.Size(200, 64);
+            this.licensesListContextMenuStrip.Size = new System.Drawing.Size(200, 42);
             this.licensesListContextMenuStrip.Opening += new System.ComponentModel.CancelEventHandler(this.licensesListContextMenuStrip_Opening);
             // 
             // showLicenseDetailsToolStripMenuItem
@@ -190,6 +191,10 @@
             this.dgvInternationalLicenses.ReadOnly = true;
             this.dgvInternationalLicenses.Size = new System.Drawing.Size(760, 193);
             this.dgvInternationalLicenses.TabIndex = 2;
+            this.dgvInternationalLicenses.CellMouseDoubleClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgvInternationalLicenses_CellMouseDoubleClick);
+            this.dgvInternationalLicenses.CellMouseDown += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgvInternationalLicenses_CellMouseDown);
+            this.dgvInternationalLicenses.DataBindingComplete += new System.Windows.Forms.DataGridViewBindingCompleteEventHandler(this.dgvInternationalLicenses_DataBindingComplete);
+            this.dgvInternationalLicenses.MouseDown += new System.Windows.Forms.MouseEventHandler(this.dgvInternationalLicenses_MouseDown);
             // 
             // ctrDriverLicenses
             // 

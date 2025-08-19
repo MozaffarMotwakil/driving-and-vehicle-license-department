@@ -114,11 +114,6 @@ namespace DVLD.WinForms.Drivers
             ShowRecordDetailsOperation();
         }
 
-        private void issueInternationalLicenseToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            clsFormMessages.ShowNotImplementedFeatureWarning();
-        }
-
         private void showPersonLicensesHistoryToolStripMenuItem_Click(object sender, EventArgs e)
         {
             frmPersonLicensesHistory licensesHistory = new frmPersonLicensesHistory(_GetFromSelectedRowPersonID());

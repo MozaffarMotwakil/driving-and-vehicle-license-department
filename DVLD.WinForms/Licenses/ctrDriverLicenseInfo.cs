@@ -17,16 +17,13 @@ namespace DVLD.WinForms.Licenses
         public void LoadLicenseDataForDisplay(clsLicense license)
         {
             License = license;
-            pbGender.Image = license.DriverInfo.PersonInfo.Gender == clsPerson.enGender.Male ?
-                Resources.Man_32 :
-                Resources.Woman_32;
+            _SetPersonImage();
             lblLicenseID.Text = license.LicenseID.ToString();
             llFullName.Text = license.DriverInfo.PersonInfo.GetFullName();
             lblNationalNo.Text = license.DriverInfo.PersonInfo.NationalNo;
             lblBirthDay.Text = license.DriverInfo.PersonInfo.DateOfBirth.ToString("dd/MM/yyyy");
             lblGender.Text = license.DriverInfo.PersonInfo.Gender.ToString();
             lblPhone.Text = license.DriverInfo.PersonInfo.Phone;
-            pbPersonImage.ImageLocation = license.DriverInfo.PersonInfo.ImagePath;
             lblLicenseClass.Text = license.LicenseClassInfo.ClassName;
             lblDriverID.Text = license.DriverInfo.DriverID.ToString();
             lblNotes.Text = string.IsNullOrEmpty(license.Notes) ? "No Notes" : license.Notes;
@@ -36,6 +33,17 @@ namespace DVLD.WinForms.Licenses
             lblIsActive.Text = license.IsActive ? "Yes" : "No";
             // implementation this part later on after add "DetainedLicense" classes.
             // lblIsDetained.Text = clsDetainedLicense ? "Yes" : "No";
+        }
+
+        private void _SetPersonImage()
+        {
+            pbGender.Image = License.DriverInfo.PersonInfo.Gender == clsPerson.enGender.Male ?
+                Resources.Man_32 :
+                Resources.Woman_32;
+            pbPersonImage.Image = License.DriverInfo.PersonInfo.Gender == clsPerson.enGender.Male ?
+                Resources.Male_512 :
+                Resources.Female_512;
+            pbPersonImage.ImageLocation = License.DriverInfo.PersonInfo.ImagePath;
         }
 
         public void Clear()
