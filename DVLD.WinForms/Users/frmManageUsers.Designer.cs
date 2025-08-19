@@ -249,6 +249,7 @@
             this.Controls.Add(this.cbActivity);
             this.Controls.Add(this.cbCountry);
             this.Controls.Add(this.panelGender);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Name = "frmManageUsers";
             this.Text = "Manage Users";
             this.Load += new System.EventHandler(this.frmManageUsers_Load);

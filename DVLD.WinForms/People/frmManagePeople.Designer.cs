@@ -216,8 +216,10 @@
             this.ContextMenuStrip = this.formContextMenuStrip;
             this.Controls.Add(this.cbCountry);
             this.Controls.Add(this.panelGender);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Name = "frmManagePeople";
-            this.Text = "6";
+            this.ShowIcon = false;
+            this.Text = "Manage People";
             this.Load += new System.EventHandler(this.frmManagePeople_Load);
             this.Controls.SetChildIndex(this.panelGender, 0);
             this.Controls.SetChildIndex(this.cbCountry, 0);
