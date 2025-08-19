@@ -148,6 +148,7 @@
             this.panelGender.Size = new System.Drawing.Size(200, 33);
             this.panelGender.TabIndex = 31;
             this.panelGender.Visible = false;
+            this.panelGender.MouseDown += new System.Windows.Forms.MouseEventHandler(this.frmManagePeople_MouseDown);
             // 
             // pictureBox5
             // 
@@ -205,6 +206,7 @@
             this.cbCountry.Size = new System.Drawing.Size(200, 24);
             this.cbCountry.TabIndex = 32;
             this.cbCountry.SelectedIndexChanged += new System.EventHandler(this.cbCountry_SelectedIndexChanged);
+            this.cbCountry.MouseDown += new System.Windows.Forms.MouseEventHandler(this.frmManagePeople_MouseDown);
             // 
             // frmManagePeople
             // 
@@ -215,7 +217,7 @@
             this.Controls.Add(this.cbCountry);
             this.Controls.Add(this.panelGender);
             this.Name = "frmManagePeople";
-            this.Text = "Manage People";
+            this.Text = "6";
             this.Load += new System.EventHandler(this.frmManagePeople_Load);
             this.Controls.SetChildIndex(this.panelGender, 0);
             this.Controls.SetChildIndex(this.cbCountry, 0);

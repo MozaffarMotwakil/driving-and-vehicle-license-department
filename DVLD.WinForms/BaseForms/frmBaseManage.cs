@@ -62,6 +62,11 @@ namespace DVLD.WinForms.BaseForms
             this.Close();
         }
 
+        private void dgvRecordsList_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
+        {
+            dgvRecordsList.ClearSelection();
+        }
+
         protected virtual void dgvRecordsList_CellMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)
         {
             clsFormHelper.SelectEntireRow(dgvRecordsList, e);
@@ -69,7 +74,12 @@ namespace DVLD.WinForms.BaseForms
 
         protected virtual void dgvRecordsList_MouseDown(object sender, MouseEventArgs e)
         {
-            clsFormHelper.DeselectCellsAndRows(dgvRecordsList, e);
+            clsFormHelper.ClearSelectionOnEmptyClick(dgvRecordsList, e);
+        }
+
+        protected void frmBaseManage_MouseDown(object sender, MouseEventArgs e)
+        {
+            clsFormHelper.DeselectCellsAndRows(dgvRecordsList);
         }
 
         protected virtual DataTable GetDataSource()

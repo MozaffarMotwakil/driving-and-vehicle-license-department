@@ -104,6 +104,11 @@ namespace DVLD.WinForms.Drivers
             personInfo.ShowDialog();
         }
 
+        private void frmManageDrivers_MouseDown(object sender, System.Windows.Forms.MouseEventArgs e)
+        {
+            base.frmBaseManage_MouseDown(sender, e);
+        }
+
         private void showPersonDetailsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             ShowRecordDetailsOperation();

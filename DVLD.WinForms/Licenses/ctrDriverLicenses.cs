@@ -7,6 +7,9 @@ namespace DVLD.WinForms.Licenses
 {
     public partial class ctrDriverLicenses : UserControl
     {
+        public DataGridView LocalLicenses { get { return dgvLocalLicenses; } }
+        public DataGridView InternationalLicenses { get { return dgvInternationalLicenses; } }
+
         public ctrDriverLicenses()
         {
             InitializeComponent();
@@ -72,7 +75,7 @@ namespace DVLD.WinForms.Licenses
 
         private void dgvLocalLicenses_MouseDown(object sender, MouseEventArgs e)
         {
-            clsFormHelper.DeselectCellsAndRows(dgvLocalLicenses, e);
+            clsFormHelper.ClearSelectionOnEmptyClick(dgvLocalLicenses, e);
         }
 
         private void showLicenseDetailsToolStripMenuItem_Click(object sender, EventArgs e)

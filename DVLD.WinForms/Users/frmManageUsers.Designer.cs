@@ -150,6 +150,7 @@
             this.cbActivity.TabIndex = 32;
             this.cbActivity.Visible = false;
             this.cbActivity.SelectedIndexChanged += new System.EventHandler(this.cbActivity_SelectedIndexChanged);
+            this.cbActivity.MouseDown += new System.Windows.Forms.MouseEventHandler(this.frmManageUsers_MouseDown);
             // 
             // cbCountry
             // 
@@ -164,6 +165,7 @@
             this.cbCountry.TabIndex = 30;
             this.cbCountry.Visible = false;
             this.cbCountry.SelectedIndexChanged += new System.EventHandler(this.cbCountry_SelectedIndexChanged);
+            this.cbCountry.MouseDown += new System.Windows.Forms.MouseEventHandler(this.frmManageUsers_MouseDown);
             // 
             // panelGender
             // 
@@ -176,6 +178,7 @@
             this.panelGender.Size = new System.Drawing.Size(200, 33);
             this.panelGender.TabIndex = 31;
             this.panelGender.Visible = false;
+            this.panelGender.MouseDown += new System.Windows.Forms.MouseEventHandler(this.frmManageUsers_MouseDown);
             // 
             // pictureBox5
             // 

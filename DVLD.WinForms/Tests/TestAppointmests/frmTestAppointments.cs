@@ -110,7 +110,7 @@ namespace DVLD.WinForms.Tests.TestAppointmests
 
         private void dgvAppointmentsList_MouseDown(object sender, MouseEventArgs e)
         {
-            clsFormHelper.DeselectCellsAndRows(dgvAppointmentsList, e);
+            clsFormHelper.ClearSelectionOnEmptyClick(dgvAppointmentsList, e);
         }
 
         private void appointmentsContextMenuStrip_Opening(object sender, System.ComponentModel.CancelEventArgs e)

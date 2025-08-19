@@ -110,5 +110,14 @@ namespace DVLD.WinForms.MainForms
                 clsLoginManager.DeleteLoginInformation();
             }
         }
+
+        private void cbShowPassword_CheckedChanged(object sender, EventArgs e)
+        {
+            clsFormHelper.SetPasswordsVisibility(
+                new TextBox[1] { txtPassword },
+                cbShowPasswords.Checked
+                );
+        }
+
     }
 }

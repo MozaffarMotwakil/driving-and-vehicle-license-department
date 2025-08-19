@@ -35,5 +35,11 @@ namespace DVLD.WinForms.Licenses
             ctrDriverLicenses.LoadPersonLicensesForDisplay(_Person);
         }
 
+        private void frmPersonLicensesHistory_MouseDown(object sender, MouseEventArgs e)
+        {
+            clsFormHelper.DeselectCellsAndRows(ctrDriverLicenses.LocalLicenses);
+            clsFormHelper.DeselectCellsAndRows(ctrDriverLicenses.InternationalLicenses);
+        }
+
     }
 }

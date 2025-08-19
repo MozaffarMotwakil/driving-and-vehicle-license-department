@@ -47,6 +47,7 @@
             this.txtFilterText.TabIndex = 27;
             this.txtFilterText.TextChanged += new System.EventHandler(this.txtFilterText_TextChanged);
             this.txtFilterText.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtFilterText_KeyPress);
+            this.txtFilterText.MouseDown += new System.Windows.Forms.MouseEventHandler(this.frmBaseManageWithFilter_MouseDown);
             // 
             // label3
             // 
@@ -59,6 +60,7 @@
             this.label3.Size = new System.Drawing.Size(77, 19);
             this.label3.TabIndex = 26;
             this.label3.Text = "Filtter By:";
+            this.label3.MouseDown += new System.Windows.Forms.MouseEventHandler(this.frmBaseManageWithFilter_MouseDown);
             // 
             // cbFilterColumn
             // 
@@ -72,6 +74,7 @@
             this.cbFilterColumn.Size = new System.Drawing.Size(129, 24);
             this.cbFilterColumn.TabIndex = 25;
             this.cbFilterColumn.SelectedIndexChanged += new System.EventHandler(this.cbFilterColumn_SelectedIndexChanged);
+            this.cbFilterColumn.MouseDown += new System.Windows.Forms.MouseEventHandler(this.frmBaseManageWithFilter_MouseDown);
             // 
             // btnAddNewRecord
             // 
@@ -85,6 +88,7 @@
             this.btnAddNewRecord.TabIndex = 28;
             this.btnAddNewRecord.UseVisualStyleBackColor = true;
             this.btnAddNewRecord.Click += new System.EventHandler(this.btnAddNewRecord_Click);
+            this.btnAddNewRecord.MouseDown += new System.Windows.Forms.MouseEventHandler(this.frmBaseManageWithFilter_MouseDown);
             // 
             // errorProvider
             // 

@@ -52,6 +52,7 @@
             this.nudActiveLicenses.TabIndex = 38;
             this.nudActiveLicenses.Visible = false;
             this.nudActiveLicenses.ValueChanged += new System.EventHandler(this.nudActiveLicenses_ValueChanged);
+            this.nudActiveLicenses.MouseDown += new System.Windows.Forms.MouseEventHandler(this.frmManageDrivers_MouseDown);
             // 
             // recordsListContextMenuStrip
             // 

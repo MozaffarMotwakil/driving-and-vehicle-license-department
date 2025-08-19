@@ -48,6 +48,7 @@
             this.pbFormLogo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pbFormLogo.TabIndex = 18;
             this.pbFormLogo.TabStop = false;
+            this.pbFormLogo.MouseDown += new System.Windows.Forms.MouseEventHandler(this.frmBaseManage_MouseDown);
             // 
             // btnClose
             // 
@@ -64,6 +65,7 @@
             this.btnClose.Text = "     Close";
             this.btnClose.UseVisualStyleBackColor = true;
             this.btnClose.Click += new System.EventHandler(this.btnClose_Click);
+            this.btnClose.MouseDown += new System.Windows.Forms.MouseEventHandler(this.frmBaseManage_MouseDown);
             // 
             // lblFormTitle
             // 
@@ -76,6 +78,7 @@
             this.lblFormTitle.TabIndex = 15;
             this.lblFormTitle.Text = "Base Manage";
             this.lblFormTitle.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lblFormTitle.MouseDown += new System.Windows.Forms.MouseEventHandler(this.frmBaseManage_MouseDown);
             // 
             // lblRecordsCount
             // 
@@ -87,6 +90,7 @@
             this.lblRecordsCount.Size = new System.Drawing.Size(33, 19);
             this.lblRecordsCount.TabIndex = 16;
             this.lblRecordsCount.Text = "???";
+            this.lblRecordsCount.MouseDown += new System.Windows.Forms.MouseEventHandler(this.frmBaseManage_MouseDown);
             // 
             // label1
             // 
@@ -98,6 +102,7 @@
             this.label1.Size = new System.Drawing.Size(88, 19);
             this.label1.TabIndex = 17;
             this.label1.Text = "# Records:";
+            this.label1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.frmBaseManage_MouseDown);
             // 
             // dgvRecordsList
             // 
@@ -117,6 +122,7 @@
             this.dgvRecordsList.TabIndex = 14;
             this.dgvRecordsList.CellMouseDoubleClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgvRecordsList_CellMouseDoubleClick);
             this.dgvRecordsList.CellMouseDown += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgvRecordsList_CellMouseDown);
+            this.dgvRecordsList.DataBindingComplete += new System.Windows.Forms.DataGridViewBindingCompleteEventHandler(this.dgvRecordsList_DataBindingComplete);
             this.dgvRecordsList.MouseDown += new System.Windows.Forms.MouseEventHandler(this.dgvRecordsList_MouseDown);
             // 
             // frmBaseManage
@@ -136,6 +142,7 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Base Manage";
             this.Load += new System.EventHandler(this.frmBaseManage_Load);
+            this.MouseDown += new System.Windows.Forms.MouseEventHandler(this.frmBaseManage_MouseDown);
             ((System.ComponentModel.ISupportInitialize)(this.pbFormLogo)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvRecordsList)).EndInit();
             this.ResumeLayout(false);

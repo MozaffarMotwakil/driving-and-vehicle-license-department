@@ -59,6 +59,11 @@ namespace DVLD.WinForms.People
             base.FilterText = "F";
         }
 
+        private void frmManagePeople_MouseDown(object sender, MouseEventArgs e)
+        {
+            base.frmBaseManage_MouseDown(sender, e);
+        }
+
         private void rocordsListContextMenuStrip_Opening(object sender, System.ComponentModel.CancelEventArgs e)
         {
             clsFormHelper.PreventContextMenuOnHeaderOrEmptySpace(base.RecordsList, e);

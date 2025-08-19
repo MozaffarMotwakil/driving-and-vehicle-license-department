@@ -168,6 +168,11 @@ namespace DVLD.WinForms.Applications.LocalLicense
             }
         }
 
+        private void frmManageLocalLicenseApplications_MouseDown(object sender, MouseEventArgs e)
+        {
+            base.frmBaseManage_MouseDown(sender, e);
+        }
+
         private void cbDrivingClass_SelectedIndexChanged(object sender, EventArgs e)
         {
             base.SetFilterTextFromComboBox(cbDrivingClass);
@@ -357,5 +362,6 @@ namespace DVLD.WinForms.Applications.LocalLicense
             frmPersonLicensesHistory licensesHistory = new frmPersonLicensesHistory(clsLocalLicenseApplication.Find(clsFormHelper.GetSelectedRowID(base.RecordsList)).ApplicationInfo.PersonInfo);
             licensesHistory.ShowDialog();
         }
+
     }
 }

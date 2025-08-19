@@ -74,6 +74,11 @@ namespace DVLD.WinForms.BaseForms
             AddNewRecordOperation();
         }
 
+        private void frmBaseManageWithFilter_MouseDown(object sender, MouseEventArgs e)
+        {
+            base.frmBaseManage_MouseDown(sender, e);
+        }
+
         protected override void dgvRecordsList_CellMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)
         {
             base.dgvRecordsList_CellMouseDoubleClick(sender, e);

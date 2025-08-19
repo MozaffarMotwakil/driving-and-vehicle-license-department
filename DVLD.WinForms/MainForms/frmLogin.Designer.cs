@@ -44,6 +44,7 @@ namespace DVLD.WinForms.MainForms
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.errorProvider = new System.Windows.Forms.ErrorProvider(this.components);
             this.pcShowPassword = new System.Windows.Forms.PictureBox();
+            this.cbShowPasswords = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -182,6 +183,17 @@ namespace DVLD.WinForms.MainForms
             this.pcShowPassword.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pcShowPassword_MouseDown);
             this.pcShowPassword.MouseUp += new System.Windows.Forms.MouseEventHandler(this.pcShowPassword_MouseUp);
             // 
+            // cbShowPasswords
+            // 
+            this.cbShowPasswords.AutoSize = true;
+            this.cbShowPasswords.Location = new System.Drawing.Point(647, 244);
+            this.cbShowPasswords.Name = "cbShowPassword";
+            this.cbShowPasswords.Size = new System.Drawing.Size(106, 17);
+            this.cbShowPasswords.TabIndex = 32;
+            this.cbShowPasswords.Text = "Show Password";
+            this.cbShowPasswords.UseVisualStyleBackColor = true;
+            this.cbShowPasswords.CheckedChanged += new System.EventHandler(this.cbShowPassword_CheckedChanged);
+            // 
             // frmLogin
             // 
             this.AcceptButton = this.btnLogin;
@@ -189,6 +201,7 @@ namespace DVLD.WinForms.MainForms
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.btnClose;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.cbShowPasswords);
             this.Controls.Add(this.pcShowPassword);
             this.Controls.Add(this.btnClose);
             this.Controls.Add(this.btnLogin);
@@ -233,5 +246,6 @@ namespace DVLD.WinForms.MainForms
         private System.Windows.Forms.Button btnClose;
         private System.Windows.Forms.ErrorProvider errorProvider;
         private System.Windows.Forms.PictureBox pcShowPassword;
+        private System.Windows.Forms.CheckBox cbShowPasswords;
     }
 }

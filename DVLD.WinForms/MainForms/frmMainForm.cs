@@ -143,5 +143,10 @@ namespace DVLD.WinForms.MainForms
             _OpenForm(ref _ManageDrivers, enFormTypes.ManageDrivers);
         }
 
+        private void retakeTestToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            _OpenForm(ref _ManageLocalLicenseApplications, enFormTypes.ManageLocalLicenseApplications);
+        }
+
     }
 }

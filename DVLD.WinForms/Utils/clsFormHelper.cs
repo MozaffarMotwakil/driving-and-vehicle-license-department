@@ -19,23 +19,29 @@ namespace DVLD.WinForms.Utils
             }
         }
 
-        public static void DeselectCellsAndRows(DataGridView dataGridView, MouseEventArgs e)
+        public static void ClearSelectionOnEmptyClick(DataGridView dataGridView, MouseEventArgs e)
         {
             DataGridView.HitTestInfo hit = dataGridView.HitTest(e.X, e.Y);
 
-            if (e.Button == MouseButtons.Right || e.Button == MouseButtons.Left && hit.Type == DataGridViewHitTestType.None)
+            if ((e.Button == MouseButtons.Right || e.Button == MouseButtons.Left) && hit.Type == DataGridViewHitTestType.None)
             {
-                foreach (DataGridViewCell cell in dataGridView.SelectedCells)
-                {
-                    cell.Selected = false;
-                }
-
-                foreach (DataGridViewRow row in dataGridView.SelectedRows)
-                {
-                    row.Selected = false;
-                }
+                DeselectCellsAndRows(dataGridView);
             }
         }
+
+        public static void DeselectCellsAndRows(DataGridView dataGridView)
+        {
+            foreach (DataGridViewCell cell in dataGridView.SelectedCells)
+            {
+                cell.Selected = false;
+            }
+
+            foreach (DataGridViewRow row in dataGridView.SelectedRows)
+            {
+                row.Selected = false;
+            }
+        }
+
 
         public static int RefreshDataGridView(DataGridView dataGridView, object DataSource)
         {

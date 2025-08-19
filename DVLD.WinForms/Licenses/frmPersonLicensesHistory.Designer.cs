@@ -46,6 +46,7 @@
             this.lblFormTitle.TabIndex = 21;
             this.lblFormTitle.Text = "Person Licenses History";
             this.lblFormTitle.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lblFormTitle.MouseDown += new System.Windows.Forms.MouseEventHandler(this.frmPersonLicensesHistory_MouseDown);
             // 
             // pbFormLogo
             // 
@@ -57,6 +58,7 @@
             this.pbFormLogo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pbFormLogo.TabIndex = 22;
             this.pbFormLogo.TabStop = false;
+            this.pbFormLogo.MouseDown += new System.Windows.Forms.MouseEventHandler(this.frmPersonLicensesHistory_MouseDown);
             // 
             // ctrDriverLicenses
             // 
@@ -64,6 +66,7 @@
             this.ctrDriverLicenses.Name = "ctrDriverLicenses";
             this.ctrDriverLicenses.Size = new System.Drawing.Size(785, 308);
             this.ctrDriverLicenses.TabIndex = 24;
+            this.ctrDriverLicenses.MouseDown += new System.Windows.Forms.MouseEventHandler(this.frmPersonLicensesHistory_MouseDown);
             // 
             // ctrPersonCardInfo
             // 
@@ -73,6 +76,7 @@
             this.ctrPersonCardInfo.Size = new System.Drawing.Size(780, 274);
             this.ctrPersonCardInfo.SuppressImageLoadWarning = false;
             this.ctrPersonCardInfo.TabIndex = 23;
+            this.ctrPersonCardInfo.MouseDown += new System.Windows.Forms.MouseEventHandler(this.frmPersonLicensesHistory_MouseDown);
             // 
             // frmPersonLicensesHistory
             // 
@@ -90,6 +94,7 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Person Licenses History";
             this.Load += new System.EventHandler(this.frmPersonLicensesHistory_Load);
+            this.MouseDown += new System.Windows.Forms.MouseEventHandler(this.frmPersonLicensesHistory_MouseDown);
             ((System.ComponentModel.ISupportInitialize)(this.pbFormLogo)).EndInit();
             this.ResumeLayout(false);
 

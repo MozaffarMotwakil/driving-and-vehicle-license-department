@@ -232,6 +232,7 @@
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pictureBox1.TabIndex = 31;
             this.pictureBox1.TabStop = false;
+            this.pictureBox1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.frmManageLocalLicenseApplications_MouseDown);
             // 
             // cbApplicationStatus
             // 
@@ -251,6 +252,7 @@
             this.cbApplicationStatus.TabIndex = 34;
             this.cbApplicationStatus.Visible = false;
             this.cbApplicationStatus.SelectedIndexChanged += new System.EventHandler(this.cbApplicationStatus_SelectedIndexChanged);
+            this.cbApplicationStatus.MouseDown += new System.Windows.Forms.MouseEventHandler(this.frmManageLocalLicenseApplications_MouseDown);
             // 
             // cbDrivingClass
             // 
@@ -265,6 +267,7 @@
             this.cbDrivingClass.TabIndex = 33;
             this.cbDrivingClass.Visible = false;
             this.cbDrivingClass.SelectedIndexChanged += new System.EventHandler(this.cbDrivingClass_SelectedIndexChanged);
+            this.cbDrivingClass.MouseDown += new System.Windows.Forms.MouseEventHandler(this.frmManageLocalLicenseApplications_MouseDown);
             // 
             // nudPassedTests
             // 
@@ -283,6 +286,7 @@
             this.nudPassedTests.TabIndex = 36;
             this.nudPassedTests.Visible = false;
             this.nudPassedTests.ValueChanged += new System.EventHandler(this.nudPassedTests_ValueChanged);
+            this.nudPassedTests.MouseDown += new System.Windows.Forms.MouseEventHandler(this.frmManageLocalLicenseApplications_MouseDown);
             // 
             // dtpApplicationDate
             // 
@@ -294,6 +298,7 @@
             this.dtpApplicationDate.Visible = false;
             this.dtpApplicationDate.ValueChanged += new System.EventHandler(this.dtpApplicationDate_ValueChanged);
             this.dtpApplicationDate.VisibleChanged += new System.EventHandler(this.dtpApplicationDate_VisibleChanged);
+            this.dtpApplicationDate.MouseDown += new System.Windows.Forms.MouseEventHandler(this.frmManageLocalLicenseApplications_MouseDown);
             // 
             // frmManageLocalLicenseApplications
             // 
