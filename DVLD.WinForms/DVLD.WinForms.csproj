@@ -694,5 +694,8 @@
   <ItemGroup>
     <None Include="Resources\Passed.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Applications\InternationalLicense\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
