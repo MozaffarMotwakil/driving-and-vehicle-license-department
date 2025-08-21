@@ -74,6 +74,12 @@
     <Compile Include="Applications\BaseApplication\frmShowBaseApplicationInfo.Designer.cs">
       <DependentUpon>frmShowBaseApplicationInfo.cs</DependentUpon>
     </Compile>
+    <Compile Include="Applications\InternationalLicense\frmErrorPerosnHaveAnActiveInternationalLicense.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Applications\InternationalLicense\frmErrorPerosnHaveAnActiveInternationalLicense.Designer.cs">
+      <DependentUpon>frmErrorPerosnHaveAnActiveInternationalLicense.cs</DependentUpon>
+    </Compile>
     <Compile Include="Applications\InternationalLicense\frmManageInternationalLicenses.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -98,11 +104,11 @@
     <Compile Include="Applications\InternationalLicense\ctrInternationalLicenseInfo.Designer.cs">
       <DependentUpon>ctrInternationalLicenseInfo.cs</DependentUpon>
     </Compile>
-    <Compile Include="Applications\LocalLicense\frmPersonHaveActiveApplication.cs">
+    <Compile Include="Applications\LocalLicense\frmErrorPersonHaveActiveApplication.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Applications\LocalLicense\frmPersonHaveActiveApplication.Designer.cs">
-      <DependentUpon>frmPersonHaveActiveApplication.cs</DependentUpon>
+    <Compile Include="Applications\LocalLicense\frmErrorPersonHaveActiveApplication.Designer.cs">
+      <DependentUpon>frmErrorPersonHaveActiveApplication.cs</DependentUpon>
     </Compile>
     <Compile Include="Applications\LocalLicense\frmShowLocalLicenseApplicationInfo.cs">
       <SubType>Form</SubType>
@@ -319,6 +325,9 @@
     <EmbeddedResource Include="Applications\BaseApplication\frmShowBaseApplicationInfo.resx">
       <DependentUpon>frmShowBaseApplicationInfo.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Applications\InternationalLicense\frmErrorPerosnHaveAnActiveInternationalLicense.resx">
+      <DependentUpon>frmErrorPerosnHaveAnActiveInternationalLicense.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Applications\InternationalLicense\frmIsuueInternationalLicense.resx">
       <DependentUpon>frmIsuueInternationalLicense.cs</DependentUpon>
     </EmbeddedResource>
@@ -334,8 +343,8 @@
     <EmbeddedResource Include="Applications\LocalLicense\ctrLocalLicenseApplicationInfo.resx">
       <DependentUpon>ctrLocalLicenseApplicationInfo.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Applications\LocalLicense\frmPersonHaveActiveApplication.resx">
-      <DependentUpon>frmPersonHaveActiveApplication.cs</DependentUpon>
+    <EmbeddedResource Include="Applications\LocalLicense\frmErrorPersonHaveActiveApplication.resx">
+      <DependentUpon>frmErrorPersonHaveActiveApplication.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Applications\LocalLicense\frmAddUpdateLocalLicenseApplication.resx">
       <DependentUpon>frmAddUpdateLocalLicenseApplication.cs</DependentUpon>

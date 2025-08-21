@@ -40,13 +40,27 @@ namespace DVLD.WinForms.Applications.InternationalLicense
             catch (Exception ex)
             {
                 _SetDefaultValuesToForm();
-                clsFormMessages.ShowError(ex.Message);
+
+                if (clsInternationalLicense.IsPersonHasAnActiveInternationalLicense(
+                    ctrDriverLicenseInfoWithFilter.License.DriverInfo.PersonInfo.PersonID))
+                {
+                    clsInternationalLicense activeInternationaLicense = clsInternationalLicense.GetActiveInternationalLicenseForPerson(
+                    ctrDriverLicenseInfoWithFilter.License.DriverInfo.PersonInfo.PersonID);
+
+                    frmErrorPerosnHaveAnActiveInternationalLicense error = new frmErrorPerosnHaveAnActiveInternationalLicense(activeInternationaLicense);
+                    error.ShowDialog();
+                }
+                else
+                {
+                    clsFormMessages.ShowError(ex.Message);
+                }
             }
         }
 
         private void _SetDefaultValuesToForm()
         {
-            ctrDriverLicenseInfoWithFilter.Clear();
+            
+            _InternationalLicense = null;
             ClearValuesFromInternationalLicenseGroupBox();
             btnIssue.Enabled = gbInternationalLicenseAndApplicationInfo.Enabled = false;
             llShowLicenseHistory.Visible = llShowInternationalLicenseInfo.Visible = false;

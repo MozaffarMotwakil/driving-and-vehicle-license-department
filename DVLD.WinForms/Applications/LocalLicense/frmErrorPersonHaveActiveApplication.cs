@@ -5,11 +5,11 @@ using DVLD.BusinessLogic;
 
 namespace DVLD.WinForms.Applications.LocalLicense
 {
-    public partial class frmPersonHaveActiveApplication : Form
+    public partial class frmErrorPersonHaveActiveApplication : Form
     {
         private clsLocalLicenseApplication _ActiveLocalLicenseApplicarion;
 
-        public frmPersonHaveActiveApplication(clsLocalLicenseApplication ActiveLocalLicenseApplication)
+        public frmErrorPersonHaveActiveApplication(clsLocalLicenseApplication ActiveLocalLicenseApplication)
         {
             InitializeComponent();
             _ActiveLocalLicenseApplicarion = ActiveLocalLicenseApplication;

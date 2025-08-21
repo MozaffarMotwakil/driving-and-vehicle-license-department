@@ -70,6 +70,12 @@ namespace DVLD.BusinessLogic
             return clsInternationalLicenseData.IsPersonHasAnActiveInternationalLicense(PersonID);
         }
 
+        public static clsInternationalLicense GetActiveInternationalLicenseForPerson(int PersonID)
+        {
+            clsInternationalLicenseEntity internationalLicenseEntity = clsInternationalLicenseData.GetActiveInternationalLicenseForPerson(PersonID);
+            return internationalLicenseEntity != null ? new clsInternationalLicense(internationalLicenseEntity) : null;
+        }
+
         public static clsInternationalLicense Find(int InternationalLicenseID)
         {
             clsInternationalLicenseEntity internationalLicenseEntity = clsInternationalLicenseData.FindInternationalLicenseByID(InternationalLicenseID);

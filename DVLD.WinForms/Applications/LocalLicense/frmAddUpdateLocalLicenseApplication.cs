@@ -158,7 +158,7 @@ namespace DVLD.WinForms.Applications.LocalLicense
 
             if (activeApplication != null)
             {
-                frmPersonHaveActiveApplication errorForm = new frmPersonHaveActiveApplication(activeApplication);
+                frmErrorPersonHaveActiveApplication errorForm = new frmErrorPersonHaveActiveApplication(activeApplication);
                 errorForm.ShowDialog();
                 return;
             }

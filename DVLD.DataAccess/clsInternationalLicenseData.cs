@@ -32,8 +32,55 @@ namespace DVLD.DataAccess
                 }
                 catch (Exception ex)
                 {
-                    throw new ApplicationException($"Error: check is person has an international license.\n{ex.Message}", ex);
+                    throw new ApplicationException($"Error: check is person has an active international license.\n{ex.Message}", ex);
                 }
+            }
+        }
+
+        public static clsInternationalLicenseEntity GetActiveInternationalLicenseForPerson(int PersonID)
+        {
+            clsInternationalLicenseEntity internationalLicenseEntity = null;
+
+            using (SqlConnection connection = new SqlConnection(clsDataSettings.ConnectionString))
+            {
+                string query = @"SELECT *
+                                 FROM
+	                                 InternationalLicenses
+	                                 INNER JOIN Drivers ON InternationalLicenses.DriverID = Drivers.DriverID
+	                                 INNER JOIN People ON Drivers.PersonID = People.PersonID
+                                 WHERE 
+	                                 People.PersonID = @PersonID
+	                                 AND InternationalLicenses.IsActive = 1";
+
+                SqlCommand command = new SqlCommand(query, connection);
+                command.Parameters.AddWithValue("@PersonID", PersonID);
+
+                try
+                {
+                    connection.Open();
+
+                    using (SqlDataReader reader = command.ExecuteReader())
+                    {
+                        if (reader.Read())
+                        {
+                            internationalLicenseEntity = new clsInternationalLicenseEntity();
+                            internationalLicenseEntity.InternationalLicenseID = Convert.ToInt32(reader["ApplicationID"]);
+                            internationalLicenseEntity.ApplicationID = Convert.ToInt32(reader["ApplicationID"]);
+                            internationalLicenseEntity.DriverID = Convert.ToInt32(reader["DriverID"]);
+                            internationalLicenseEntity.IssuedUsingLocalLicenseID = Convert.ToInt32(reader["IssuedUsingLocalLicenseID"]);
+                            internationalLicenseEntity.CreatedByUserID = Convert.ToInt32(reader["CreatedByUserID"]);
+                            internationalLicenseEntity.IssueDate = Convert.ToDateTime(reader["IssueDate"]);
+                            internationalLicenseEntity.ExpirationDate = Convert.ToDateTime(reader["ExpirationDate"]);
+                            internationalLicenseEntity.IsActive = Convert.ToBoolean(reader["IsActive"]);
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    throw new ApplicationException($"Error: get active international license for person.\n{ex.Message}", ex);
+                }
+
+                return internationalLicenseEntity;
             }
         }
 

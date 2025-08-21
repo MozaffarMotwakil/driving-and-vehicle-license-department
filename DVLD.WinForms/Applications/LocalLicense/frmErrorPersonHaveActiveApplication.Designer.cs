@@ -1,6 +1,6 @@
 ﻿namespace DVLD.WinForms.Applications.LocalLicense
 {
-    partial class frmPersonHaveActiveApplication
+    partial class frmErrorPersonHaveActiveApplication
     {
         /// <summary>
         /// Required designer variable.
