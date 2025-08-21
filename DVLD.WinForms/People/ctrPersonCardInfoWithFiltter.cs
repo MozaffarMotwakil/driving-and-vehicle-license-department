@@ -47,6 +47,7 @@ namespace DVLD.WinForms.People
             InitializeComponent();
             Person = null;
             IsFilterEnabled = true;
+            ctrPersonCardInfo.Visible = false;
             ctrPersonCardInfo.InfoModified += CtrPersonCardInfo_InfoModified;
         }
 
@@ -84,7 +85,8 @@ namespace DVLD.WinForms.People
         private void btnFindPerson_Click(object sender, EventArgs e)
         {
             if (string.IsNullOrWhiteSpace(txtFilterText.Text) ||
-                (Person != null && Person.PersonID == int.Parse(txtFilterText.Text)))
+                (cbFilterColumn.SelectedIndex == 0 && Person != null && Person.PersonID == int.Parse(txtFilterText.Text)) ||
+                (cbFilterColumn.SelectedIndex == 1 && Person != null && Person.NationalNo == txtFilterText.Text))
             {
                 return;
             }
@@ -102,11 +104,13 @@ namespace DVLD.WinForms.People
             {
                 OnPersonFound();
                 ctrPersonCardInfo.LoadPersonDataForDisplay(Person);
+                ctrPersonCardInfo.Visible = true;
             }
             else
             {
                 OnPersonNotFound();
                 ctrPersonCardInfo.Clear();
+                ctrPersonCardInfo.Visible = false;
                 clsFormMessages.ShowPersonNotFoundError();
             }
 
@@ -135,6 +139,7 @@ namespace DVLD.WinForms.People
         {
             this.Person = Person;
             ctrPersonCardInfo.LoadPersonDataForDisplay(Person);
+            ctrPersonCardInfo.Visible = true;
             cbFilterColumn.SelectedIndex = 0;
             txtFilterText.Text = Person.PersonID.ToString();
         }

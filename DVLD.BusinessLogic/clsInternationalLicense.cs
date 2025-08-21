@@ -23,13 +23,13 @@ namespace DVLD.BusinessLogic
             {
                 throw new ArgumentNullException(nameof(LocalLicense), "Local license cannot be null.");
             }
-            else if (!LocalLicense.IsActive)
-            {
-                throw new InvalidOperationException("Local license is not active.");
-            }
             else if (LocalLicense.ExpirationDate < DateTime.Now)
             {
                 throw new InvalidOperationException("Local license is not valid.");
+            }
+            else if (!LocalLicense.IsActive)
+            {
+                throw new InvalidOperationException("Local license is not active.");
             }
             else if (LocalLicense.LicenseClassInfo.LicenseClassID != 3)
             {

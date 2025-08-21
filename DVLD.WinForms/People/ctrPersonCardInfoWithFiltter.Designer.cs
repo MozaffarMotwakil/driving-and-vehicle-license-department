@@ -54,7 +54,7 @@
             this.gbFilter.Size = new System.Drawing.Size(772, 60);
             this.gbFilter.TabIndex = 1;
             this.gbFilter.TabStop = false;
-            this.gbFilter.Text = "Filter";
+            this.gbFilter.Text = "Search For Person";
             // 
             // btnFindPerson
             // 
@@ -94,12 +94,12 @@
             this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
             this.label3.AutoSize = true;
-            this.label3.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(6, 29);
+            this.label3.Font = new System.Drawing.Font("Tahoma", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label3.Location = new System.Drawing.Point(6, 30);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(77, 19);
+            this.label3.Size = new System.Drawing.Size(79, 18);
             this.label3.TabIndex = 26;
-            this.label3.Text = "Filtter By:";
+            this.label3.Text = "Search By:";
             // 
             // cbFilterColumn
             // 

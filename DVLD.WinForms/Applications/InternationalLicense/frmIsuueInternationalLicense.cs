@@ -62,15 +62,15 @@ namespace DVLD.WinForms.Applications.InternationalLicense
             
             _InternationalLicense = null;
             ClearValuesFromInternationalLicenseGroupBox();
-            btnIssue.Enabled = gbInternationalLicenseAndApplicationInfo.Enabled = false;
-            llShowLicenseHistory.Visible = llShowInternationalLicenseInfo.Visible = false;
+            llShowLicenseHistory.Visible = llShowInternationalLicenseInfo.Visible =
+                gbInternationalLicenseAndApplicationInfo.Visible = btnIssue.Enabled = false;
         }
 
         private void _SetValuesAfterFoundValidLocalLicense()
         {
             SetValuesToInternationalLicenseGroupBox();
-            btnIssue.Enabled = gbInternationalLicenseAndApplicationInfo.Enabled = true;
-            llShowLicenseHistory.Visible = true;
+            llShowLicenseHistory.Visible = gbInternationalLicenseAndApplicationInfo.Visible = 
+                btnIssue.Enabled = true;
         }
 
         public void SetValuesToInternationalLicenseGroupBox()

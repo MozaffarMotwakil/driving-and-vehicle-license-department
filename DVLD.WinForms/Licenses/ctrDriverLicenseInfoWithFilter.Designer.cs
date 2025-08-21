@@ -47,16 +47,16 @@
             this.gbFilter.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.gbFilter.Location = new System.Drawing.Point(3, 3);
             this.gbFilter.Name = "gbFilter";
-            this.gbFilter.Size = new System.Drawing.Size(400, 60);
+            this.gbFilter.Size = new System.Drawing.Size(817, 60);
             this.gbFilter.TabIndex = 2;
             this.gbFilter.TabStop = false;
-            this.gbFilter.Text = "Filter";
+            this.gbFilter.Text = "Search For Local License";
             // 
             // btnFindLicense
             // 
             this.btnFindLicense.BackgroundImage = global::DVLD.WinForms.Properties.Resources.License_View_32;
             this.btnFindLicense.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
-            this.btnFindLicense.Location = new System.Drawing.Point(352, 16);
+            this.btnFindLicense.Location = new System.Drawing.Point(390, 17);
             this.btnFindLicense.Name = "btnFindLicense";
             this.btnFindLicense.Size = new System.Drawing.Size(42, 38);
             this.btnFindLicense.TabIndex = 0;
@@ -67,7 +67,7 @@
             // 
             this.txtFilterText.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
-            this.txtFilterText.Location = new System.Drawing.Point(100, 21);
+            this.txtFilterText.Location = new System.Drawing.Point(130, 24);
             this.txtFilterText.Name = "txtFilterText";
             this.txtFilterText.Size = new System.Drawing.Size(226, 23);
             this.txtFilterText.TabIndex = 0;
@@ -79,12 +79,12 @@
             this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
             this.label3.AutoSize = true;
-            this.label3.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(6, 21);
+            this.label3.Font = new System.Drawing.Font("Tahoma", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label3.Location = new System.Drawing.Point(6, 26);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(88, 19);
+            this.label3.Size = new System.Drawing.Size(118, 18);
             this.label3.TabIndex = 26;
-            this.label3.Text = "License ID:";
+            this.label3.Text = "Local License ID:";
             // 
             // errorProvider
             // 

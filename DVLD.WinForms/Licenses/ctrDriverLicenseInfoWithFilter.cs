@@ -25,6 +25,7 @@ namespace DVLD.WinForms.Licenses
         {
             InitializeComponent();
             License = null;
+            ctrDriverLicenseInfo.Visible = false;
         }
 
         private void txtFilterText_KeyPress(object sender, KeyPressEventArgs e)
@@ -54,11 +55,13 @@ namespace DVLD.WinForms.Licenses
             if (License != null)
             {
                 ctrDriverLicenseInfo.LoadLicenseDataForDisplay(License);
+                ctrDriverLicenseInfo.Visible = true;
                 OnFoundLicense();
             }
             else
             {
                 Clear();
+                ctrDriverLicenseInfo.Visible = false;
                 OnNotFoundLicense();
             }
         }

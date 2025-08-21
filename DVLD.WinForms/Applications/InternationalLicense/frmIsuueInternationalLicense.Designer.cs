@@ -154,7 +154,6 @@
             this.gbInternationalLicenseAndApplicationInfo.Controls.Add(this.llCreatedByUsername);
             this.gbInternationalLicenseAndApplicationInfo.Controls.Add(this.pictureBox8);
             this.gbInternationalLicenseAndApplicationInfo.Controls.Add(this.label7);
-            this.gbInternationalLicenseAndApplicationInfo.Enabled = false;
             this.gbInternationalLicenseAndApplicationInfo.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.gbInternationalLicenseAndApplicationInfo.Location = new System.Drawing.Point(15, 453);
             this.gbInternationalLicenseAndApplicationInfo.Name = "gbInternationalLicenseAndApplicationInfo";
@@ -162,6 +161,7 @@
             this.gbInternationalLicenseAndApplicationInfo.TabIndex = 56;
             this.gbInternationalLicenseAndApplicationInfo.TabStop = false;
             this.gbInternationalLicenseAndApplicationInfo.Text = "International License and Application Info";
+            this.gbInternationalLicenseAndApplicationInfo.Visible = false;
             // 
             // pictureBox5
             // 
