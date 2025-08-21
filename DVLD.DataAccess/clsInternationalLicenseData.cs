@@ -148,7 +148,9 @@ namespace DVLD.DataAccess
                                  FROM
 	                                 InternationalLicenses
                                      INNER JOIN Drivers ON InternationalLicenses.DriverID = Drivers.DriverID
-                                     INNER JOIN People ON Drivers.PersonID = People.PersonID";
+                                     INNER JOIN People ON Drivers.PersonID = People.PersonID
+                                 ORDER BY
+                                     IssueDate DESC";
 
                 SqlCommand command = new SqlCommand(query, connection);
 
@@ -194,7 +196,9 @@ namespace DVLD.DataAccess
 	                                 INNER JOIN Drivers ON InternationalLicenses.DriverID = Drivers.DriverID
 	                                 INNER JOIN People ON Drivers.PersonID = People.PersonID
                                  WHERE 
-	                                 People.PersonID = @PersonID";
+	                                 People.PersonID = @PersonID
+                                 ORDER BY
+                                     IssueDate DESC";
                              
                 SqlCommand command = new SqlCommand(query, connection);
                 command.Parameters.AddWithValue("@PersonID", PersonID);
