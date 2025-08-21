@@ -171,7 +171,7 @@ namespace DVLD.BusinessLogic
                 return -1;
             }
 
-            return new clsLicense(this, Notes).IssueLicenseForFirstTime();
+            return new clsLicense(this, Notes).Issue();
         }
 
         public bool Save()

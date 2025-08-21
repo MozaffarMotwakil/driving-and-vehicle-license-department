@@ -32,6 +32,8 @@ namespace DVLD.WinForms.Applications.InternationalLicense
 
         private void CtrDriverLicenseInfoWithFilter_FoundLicense()
         {
+            _SetDefaultValuesToForm();
+
             try
             {
                 _InternationalLicense = new clsInternationalLicense(ctrDriverLicenseInfoWithFilter.License);
@@ -39,8 +41,6 @@ namespace DVLD.WinForms.Applications.InternationalLicense
             }
             catch (Exception ex)
             {
-                _SetDefaultValuesToForm();
-
                 if (clsInternationalLicense.IsPersonHasAnActiveInternationalLicense(
                     ctrDriverLicenseInfoWithFilter.License.DriverInfo.PersonInfo.PersonID))
                 {
@@ -59,17 +59,16 @@ namespace DVLD.WinForms.Applications.InternationalLicense
 
         private void _SetDefaultValuesToForm()
         {
-            
             _InternationalLicense = null;
             ClearValuesFromInternationalLicenseGroupBox();
-            llShowLicenseHistory.Visible = llShowInternationalLicenseInfo.Visible =
-                gbInternationalLicenseAndApplicationInfo.Visible = btnIssue.Enabled = false;
+            llShowLicensesHistory.Visible = llShowInternationalLicenseInfo.Visible =
+                gbInternationalLicenseApplicationInfo.Visible = btnIssue.Enabled = false;
         }
 
         private void _SetValuesAfterFoundValidLocalLicense()
         {
             SetValuesToInternationalLicenseGroupBox();
-            llShowLicenseHistory.Visible = gbInternationalLicenseAndApplicationInfo.Visible = 
+            llShowLicensesHistory.Visible = gbInternationalLicenseApplicationInfo.Visible = 
                 btnIssue.Enabled = true;
         }
 
@@ -90,7 +89,7 @@ namespace DVLD.WinForms.Applications.InternationalLicense
             lblIssueDate.Text = lblExpirationDate.Text = "DD/MM/YYYY";
         }
 
-        private void llShowLicenseHistory_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        private void llShowLicensesHistory_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             if (_InternationalLicense == null)
             {
@@ -157,6 +156,11 @@ namespace DVLD.WinForms.Applications.InternationalLicense
             llShowInternationalLicenseInfo.Visible = true;
             lblInternationalLicenseApplicationID.Text = _InternationalLicense.ApplicationInfo.ApplicationID.ToString();
             lblInternationalLicenseID.Text = _InternationalLicense.InternationalLicenseID.ToString();
+        }
+
+        private void btnClose_Click(object sender, EventArgs e)
+        {
+            this.Close();
         }
 
     }

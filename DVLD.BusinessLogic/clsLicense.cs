@@ -2,6 +2,7 @@
 using DVLD.DataAccess;
 using DVLD.Entities;
 using System.Data;
+using System.ComponentModel;
 
 namespace DVLD.BusinessLogic
 {
@@ -21,53 +22,14 @@ namespace DVLD.BusinessLogic
         public clsLicenseClass LicenseClassInfo { get; }
         public enIssueReason IssueReason { get; }
         public clsUser CreatedByUserInfo { get; }
-        public DateTime IssueDate { get; }
-        public DateTime ExpirationDate { get; }
+        public DateTime IssueDate { get; private set; }
+        public DateTime ExpirationDate { get; private set; }
         public string Notes { get; }
         public float PaidFees { get; }
-        public bool IsActive { get; }
+        public bool IsActive { get; private set; }
         private enMode Mode { get; set; }
 
-        public clsLicense(clsApplication application, clsLicenseClass licenseClass, enIssueReason issueReason, string notes)
-        {
-            if (application == null)
-            {
-                throw new ArgumentNullException(nameof(application), "Application cannot be null.");
-            }
-
-            if (licenseClass == null)
-            {
-                throw new ArgumentNullException(nameof(licenseClass), "License class cannot be null.");
-            }
-
-            if (IsPersonHasLicense(application.PersonInfo.PersonID, licenseClass.LicenseClassID) && issueReason == enIssueReason.FirstTime)
-            {
-                throw new InvalidOperationException("Person already have a license in this class, cannot issue a new license.");
-            }
-
-            if (application.PersonInfo.GetAge() < licenseClass.MinimumAllowedAge)
-            {
-                throw new InvalidOperationException("Person's age less than the allowed age for this license class .");
-            }
-
-            this.LicenseID = -1;
-            this.DriverInfo = clsDriver.IsDriverExist(application.PersonInfo.PersonID) ?
-                clsDriver.FindByPersonID(application.PersonInfo.PersonID) :
-                new clsDriver(application.PersonInfo);
-            this.ApplicationInfo = application;
-            this.LicenseClassInfo = licenseClass;
-            this.IssueReason = issueReason;
-            this.CreatedByUserInfo = clsAppSettings.CurrentUser;
-            this.Notes = notes;
-            this.PaidFees = LicenseClassInfo.ClassFees;
-            this.IssueDate = DateTime.Now;
-            this.ExpirationDate = DateTime.Now.AddYears(licenseClass.DefaultValidityLength);
-            this.IsActive = true;
-            this.Mode = enMode.AddNew;
-        }
-
-        public clsLicense(clsLocalLicenseApplication localLicenseApplication, string notes) :
-            this(localLicenseApplication.ApplicationInfo, localLicenseApplication.LicenseClassInfo, enIssueReason.FirstTime, notes)
+        public clsLicense(clsLocalLicenseApplication localLicenseApplication, string notes)
         {
             if (localLicenseApplication == null)
             {
@@ -78,7 +40,63 @@ namespace DVLD.BusinessLogic
             {
                 throw new InvalidOperationException("The applicant has not passed all tests yet.");
             }
+
+            if (IsPersonHasLicense(localLicenseApplication.ApplicationInfo.PersonInfo.PersonID, localLicenseApplication.LicenseClassInfo.LicenseClassID))
+            {
+                throw new InvalidOperationException("Person already have a license in this class, cannot issue a new license.");
+            }
+
+            if (localLicenseApplication.ApplicationInfo.PersonInfo.GetAge() < localLicenseApplication.LicenseClassInfo.MinimumAllowedAge)
+            {
+                throw new InvalidOperationException("Person's age less than the allowed age for this license class .");
+            }
+
+            this.LicenseID = -1;
+            this.DriverInfo = clsDriver.IsDriverExist(localLicenseApplication.ApplicationInfo.PersonInfo.PersonID) ?
+                clsDriver.FindByPersonID(localLicenseApplication.ApplicationInfo.PersonInfo.PersonID) :
+                new clsDriver(localLicenseApplication.ApplicationInfo.PersonInfo);
+            this.ApplicationInfo = localLicenseApplication.ApplicationInfo;
+            this.LicenseClassInfo = localLicenseApplication.LicenseClassInfo;
+            this.IssueReason = enIssueReason.FirstTime;
+            this.CreatedByUserInfo = clsAppSettings.CurrentUser;
+            this.Notes = notes;
+            this.PaidFees = LicenseClassInfo.ClassFees;
+            this.IsActive = true;
+            this.Mode = enMode.AddNew;
         }
+
+        private clsLicense(clsLicense oldLicense, string notes, enIssueReason issueReason)
+        {
+            if (oldLicense == null)
+            {
+                throw new ArgumentNullException(nameof(oldLicense), "The old license cannot be null.");
+            }
+
+            if (issueReason == enIssueReason.FirstTime)
+            {
+                throw new ArgumentNullException(nameof(oldLicense), "Issue reason cannot be for first time.");
+            }
+
+            if (IsPersonHasAnActiveLicense(oldLicense.DriverInfo.PersonInfo.PersonID, oldLicense.LicenseClassInfo.LicenseClassID))
+            {
+                throw new InvalidOperationException($"Person already has an active license in this license class.");
+            }
+
+            this.LicenseID = -1;
+            this.DriverInfo = oldLicense.DriverInfo;
+            this.ApplicationInfo = new clsApplication(
+                oldLicense.DriverInfo.PersonInfo,
+                GetApplicationTypeDependingOnIssueReason(issueReason)
+                );
+            this.LicenseClassInfo = oldLicense.LicenseClassInfo;
+            this.IssueReason = issueReason;
+            this.CreatedByUserInfo = clsAppSettings.CurrentUser;
+            this.Notes = notes;
+            this.PaidFees = LicenseClassInfo.ClassFees;
+            this.IsActive = true;
+            this.Mode = enMode.AddNew;
+        } 
+
 
         private clsLicense(clsLicenseEntity licenseEntity)
         {
@@ -99,6 +117,17 @@ namespace DVLD.BusinessLogic
         public static bool IsPersonHasLicense(int PersonID, int LicenseClassID)
         {
             return clsLicenseData.IsLicenseExist(PersonID, LicenseClassID);
+        }
+
+        public static clsLicense GetActiveLicenseForPerosn(int PersonID, int LicenseClassID)
+        {
+            clsLicenseEntity licenseEntity = clsLicenseData.GetActiveLicenseForPerosn(PersonID, LicenseClassID);
+            return licenseEntity != null ? new clsLicense(licenseEntity) : null;
+        }
+
+        public static bool IsPersonHasAnActiveLicense(int PersonID, int LicenseClassID)
+        {
+            return clsLicenseData.IsPersonHasAnActiveLicense(PersonID, LicenseClassID);
         }
 
         public static clsLicense FindByLicenseID(int LicenseID)
@@ -135,14 +164,20 @@ namespace DVLD.BusinessLogic
             }
         }
 
-        public bool SetDeactivated()
+        public bool SetInactive()
         {
-            if (this.Mode != enMode.AddNew)
+            if (this.Mode == enMode.AddNew)
             {
                 return false;
             }
 
-            return clsLicenseData.SetLicenseToDeactivated(this.LicenseID);
+            this.IsActive = false;
+            return clsLicenseData.SetLicenseToInactive(this.LicenseID);
+        }
+
+        public float GetTotalFees()
+        {
+            return this.ApplicationInfo.PaidFees + this.PaidFees;
         }
 
         /// <summary>
@@ -168,7 +203,7 @@ namespace DVLD.BusinessLogic
         /// <seealso cref="DriverInfo"/>
         /// <seealso cref="ApplicationInfo"/>
         /// <seealso cref="clsLicenseData"/>
-        internal int IssueLicenseForFirstTime()
+        internal int Issue()
         {
             if (Mode != enMode.AddNew || IssueReason != enIssueReason.FirstTime)
             {
@@ -187,6 +222,8 @@ namespace DVLD.BusinessLogic
                         $"[{this.ApplicationInfo.ApplicationID}] to completed.");
             }
 
+            this.IssueDate = DateTime.Now;
+            this.ExpirationDate = DateTime.Now.AddYears(this.LicenseClassInfo.DefaultValidityLength);
             clsLicenseEntity licenseEntity = _MapLicenseObjectToLicenseEntity(this);
 
             if (clsLicenseData.AddNewLicense(licenseEntity))
@@ -196,6 +233,64 @@ namespace DVLD.BusinessLogic
             }
 
             return this.LicenseID;
+        }
+
+        public int Renew(string notes)
+        {
+            if (this.ExpirationDate > DateTime.Now || this.Mode == enMode.AddNew)
+            {
+                return -1;
+            }
+
+            clsLicense newLicense = new clsLicense(this, notes, enIssueReason.Renew);
+            newLicense.IssueDate = DateTime.Now;
+            newLicense.ExpirationDate = DateTime.Now.AddYears(newLicense.LicenseClassInfo.DefaultValidityLength);
+
+            if (!newLicense.ApplicationInfo.Save())
+            {
+                throw new InvalidOperationException($"Failed to save the base application.");
+            }
+
+            if (!newLicense.ApplicationInfo.SetCompleted())
+            {
+                throw new InvalidOperationException(
+                        $"Failed to update status of the base aplication with ID " +
+                        $"[{this.ApplicationInfo.ApplicationID}] to completed.");
+            }
+
+            if (!this.SetInactive())
+            {
+                throw new InvalidOperationException(
+                        $"Failed to update status of current license with ID " +
+                        $"[{this.LicenseID}] to inactive.");
+            }
+
+            clsLicenseEntity newLicenseEntity = _MapLicenseObjectToLicenseEntity(newLicense);
+
+            if (clsLicenseData.AddNewLicense(newLicenseEntity))
+            {
+                newLicense.LicenseID = newLicenseEntity.LicenseID;
+                newLicense.Mode = enMode.Update;
+            }
+
+            return newLicense.LicenseID;
+        }
+
+        private clsApplication.enApplicationType GetApplicationTypeDependingOnIssueReason(enIssueReason issueReason)
+        {
+            switch (issueReason)
+            {
+                case enIssueReason.FirstTime:
+                    return clsApplication.enApplicationType.NewLocalDrivingLicenseService;
+                case enIssueReason.Renew:
+                    return clsApplication.enApplicationType.RenewDrivingLicenseService;
+                case enIssueReason.ReplacementForDamaged:
+                    return clsApplication.enApplicationType.ReplacementForDamagedDrivingLicense;
+                case enIssueReason.ReplacementForLost:
+                    return clsApplication.enApplicationType.ReplacementForLostDrivingLicense;
+                default:
+                    throw new InvalidEnumArgumentException("Issue reason not valid.");
+            }
         }
 
         private static clsLicenseEntity _MapLicenseObjectToLicenseEntity(clsLicense License)

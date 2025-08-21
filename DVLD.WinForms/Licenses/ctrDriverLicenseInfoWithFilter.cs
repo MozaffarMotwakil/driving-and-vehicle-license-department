@@ -25,7 +25,18 @@ namespace DVLD.WinForms.Licenses
         {
             InitializeComponent();
             License = null;
-            ctrDriverLicenseInfo.Visible = false;
+        }
+
+        private void ctrDriverLicenseInfoWithFilter_Load(object sender, EventArgs e)
+        {
+            if (DesignMode)
+            {
+                ctrDriverLicenseInfo.Visible = true;
+            }
+            else
+            {
+                ctrDriverLicenseInfo.Visible = false;
+            }
         }
 
         private void txtFilterText_KeyPress(object sender, KeyPressEventArgs e)

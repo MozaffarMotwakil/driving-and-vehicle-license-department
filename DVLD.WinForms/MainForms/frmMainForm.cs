@@ -5,6 +5,7 @@ using DVLD.BusinessLogic;
 using DVLD.WinForms.Applications;
 using DVLD.WinForms.Applications.InternationalLicense;
 using DVLD.WinForms.Applications.LocalLicense;
+using DVLD.WinForms.Applications.Renew;
 using DVLD.WinForms.Drivers;
 using DVLD.WinForms.People;
 using DVLD.WinForms.Tests;
@@ -163,5 +164,10 @@ namespace DVLD.WinForms.MainForms
             _OpenForm(ref _ManageInternationalLicenses, enFormTypes._ManageInternationalLicenses);
         }
 
+        private void renewDrivingLicenseToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            frmRenewLocalLicense renewLocalLicense = new frmRenewLocalLicense();
+            renewLocalLicense.ShowDialog();
+        }
     }
 }

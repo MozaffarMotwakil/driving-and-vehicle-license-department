@@ -47,7 +47,7 @@ namespace DVLD.WinForms.People
             InitializeComponent();
             Person = null;
             IsFilterEnabled = true;
-            ctrPersonCardInfo.Visible = false;
+            cbFilterColumn.SelectedIndex = 0;
             ctrPersonCardInfo.InfoModified += CtrPersonCardInfo_InfoModified;
         }
 
@@ -58,7 +58,14 @@ namespace DVLD.WinForms.People
 
         private void ctrPersonCardInfoWithFiltter_Load(object sender, EventArgs e)
         {
-            cbFilterColumn.SelectedIndex = 0; // Person ID
+            if (DesignMode)
+            {
+                ctrPersonCardInfo.Visible = true;
+            }
+            else
+            {
+                ctrPersonCardInfo.Visible = false;
+            }
         }
 
         private void txtFilterText_KeyPress(object sender, KeyPressEventArgs e)

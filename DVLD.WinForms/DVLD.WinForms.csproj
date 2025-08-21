@@ -134,6 +134,18 @@
     <Compile Include="Applications\LocalLicense\ctrLocalLicenseApplicationInfo.Designer.cs">
       <DependentUpon>ctrLocalLicenseApplicationInfo.cs</DependentUpon>
     </Compile>
+    <Compile Include="Applications\Renew\frmErrorPersonHaveAnActiveLicense.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Applications\Renew\frmErrorPersonHaveAnActiveLicense.Designer.cs">
+      <DependentUpon>frmErrorPersonHaveAnActiveLicense.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Applications\Renew\frmRenewLocalLicense.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Applications\Renew\frmRenewLocalLicense.Designer.cs">
+      <DependentUpon>frmRenewLocalLicense.cs</DependentUpon>
+    </Compile>
     <Compile Include="BaseForms\frmBaseManageWithFilter.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -354,6 +366,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Applications\LocalLicense\frmShowLocalLicenseApplicationInfo.resx">
       <DependentUpon>frmShowLocalLicenseApplicationInfo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Applications\Renew\frmErrorPersonHaveAnActiveLicense.resx">
+      <DependentUpon>frmErrorPersonHaveAnActiveLicense.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Applications\Renew\frmRenewLocalLicense.resx">
+      <DependentUpon>frmRenewLocalLicense.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="BaseForms\frmBaseManage.resx">
       <DependentUpon>frmBaseManage.cs</DependentUpon>

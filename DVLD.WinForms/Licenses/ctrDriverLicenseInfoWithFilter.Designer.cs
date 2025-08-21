@@ -93,9 +93,9 @@
             // ctrDriverLicenseInfo
             // 
             this.ctrDriverLicenseInfo.License = null;
-            this.ctrDriverLicenseInfo.Location = new System.Drawing.Point(1, 69);
+            this.ctrDriverLicenseInfo.Location = new System.Drawing.Point(0, 65);
             this.ctrDriverLicenseInfo.Name = "ctrDriverLicenseInfo";
-            this.ctrDriverLicenseInfo.Size = new System.Drawing.Size(823, 368);
+            this.ctrDriverLicenseInfo.Size = new System.Drawing.Size(823, 327);
             this.ctrDriverLicenseInfo.TabIndex = 3;
             // 
             // ctrDriverLicenseInfoWithFilter
@@ -105,7 +105,8 @@
             this.Controls.Add(this.ctrDriverLicenseInfo);
             this.Controls.Add(this.gbFilter);
             this.Name = "ctrDriverLicenseInfoWithFilter";
-            this.Size = new System.Drawing.Size(823, 435);
+            this.Size = new System.Drawing.Size(823, 392);
+            this.Load += new System.EventHandler(this.ctrDriverLicenseInfoWithFilter_Load);
             this.gbFilter.ResumeLayout(false);
             this.gbFilter.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider)).EndInit();
