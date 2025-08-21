@@ -63,6 +63,7 @@
             // 
             this.ctrPersonInformation.Location = new System.Drawing.Point(12, 56);
             this.ctrPersonInformation.Name = "ctrPersonInformation";
+            this.ctrPersonInformation.ShowEditPersonInformationLinke = true;
             this.ctrPersonInformation.Size = new System.Drawing.Size(780, 276);
             this.ctrPersonInformation.SuppressImageLoadWarning = false;
             this.ctrPersonInformation.TabIndex = 7;
@@ -76,7 +77,7 @@
             this.Controls.Add(this.ctrPersonInformation);
             this.Controls.Add(this.btnCloseScreen);
             this.Controls.Add(this.label1);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "frmShowPersonInfo";

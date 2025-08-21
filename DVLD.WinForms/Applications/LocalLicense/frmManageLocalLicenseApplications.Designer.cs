@@ -47,7 +47,7 @@
             this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
             this.showPersonLicensesHistoryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.formContextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.addNewUserToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.addNewApplicationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.cbApplicationStatus = new System.Windows.Forms.ComboBox();
             this.cbDrivingClass = new System.Windows.Forms.ComboBox();
@@ -209,18 +209,18 @@
             // formContextMenuStrip
             // 
             this.formContextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.addNewUserToolStripMenuItem});
+            this.addNewApplicationToolStripMenuItem});
             this.formContextMenuStrip.Name = "formContextMenuStrip";
-            this.formContextMenuStrip.Size = new System.Drawing.Size(204, 42);
+            this.formContextMenuStrip.Size = new System.Drawing.Size(204, 64);
             // 
-            // addNewUserToolStripMenuItem
+            // addNewApplicationToolStripMenuItem
             // 
-            this.addNewUserToolStripMenuItem.Image = global::DVLD.WinForms.Properties.Resources.New_Application_32;
-            this.addNewUserToolStripMenuItem.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
-            this.addNewUserToolStripMenuItem.Name = "addNewUserToolStripMenuItem";
-            this.addNewUserToolStripMenuItem.Size = new System.Drawing.Size(203, 38);
-            this.addNewUserToolStripMenuItem.Text = "Add New Application";
-            this.addNewUserToolStripMenuItem.Click += new System.EventHandler(this.addNewUserToolStripMenuItem_Click);
+            this.addNewApplicationToolStripMenuItem.Image = global::DVLD.WinForms.Properties.Resources.New_Application_32;
+            this.addNewApplicationToolStripMenuItem.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.addNewApplicationToolStripMenuItem.Name = "addNewApplicationToolStripMenuItem";
+            this.addNewApplicationToolStripMenuItem.Size = new System.Drawing.Size(203, 38);
+            this.addNewApplicationToolStripMenuItem.Text = "Add New Application";
+            this.addNewApplicationToolStripMenuItem.Click += new System.EventHandler(this.addNewApplicationToolStripMenuItem_Click);
             // 
             // pictureBox1
             // 
@@ -346,7 +346,7 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator5;
         private System.Windows.Forms.ToolStripMenuItem showPersonLicensesHistoryToolStripMenuItem;
         private System.Windows.Forms.ContextMenuStrip formContextMenuStrip;
-        private System.Windows.Forms.ToolStripMenuItem addNewUserToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem addNewApplicationToolStripMenuItem;
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.ComboBox cbApplicationStatus;
         private System.Windows.Forms.ComboBox cbDrivingClass;

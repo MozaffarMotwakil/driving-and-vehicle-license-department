@@ -141,7 +141,7 @@ namespace DVLD.DataAccess
             }
         }
 
-        public static bool UpdateStatus(int ApplicationID, int ApplicationStatusID)
+        public static bool UpdateStatus(int ApplicationID, int ApplicationStatusID, DateTime CurrentDataTime)
         {
             using (SqlConnection connection = new SqlConnection(clsDataSettings.ConnectionString))
             {
@@ -154,7 +154,7 @@ namespace DVLD.DataAccess
                 SqlCommand command = new SqlCommand(query, connection);
                 command.Parameters.AddWithValue("@ApplicationID", ApplicationID);
                 command.Parameters.AddWithValue("@ApplicationStatusID", ApplicationStatusID);
-                command.Parameters.AddWithValue("@CurrentDateTime", DateTime.Now);
+                command.Parameters.AddWithValue("@CurrentDateTime", CurrentDataTime);
 
                 try
                 {

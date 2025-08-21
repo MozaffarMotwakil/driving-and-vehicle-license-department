@@ -49,6 +49,9 @@ namespace DVLD.WinForms.Licenses
         public void Clear()
         {
             License = null;
+            pbGender.Image = Resources.Man_32;
+            pbPersonImage.Image = Resources.Male_512;
+
             lblLicenseID.Text = llFullName.Text = lblNationalNo.Text = lblGender.Text = 
                 lblPhone.Text = lblLicenseClass.Text = lblDriverID.Text = lblNotes.Text = 
                 lblIssueReason.Text = lblIsActive.Text = lblIsDetained.Text = "???";
@@ -59,6 +62,11 @@ namespace DVLD.WinForms.Licenses
 
         private void llFullName_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
+            if (License == null)
+            {
+                return;
+            }
+
             frmShowPersonInfo personInfo = new frmShowPersonInfo(License.DriverInfo.PersonInfo);
             personInfo.ShowEditPersonInformationLinke = false;
             personInfo.ShowDialog();

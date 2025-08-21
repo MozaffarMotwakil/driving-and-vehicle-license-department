@@ -222,7 +222,7 @@ namespace DVLD.WinForms.Applications.LocalLicense
             addLocalLicenseApplicationForm.ShowDialog();
         }
 
-        private void addNewUserToolStripMenuItem_Click(object sender, EventArgs e)
+        private void addNewApplicationToolStripMenuItem_Click(object sender, EventArgs e)
         {
             AddNewRecordOperation();
         }

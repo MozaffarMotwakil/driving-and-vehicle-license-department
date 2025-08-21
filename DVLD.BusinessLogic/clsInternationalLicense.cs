@@ -23,18 +23,19 @@ namespace DVLD.BusinessLogic
             {
                 throw new ArgumentNullException(nameof(LocalLicense), "Local license cannot be null.");
             }
-
-            if (!LocalLicense.IsActive)
+            else if (!LocalLicense.IsActive)
             {
                 throw new InvalidOperationException("Local license is not active.");
             }
-
-            if (LocalLicense.ExpirationDate < DateTime.Now)
+            else if (LocalLicense.ExpirationDate < DateTime.Now)
             {
                 throw new InvalidOperationException("Local license is not valid.");
             }
-
-            if (IsPersonHasAnActiveInternationalLicense(LocalLicense.DriverInfo.PersonInfo.PersonID))
+            else if (LocalLicense.LicenseClassInfo.LicenseClassID != 3)
+            {
+                throw new InvalidOperationException("Local license is must be from class 3 (Ordinary driving license).");
+            }
+            else if (IsPersonHasAnActiveInternationalLicense(LocalLicense.DriverInfo.PersonInfo.PersonID))
             {
                 throw new InvalidOperationException("Person already has an active international license.");
             }
@@ -75,6 +76,11 @@ namespace DVLD.BusinessLogic
             return internationalLicenseEntity != null ? new clsInternationalLicense(internationalLicenseEntity) : null;
         }
 
+        public static DataTable GetAllInternationalLicenses()
+        {
+            return clsInternationalLicenseData.GetAllInternationalLicenses();
+        }
+
         public static DataTable GetAllInternationalLicensesForPerson(int PersonID)
         {
             return clsInternationalLicenseData.GetAllInternationalLicensesForPerson(PersonID);
@@ -93,6 +99,13 @@ namespace DVLD.BusinessLogic
                     if (!this.ApplicationInfo.Save())
                     {
                         throw new InvalidOperationException($"Failed to save the base application.");
+                    }
+
+                    if (!this.ApplicationInfo.SetCompleted())
+                    {
+                        throw new InvalidOperationException(
+                                $"Failed to update status of the base aplication with ID " +
+                                $"[{this.ApplicationInfo.ApplicationID}] to completed.");
                     }
 
                     clsInternationalLicenseEntity internationalLicenseEntity = _MapInternationalLicenseObjectToInternationalLicenseEntity(this);

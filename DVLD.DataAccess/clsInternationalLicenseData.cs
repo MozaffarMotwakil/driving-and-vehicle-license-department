@@ -2,6 +2,7 @@
 using System.Data.SqlClient;
 using System.Data;
 using DVLD.Entities;
+using System.Reflection;
 
 namespace DVLD.DataAccess
 {
@@ -79,6 +80,53 @@ namespace DVLD.DataAccess
 
             return internationalLicenseEntity;
         }
+
+        public static DataTable GetAllInternationalLicenses()
+        {
+            DataTable internationalLicenses = null;
+
+            using (SqlConnection connection = new SqlConnection(clsDataSettings.ConnectionString))
+            {
+                string query = @"
+                                 SELECT 
+	                                 InternationalLicenseID,
+	                                 IssuedUsingLocalLicenseID,
+                                     CASE
+		                                 WHEN ThirdName IS NULL THEN FirstName + ' ' + SecondName + ' ' + LastName
+		                                 ELSE FirstName + ' ' + SecondName + ' ' + ThirdName + ' ' + LastName
+	                                 END AS FullName,
+	                                 IssueDate,
+	                                 ExpirationDate,
+	                                 IsActive
+                                 FROM
+	                                 InternationalLicenses
+                                     INNER JOIN Drivers ON InternationalLicenses.DriverID = Drivers.DriverID
+                                     INNER JOIN People ON Drivers.PersonID = People.PersonID";
+
+                SqlCommand command = new SqlCommand(query, connection);
+
+                try
+                {
+                    connection.Open();
+
+                    using (SqlDataReader reader = command.ExecuteReader())
+                    {
+                        if (reader.HasRows)
+                        {
+                            internationalLicenses = new DataTable();
+                            internationalLicenses.Load(reader);
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    throw new ApplicationException($"Error: get all international licenses.\n{ex.Message}", ex);
+                }
+            }
+
+            return internationalLicenses;
+        }
+
 
         public static DataTable GetAllInternationalLicensesForPerson(int PersonID)
         {

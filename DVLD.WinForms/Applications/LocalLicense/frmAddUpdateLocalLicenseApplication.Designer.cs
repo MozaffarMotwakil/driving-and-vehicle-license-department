@@ -35,6 +35,7 @@
             this.ctrPersonCardInfoWithFiltter = new DVLD.WinForms.People.ctrPersonCardInfoWithFiltter();
             this.btnNext = new System.Windows.Forms.Button();
             this.tpApplicationInfo = new System.Windows.Forms.TabPage();
+            this.llCreatedByUsername = new System.Windows.Forms.LinkLabel();
             this.lblApplicationDate = new System.Windows.Forms.Label();
             this.cbLicenseClass = new System.Windows.Forms.ComboBox();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
@@ -54,7 +55,6 @@
             this.tabControl = new System.Windows.Forms.TabControl();
             this.btnClose = new System.Windows.Forms.Button();
             this.btnSave = new System.Windows.Forms.Button();
-            this.llCreatedByUsername = new System.Windows.Forms.LinkLabel();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider)).BeginInit();
             this.tpPersonalInfo.SuspendLayout();
             this.tpApplicationInfo.SuspendLayout();
@@ -143,6 +143,18 @@
             this.tpApplicationInfo.TabIndex = 1;
             this.tpApplicationInfo.Text = "Applicaation Info";
             this.tpApplicationInfo.UseVisualStyleBackColor = true;
+            // 
+            // llCreatedByUsername
+            // 
+            this.llCreatedByUsername.AutoSize = true;
+            this.llCreatedByUsername.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.llCreatedByUsername.Location = new System.Drawing.Point(595, 237);
+            this.llCreatedByUsername.Name = "llCreatedByUsername";
+            this.llCreatedByUsername.Size = new System.Drawing.Size(25, 16);
+            this.llCreatedByUsername.TabIndex = 27;
+            this.llCreatedByUsername.TabStop = true;
+            this.llCreatedByUsername.Text = "???";
+            this.llCreatedByUsername.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.llCreatedByUsername_LinkClicked);
             // 
             // lblApplicationDate
             // 
@@ -351,18 +363,6 @@
             this.btnSave.UseVisualStyleBackColor = true;
             this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
             // 
-            // llCreatedByUsername
-            // 
-            this.llCreatedByUsername.AutoSize = true;
-            this.llCreatedByUsername.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.llCreatedByUsername.Location = new System.Drawing.Point(595, 237);
-            this.llCreatedByUsername.Name = "llCreatedByUsername";
-            this.llCreatedByUsername.Size = new System.Drawing.Size(25, 16);
-            this.llCreatedByUsername.TabIndex = 27;
-            this.llCreatedByUsername.TabStop = true;
-            this.llCreatedByUsername.Text = "???";
-            this.llCreatedByUsername.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.llCreatedByUsername_LinkClicked);
-            // 
             // frmAddUpdateLocalLicenseApplication
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -376,6 +376,7 @@
             this.Name = "frmAddUpdateLocalLicenseApplication";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Add/Update Local Driving License Application";
+            this.Activated += new System.EventHandler(this.frmAddUpdateLocalLicenseApplication_Activated);
             this.Load += new System.EventHandler(this.frmAddUpdateLocalLicenseApplication_Load);
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider)).EndInit();
             this.tpPersonalInfo.ResumeLayout(false);

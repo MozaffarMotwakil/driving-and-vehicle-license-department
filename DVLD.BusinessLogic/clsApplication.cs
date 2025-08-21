@@ -27,10 +27,10 @@ namespace DVLD.BusinessLogic
         public int ApplicationID { get; private set; }
         public clsPerson PersonInfo { get; }
         public clsApplicationType TypeInfo { get; }
-        public enApplicationStatus Status { get; }
+        public enApplicationStatus Status { get; private set; }
         public clsUser CreatedByUserInfo { get; }
-        public DateTime CreatedDate { get; }
-        public DateTime LastStatusDate { get; }
+        public DateTime CreatedDate { get; private set; }
+        public DateTime LastStatusDate { get; private set; }
         public float PaidFees { get; }
         private enMode Mode { get; set; }
 
@@ -85,7 +85,9 @@ namespace DVLD.BusinessLogic
                 return false;
             }
 
-            return clsApplicationData.UpdateStatus(this.ApplicationID, (int)enApplicationStatus.Cancelled);
+            this.LastStatusDate = DateTime.Now;
+            this.Status = enApplicationStatus.Cancelled;
+            return clsApplicationData.UpdateStatus(this.ApplicationID, (int)enApplicationStatus.Cancelled, this.LastStatusDate);
         }
 
         public bool SetCompleted()
@@ -95,7 +97,9 @@ namespace DVLD.BusinessLogic
                 return false;
             }
 
-            return clsApplicationData.UpdateStatus(this.ApplicationID, (int)enApplicationStatus.Completed);
+            this.LastStatusDate = DateTime.Now;
+            this.Status = enApplicationStatus.Completed;
+            return clsApplicationData.UpdateStatus(this.ApplicationID, (int)enApplicationStatus.Completed, this.LastStatusDate);
         }
 
         public static int GetActiveApplicationID(int PersonID, enApplicationType applicationType)
@@ -108,6 +112,8 @@ namespace DVLD.BusinessLogic
             switch (Mode)
             {
                 case enMode.AddNew:
+                    this.CreatedDate = this.LastStatusDate = DateTime.Now;
+
                     clsApplicationEntity applicationEntity = _MapApplicationObjectToApplicationEntity(this);
 
                     if (clsApplicationData.AddNewApplication(applicationEntity))
@@ -119,8 +125,6 @@ namespace DVLD.BusinessLogic
                     }
                     
                     return false;
-                case enMode.Update:
-                    throw new InvalidOperationException("Cannot update application info.");
                 default:
                     return false;
             }

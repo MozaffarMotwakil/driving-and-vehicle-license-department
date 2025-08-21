@@ -14,8 +14,8 @@ namespace DVLD.WinForms.People
 
         public bool IsFilterEnabled
         {
-            get { return gbFiltter.Enabled; }
-            set { gbFiltter.Enabled = value; }
+            get { return gbFilter.Enabled; }
+            set { gbFilter.Enabled = value; }
         }
 
         public event Action PersonFound;
@@ -83,7 +83,8 @@ namespace DVLD.WinForms.People
 
         private void btnFindPerson_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrEmpty(txtFilterText.Text))
+            if (string.IsNullOrWhiteSpace(txtFilterText.Text) ||
+                (Person != null && Person.PersonID == int.Parse(txtFilterText.Text)))
             {
                 return;
             }
@@ -150,6 +151,11 @@ namespace DVLD.WinForms.People
         public void ClearPersonInfo()
         {
             ctrPersonCardInfo.Clear();
+        }
+
+        public void FocusOnFilterText()
+        {
+            txtFilterText.Focus();
         }
 
     }

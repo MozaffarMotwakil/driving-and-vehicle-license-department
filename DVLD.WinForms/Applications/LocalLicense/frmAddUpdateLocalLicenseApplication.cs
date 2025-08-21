@@ -42,6 +42,11 @@ namespace DVLD.WinForms.Applications.LocalLicense
             ctrPersonCardInfoWithFiltter.InfoModifie += CtrPersonCardInfoWithFiltter_InfoModifie;
         }
 
+        private void frmAddUpdateLocalLicenseApplication_Activated(object sender, EventArgs e)
+        {
+            ctrPersonCardInfoWithFiltter.FocusOnFilterText();
+        }
+
         private void frmAddUpdateLocalLicenseApplication_Load(object sender, EventArgs e)
         {
             clsFormHelper.SetLicenseClassesToComboBox(cbLicenseClass);
