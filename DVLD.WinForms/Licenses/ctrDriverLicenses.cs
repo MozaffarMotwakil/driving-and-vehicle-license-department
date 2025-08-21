@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
 using DVLD.BusinessLogic;
+using DVLD.WinForms.Applications.InternationalLicense;
 using DVLD.WinForms.Utils;
 
 namespace DVLD.WinForms.Licenses
@@ -17,11 +18,13 @@ namespace DVLD.WinForms.Licenses
 
         private void tabControl_Selecting(object sender, TabControlCancelEventArgs e)
         {
-            if (tabControl.SelectedIndex == 1)
+            if (tabControl.SelectedTab == tpLocal)
             {
-                clsFormMessages.ShowNotImplementedFeatureWarning();
-                e.Cancel = true;
-                return;
+                lblRecordsCount.Text = dgvLocalLicenses.RowCount.ToString();
+            }
+            else
+            {
+                lblRecordsCount.Text = dgvInternationalLicenses.RowCount.ToString();
             }
         }
 
@@ -29,35 +32,56 @@ namespace DVLD.WinForms.Licenses
         {
             dgvLocalLicenses.DataSource = clsLicense.GetAllLicensesForPerson(Person.PersonID);
             lblRecordsCount.Text = dgvLocalLicenses.RowCount.ToString();
-            _ResetLicensesListColumnsWidthAndName(dgvLocalLicenses);
-            
-            /// International licenses class not completed yet.
-            /// 
-            ///
-            _ResetLicensesListColumnsWidthAndName(dgvInternationalLicenses);
+            _ResetLocalLicensesListColumnsWidthAndName();
+            dgvInternationalLicenses.DataSource = clsInternationalLicense.GetAllInternationalLicensesForPerson(Person.PersonID);
+            _ResetInternatinoalLicensesListColumnsWidthAndName();
         }
 
-        private void _ResetLicensesListColumnsWidthAndName(DataGridView dataGridView)
+        private void _ResetLocalLicensesListColumnsWidthAndName()
         {
-            if (dataGridView.RowCount > 0)
+            if (dgvLocalLicenses.RowCount > 0)
             {
-                dataGridView.Columns["LicenseID"].HeaderText = "License ID";
-                dataGridView.Columns["LicenseID"].Width = 55;
+                dgvLocalLicenses.Columns["LicenseID"].HeaderText = "License ID";
+                dgvLocalLicenses.Columns["LicenseID"].Width = 55;
 
-                dataGridView.Columns["ApplicationID"].HeaderText = "Application ID";
-                dataGridView.Columns["ApplicationID"].Width = 65;
+                dgvLocalLicenses.Columns["ApplicationID"].HeaderText = "Application ID";
+                dgvLocalLicenses.Columns["ApplicationID"].Width = 65;
 
-                dataGridView.Columns["ClassName"].HeaderText = "Class Name";
-                dataGridView.Columns["ClassName"].Width = 140;
+                dgvLocalLicenses.Columns["ClassName"].HeaderText = "Class Name";
+                dgvLocalLicenses.Columns["ClassName"].Width = 140;
 
-                dataGridView.Columns["IssueDate"].HeaderText = "Issue Date";
-                dataGridView.Columns["IssueDate"].Width = 85;
+                dgvLocalLicenses.Columns["IssueDate"].HeaderText = "Issue Date";
+                dgvLocalLicenses.Columns["IssueDate"].Width = 85;
 
-                dataGridView.Columns["ExpirationDate"].HeaderText = "Expiration Date";
-                dataGridView.Columns["ExpirationDate"].Width = 85;
+                dgvLocalLicenses.Columns["ExpirationDate"].HeaderText = "Expiration Date";
+                dgvLocalLicenses.Columns["ExpirationDate"].Width = 85;
 
-                dataGridView.Columns["IsActive"].HeaderText = "Is Active";
-                dataGridView.Columns["IsActive"].Width = 65;
+                dgvLocalLicenses.Columns["IsActive"].HeaderText = "Is Active";
+                dgvLocalLicenses.Columns["IsActive"].Width = 65;
+            }
+        }
+
+        private void _ResetInternatinoalLicensesListColumnsWidthAndName()
+        {
+            if (dgvInternationalLicenses.RowCount > 0)
+            {
+                dgvInternationalLicenses.Columns["InternationalLicenseID"].HeaderText = "International License ID";
+                dgvInternationalLicenses.Columns["InternationalLicenseID"].Width = 150;
+
+                dgvInternationalLicenses.Columns["ApplicationID"].HeaderText = "Application ID";
+                dgvInternationalLicenses.Columns["ApplicationID"].Width = 102;
+
+                dgvInternationalLicenses.Columns["IssuedUsingLocalLicenseID"].HeaderText = "Local License ID";
+                dgvInternationalLicenses.Columns["IssuedUsingLocalLicenseID"].Width = 120;
+
+                dgvInternationalLicenses.Columns["IssueDate"].HeaderText = "Issue Date";
+                dgvInternationalLicenses.Columns["IssueDate"].Width = 135;
+
+                dgvInternationalLicenses.Columns["ExpirationDate"].HeaderText = "Expiration Date";
+                dgvInternationalLicenses.Columns["ExpirationDate"].Width = 135;
+
+                dgvInternationalLicenses.Columns["IsActive"].HeaderText = "Is Active";
+                dgvInternationalLicenses.Columns["IsActive"].Width = 75;
             }
         }
 
@@ -75,13 +99,13 @@ namespace DVLD.WinForms.Licenses
         {
             if (tabControl.SelectedTab == tpLocal)
             {
-                frmShowLicenseInfo licenseInfo = new frmShowLicenseInfo(clsLicense.FindByLicenseID(clsFormHelper.GetSelectedRowID(dgvLocalLicenses)));
-                licenseInfo.ShowDialog();
+                frmShowLicenseInfo localLicenseInfo = new frmShowLicenseInfo(clsLicense.FindByLicenseID(clsFormHelper.GetSelectedRowID(dgvLocalLicenses)));
+                localLicenseInfo.ShowDialog();
             }
             else
             {
-                frmShowLicenseInfo licenseInfo = new frmShowLicenseInfo(clsLicense.FindByLicenseID(clsFormHelper.GetSelectedRowID(dgvInternationalLicenses)));
-                licenseInfo.ShowDialog();
+                frmShowInternationalLicenseInfo internationalLicenseInfo = new frmShowInternationalLicenseInfo(clsFormHelper.GetSelectedRowID(dgvInternationalLicenses));
+                internationalLicenseInfo.ShowDialog();
             }
         }
 
@@ -103,19 +127,19 @@ namespace DVLD.WinForms.Licenses
 
             if (clsFormHelper.GetHitTestInfo(dgvLocalLicenses).Type == DataGridViewHitTestType.Cell && e.Button == MouseButtons.Left)
             {
-                frmShowLicenseInfo licenseInfo = new frmShowLicenseInfo(clsLicense.FindByLicenseID(clsFormHelper.GetSelectedRowID(dgvLocalLicenses)));
-                licenseInfo.ShowDialog();
+                frmShowLicenseInfo localLicenseInfo = new frmShowLicenseInfo(clsLicense.FindByLicenseID(clsFormHelper.GetSelectedRowID(dgvLocalLicenses)));
+                localLicenseInfo.ShowDialog();
             }
         }
 
         private void dgvInternationalLicenses_CellMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)
         {
-            clsFormHelper.SelectEntireRow(dgvLocalLicenses, e);
+            clsFormHelper.SelectEntireRow(dgvInternationalLicenses, e);
 
             if (clsFormHelper.GetHitTestInfo(dgvLocalLicenses).Type == DataGridViewHitTestType.Cell && e.Button == MouseButtons.Left)
             {
-                frmShowLicenseInfo licenseInfo = new frmShowLicenseInfo(clsLicense.FindByLicenseID(clsFormHelper.GetSelectedRowID(dgvInternationalLicenses)));
-                licenseInfo.ShowDialog();
+                frmShowInternationalLicenseInfo internationalLicenseInfo = new frmShowInternationalLicenseInfo(clsFormHelper.GetSelectedRowID(dgvInternationalLicenses));
+                internationalLicenseInfo.ShowDialog();
             }
         }
 

@@ -39,8 +39,8 @@
             this.licensesListContextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.showLicenseDetailsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tpInternational = new System.Windows.Forms.TabPage();
-            this.label3 = new System.Windows.Forms.Label();
             this.dgvInternationalLicenses = new System.Windows.Forms.DataGridView();
+            this.label3 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.tabControl.SuspendLayout();
             this.tpLocal.SuspendLayout();
@@ -128,10 +128,10 @@
             this.dgvLocalLicenses.BackgroundColor = System.Drawing.Color.White;
             this.dgvLocalLicenses.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvLocalLicenses.ContextMenuStrip = this.licensesListContextMenuStrip;
-            this.dgvLocalLicenses.Location = new System.Drawing.Point(0, 28);
+            this.dgvLocalLicenses.Location = new System.Drawing.Point(0, 22);
             this.dgvLocalLicenses.Name = "dgvLocalLicenses";
             this.dgvLocalLicenses.ReadOnly = true;
-            this.dgvLocalLicenses.Size = new System.Drawing.Size(760, 193);
+            this.dgvLocalLicenses.Size = new System.Drawing.Size(760, 202);
             this.dgvLocalLicenses.TabIndex = 0;
             this.dgvLocalLicenses.CellMouseDoubleClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgvLocalLicenses_CellMouseDoubleClick);
             this.dgvLocalLicenses.CellMouseDown += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgvLocalLicenses_CellMouseDown);
@@ -157,8 +157,8 @@
             // 
             // tpInternational
             // 
-            this.tpInternational.Controls.Add(this.label3);
             this.tpInternational.Controls.Add(this.dgvInternationalLicenses);
+            this.tpInternational.Controls.Add(this.label3);
             this.tpInternational.Location = new System.Drawing.Point(4, 22);
             this.tpInternational.Name = "tpInternational";
             this.tpInternational.Padding = new System.Windows.Forms.Padding(3);
@@ -166,6 +166,24 @@
             this.tpInternational.TabIndex = 1;
             this.tpInternational.Text = "International";
             this.tpInternational.UseVisualStyleBackColor = true;
+            // 
+            // dgvInternationalLicenses
+            // 
+            this.dgvInternationalLicenses.AllowUserToAddRows = false;
+            this.dgvInternationalLicenses.AllowUserToDeleteRows = false;
+            this.dgvInternationalLicenses.AllowUserToOrderColumns = true;
+            this.dgvInternationalLicenses.BackgroundColor = System.Drawing.Color.White;
+            this.dgvInternationalLicenses.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvInternationalLicenses.ContextMenuStrip = this.licensesListContextMenuStrip;
+            this.dgvInternationalLicenses.Location = new System.Drawing.Point(0, 22);
+            this.dgvInternationalLicenses.Name = "dgvInternationalLicenses";
+            this.dgvInternationalLicenses.ReadOnly = true;
+            this.dgvInternationalLicenses.Size = new System.Drawing.Size(760, 202);
+            this.dgvInternationalLicenses.TabIndex = 4;
+            this.dgvInternationalLicenses.CellMouseDoubleClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgvInternationalLicenses_CellMouseDoubleClick);
+            this.dgvInternationalLicenses.CellMouseDown += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgvInternationalLicenses_CellMouseDown);
+            this.dgvInternationalLicenses.DataBindingComplete += new System.Windows.Forms.DataGridViewBindingCompleteEventHandler(this.dgvInternationalLicenses_DataBindingComplete);
+            this.dgvInternationalLicenses.MouseDown += new System.Windows.Forms.MouseEventHandler(this.dgvInternationalLicenses_MouseDown);
             // 
             // label3
             // 
@@ -176,25 +194,6 @@
             this.label3.Size = new System.Drawing.Size(205, 16);
             this.label3.TabIndex = 3;
             this.label3.Text = "International Driving Licenses:";
-            // 
-            // dgvInternationalLicenses
-            // 
-            this.dgvInternationalLicenses.AllowUserToAddRows = false;
-            this.dgvInternationalLicenses.AllowUserToDeleteRows = false;
-            this.dgvInternationalLicenses.AllowUserToOrderColumns = true;
-            this.dgvInternationalLicenses.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            this.dgvInternationalLicenses.BackgroundColor = System.Drawing.Color.White;
-            this.dgvInternationalLicenses.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvInternationalLicenses.ContextMenuStrip = this.licensesListContextMenuStrip;
-            this.dgvInternationalLicenses.Location = new System.Drawing.Point(0, 28);
-            this.dgvInternationalLicenses.Name = "dgvInternationalLicenses";
-            this.dgvInternationalLicenses.ReadOnly = true;
-            this.dgvInternationalLicenses.Size = new System.Drawing.Size(760, 193);
-            this.dgvInternationalLicenses.TabIndex = 2;
-            this.dgvInternationalLicenses.CellMouseDoubleClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgvInternationalLicenses_CellMouseDoubleClick);
-            this.dgvInternationalLicenses.CellMouseDown += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgvInternationalLicenses_CellMouseDown);
-            this.dgvInternationalLicenses.DataBindingComplete += new System.Windows.Forms.DataGridViewBindingCompleteEventHandler(this.dgvInternationalLicenses_DataBindingComplete);
-            this.dgvInternationalLicenses.MouseDown += new System.Windows.Forms.MouseEventHandler(this.dgvInternationalLicenses_MouseDown);
             // 
             // ctrDriverLicenses
             // 
@@ -228,8 +227,8 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.DataGridView dgvLocalLicenses;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.DataGridView dgvInternationalLicenses;
         private System.Windows.Forms.ContextMenuStrip licensesListContextMenuStrip;
         private System.Windows.Forms.ToolStripMenuItem showLicenseDetailsToolStripMenuItem;
+        private System.Windows.Forms.DataGridView dgvInternationalLicenses;
     }
 }

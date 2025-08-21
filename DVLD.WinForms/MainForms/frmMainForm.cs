@@ -3,6 +3,7 @@ using System.Drawing;
 using System.Windows.Forms;
 using DVLD.BusinessLogic;
 using DVLD.WinForms.Applications;
+using DVLD.WinForms.Applications.InternationalLicense;
 using DVLD.WinForms.Applications.LocalLicense;
 using DVLD.WinForms.Drivers;
 using DVLD.WinForms.People;
@@ -13,12 +14,13 @@ namespace DVLD.WinForms.MainForms
 {
     public partial class frmMainForm : Form
     {
-        enum enFormTypes { ManagePeople , ManageUsers, ManageDrivers, ManageLocalLicenseApplications }
+        enum enFormTypes { ManagePeople , ManageUsers, ManageDrivers, ManageLocalLicenseApplications, _ManageInternationalLicenses }
 
         private bool _IsSignOut;
         private Form _ManagePeople;
         private Form _ManageUsers;
         private Form _ManageDrivers;
+        private Form _ManageInternationalLicenses;
         private Form _ManageLocalLicenseApplications;
 
         public frmMainForm()
@@ -84,6 +86,8 @@ namespace DVLD.WinForms.MainForms
                     return new frmManageLocalLicenseApplications();
                 case enFormTypes.ManageDrivers:
                     return new frmManageDrivers();
+                case enFormTypes._ManageInternationalLicenses:
+                    return new frmManageInternationalLicenses();
                 default:
                     return new Form();
             }
@@ -146,6 +150,17 @@ namespace DVLD.WinForms.MainForms
         private void retakeTestToolStripMenuItem_Click(object sender, EventArgs e)
         {
             _OpenForm(ref _ManageLocalLicenseApplications, enFormTypes.ManageLocalLicenseApplications);
+        }
+
+        private void internationalLicenseToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            frmIsuueInternationalLicense isuueInternationalLicense = new frmIsuueInternationalLicense();
+            isuueInternationalLicense.ShowDialog();
+        }
+
+        private void internationalDrivingLicenseApplicationsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            _OpenForm(ref _ManageInternationalLicenses, enFormTypes._ManageInternationalLicenses);
         }
 
     }
