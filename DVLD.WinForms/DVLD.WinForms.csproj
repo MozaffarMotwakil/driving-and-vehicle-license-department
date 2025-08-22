@@ -146,6 +146,12 @@
     <Compile Include="Applications\Renew\frmRenewLocalLicense.Designer.cs">
       <DependentUpon>frmRenewLocalLicense.cs</DependentUpon>
     </Compile>
+    <Compile Include="Applications\Replacement\frmReplacementForDamagedOrLost.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Applications\Replacement\frmReplacementForDamagedOrLost.Designer.cs">
+      <DependentUpon>frmReplacementForDamagedOrLost.cs</DependentUpon>
+    </Compile>
     <Compile Include="BaseForms\frmBaseManageWithFilter.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -372,6 +378,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Applications\Renew\frmRenewLocalLicense.resx">
       <DependentUpon>frmRenewLocalLicense.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Applications\Replacement\frmReplacementForDamagedOrLost.resx">
+      <DependentUpon>frmReplacementForDamagedOrLost.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="BaseForms\frmBaseManage.resx">
       <DependentUpon>frmBaseManage.cs</DependentUpon>
@@ -775,6 +784,8 @@
   <ItemGroup>
     <None Include="Resources\Passed.png" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="Resources\Lost Driving License 32.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

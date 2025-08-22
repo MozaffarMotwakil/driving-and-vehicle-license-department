@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
 using DVLD.BusinessLogic;
+using DVLD.WinForms.Licenses;
 using DVLD.WinForms.Utils;
 
 namespace DVLD.WinForms.People
@@ -58,14 +59,7 @@ namespace DVLD.WinForms.People
 
         private void ctrPersonCardInfoWithFiltter_Load(object sender, EventArgs e)
         {
-            if (DesignMode)
-            {
-                ctrPersonCardInfo.Visible = true;
-            }
-            else
-            {
-                ctrPersonCardInfo.Visible = false;
-            }
+            ctrPersonCardInfo.Visible = DesignMode;
         }
 
         private void txtFilterText_KeyPress(object sender, KeyPressEventArgs e)

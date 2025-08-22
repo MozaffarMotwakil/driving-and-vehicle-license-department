@@ -84,6 +84,7 @@ namespace DVLD.WinForms.Applications.Renew
             llCreatedByUsername.Text = clsAppSettings.CurrentUser.Username;
             lblIssueDate.Text = DateTime.Now.ToString("dd/MM/yyyy");
             lblExpirationDate.Text = DateTime.Now.AddYears(_OldLocalLicense.LicenseClassInfo.DefaultValidityLength).ToString("dd/MM/yyyy");
+            txtNotes.Text = _OldLocalLicense.Notes;
         }
 
         private void _ClearValuesFromRenewLicenseApplicationGroupBox()

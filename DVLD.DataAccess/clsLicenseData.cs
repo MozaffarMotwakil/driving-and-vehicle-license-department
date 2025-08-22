@@ -246,7 +246,8 @@ namespace DVLD.DataAccess
                                  WHERE
 	                                 People.PersonID = @PersonID
                                  ORDER BY
-                                     IssueDate DESC";
+                                     IssueDate DESC,
+                                     Licenses.LicenseID DESC";
 
                 SqlCommand command = new SqlCommand(query, connection);
                 command.Parameters.AddWithValue("@PersonID", PersonID);

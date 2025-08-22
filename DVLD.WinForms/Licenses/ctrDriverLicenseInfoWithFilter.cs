@@ -29,14 +29,7 @@ namespace DVLD.WinForms.Licenses
 
         private void ctrDriverLicenseInfoWithFilter_Load(object sender, EventArgs e)
         {
-            if (DesignMode)
-            {
-                ctrDriverLicenseInfo.Visible = true;
-            }
-            else
-            {
-                ctrDriverLicenseInfo.Visible = false;
-            }
+            ctrDriverLicenseInfo.Visible = DesignMode;
         }
 
         private void txtFilterText_KeyPress(object sender, KeyPressEventArgs e)

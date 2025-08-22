@@ -6,6 +6,7 @@ using DVLD.WinForms.Applications;
 using DVLD.WinForms.Applications.InternationalLicense;
 using DVLD.WinForms.Applications.LocalLicense;
 using DVLD.WinForms.Applications.Renew;
+using DVLD.WinForms.Applications.Replacement;
 using DVLD.WinForms.Drivers;
 using DVLD.WinForms.People;
 using DVLD.WinForms.Tests;
@@ -168,6 +169,12 @@ namespace DVLD.WinForms.MainForms
         {
             frmRenewLocalLicense renewLocalLicense = new frmRenewLocalLicense();
             renewLocalLicense.ShowDialog();
+        }
+
+        private void replacementForLostOrDamagedLicenseToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            frmReplacementForDamagedOrLost replacementForDamagedOrLost = new frmReplacementForDamagedOrLost();
+            replacementForDamagedOrLost.ShowDialog();
         }
     }
 }

@@ -77,11 +77,6 @@ namespace DVLD.BusinessLogic
                 throw new ArgumentNullException(nameof(oldLicense), "Issue reason cannot be for first time.");
             }
 
-            if (IsPersonHasAnActiveLicense(oldLicense.DriverInfo.PersonInfo.PersonID, oldLicense.LicenseClassInfo.LicenseClassID))
-            {
-                throw new InvalidOperationException($"Person already has an active license in this license class.");
-            }
-
             this.LicenseID = -1;
             this.DriverInfo = oldLicense.DriverInfo;
             this.ApplicationInfo = new clsApplication(
@@ -219,7 +214,10 @@ namespace DVLD.BusinessLogic
 
         public clsLicense Renew(string notes)
         {
-            if (!this.IsLicenseExpired() || this.Mode == enMode.AddNew)
+            if (!this.IsLicenseExpired() || 
+                IsPersonHasAnActiveLicense(this.DriverInfo.PersonInfo.PersonID, this.LicenseClassInfo.LicenseClassID) ||
+                this.Mode == enMode.AddNew
+                )
             {
                 return null;
             }
@@ -227,6 +225,47 @@ namespace DVLD.BusinessLogic
             clsLicense newLicense = new clsLicense(this, notes, enIssueReason.Renew);
             newLicense.IssueDate = DateTime.Now;
             newLicense.ExpirationDate = DateTime.Now.AddYears(newLicense.LicenseClassInfo.DefaultValidityLength);
+
+            if (!newLicense.ApplicationInfo.Save())
+            {
+                throw new InvalidOperationException($"Failed to save the base application.");
+            }
+
+            if (!newLicense.ApplicationInfo.SetCompleted())
+            {
+                throw new InvalidOperationException(
+                        $"Failed to update status of the base aplication with ID " +
+                        $"[{this.ApplicationInfo.ApplicationID}] to completed.");
+            }
+
+            if (!this.SetInactive())
+            {
+                throw new InvalidOperationException(
+                        $"Failed to update status of current license with ID " +
+                        $"[{this.LicenseID}] to inactive.");
+            }
+
+            clsLicenseEntity newLicenseEntity = _MapLicenseObjectToLicenseEntity(newLicense);
+
+            if (clsLicenseData.AddNewLicense(newLicenseEntity))
+            {
+                newLicense.LicenseID = newLicenseEntity.LicenseID;
+                newLicense.Mode = enMode.Update;
+            }
+
+            return newLicense;
+        }
+
+        public clsLicense Replacement(enIssueReason issueReason, string notes)
+        {
+            if (issueReason == enIssueReason.FirstTime || issueReason == enIssueReason.Renew || this.Mode == enMode.AddNew)
+            {
+                return null;
+            }
+
+            clsLicense newLicense = new clsLicense(this, notes, issueReason);
+            newLicense.IssueDate = this.IssueDate;
+            newLicense.ExpirationDate = this.ExpirationDate;
 
             if (!newLicense.ApplicationInfo.Save())
             {
