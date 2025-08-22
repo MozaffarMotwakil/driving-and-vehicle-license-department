@@ -15,8 +15,8 @@ namespace DVLD.WinForms.Applications.InternationalLicense
         {
             InitializeComponent();
             _InternationalLicense = null;
-            ctrDriverLicenseInfoWithFilter.FoundLicense += CtrDriverLicenseInfoWithFilter_FoundLicense;
-            ctrDriverLicenseInfoWithFilter.NotFoundLicense += CtrDriverLicenseInfoWithFilter_NotFoundLicense;
+            ctrDriverLicenseInfoWithFilter.FoundLicense += _CtrDriverLicenseInfoWithFilter_FoundLicense;
+            ctrDriverLicenseInfoWithFilter.NotFoundLicense += _CtrDriverLicenseInfoWithFilter_NotFoundLicense;
         }
 
         private void frmIsuueInternationalLicense_Activated(object sender, EventArgs e)
@@ -24,28 +24,27 @@ namespace DVLD.WinForms.Applications.InternationalLicense
             ctrDriverLicenseInfoWithFilter.FocusOnFilterText();
         }
 
-        private void CtrDriverLicenseInfoWithFilter_NotFoundLicense()
+        private void _CtrDriverLicenseInfoWithFilter_NotFoundLicense()
         {
             _SetDefaultValuesToForm();
             clsFormMessages.ShowError("Local license not found.");
         }
 
-        private void CtrDriverLicenseInfoWithFilter_FoundLicense()
+        private void _CtrDriverLicenseInfoWithFilter_FoundLicense(clsLicense license)
         {
             _SetDefaultValuesToForm();
 
             try
             {
-                _InternationalLicense = new clsInternationalLicense(ctrDriverLicenseInfoWithFilter.License);
+                _InternationalLicense = new clsInternationalLicense(license);
                 _SetValuesAfterFoundValidLocalLicense();
             }
             catch (Exception ex)
             {
-                if (clsInternationalLicense.IsPersonHasAnActiveInternationalLicense(
-                    ctrDriverLicenseInfoWithFilter.License.DriverInfo.PersonInfo.PersonID))
+                if (clsInternationalLicense.IsPersonHasAnActiveInternationalLicense(license.DriverInfo.PersonInfo.PersonID))
                 {
-                    clsInternationalLicense activeInternationaLicense = clsInternationalLicense.GetActiveInternationalLicenseForPerson(
-                    ctrDriverLicenseInfoWithFilter.License.DriverInfo.PersonInfo.PersonID);
+                    clsInternationalLicense activeInternationaLicense = 
+                        clsInternationalLicense.GetActiveInternationalLicenseForPerson(license.DriverInfo.PersonInfo.PersonID);
 
                     frmErrorPerosnHaveAnActiveInternationalLicense error = new frmErrorPerosnHaveAnActiveInternationalLicense(activeInternationaLicense);
                     error.ShowDialog();
@@ -60,19 +59,19 @@ namespace DVLD.WinForms.Applications.InternationalLicense
         private void _SetDefaultValuesToForm()
         {
             _InternationalLicense = null;
-            ClearValuesFromInternationalLicenseGroupBox();
+            _ClearValuesFromInternationalLicenseGroupBox();
             llShowLicensesHistory.Visible = llShowInternationalLicenseInfo.Visible =
                 gbInternationalLicenseApplicationInfo.Visible = btnIssue.Enabled = false;
         }
 
         private void _SetValuesAfterFoundValidLocalLicense()
         {
-            SetValuesToInternationalLicenseGroupBox();
+            _SetValuesToInternationalLicenseGroupBox();
             llShowLicensesHistory.Visible = gbInternationalLicenseApplicationInfo.Visible = 
                 btnIssue.Enabled = true;
         }
 
-        public void SetValuesToInternationalLicenseGroupBox()
+        private void _SetValuesToInternationalLicenseGroupBox()
         {
             lblApplicationFees.Text = _InternationalLicense.ApplicationInfo.PaidFees.ToString();
             llLocalLicenseID.Text = _InternationalLicense.IssuedUsingLocalLicenseInfo.LicenseID.ToString();
@@ -81,54 +80,34 @@ namespace DVLD.WinForms.Applications.InternationalLicense
             lblExpirationDate.Text = _InternationalLicense.ExpirationDate.ToString("dd/MM/yyyy");
         }
 
-        public void ClearValuesFromInternationalLicenseGroupBox()
+        private void _ClearValuesFromInternationalLicenseGroupBox()
         {
             _InternationalLicense = null;
-            lblInternationalLicenseApplicationID.Text = lblApplicationFees.Text = llLocalLicenseID.Text =
-                llCreatedByUsername.Text = lblInternationalLicenseID.Text = "???";
+            lblInternationalLicenseApplicationID.Text = lblInternationalLicenseID.Text = "N/A";
+            lblApplicationFees.Text = llLocalLicenseID.Text = llCreatedByUsername.Text = "???";
             lblIssueDate.Text = lblExpirationDate.Text = "DD/MM/YYYY";
         }
 
         private void llShowLicensesHistory_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            if (_InternationalLicense == null)
-            {
-                return;
-            }
-
             frmPersonLicensesHistory personLicensesHistory = new frmPersonLicensesHistory(_InternationalLicense.DriverInfo.PersonInfo);
             personLicensesHistory.ShowDialog();
         }
 
         private void llShowInternationalLicenseInfo_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            if (_InternationalLicense == null)
-            {
-                return;
-            }
-
             frmShowInternationalLicenseInfo internationalLicenseInfo = new frmShowInternationalLicenseInfo(_InternationalLicense);
             internationalLicenseInfo.ShowDialog();
         }
 
         private void llLocalLicenseID_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            if (_InternationalLicense == null)
-            {
-                return;
-            }
-
             frmShowLicenseInfo licenseInfo = new frmShowLicenseInfo(_InternationalLicense.IssuedUsingLocalLicenseInfo);
             licenseInfo.ShowDialog();
         }
 
         private void llCreatedByUsername_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            if (_InternationalLicense == null)
-            {
-                return;
-            }
-
             frmShowUserInfo userInfo = new frmShowUserInfo(_InternationalLicense.CreatedByUserInfo);
             userInfo.ShowEditPersonInformationLinke = false;
             userInfo.ShowDialog();
@@ -145,6 +124,7 @@ namespace DVLD.WinForms.Applications.InternationalLicense
                 }
                 else
                 {
+                    _SetDefaultValuesToForm();
                     clsFormMessages.ShowError("Failed To Issued International License");
                 }
             }

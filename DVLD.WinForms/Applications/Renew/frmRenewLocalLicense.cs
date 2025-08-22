@@ -17,8 +17,8 @@ namespace DVLD.WinForms.Applications.Renew
             InitializeComponent();
             _OldLocalLicense = null;
             _NewLocalLicense = null;
-            ctrDriverLicenseInfoWithFilter.FoundLicense += CtrDriverLicenseInfoWithFilter_FoundLicense;
-            ctrDriverLicenseInfoWithFilter.NotFoundLicense += CtrDriverLicenseInfoWithFilter_NotFoundLicense;
+            ctrDriverLicenseInfoWithFilter.FoundLicense += _CtrDriverLicenseInfoWithFilter_FoundLicense;
+            ctrDriverLicenseInfoWithFilter.NotFoundLicense += _CtrDriverLicenseInfoWithFilter_NotFoundLicense;
         }
 
         private void frmRenewLocalLicense_Activated(object sender, EventArgs e)
@@ -26,37 +26,36 @@ namespace DVLD.WinForms.Applications.Renew
             ctrDriverLicenseInfoWithFilter.FocusOnFilterText();
         }
 
-        private void CtrDriverLicenseInfoWithFilter_NotFoundLicense()
+        private void _CtrDriverLicenseInfoWithFilter_NotFoundLicense()
         {
             _SetDefaultValuesToForm();
             clsFormMessages.ShowError("Local license not found.");
         }
 
-        private void CtrDriverLicenseInfoWithFilter_FoundLicense()
+        private void _CtrDriverLicenseInfoWithFilter_FoundLicense(clsLicense license)
         {
             _SetDefaultValuesToForm();
 
-            if (ctrDriverLicenseInfoWithFilter.License.ExpirationDate > DateTime.Now)
+            if (!license.IsLicenseExpired())
             {
                 clsFormMessages.ShowError(
-                    $"The license is not yet expiration, it will expire on: {ctrDriverLicenseInfoWithFilter.License.ExpirationDate.ToString("dd/MM/yyyy")}."
+                    $"The license is not yet expiration, it will expire on: {license.ExpirationDate:dd/MM/yyyy}."
                     );
                 return;
             }
 
-            clsLicense activeLicense = clsLicense.GetActiveLicenseForPerosn(
-                ctrDriverLicenseInfoWithFilter.License.DriverInfo.PersonInfo.PersonID,
-                ctrDriverLicenseInfoWithFilter.License.LicenseClassInfo.LicenseClassID
-                );
-
-            if (activeLicense != null)
+            if (clsLicense.IsPersonHasAnActiveLicense(license.DriverInfo.PersonInfo.PersonID, license.LicenseClassInfo.LicenseClassID))
             {
+                clsLicense activeLicense = clsLicense.GetActiveLicenseForPerosn(
+                    license.DriverInfo.PersonInfo.PersonID, license.LicenseClassInfo.LicenseClassID
+                    );
+
                 frmErrorPersonHaveAnActiveLicense error = new frmErrorPersonHaveAnActiveLicense(activeLicense);
                 error.ShowDialog();
                 return;
             }
 
-            _OldLocalLicense = ctrDriverLicenseInfoWithFilter.License;
+            _OldLocalLicense = license;
             _SetValuesAfterFoundValidLocalLicense();
         }
 
@@ -64,19 +63,19 @@ namespace DVLD.WinForms.Applications.Renew
         {
             _OldLocalLicense = null;
             _NewLocalLicense = null;
-            ClearValuesFromRenewLicenseApplicationGroupBox();
+            _ClearValuesFromRenewLicenseApplicationGroupBox();
             llShowLicensesHistory.Visible = llShowRenewedLicenseInfo.Visible =
                 gbRenewLicenseApplicationInfo.Visible = btnRenew.Enabled = false;
         }
 
         private void _SetValuesAfterFoundValidLocalLicense()
         {
-            SetValuesToRenewLicenseApplicationGroupBox();
+            _SetValuesToRenewLicenseApplicationGroupBox();
             llShowLicensesHistory.Visible = gbRenewLicenseApplicationInfo.Visible =
                 btnRenew.Enabled = true;
         }
 
-        public void SetValuesToRenewLicenseApplicationGroupBox()
+        private void _SetValuesToRenewLicenseApplicationGroupBox()
         {
             llOldLocalLicenseID.Text = _OldLocalLicense.LicenseID.ToString();
             lblApplicationFees.Text = clsApplicationType.Get(clsApplication.enApplicationType.RenewDrivingLicenseService).Fees.ToString();
@@ -87,45 +86,31 @@ namespace DVLD.WinForms.Applications.Renew
             lblExpirationDate.Text = DateTime.Now.AddYears(_OldLocalLicense.LicenseClassInfo.DefaultValidityLength).ToString("dd/MM/yyyy");
         }
 
-        public void ClearValuesFromRenewLicenseApplicationGroupBox()
+        private void _ClearValuesFromRenewLicenseApplicationGroupBox()
         {
             _OldLocalLicense = null;
             _NewLocalLicense = null;
-            lblRenewedLicenseApplicationID.Text = lblRenewedLicenseID.Text = llCreatedByUsername.Text = 
-                llOldLocalLicenseID.Text =  lblApplicationFees.Text  = lblLicenseFees.Text = lblTotalFees.Text = "???";
             txtNotes.Text = string.Empty;
             lblIssueDate.Text = lblExpirationDate.Text = "DD/MM/YYYY";
+            lblRenewedLicenseApplicationID.Text = lblRenewedLicenseID.Text = "N/A";
+            llCreatedByUsername.Text = llOldLocalLicenseID.Text =  lblApplicationFees.Text = 
+                lblLicenseFees.Text = lblTotalFees.Text = "???";
         }
 
         private void llShowLicensesHistory_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            if (_OldLocalLicense == null)
-            {
-                return;
-            }
-
             frmPersonLicensesHistory personLicensesHistory = new frmPersonLicensesHistory(_OldLocalLicense.DriverInfo.PersonInfo);
             personLicensesHistory.ShowDialog();
         }
 
         private void llShowRenewedLicenseInfo_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            if (_NewLocalLicense == null)
-            {
-                return;
-            }
-
             frmShowLicenseInfo licenseInfo = new frmShowLicenseInfo(_NewLocalLicense);
             licenseInfo.ShowDialog();
         }
 
         private void llOldLocalLicenseID_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            if (_OldLocalLicense == null)
-            {
-                return;
-            }
-
             frmShowLicenseInfo licenseInfo = new frmShowLicenseInfo(_OldLocalLicense);
             licenseInfo.ShowDialog();
         }
@@ -141,22 +126,22 @@ namespace DVLD.WinForms.Applications.Renew
         {
             if (clsFormMessages.ConfirmSava())
             {
-                int newLicenseID = _OldLocalLicense.Renew(txtNotes.Text);
+                _NewLocalLicense = _OldLocalLicense.Renew(txtNotes.Text);
 
-                if (newLicenseID != -1)
+                if (_NewLocalLicense != null)
                 {
-                    _NewLocalLicense = clsLicense.FindByLicenseID(newLicenseID);
-                    _UpdateFormAfterIssueAnInternationalLicense();
-                    clsFormMessages.ShowSuccess($"The License Renewed Successfuly With ID[{newLicenseID}]");
+                    _UpdateFormAfterRenewedLicense();
+                    clsFormMessages.ShowSuccess($"The License Renewed Successfuly With ID[{_NewLocalLicense.LicenseID}]");
                 }
                 else
                 {
+                    _SetDefaultValuesToForm();
                     clsFormMessages.ShowError("Failed To Renewed The Local License");
                 }
             }
         }
 
-        private void _UpdateFormAfterIssueAnInternationalLicense()
+        private void _UpdateFormAfterRenewedLicense()
         {
             btnRenew.Enabled = false;
             llShowRenewedLicenseInfo.Visible = true;

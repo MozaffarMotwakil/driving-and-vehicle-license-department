@@ -41,7 +41,7 @@
             this.lblFormTitle.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.lblFormTitle.Font = new System.Drawing.Font("Tahoma", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblFormTitle.ForeColor = System.Drawing.Color.Red;
-            this.lblFormTitle.Location = new System.Drawing.Point(105, 135);
+            this.lblFormTitle.Location = new System.Drawing.Point(105, 130);
             this.lblFormTitle.Name = "lblFormTitle";
             this.lblFormTitle.Size = new System.Drawing.Size(638, 33);
             this.lblFormTitle.TabIndex = 19;
@@ -52,7 +52,7 @@
             // 
             this.pbFormLogo.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.pbFormLogo.Image = global::DVLD.WinForms.Properties.Resources.LicenseView_400;
-            this.pbFormLogo.Location = new System.Drawing.Point(312, 12);
+            this.pbFormLogo.Location = new System.Drawing.Point(312, 3);
             this.pbFormLogo.Name = "pbFormLogo";
             this.pbFormLogo.Size = new System.Drawing.Size(224, 120);
             this.pbFormLogo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -62,7 +62,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(7, 536);
+            this.label2.Location = new System.Drawing.Point(7, 497);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(835, 13);
             this.label2.TabIndex = 28;
@@ -77,7 +77,7 @@
             this.btnClose.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.btnClose.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnClose.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnClose.Location = new System.Drawing.Point(732, 556);
+            this.btnClose.Location = new System.Drawing.Point(732, 519);
             this.btnClose.Name = "btnClose";
             this.btnClose.Size = new System.Drawing.Size(102, 34);
             this.btnClose.TabIndex = 29;
@@ -90,7 +90,7 @@
             this.ctrDriverLicenseInfo.License = null;
             this.ctrDriverLicenseInfo.Location = new System.Drawing.Point(14, 172);
             this.ctrDriverLicenseInfo.Name = "ctrDriverLicenseInfo";
-            this.ctrDriverLicenseInfo.Size = new System.Drawing.Size(820, 368);
+            this.ctrDriverLicenseInfo.Size = new System.Drawing.Size(820, 330);
             this.ctrDriverLicenseInfo.TabIndex = 0;
             // 
             // frmShowLicenseInfo
@@ -98,7 +98,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.btnClose;
-            this.ClientSize = new System.Drawing.Size(848, 595);
+            this.ClientSize = new System.Drawing.Size(848, 562);
             this.Controls.Add(this.btnClose);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.pbFormLogo);

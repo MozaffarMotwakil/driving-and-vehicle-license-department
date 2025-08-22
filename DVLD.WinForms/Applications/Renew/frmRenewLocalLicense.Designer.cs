@@ -304,9 +304,9 @@
             this.lblRenewedLicenseID.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblRenewedLicenseID.Location = new System.Drawing.Point(192, 58);
             this.lblRenewedLicenseID.Name = "lblRenewedLicenseID";
-            this.lblRenewedLicenseID.Size = new System.Drawing.Size(25, 16);
+            this.lblRenewedLicenseID.Size = new System.Drawing.Size(28, 16);
             this.lblRenewedLicenseID.TabIndex = 37;
-            this.lblRenewedLicenseID.Text = "???";
+            this.lblRenewedLicenseID.Text = "N/A";
             // 
             // lblRenewedLicenseApplicationID
             // 
@@ -314,9 +314,9 @@
             this.lblRenewedLicenseApplicationID.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblRenewedLicenseApplicationID.Location = new System.Drawing.Point(268, 25);
             this.lblRenewedLicenseApplicationID.Name = "lblRenewedLicenseApplicationID";
-            this.lblRenewedLicenseApplicationID.Size = new System.Drawing.Size(25, 16);
+            this.lblRenewedLicenseApplicationID.Size = new System.Drawing.Size(28, 16);
             this.lblRenewedLicenseApplicationID.TabIndex = 37;
-            this.lblRenewedLicenseApplicationID.Text = "???";
+            this.lblRenewedLicenseApplicationID.Text = "N/A";
             // 
             // pictureBox3
             // 

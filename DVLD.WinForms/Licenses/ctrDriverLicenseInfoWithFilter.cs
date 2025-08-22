@@ -9,10 +9,10 @@ namespace DVLD.WinForms.Licenses
     {
         public clsLicense License { get; private set; }
 
-        public event Action FoundLicense;
+        public event Action<clsLicense> FoundLicense;
         protected virtual void OnFoundLicense()
         {
-            FoundLicense?.Invoke();
+            FoundLicense?.Invoke(License);
         }
 
         public event Action NotFoundLicense;

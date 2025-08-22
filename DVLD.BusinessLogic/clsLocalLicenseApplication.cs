@@ -164,11 +164,11 @@ namespace DVLD.BusinessLogic
         /// </remarks>
         /// <seealso cref="clsLicense"/>
         /// <seealso cref="IsPersonHasLicense"/>
-        public int IssueLicenseForFirstTime(string Notes)
+        public clsLicense IssueLicenseForFirstTime(string Notes)
         {
             if (this.IsPersonHasLicense())
             {
-                return -1;
+                return null;
             }
 
             return new clsLicense(this, Notes).Issue();

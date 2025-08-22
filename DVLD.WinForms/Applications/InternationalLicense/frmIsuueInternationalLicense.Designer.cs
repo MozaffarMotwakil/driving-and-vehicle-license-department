@@ -55,6 +55,7 @@
             this.llCreatedByUsername = new System.Windows.Forms.LinkLabel();
             this.pictureBox8 = new System.Windows.Forms.PictureBox();
             this.label7 = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
             this.ctrDriverLicenseInfoWithFilter = new DVLD.WinForms.Licenses.ctrDriverLicenseInfoWithFilter();
             this.gbInternationalLicenseApplicationInfo.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).BeginInit();
@@ -69,7 +70,7 @@
             // label12
             // 
             this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(5, 573);
+            this.label12.Location = new System.Drawing.Point(0, 617);
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(835, 13);
             this.label12.TabIndex = 54;
@@ -83,7 +84,7 @@
             this.btnClose.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.btnClose.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnClose.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnClose.Location = new System.Drawing.Point(624, 595);
+            this.btnClose.Location = new System.Drawing.Point(619, 639);
             this.btnClose.Name = "btnClose";
             this.btnClose.Size = new System.Drawing.Size(102, 34);
             this.btnClose.TabIndex = 53;
@@ -93,16 +94,17 @@
             // 
             // btnIssue
             // 
-            this.btnIssue.BackgroundImage = global::DVLD.WinForms.Properties.Resources.Save_32;
             this.btnIssue.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.btnIssue.Enabled = false;
             this.btnIssue.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnIssue.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnIssue.Location = new System.Drawing.Point(732, 595);
+            this.btnIssue.Image = global::DVLD.WinForms.Properties.Resources.IssueDrivingLicense_32;
+            this.btnIssue.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnIssue.Location = new System.Drawing.Point(727, 639);
             this.btnIssue.Name = "btnIssue";
             this.btnIssue.Size = new System.Drawing.Size(102, 34);
             this.btnIssue.TabIndex = 52;
-            this.btnIssue.Text = "     Issue";
+            this.btnIssue.Text = "       Issue";
             this.btnIssue.UseVisualStyleBackColor = true;
             this.btnIssue.Click += new System.EventHandler(this.btnIssue_Click);
             // 
@@ -110,7 +112,7 @@
             // 
             this.llShowLicensesHistory.AutoSize = true;
             this.llShowLicensesHistory.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.llShowLicensesHistory.Location = new System.Drawing.Point(12, 603);
+            this.llShowLicensesHistory.Location = new System.Drawing.Point(7, 647);
             this.llShowLicensesHistory.Name = "llShowLicensesHistory";
             this.llShowLicensesHistory.Size = new System.Drawing.Size(166, 19);
             this.llShowLicensesHistory.TabIndex = 55;
@@ -123,7 +125,7 @@
             // 
             this.llShowInternationalLicenseInfo.AutoSize = true;
             this.llShowInternationalLicenseInfo.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.llShowInternationalLicenseInfo.Location = new System.Drawing.Point(222, 603);
+            this.llShowInternationalLicenseInfo.Location = new System.Drawing.Point(217, 647);
             this.llShowInternationalLicenseInfo.Name = "llShowInternationalLicenseInfo";
             this.llShowInternationalLicenseInfo.Size = new System.Drawing.Size(233, 19);
             this.llShowInternationalLicenseInfo.TabIndex = 55;
@@ -156,7 +158,7 @@
             this.gbInternationalLicenseApplicationInfo.Controls.Add(this.pictureBox8);
             this.gbInternationalLicenseApplicationInfo.Controls.Add(this.label7);
             this.gbInternationalLicenseApplicationInfo.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.gbInternationalLicenseApplicationInfo.Location = new System.Drawing.Point(18, 412);
+            this.gbInternationalLicenseApplicationInfo.Location = new System.Drawing.Point(13, 456);
             this.gbInternationalLicenseApplicationInfo.Name = "gbInternationalLicenseApplicationInfo";
             this.gbInternationalLicenseApplicationInfo.Size = new System.Drawing.Size(817, 162);
             this.gbInternationalLicenseApplicationInfo.TabIndex = 56;
@@ -250,9 +252,9 @@
             this.lblInternationalLicenseID.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblInternationalLicenseID.Location = new System.Drawing.Point(658, 30);
             this.lblInternationalLicenseID.Name = "lblInternationalLicenseID";
-            this.lblInternationalLicenseID.Size = new System.Drawing.Size(25, 16);
+            this.lblInternationalLicenseID.Size = new System.Drawing.Size(28, 16);
             this.lblInternationalLicenseID.TabIndex = 37;
-            this.lblInternationalLicenseID.Text = "???";
+            this.lblInternationalLicenseID.Text = "N/A";
             // 
             // lblInternationalLicenseApplicationID
             // 
@@ -260,9 +262,9 @@
             this.lblInternationalLicenseApplicationID.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblInternationalLicenseApplicationID.Location = new System.Drawing.Point(293, 30);
             this.lblInternationalLicenseApplicationID.Name = "lblInternationalLicenseApplicationID";
-            this.lblInternationalLicenseApplicationID.Size = new System.Drawing.Size(25, 16);
+            this.lblInternationalLicenseApplicationID.Size = new System.Drawing.Size(28, 16);
             this.lblInternationalLicenseApplicationID.TabIndex = 37;
-            this.lblInternationalLicenseApplicationID.Text = "???";
+            this.lblInternationalLicenseApplicationID.Text = "N/A";
             // 
             // pictureBox3
             // 
@@ -378,9 +380,20 @@
             this.label7.TabIndex = 29;
             this.label7.Text = "Created By:";
             // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Font = new System.Drawing.Font("Tahoma", 21.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label5.ForeColor = System.Drawing.Color.Red;
+            this.label5.Location = new System.Drawing.Point(242, 9);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(358, 35);
+            this.label5.TabIndex = 57;
+            this.label5.Text = "Issue International License";
+            // 
             // ctrDriverLicenseInfoWithFilter
             // 
-            this.ctrDriverLicenseInfoWithFilter.Location = new System.Drawing.Point(12, 12);
+            this.ctrDriverLicenseInfoWithFilter.Location = new System.Drawing.Point(10, 57);
             this.ctrDriverLicenseInfoWithFilter.Name = "ctrDriverLicenseInfoWithFilter";
             this.ctrDriverLicenseInfoWithFilter.Size = new System.Drawing.Size(823, 400);
             this.ctrDriverLicenseInfoWithFilter.TabIndex = 1;
@@ -390,7 +403,8 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.btnClose;
-            this.ClientSize = new System.Drawing.Size(844, 637);
+            this.ClientSize = new System.Drawing.Size(844, 681);
+            this.Controls.Add(this.label5);
             this.Controls.Add(this.gbInternationalLicenseApplicationInfo);
             this.Controls.Add(this.llShowInternationalLicenseInfo);
             this.Controls.Add(this.llShowLicensesHistory);
@@ -448,5 +462,6 @@
         private System.Windows.Forms.LinkLabel llCreatedByUsername;
         private System.Windows.Forms.PictureBox pictureBox8;
         private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.Label label5;
     }
 }

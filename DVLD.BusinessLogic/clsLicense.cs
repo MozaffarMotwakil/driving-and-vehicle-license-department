@@ -175,39 +175,21 @@ namespace DVLD.BusinessLogic
             return clsLicenseData.SetLicenseToInactive(this.LicenseID);
         }
 
+        public bool IsLicenseExpired()
+        {
+            return this.ExpirationDate < DateTime.Now;
+        }
+
         public float GetTotalFees()
         {
             return this.ApplicationInfo.PaidFees + this.PaidFees;
         }
 
-        /// <summary>
-        /// Issues a new license for the first time.
-        /// </summary>
-        /// <remarks>
-        /// This method is only valid when the current object is in <see cref="enMode.AddNew"/> mode 
-        /// and the <see cref="IssueReason"/> is set to <see cref="enIssueReason.FirstTime"/>.
-        /// It will attempt to save driver information if it hasn't been persisted yet, 
-        /// mark the base application as completed, and insert a new license record in the database.
-        /// </remarks>
-        /// <returns>
-        /// The <see cref="LicenseID"/> of the newly created license if successful; 
-        /// otherwise, returns <c>-1</c> if the preconditions are not met.
-        /// </returns>
-        /// <exception cref="InvalidOperationException">
-        /// Thrown when:
-        /// <list type="bullet">
-        ///   <item><description>Saving the driver information fails.</description></item>
-        ///   <item><description>Updating the base application status to completed fails.</description></item>
-        /// </list>
-        /// </exception>
-        /// <seealso cref="DriverInfo"/>
-        /// <seealso cref="ApplicationInfo"/>
-        /// <seealso cref="clsLicenseData"/>
-        internal int Issue()
+        internal clsLicense Issue()
         {
             if (Mode != enMode.AddNew || IssueReason != enIssueReason.FirstTime)
             {
-                return -1;
+                return null;
             }
 
             if (this.DriverInfo.DriverID == -1 && !this.DriverInfo.Save())
@@ -232,14 +214,14 @@ namespace DVLD.BusinessLogic
                 this.Mode = enMode.Update;
             }
 
-            return this.LicenseID;
+            return this;
         }
 
-        public int Renew(string notes)
+        public clsLicense Renew(string notes)
         {
-            if (this.ExpirationDate > DateTime.Now || this.Mode == enMode.AddNew)
+            if (!this.IsLicenseExpired() || this.Mode == enMode.AddNew)
             {
-                return -1;
+                return null;
             }
 
             clsLicense newLicense = new clsLicense(this, notes, enIssueReason.Renew);
@@ -273,7 +255,7 @@ namespace DVLD.BusinessLogic
                 newLicense.Mode = enMode.Update;
             }
 
-            return newLicense.LicenseID;
+            return newLicense;
         }
 
         private clsApplication.enApplicationType GetApplicationTypeDependingOnIssueReason(enIssueReason issueReason)

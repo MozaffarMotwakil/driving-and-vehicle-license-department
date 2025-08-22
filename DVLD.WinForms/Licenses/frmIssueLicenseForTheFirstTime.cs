@@ -58,12 +58,12 @@ namespace DVLD.WinForms.Licenses
 
             if (clsFormMessages.ConfirmSava())
             {
-                int newLicenseID = _LocalLicenseApplication.IssueLicenseForFirstTime(txtNotes.Text);
+                clsLicense newLicense = _LocalLicenseApplication.IssueLicenseForFirstTime(txtNotes.Text);
 
-                if (newLicenseID != -1)
+                if (newLicense != null)
                 {
                     OnIssueSuccess();
-                    frmLicenseIssuedSeccessfuly issuedSeccessfuly = new frmLicenseIssuedSeccessfuly(newLicenseID);
+                    frmLicenseIssuedSeccessfuly issuedSeccessfuly = new frmLicenseIssuedSeccessfuly(newLicense);
                     issuedSeccessfuly.ShowDialog();
                 }
                 else
