@@ -50,58 +50,76 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Applications\Application Types\frmUpdateApplicationType.cs">
+    <Compile Include="Applications\ApplicationTypes\frmUpdateApplicationType.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Applications\Application Types\frmUpdateApplicationType.Designer.cs">
+    <Compile Include="Applications\ApplicationTypes\frmUpdateApplicationType.Designer.cs">
       <DependentUpon>frmUpdateApplicationType.cs</DependentUpon>
     </Compile>
-    <Compile Include="Applications\Application Types\frmManageApplicationTypes.cs">
+    <Compile Include="Applications\ApplicationTypes\frmManageApplicationTypes.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Applications\Application Types\frmManageApplicationTypes.Designer.cs">
+    <Compile Include="Applications\ApplicationTypes\frmManageApplicationTypes.Designer.cs">
       <DependentUpon>frmManageApplicationTypes.cs</DependentUpon>
     </Compile>
-    <Compile Include="Applications\Base Application\ctrBaseApplicationInfo.cs">
+    <Compile Include="Applications\BaseApplication\ctrBaseApplicationInfo.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Applications\Base Application\ctrBaseApplicationInfo.Designer.cs">
+    <Compile Include="Applications\BaseApplication\ctrBaseApplicationInfo.Designer.cs">
       <DependentUpon>ctrBaseApplicationInfo.cs</DependentUpon>
     </Compile>
-    <Compile Include="Applications\Base Application\frmShowBaseApplicationInfo.cs">
+    <Compile Include="Applications\BaseApplication\frmShowBaseApplicationInfo.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Applications\Base Application\frmShowBaseApplicationInfo.Designer.cs">
+    <Compile Include="Applications\BaseApplication\frmShowBaseApplicationInfo.Designer.cs">
       <DependentUpon>frmShowBaseApplicationInfo.cs</DependentUpon>
     </Compile>
-    <Compile Include="Applications\International License\frmErrorPerosnHaveAnActiveInternationalLicense.cs">
+    <Compile Include="Applications\DetainAndReleaseLicenses\frmReleaseDetainedLicense.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Applications\International License\frmErrorPerosnHaveAnActiveInternationalLicense.Designer.cs">
+    <Compile Include="Applications\DetainAndReleaseLicenses\frmReleaseDetainedLicense.Designer.cs">
+      <DependentUpon>frmReleaseDetainedLicense.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Applications\DetainAndReleaseLicenses\frmDetainLicense.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Applications\DetainAndReleaseLicenses\frmDetainLicense.Designer.cs">
+      <DependentUpon>frmDetainLicense.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Applications\DetainAndReleaseLicenses\frmManageDetainedLicenses.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Applications\DetainAndReleaseLicenses\frmManageDetainedLicenses.Designer.cs">
+      <DependentUpon>frmManageDetainedLicenses.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Applications\InternationalLicense\frmErrorPerosnHaveAnActiveInternationalLicense.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Applications\InternationalLicense\frmErrorPerosnHaveAnActiveInternationalLicense.Designer.cs">
       <DependentUpon>frmErrorPerosnHaveAnActiveInternationalLicense.cs</DependentUpon>
     </Compile>
-    <Compile Include="Applications\International License\frmManageInternationalLicenses.cs">
+    <Compile Include="Applications\InternationalLicense\frmManageInternationalLicenses.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Applications\International License\frmManageInternationalLicenses.Designer.cs">
+    <Compile Include="Applications\InternationalLicense\frmManageInternationalLicenses.Designer.cs">
       <DependentUpon>frmManageInternationalLicenses.cs</DependentUpon>
     </Compile>
-    <Compile Include="Applications\International License\frmShowInternationalLicenseInfo.cs">
+    <Compile Include="Applications\InternationalLicense\frmShowInternationalLicenseInfo.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Applications\International License\frmShowInternationalLicenseInfo.Designer.cs">
+    <Compile Include="Applications\InternationalLicense\frmShowInternationalLicenseInfo.Designer.cs">
       <DependentUpon>frmShowInternationalLicenseInfo.cs</DependentUpon>
     </Compile>
-    <Compile Include="Applications\International License\frmIsuueInternationalLicense.cs">
+    <Compile Include="Applications\InternationalLicense\frmIsuueInternationalLicense.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Applications\International License\frmIsuueInternationalLicense.Designer.cs">
+    <Compile Include="Applications\InternationalLicense\frmIsuueInternationalLicense.Designer.cs">
       <DependentUpon>frmIsuueInternationalLicense.cs</DependentUpon>
     </Compile>
-    <Compile Include="Applications\International License\ctrInternationalLicenseInfo.cs">
+    <Compile Include="Applications\InternationalLicense\ctrInternationalLicenseInfo.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Applications\International License\ctrInternationalLicenseInfo.Designer.cs">
+    <Compile Include="Applications\InternationalLicense\ctrInternationalLicenseInfo.Designer.cs">
       <DependentUpon>ctrInternationalLicenseInfo.cs</DependentUpon>
     </Compile>
     <Compile Include="Applications\Local License\frmErrorPersonHaveActiveApplication.cs">
@@ -249,16 +267,16 @@
     </Compile>
     <Compile Include="Utils\clsLoginManager .cs" />
     <Compile Include="Utils\clsFormHelper.cs" />
-    <Compile Include="Main Forms\frmLogin.cs">
+    <Compile Include="MainForms\frmLogin.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Main Forms\frmLogin.Designer.cs">
+    <Compile Include="MainForms\frmLogin.Designer.cs">
       <DependentUpon>frmLogin.cs</DependentUpon>
     </Compile>
-    <Compile Include="Main Forms\frmMainForm.cs">
+    <Compile Include="MainForms\frmMainForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Main Forms\frmMainForm.Designer.cs">
+    <Compile Include="MainForms\frmMainForm.Designer.cs">
       <DependentUpon>frmMainForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Users\frmShowUserInfo.cs">
@@ -331,31 +349,40 @@
     </Compile>
     <Compile Include="Utils\clsFormValidation.cs" />
     <Compile Include="Utils\clsFormMessages.cs" />
-    <EmbeddedResource Include="Applications\Application Types\frmUpdateApplicationType.resx">
+    <EmbeddedResource Include="Applications\ApplicationTypes\frmUpdateApplicationType.resx">
       <DependentUpon>frmUpdateApplicationType.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Applications\Application Types\frmManageApplicationTypes.resx">
+    <EmbeddedResource Include="Applications\ApplicationTypes\frmManageApplicationTypes.resx">
       <DependentUpon>frmManageApplicationTypes.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Applications\Base Application\ctrBaseApplicationInfo.resx">
+    <EmbeddedResource Include="Applications\BaseApplication\ctrBaseApplicationInfo.resx">
       <DependentUpon>ctrBaseApplicationInfo.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Applications\Base Application\frmShowBaseApplicationInfo.resx">
+    <EmbeddedResource Include="Applications\BaseApplication\frmShowBaseApplicationInfo.resx">
       <DependentUpon>frmShowBaseApplicationInfo.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Applications\International License\frmErrorPerosnHaveAnActiveInternationalLicense.resx">
+    <EmbeddedResource Include="Applications\DetainAndReleaseLicenses\frmDetainLicense.resx">
+      <DependentUpon>frmDetainLicense.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Applications\DetainAndReleaseLicenses\frmManageDetainedLicenses.resx">
+      <DependentUpon>frmManageDetainedLicenses.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Applications\DetainAndReleaseLicenses\frmReleaseDetainedLicense.resx">
+      <DependentUpon>frmReleaseDetainedLicense.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Applications\InternationalLicense\frmErrorPerosnHaveAnActiveInternationalLicense.resx">
       <DependentUpon>frmErrorPerosnHaveAnActiveInternationalLicense.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Applications\International License\frmIsuueInternationalLicense.resx">
+    <EmbeddedResource Include="Applications\InternationalLicense\frmIsuueInternationalLicense.resx">
       <DependentUpon>frmIsuueInternationalLicense.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Applications\International License\ctrInternationalLicenseInfo.resx">
+    <EmbeddedResource Include="Applications\InternationalLicense\ctrInternationalLicenseInfo.resx">
       <DependentUpon>ctrInternationalLicenseInfo.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Applications\International License\frmManageInternationalLicenses.resx">
+    <EmbeddedResource Include="Applications\InternationalLicense\frmManageInternationalLicenses.resx">
       <DependentUpon>frmManageInternationalLicenses.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Applications\International License\frmShowInternationalLicenseInfo.resx">
+    <EmbeddedResource Include="Applications\InternationalLicense\frmShowInternationalLicenseInfo.resx">
       <DependentUpon>frmShowInternationalLicenseInfo.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Applications\Local License\ctrLocalLicenseApplicationInfo.resx">
@@ -412,10 +439,10 @@
     <EmbeddedResource Include="Licenses\frmLicenseIssuedSeccessfuly.resx">
       <DependentUpon>frmLicenseIssuedSeccessfuly.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Main Forms\frmLogin.resx">
+    <EmbeddedResource Include="MainForms\frmLogin.resx">
       <DependentUpon>frmLogin.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Main Forms\frmMainForm.resx">
+    <EmbeddedResource Include="MainForms\frmMainForm.resx">
       <DependentUpon>frmMainForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="People\ctrAddUpdatePerson.resx">
@@ -790,8 +817,6 @@
   <ItemGroup>
     <None Include="Resources\Release Detained License 32.png" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Applications\Detain and Release Licenses\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
