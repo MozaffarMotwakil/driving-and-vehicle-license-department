@@ -3,6 +3,7 @@ using System.Drawing;
 using System.Windows.Forms;
 using DVLD.BusinessLogic;
 using DVLD.WinForms.Applications;
+using DVLD.WinForms.Applications.DetainAndReleaseLicenses;
 using DVLD.WinForms.Applications.InternationalLicense;
 using DVLD.WinForms.Applications.LocalLicense;
 using DVLD.WinForms.Applications.Renew;
@@ -16,7 +17,15 @@ namespace DVLD.WinForms.MainForms
 {
     public partial class frmMainForm : Form
     {
-        enum enFormTypes { ManagePeople , ManageUsers, ManageDrivers, ManageLocalLicenseApplications, _ManageInternationalLicenses }
+        enum enFormTypes
+        { 
+            ManagePeople,
+            ManageUsers,
+            ManageDrivers,
+            ManageLocalLicenseApplications, 
+            ManageInternationalLicenses,
+            ManageDetainedLicenses
+        }
 
         private bool _IsSignOut;
         private Form _ManagePeople;
@@ -24,6 +33,7 @@ namespace DVLD.WinForms.MainForms
         private Form _ManageDrivers;
         private Form _ManageInternationalLicenses;
         private Form _ManageLocalLicenseApplications;
+        private Form _ManageDetainedLicenses;
 
         public frmMainForm()
         {
@@ -32,6 +42,7 @@ namespace DVLD.WinForms.MainForms
             _ManagePeople = null;
             _ManageUsers = null;
             _ManageLocalLicenseApplications = null;
+            _ManageDetainedLicenses = null;
 
             foreach (Control control in this.Controls)
             {
@@ -88,8 +99,10 @@ namespace DVLD.WinForms.MainForms
                     return new frmManageLocalLicenseApplications();
                 case enFormTypes.ManageDrivers:
                     return new frmManageDrivers();
-                case enFormTypes._ManageInternationalLicenses:
+                case enFormTypes.ManageInternationalLicenses:
                     return new frmManageInternationalLicenses();
+                case enFormTypes.ManageDetainedLicenses:
+                    return new frmManageDetainedLicenses();
                 default:
                     return new Form();
             }
@@ -162,7 +175,7 @@ namespace DVLD.WinForms.MainForms
 
         private void internationalDrivingLicenseApplicationsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            _OpenForm(ref _ManageInternationalLicenses, enFormTypes._ManageInternationalLicenses);
+            _OpenForm(ref _ManageInternationalLicenses, enFormTypes.ManageInternationalLicenses);
         }
 
         private void renewDrivingLicenseToolStripMenuItem_Click(object sender, EventArgs e)
@@ -176,5 +189,29 @@ namespace DVLD.WinForms.MainForms
             frmReplacementForDamagedOrLost replacementForDamagedOrLost = new frmReplacementForDamagedOrLost();
             replacementForDamagedOrLost.ShowDialog();
         }
+
+        private void manageDetainedLicensesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            _OpenForm(ref _ManageDetainedLicenses, enFormTypes.ManageDetainedLicenses);
+        }
+
+        private void detainLicenseToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            frmDetainLicense detainLicense = new frmDetainLicense();
+            detainLicense.ShowDialog();
+        }
+
+        private void releaseDetainedDrivingLicenseToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            frmReleaseDetainedLicense releaseDetainedLicense = new frmReleaseDetainedLicense();
+            releaseDetainedLicense.ShowDialog();
+        }
+
+        private void releaseDetainedLicenseToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            frmReleaseDetainedLicense releaseDetainedLicense = new frmReleaseDetainedLicense();
+            releaseDetainedLicense.ShowDialog();
+        }
+
     }
 }

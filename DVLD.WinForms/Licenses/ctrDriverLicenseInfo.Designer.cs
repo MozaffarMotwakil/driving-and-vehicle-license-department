@@ -232,7 +232,6 @@
             this.lblIsDetained.Size = new System.Drawing.Size(25, 14);
             this.lblIsDetained.TabIndex = 43;
             this.lblIsDetained.Text = "???";
-            this.lblIsDetained.Visible = false;
             // 
             // lblNotes
             // 
@@ -365,7 +364,6 @@
             this.pictureBox13.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
             this.pictureBox13.TabIndex = 36;
             this.pictureBox13.TabStop = false;
-            this.pictureBox13.Visible = false;
             // 
             // pictureBox12
             // 
@@ -496,7 +494,6 @@
             this.label18.Size = new System.Drawing.Size(81, 14);
             this.label18.TabIndex = 31;
             this.label18.Text = "Is Detained:";
-            this.label18.Visible = false;
             // 
             // label7
             // 

@@ -55,7 +55,7 @@ namespace DVLD.WinForms.People
         public void LoadPersonDataForDisplay(clsPerson Person)
         {
             lblPersonID.Text = Person.PersonID.ToString();
-            lblNationalNumber.Text = Person.NationalNo.ToString();
+            lblNationalNumber.Text = Person.NationalNo;
             lblFullName.Text = Person.GetFullName();
 
             if (Person.Gender == clsPerson.enGender.Male)
@@ -69,10 +69,10 @@ namespace DVLD.WinForms.People
                 pbGender.Image = Resources.Woman_32;
             }
 
-            lblEmail.Text = Person.Email.ToString();
-            lblAddress.Text = Person.Address.ToString();
-            lblDateOfBirth.Text = Person.DateOfBirth.Date.ToShortDateString();
-            lblPhone.Text = Person.Phone.ToString();
+            lblEmail.Text = string.IsNullOrEmpty(Person.Email) ? "No Email" : Person.Email; ;
+            lblAddress.Text = Person.Address;
+            lblDateOfBirth.Text = Person.DateOfBirth.Date.ToString("dd/MM/yyyy");
+            lblPhone.Text = Person.Phone;
             lblCountry.Text = Person.CountryInfo.CountryName;
             pbPersonImage.Image = clsFormHelper.GetDefaultPersonImage(Person.Gender);
 

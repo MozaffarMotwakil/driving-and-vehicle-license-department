@@ -164,11 +164,11 @@ namespace DVLD.BusinessLogic
             return clsDetainedLicense.IsLicenseDetained(this.LicenseID);
         }
 
-        public bool DetainLicense(float FineFees)
+        public int DetainLicense(float FineFees)
         {
             if (this.IsLicenseDetained())
             {
-                return false;
+                return -1;
             }
 
             return clsDetainedLicense.DetainLicense(this.LicenseID, DateTime.Now, FineFees, clsAppSettings.CurrentUser.UserID);

@@ -160,6 +160,7 @@
             this.releaseDetainedDrivingLicenseToolStripMenuItem.Name = "releaseDetainedDrivingLicenseToolStripMenuItem";
             this.releaseDetainedDrivingLicenseToolStripMenuItem.Size = new System.Drawing.Size(388, 38);
             this.releaseDetainedDrivingLicenseToolStripMenuItem.Text = "Release Detained Driving License";
+            this.releaseDetainedDrivingLicenseToolStripMenuItem.Click += new System.EventHandler(this.releaseDetainedDrivingLicenseToolStripMenuItem_Click);
             // 
             // retakeTestToolStripMenuItem
             // 
@@ -190,6 +191,7 @@
             this.manageDetainedLicensesToolStripMenuItem.Name = "manageDetainedLicensesToolStripMenuItem";
             this.manageDetainedLicensesToolStripMenuItem.Size = new System.Drawing.Size(281, 38);
             this.manageDetainedLicensesToolStripMenuItem.Text = "Manage Detained Licenses";
+            this.manageDetainedLicensesToolStripMenuItem.Click += new System.EventHandler(this.manageDetainedLicensesToolStripMenuItem_Click);
             // 
             // detainLicenseToolStripMenuItem
             // 
@@ -198,6 +200,7 @@
             this.detainLicenseToolStripMenuItem.Name = "detainLicenseToolStripMenuItem";
             this.detainLicenseToolStripMenuItem.Size = new System.Drawing.Size(281, 38);
             this.detainLicenseToolStripMenuItem.Text = "Detain License";
+            this.detainLicenseToolStripMenuItem.Click += new System.EventHandler(this.detainLicenseToolStripMenuItem_Click);
             // 
             // releaseDetainedLicenseToolStripMenuItem
             // 
@@ -206,6 +209,7 @@
             this.releaseDetainedLicenseToolStripMenuItem.Name = "releaseDetainedLicenseToolStripMenuItem";
             this.releaseDetainedLicenseToolStripMenuItem.Size = new System.Drawing.Size(281, 38);
             this.releaseDetainedLicenseToolStripMenuItem.Text = "Release Detained License";
+            this.releaseDetainedLicenseToolStripMenuItem.Click += new System.EventHandler(this.releaseDetainedLicenseToolStripMenuItem_Click);
             // 
             // toolStripSeparator2
             // 

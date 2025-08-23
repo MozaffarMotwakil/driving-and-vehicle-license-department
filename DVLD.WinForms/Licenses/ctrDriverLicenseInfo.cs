@@ -31,8 +31,7 @@ namespace DVLD.WinForms.Licenses
             lblExpirationDate.Text = license.ExpirationDate.ToString("dd/MM/yyyy");
             lblIssueReason.Text = license.GetIssueReasonAsText();
             lblIsActive.Text = license.IsActive ? "Yes" : "No";
-            // implementation this part later on after add "DetainedLicense" classes.
-            // lblIsDetained.Text = clsDetainedLicense ? "Yes" : "No";
+            lblIsDetained.Text = license.IsLicenseDetained() ? "Yes" : "No";
         }
 
         private void _SetPersonImage()

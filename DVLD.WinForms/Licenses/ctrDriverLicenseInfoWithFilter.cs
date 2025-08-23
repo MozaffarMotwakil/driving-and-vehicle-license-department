@@ -9,6 +9,12 @@ namespace DVLD.WinForms.Licenses
     {
         public clsLicense License { get; private set; }
 
+        public bool EnableSearch
+        {
+            get { return gbFilter.Enabled; }
+            set { gbFilter.Enabled = value; }
+        }
+
         public event Action<clsLicense> FoundLicense;
         protected virtual void OnFoundLicense()
         {
@@ -24,6 +30,7 @@ namespace DVLD.WinForms.Licenses
         public ctrDriverLicenseInfoWithFilter()
         {
             InitializeComponent();
+            EnableSearch = true;
             License = null;
         }
 
@@ -41,14 +48,19 @@ namespace DVLD.WinForms.Licenses
         {
             if (e.KeyCode == Keys.Enter)
             {
-                btnFindLicense.PerformClick();
+                _DoSearch();
                 e.Handled = true;
             }
         }
 
         private void btnFindLicense_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrWhiteSpace(txtFilterText.Text) || 
+            _DoSearch();
+        }
+
+        private void _DoSearch()
+        {
+            if (string.IsNullOrWhiteSpace(txtFilterText.Text) ||
                 (License != null && License.LicenseID == int.Parse(txtFilterText.Text)))
             {
                 return;
@@ -74,6 +86,27 @@ namespace DVLD.WinForms.Licenses
         {
             License = null;
             ctrDriverLicenseInfo.Clear();
+        }
+
+        public void LoadData(clsLicense License)
+        {
+            if (License != null)
+            {
+                txtFilterText.Text = License.LicenseID.ToString();
+                ctrDriverLicenseInfo.LoadLicenseDataForDisplay(License);
+                ctrDriverLicenseInfo.Visible = true;
+            }
+            else
+            {
+                Clear();
+                ctrDriverLicenseInfo.Visible = false;
+            }
+        }
+
+        public void PerformSearch(int LicenseID)
+        {
+            txtFilterText.Text = LicenseID.ToString();
+            _DoSearch();
         }
 
         public void FocusOnFilterText()

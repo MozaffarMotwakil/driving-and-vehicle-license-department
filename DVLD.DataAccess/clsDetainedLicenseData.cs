@@ -15,7 +15,8 @@ namespace DVLD.DataAccess
                                  FROM 
                                      DetainedLicenses 
                                  WHERE 
-                                     LicenseID = @LicenseID";
+                                     LicenseID = @LicenseID
+                                     AND IsReleased = 0";
 
                 SqlCommand command = new SqlCommand(query, connection);
                 command.Parameters.AddWithValue("@LicenseID", LicenseID);
@@ -64,9 +65,34 @@ namespace DVLD.DataAccess
                             detainedLicenseEntity.FineFees = Convert.ToSingle(reader["FineFees"]);
                             detainedLicenseEntity.CreatedByUserID = Convert.ToInt32(reader["CreatedByUserID"]);
                             detainedLicenseEntity.IsReleased = Convert.ToBoolean(reader["IsReleased"]);
-                            detainedLicenseEntity.ReleaseDate = Convert.ToDateTime(reader["ReleaseDate"]);
-                            detainedLicenseEntity.ReleaseApplicationID = Convert.ToInt32(reader["ReleaseApplicationID"]);
-                            detainedLicenseEntity.ReleasedByUserID = Convert.ToInt32(reader["ReleasedByUserID"]);
+
+                            if (reader["ReleaseDate"] == DBNull.Value)
+                            {
+                                detainedLicenseEntity.ReleaseDate = DateTime.MinValue;
+                            }
+                            else
+                            {
+                                detainedLicenseEntity.ReleaseDate = Convert.ToDateTime(reader["ReleaseDate"]);
+                            }
+
+                            if (reader["ReleaseApplicationID"] == DBNull.Value)
+                            {
+                                detainedLicenseEntity.ReleaseApplicationID = -1;
+                            }
+                            else
+                            {
+                                detainedLicenseEntity.ReleaseApplicationID = Convert.ToInt32(reader["ReleaseApplicationID"]);
+                            }
+
+                            if (reader["ReleasedByUserID"] == DBNull.Value)
+                            {
+                                detainedLicenseEntity.ReleasedByUserID = -1;
+                            }
+                            else
+                            {
+                                detainedLicenseEntity.ReleasedByUserID = Convert.ToInt32(reader["ReleasedByUserID"]);
+                            }
+
                         }
                     }
                 }
@@ -79,7 +105,7 @@ namespace DVLD.DataAccess
             return detainedLicenseEntity;
         }
 
-        public static bool DetainLicense(int LicenseID, DateTime DetainDate, float FineFees, int CreatedByUserID)
+        public static int DetainLicense(int LicenseID, DateTime DetainDate, float FineFees, int CreatedByUserID)
         {
             using (SqlConnection connection = new SqlConnection(clsDataSettings.ConnectionString))
             {
@@ -90,7 +116,8 @@ namespace DVLD.DataAccess
                                  VALUES
                                  (
                                     @LicenseID, @DetainDate, @FineFees, @CreatedByUserID
-                                 )";
+                                 );
+                                 SELECT SCOPE_IDENTITY();";
 
                 SqlCommand command = new SqlCommand(query, connection);
                 command.Parameters.AddWithValue("LicenseID", LicenseID);
@@ -101,7 +128,14 @@ namespace DVLD.DataAccess
                 try
                 {
                     connection.Open();
-                    return command.ExecuteNonQuery() > 0;
+                    object result = command.ExecuteScalar();
+
+                    if (result != null && int.TryParse(result.ToString(), out int detainID))
+                    {
+                        return detainID;
+                    }
+
+                    return -1;
                 }
                 catch (Exception ex)
                 {
@@ -115,15 +149,17 @@ namespace DVLD.DataAccess
             using (SqlConnection connection = new SqlConnection(clsDataSettings.ConnectionString))
             {
                 string query = @"UPDATE DetainedLicenses
-                                    IsReleased = 1 
+                                 SET
+                                    IsReleased = 1,
                                     ReleaseDate = @ReleaseDate,
                                     ReleasedByUserID = @ReleasedByUserID,
-                                    ReleaseApplicationID = @ReleaseApplicationID,
+                                    ReleaseApplicationID = @ReleaseApplicationID
                                  WHERE
                                     LicenseID = @LicenseID
                                     AND IsReleased = 0";
 
                 SqlCommand command = new SqlCommand(query, connection);
+                command.Parameters.AddWithValue("@LicenseID", LicenseID);
                 command.Parameters.AddWithValue("@ReleaseDate", ReleaseDate);
                 command.Parameters.AddWithValue("@ReleasedByUserID", ReleasedByUserID);
                 command.Parameters.AddWithValue("@ReleaseApplicationID", ReleaseApplicationID);

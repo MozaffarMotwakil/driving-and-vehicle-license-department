@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Data;
-using System.Drawing;
 using System.Windows.Forms;
 using DVLD.WinForms.Utils;
 
@@ -14,7 +13,7 @@ namespace DVLD.WinForms.BaseForms
             set { lblFormTitle.Text = value; }
         }
 
-        protected Image FormLogo
+        protected System.Drawing.Image FormLogo
         {
             set { pbFormLogo.Image = value; }
         }
@@ -50,6 +49,11 @@ namespace DVLD.WinForms.BaseForms
         private void frmBaseManage_Load(object sender, EventArgs e)
         {
             ResetRecordsListColumnsWidthAndName();
+
+            foreach (DataGridViewColumn column in dgvRecordsList.Columns)
+            {
+                column.SortMode = DataGridViewColumnSortMode.NotSortable;
+            }
         }
 
         private void dgvRecordsList_CellMouseDown(object sender, DataGridViewCellMouseEventArgs e)

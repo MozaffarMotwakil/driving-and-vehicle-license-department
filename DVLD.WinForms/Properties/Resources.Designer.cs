@@ -343,6 +343,26 @@ namespace DVLD.WinForms.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap Detain_512 {
+            get {
+                object obj = ResourceManager.GetObject("Detain 512", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Detain_5121 {
+            get {
+                object obj = ResourceManager.GetObject("Detain 5121", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap Detain_64 {
             get {
                 object obj = ResourceManager.GetObject("Detain 64", resourceCulture);
@@ -856,6 +876,26 @@ namespace DVLD.WinForms.Properties {
         internal static System.Drawing.Bitmap Release_Detained_License_32 {
             get {
                 object obj = ResourceManager.GetObject("Release Detained License 32", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Release_Detained_License_512 {
+            get {
+                object obj = ResourceManager.GetObject("Release Detained License 512", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Release_Detained_License_64 {
+            get {
+                object obj = ResourceManager.GetObject("Release Detained License 64", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

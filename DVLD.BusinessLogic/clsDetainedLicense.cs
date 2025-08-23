@@ -28,8 +28,12 @@ namespace DVLD.BusinessLogic
             this.CreatedByUserInfo = clsUser.Find(detainedLicenseEntity.CreatedByUserID);
             this.IsReleased = detainedLicenseEntity.IsReleased;
             this.ReleaseDate = detainedLicenseEntity.ReleaseDate;
-            this.ReleaseApplicationInfo = clsApplication.FindBaseApplication(detainedLicenseEntity.ReleaseApplicationID);
-            this.ReleasedByUserInfo = clsUser.Find(detainedLicenseEntity.ReleasedByUserID);
+            this.ReleaseApplicationInfo = detainedLicenseEntity.ReleaseApplicationID != -1 ?
+                clsApplication.FindBaseApplication(detainedLicenseEntity.ReleaseApplicationID) :
+                null;
+            this.ReleasedByUserInfo = detainedLicenseEntity.ReleasedByUserID != -1 ?
+                clsUser.Find(detainedLicenseEntity.ReleasedByUserID) :
+                null;
         }
 
         public static bool IsLicenseDetained(int LicenseID)
@@ -43,7 +47,7 @@ namespace DVLD.BusinessLogic
             return detainedLicenseEntity != null ? new clsDetainedLicense(detainedLicenseEntity) : null;
         }
 
-        public static bool DetainLicense(int LicenseID, DateTime DetainDate, float FineFees, int CreatedByUserID)
+        public static int DetainLicense(int LicenseID, DateTime DetainDate, float FineFees, int CreatedByUserID)
         {
             return clsDetainedLicenseData.DetainLicense(LicenseID, DetainDate, FineFees, CreatedByUserID);
         }
