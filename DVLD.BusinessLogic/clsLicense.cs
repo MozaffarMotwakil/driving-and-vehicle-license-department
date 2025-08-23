@@ -159,6 +159,47 @@ namespace DVLD.BusinessLogic
             }
         }
 
+        public bool IsLicenseDetained()
+        {
+            return clsDetainedLicense.IsLicenseDetained(this.LicenseID);
+        }
+
+        public bool DetainLicense(float FineFees)
+        {
+            if (this.IsLicenseDetained())
+            {
+                return false;
+            }
+
+            return clsDetainedLicense.DetainLicense(this.LicenseID, DateTime.Now, FineFees, clsAppSettings.CurrentUser.UserID);
+        }
+
+        public int ReleaseLicense()
+        {
+            if (!this.IsLicenseDetained())
+            {
+                return -1;
+            }
+
+            clsApplication releaseDetainedLicenseApplication = new clsApplication(this.DriverInfo.PersonInfo, clsApplication.enApplicationType.ReleaseDetainedDrivingLicence);
+
+            if (!releaseDetainedLicenseApplication.Save())
+            {
+                throw new InvalidOperationException($"Failed to save the base application.");
+            }
+
+            if (!releaseDetainedLicenseApplication.SetCompleted())
+            {
+                throw new InvalidOperationException(
+                        $"Failed to update status of the base aplication with ID " +
+                        $"[{this.ApplicationInfo.ApplicationID}] to completed.");
+            }
+
+            return clsDetainedLicense.ReleaseDetainedLicense(this.LicenseID, DateTime.Now, clsAppSettings.CurrentUser.UserID, releaseDetainedLicenseApplication.ApplicationID) ?
+                releaseDetainedLicenseApplication.ApplicationID:
+                -1;
+        }
+
         public bool SetInactive()
         {
             if (this.Mode == enMode.AddNew)
