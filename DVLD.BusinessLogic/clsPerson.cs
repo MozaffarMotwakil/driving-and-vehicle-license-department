@@ -12,7 +12,7 @@ namespace DVLD.BusinessLogic
     {
         public enum enGender { Male, Female };
 
-        public int PersonID { get; set; }
+        public int PersonID { get; private set; }
         public string NationalNo { get; set; }
         public string FirstName { get; set; }
         public string SecondName { get; set; }

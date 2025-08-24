@@ -33,7 +33,7 @@ namespace DVLD.WinForms.Users
         public frmAddUpdateUser()
         {
             InitializeComponent();
-            _User = new clsUser();
+            _User = null;
             this.Text = lblHeader.Text = "Add New User";
             _FormMode = enMode.AddNew;
             btnNext.Enabled = btnSave.Enabled =false;
@@ -43,19 +43,13 @@ namespace DVLD.WinForms.Users
             ctrPersonCardInfoWithFiltter.InfoModifie += CtrPersonCardInfoWithFiltter_InfoModifie;
         }
 
-        private void CtrPersonCardInfoWithFiltter_InfoModifie()
-        {
-            OnPersonInfoModifie();
-        }
-
         public frmAddUpdateUser(int PersonID)
         {
             InitializeComponent();
             _User = clsUser.Find(PersonID);
             this.Text = lblHeader.Text = "Update User";
             _FormMode = enMode.Update;
-            tabControl.SelectedTab = tpLoginInfo;
-            ctrPersonCardInfoWithFiltter.LoadPersonDataForEdit(_User.PersonInfo);
+            ctrPersonCardInfoWithFiltter.InfoModifie += CtrPersonCardInfoWithFiltter_InfoModifie;
         }
 
         private void frmAddUpdateUser_Load(object sender, EventArgs e)
@@ -73,8 +67,9 @@ namespace DVLD.WinForms.Users
                 }
 
                 _FillUserInfoToUI();
+                ctrPersonCardInfoWithFiltter.LoadPersonDataForEdit(_User.PersonInfo);
+                tabControl.SelectedTab = tpLoginInfo;
             }
-            
         }
 
         private void CtrPersonCardInfoWithFiltter_PersonFound()
@@ -90,6 +85,11 @@ namespace DVLD.WinForms.Users
         private void CtrPersonCardInfoWithFiltter_AddNewPerson()
         {
             btnNext.Enabled = true;
+        }
+
+        private void CtrPersonCardInfoWithFiltter_InfoModifie()
+        {
+            OnPersonInfoModifie();
         }
 
         private void tabControl_SelectedIndexChanged(object sender, EventArgs e)
@@ -121,13 +121,17 @@ namespace DVLD.WinForms.Users
 
             if (!string.IsNullOrEmpty(txtUsername.Text))
             {
-                if (txtUsername.Text != _User.Username && clsUser.IsUserExist(txtUsername.Text))
+                if (_FormMode == enMode.AddNew)
                 {
-                    errorProvider.SetError(txtUsername, "Username is already used by another one.");
-                }
-                else
-                {
-                    errorProvider.SetError(txtUsername, "");
+                    if (_FormMode == enMode.AddNew && clsUser.IsUserExist(txtUsername.Text) ||
+                        _FormMode == enMode.Update && txtUsername.Text != _User.Username && clsUser.IsUserExist(txtUsername.Text))
+                    {
+                        errorProvider.SetError(txtUsername, "Username is already used by another one.");
+                    }
+                    else
+                    {
+                        errorProvider.SetError(txtUsername, "");
+                    }
                 }
             }
         }
@@ -180,8 +184,6 @@ namespace DVLD.WinForms.Users
             {
                 if (_User.Save())
                 {
-                    clsFormMessages.ShowSuccess("Saved Successfully.");
-
                     if (_FormMode == enMode.AddNew)
                     {
                         _UpdateFormStateAfterSave();
@@ -194,13 +196,13 @@ namespace DVLD.WinForms.Users
 
                     OnUserBack();
                     OnSaveSuccess();
+                    clsFormMessages.ShowSuccess("Saved Successfully.");
                 }
                 else
                 {
                     clsFormMessages.ShowError("Failed Save.");
                 }
             }
-
         }
 
         private void btnCloseScreen_Click(object sender, EventArgs e)
@@ -245,15 +247,26 @@ namespace DVLD.WinForms.Users
 
         private void _FillUserObjectFromUI()
         {
-            _User.PersonInfo = ctrPersonCardInfoWithFiltter.Person;
-            _User.Username = txtUsername.Text;
-
-            if (!string.IsNullOrEmpty(txtPassword.Text))
+            if (_FormMode == enMode.AddNew)
             {
-                _User.SetPassword(txtPassword.Text);
+                _User = new clsUser(
+                    ctrPersonCardInfoWithFiltter.Person,
+                    txtUsername.Text,
+                    txtPassword.Text,
+                    cbIsActive.Checked
+                    );
             }
+            else
+            {
+                _User.Username = txtUsername.Text;
 
-            _User.IsActive = cbIsActive.Checked;
+                if (!string.IsNullOrEmpty(txtPassword.Text))
+                {
+                    _User.SetPassword(txtPassword.Text);
+                }
+
+                _User.IsActive = cbIsActive.Checked;
+            }
         }
 
         private void _FillUserInfoToUI()

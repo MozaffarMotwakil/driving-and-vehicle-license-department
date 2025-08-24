@@ -96,10 +96,11 @@
             // 
             // ctrPersonCardInfoWithFiltter
             // 
-            this.ctrPersonCardInfoWithFiltter.Location = new System.Drawing.Point(15, 15);
+            this.ctrPersonCardInfoWithFiltter.IsFilterEnabled = true;
+            this.ctrPersonCardInfoWithFiltter.Location = new System.Drawing.Point(25, 15);
             this.ctrPersonCardInfoWithFiltter.Name = "ctrPersonCardInfoWithFiltter";
-            this.ctrPersonCardInfoWithFiltter.Size = new System.Drawing.Size(788, 342);
-            this.ctrPersonCardInfoWithFiltter.TabIndex = 0;
+            this.ctrPersonCardInfoWithFiltter.Size = new System.Drawing.Size(779, 342);
+            this.ctrPersonCardInfoWithFiltter.TabIndex = 5;
             // 
             // btnNext
             // 
@@ -428,7 +429,6 @@
         private System.Windows.Forms.Label lblHeader;
         private System.Windows.Forms.Button btnCloseScreen;
         private System.Windows.Forms.Button btnSave;
-        private People.ctrPersonCardInfoWithFiltter ctrPersonCardInfoWithFiltter;
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.PictureBox pictureBox2;
         private System.Windows.Forms.PictureBox pictureBox4;
@@ -449,5 +449,6 @@
         private System.Windows.Forms.CheckBox cbShowPasswords;
         private System.Windows.Forms.PictureBox pbShowConfirmPassword;
         private System.Windows.Forms.PictureBox pcShowPassword;
+        private People.ctrPersonCardInfoWithFiltter ctrPersonCardInfoWithFiltter;
     }
 }

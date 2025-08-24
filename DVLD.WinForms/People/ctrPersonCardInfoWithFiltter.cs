@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Windows.Forms;
 using DVLD.BusinessLogic;
-using DVLD.WinForms.Licenses;
 using DVLD.WinForms.Utils;
 
 namespace DVLD.WinForms.People
@@ -114,7 +113,6 @@ namespace DVLD.WinForms.People
                 ctrPersonCardInfo.Visible = false;
                 clsFormMessages.ShowPersonNotFoundError();
             }
-
         }
 
         private void cbFiltterColumn_SelectedIndexChanged(object sender, EventArgs e)
@@ -139,19 +137,20 @@ namespace DVLD.WinForms.People
         private void _DisplayTheAddedPersonInfo(clsPerson Person)
         {
             this.Person = Person;
-            ctrPersonCardInfo.LoadPersonDataForDisplay(Person);
-            ctrPersonCardInfo.Visible = true;
             cbFilterColumn.SelectedIndex = 0;
             txtFilterText.Text = Person.PersonID.ToString();
+            ctrPersonCardInfo.LoadPersonDataForDisplay(Person);
+            ctrPersonCardInfo.Visible = true;
         }
 
         public void LoadPersonDataForEdit(clsPerson Person)
         {
             this.Person = Person;
+            IsFilterEnabled = false;
             cbFilterColumn.SelectedIndex = 0;
             txtFilterText.Text = Person.PersonID.ToString();
-            IsFilterEnabled = false;
             ctrPersonCardInfo.LoadPersonDataForDisplay(Person);
+            ctrPersonCardInfo.Visible = true;
         }
 
         public void ClearPersonInfo()

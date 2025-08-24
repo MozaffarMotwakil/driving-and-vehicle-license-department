@@ -1,4 +1,5 @@
-﻿using System.Data;
+﻿using System;
+using System.Data;
 using DVLD.DataAccess;
 using DVLD.Entities;
 using DVLD.WinForms.Utils;
@@ -7,19 +8,25 @@ namespace DVLD.BusinessLogic
 {
     public class clsUser
     {
-        public int UserID { get; set; }
-        public clsPerson PersonInfo { get; set; }
+        public int UserID { get; private set; }
+        public clsPerson PersonInfo { get; }
         public string Username { get; set; }
         public string HashedPassword { get; private set; }
         public bool IsActive { get; set; }
         private enMode Mode { get; set; }
 
-        public clsUser()
+        public clsUser(clsPerson person, string username, string password, bool isActive)
         {
+            if (person == null)
+            {
+                throw new ArgumentNullException(nameof(person), "Person cannot be null.");
+            }
+
             UserID = -1;
-            PersonInfo = null;
-            Username = HashedPassword = string.Empty;
-            IsActive = false;
+            PersonInfo = person;
+            Username = username;
+            HashedPassword = clsPasswordHelper.CreateHashPasswordWithSalt(password);
+            IsActive = isActive;
             Mode = enMode.AddNew;
         }
 
@@ -40,34 +47,34 @@ namespace DVLD.BusinessLogic
 
         public static bool IsUserExist(int UserID)
         {
-            return DataAccess.clsUserData.IsUserExist(UserID);
+            return clsUserData.IsUserExist(UserID);
         }
 
         public static bool IsUserExist(string Username)
         {
-            return DataAccess.clsUserData.IsUserExist(Username);
+            return clsUserData.IsUserExist(Username);
         }
 
         public static clsUser Find(int UserID)
         {
-            clsUserEntity UserEntity = DataAccess.clsUserData.FindUserByID(UserID);
+            clsUserEntity UserEntity = clsUserData.FindUserByID(UserID);
             return UserEntity != null ? new clsUser(UserEntity) : null;
         }
 
         public static clsUser Find(string Username)
         {
-            clsUserEntity UserEntity = DataAccess.clsUserData.FindUserByUsername(Username);
+            clsUserEntity UserEntity = clsUserData.FindUserByUsername(Username);
             return UserEntity != null ? new clsUser(UserEntity) : null;
         }
 
         public static DataTable GetAllUsers()
         {
-            return DataAccess.clsUserData.GetAllUsers();
+            return clsUserData.GetAllUsers();
         }
 
         public static bool Delete(int UserID)
         {
-            return DataAccess.clsUserData.DeleteUser(UserID);
+            return clsUserData.DeleteUser(UserID);
         }
 
         public bool Save()
