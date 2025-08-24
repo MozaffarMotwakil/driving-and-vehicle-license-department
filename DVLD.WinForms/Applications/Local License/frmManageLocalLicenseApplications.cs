@@ -340,7 +340,7 @@ namespace DVLD.WinForms.Applications.LocalLicense
         private void schedualTestType_Click(object sender, EventArgs e)
         {
             frmTestAppointments visionTestAppointments = new frmTestAppointments(clsFormHelper.GetSelectedRowID(base.RecordsList));
-            visionTestAppointments.PassedTest += base.RefreshAndResetFilterColumnToDefault;
+            visionTestAppointments.PassedTest += base.RefreshAndReapplyCurrentFilter;
             visionTestAppointments.ShowDialog();
         }
 
