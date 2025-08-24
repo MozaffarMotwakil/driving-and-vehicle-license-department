@@ -155,6 +155,7 @@ namespace DVLD.WinForms.Applications.Replacement
             llShowReplacementLicenseInfo.Visible = true;
             lblReplacementLicenseApplicationID.Text = _NewLocalLicense.ApplicationInfo.ApplicationID.ToString();
             lblReplacementLicenseID.Text = _NewLocalLicense.LicenseID.ToString();
+            ctrDriverLicenseInfoWithFilter.LoadData(_OldLocalLicense); // update data after released license
         }
 
         private void btnClose_Click(object sender, EventArgs e)
